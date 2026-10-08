@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 配对计数专题</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../index.html">← 返回错题总目录</a>
+    <div class="pager">
+      <a href="20261008-fuel-efficiency.html">‹ 上一题：复合单位换算</a>
+      <a class="disabled" href="#">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>配对计数：把 1~14 配成 7 对</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261008</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2024AMC10A(21)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Perfect Matching</span></div>
+  </div>
+  <p class="lede">一句话诊断：你错在把 14 个数当成"自由配对"硬枚举。突破口是先想清楚——<strong>谁只能当较小数？谁被迫配谁？谁完全自由？</strong>三个问题想清楚，答案自己跳出来。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    How many ways are there to split the integers 1 through 14 into 7 pairs such that in each pair, the greater number is at least 2 times the lesser number?
+  </blockquote>
+  <p><strong>中文翻译</strong>：把 1 到 14 这 14 个整数分成 7 对，使得每对中较大的数至少是较小数的 2 倍。问有多少种不同的分法？</p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>216</code></td><td>算出 6 有 3 种选择（12/13/14），但忘了 14 已经被 7 强制占用，6 实际只有 2 种</td></tr>
+    <tr><td><code>144 × 7!</code> 或 <code>144 × 2⁷</code></td><td>把"对与对之间"或"对内两个元素"当成有序，重复计数</td></tr>
+    <tr><td><code>枚举爆炸 / 乱凑</code></td><td>没做边界分析，直接对 14 个数盲目分类，情况数失控</td></tr>
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有先做<strong>边界分析</strong>确定每个数的"角色"。若 $x$ 是某对的较小数，则配对数 $y \ge 2x$ 且 $y \le 14$，所以 $x \le 7$——这一步直接把问题从「14 个数自由配对」压缩成「1~7 与 8~14 之间的一一配对」。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+
+  <h3>解法一：约束优先，逐位安排（推荐）</h3>
+  <p><strong>第 1 步（定角色）</strong>：由 $2x \le 14$ 知较小数只能来自 $\{1,\dots,7\}$；7 对恰需 7 个较小数，而 1~7 恰有 7 个，所以<strong>较小数恰好是 1~7，较大数恰好是 8~14</strong>。</p>
+  <p><strong>第 2 步（列表）</strong>：写出每个较小数的可选较大数：</p>
+  <table>
+    <tr><th>较小数 $x$</th><th>要求</th><th>可选较大数（范围 8~14）</th><th>个数</th></tr>
+    <tr><td>1, 2, 3</td><td>$y \ge 2x \le 6$</td><td>8~14 全部</td><td>7</td></tr>
+    <tr><td>4</td><td>$y \ge 8$</td><td>8~14 全部</td><td>7</td></tr>
+    <tr><td>5</td><td>$y \ge 10$</td><td>10, 11, 12, 13, 14</td><td>5</td></tr>
+    <tr><td><strong>6</strong></td><td>$y \ge 12$</td><td>12, 13, 14</td><td>3</td></tr>
+    <tr><td><strong>7</strong></td><td>$y \ge 14$</td><td>只有 14</td><td><strong>1</strong></td></tr>
+  </table>
+  <p><strong>第 3 步（先定死）</strong>：从可选最少的开始安排——</p>
+  <ul>
+    <li><strong>7 只能配 14</strong>（唯一选择，先固定）；</li>
+    <li><strong>6</strong> 本可配 12/13/14，但 14 已被占 → 只能配 <strong>12 或 13</strong>，2 种；</li>
+    <li><strong>5</strong>：无论 6 选了 12 还是 13，5 的可选集 $\{10,\dots,14\}$ 中恰被占掉 2 个（14 和 12/13 之一）→ 恒剩 <strong>3 种</strong>。</li>
+  </ul>
+  <p><strong>第 4 步（后自由）</strong>：轮到 1, 2, 3, 4 时剩 4 个较大数，最小的也至少是 8 ≥ 2×4，约束<strong>自动满足</strong> → 任意排列，$4! = 24$ 种。</p>
+  <div class="ans">答：$1 \times 2 \times 3 \times 4! = 6 \times 24 = \boxed{144}$</div>
+
+  <h3>解法二：分类核算（双路线验证）</h3>
+  <p>按 6 的去向分两类，每类内再按 5 的去向细分：</p>
+  <table>
+    <tr><th>路线</th><th>6 的去向</th><th>5 的去向</th><th>1~4 的排法</th><th>小计</th></tr>
+    <tr><td rowspan="3">A</td><td rowspan="3">12</td><td>10</td><td>4! = 24</td><td rowspan="3">3 × 24 = 72</td></tr>
+    <tr><td>11</td><td>24</td></tr>
+    <tr><td>13</td><td>24</td></tr>
+    <tr><td rowspan="3">B</td><td rowspan="3">13</td><td>10</td><td>24</td><td rowspan="3">3 × 24 = 72</td></tr>
+    <tr><td>11</td><td>24</td></tr>
+    <tr><td>12</td><td>24</td></tr>
+  </table>
+  <p>合计 $72 + 72 = 144$，与解法一一致。</p>
+
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：用小规模找规律——把 1~6 配 3 对有 2 种、1~8 配 4 对有 4 种、1~10 配 5 对有 12 种，手算极易枚举验证；再用程序对 $n=7$ 暴力枚举确认 144。另外本题存在漂亮的一般公式：把 1~$2n$ 配成 $n$ 对的分法数 $= \lceil n/2 \rceil! \times \lfloor n/2 \rfloor!$，代入 $n=7$ 得 $4! \times 3! = 144$，两条路互相印证。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：Perfect Matching（带约束的完美匹配计数）——边界分析 + 强制配对 + 乘法原理。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>边界分析定角色</strong>：能当"较小数"的 $x$ 必须满足 $2x \le N$（$N$ 为最大数），用抽屉原理确定较小数/较大数两个集合；</li>
+    <li><strong>约束优先</strong>：可选对象最少的元素先安排——它往往被强制（如本题 7 被迫配 14）；</li>
+    <li><strong>分类讨论不重不漏</strong>：按某元素的去向分类时，确认各类的子计数互不影响结构（如本题 6 选 12 或 13 后，5 都恰剩 3 种）；</li>
+    <li><strong>阶乘收尾</strong>：一旦剩余约束全部自动满足，立刻改用 $n!$ 计数，避免无谓枚举。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 热身</span> <span class="stars">★</span>
+    <p>把 1, 2, …, 6 分成 3 对，使得每对中较大的数至少是较小数的 2 倍。有多少种分法？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>2 种</strong></div>
+      <p>较小数必须 ≤ 3 → 小数 $\{1,2,3\}$，大数 $\{4,5,6\}$。3 只能配 6（$2 \times 3 = 6$，唯一选择）；2 可配 $\{4,5\}$：2 配 4 则 1 配 5 ✓，2 配 5 则 1 配 4 ✓。</p>
+      <p class="hint">要点：先用边界分析锁定小数集合，再从被迫配对的 3 入手。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag">第 2 题 · 巩固</span> <span class="stars">★★</span>
+    <p>把 1, 2, …, 8 分成 4 对，使得每对中较大的数至少是较小数的 2 倍。有多少种分法？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>4 种</strong></div>
+      <p>小数 $\{1,2,3,4\}$，大数 $\{5,6,7,8\}$。4 只能配 8；3 可配 $\{6,7\}$：3 配 6 → 2 配 $\{5,7\}$ 任选（2 种）；3 配 7 → 2 配 $\{5,6\}$（2 种）。即 $1 \times 2 \times 2! = 4$。</p>
+      <p class="hint">要点：轮到 1、2 时约束自动满足，直接阶乘收尾。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag">第 3 题 · 进阶</span> <span class="stars">★★★</span>
+    <p>把 1, 2, …, 10 分成 5 对，使得每对中较大的数至少是较小数的 2 倍。有多少种分法？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>12 种</strong></div>
+      <p>小数 $\{1,\dots,5\}$，大数 $\{6,\dots,10\}$。5 只能配 10；4 可配 $\{8,9\}$：4 配 8 → 3 可配 $\{6,7,9\}$（3 种）；4 配 9 → 3 可配 $\{6,7,8\}$（3 种）。轮到 1、2 剩 2 个大数（均 ≥ 6 ≥ 2×2），自由排列 $2!$。故 $1 \times 2 \times 3 \times 2! = 12$。</p>
+      <p class="hint">要点：注意 6 在大数集合里，3 的可选集要逐个核对，不能凭感觉。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag">第 4 题 · 提高</span> <span class="stars">★★★★</span>
+    <p>把 1, 2, …, 12 分成 6 对，使得每对中较大的数至少是较小数的 2 倍。有多少种分法？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>36 种</strong></div>
+      <p>小数 $\{1,\dots,6\}$，大数 $\{7,\dots,12\}$。6 只能配 12；5 可配 $\{10,11\}$（2 种）。轮到 4 时剩 4 个大数，其中 7 不能给 4（$2 \times 4 = 8 > 7$），恰 3 种选择。之后剩 3 个大数（均 ≥ 7 ≥ 2×3），1、2、3 自由排列 $3!$。故 $1 \times 2 \times 3 \times 3! = 36$。</p>
+      <p class="hint">要点："自由"不等于"所有剩余都可选"——4 不能配 7 这种隐形约束要数清楚。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag">第 5 题 · 挑战</span> <span class="stars">★★★★★</span>
+    <p>把 1, 2, …, 16 分成 8 对，使得每对中较大的数至少是较小数的 2 倍。有多少种分法？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>576 种</strong></div>
+      <p>小数 $\{1,\dots,8\}$，大数 $\{9,\dots,16\}$。8 只能配 16（1 种）；7 可配 $\{14,15\}$（2 种）；6 可配 $\{12,13,14,15\}$ 中剩下的 3 个。轮到 5 时剩 5 个大数，其中 9 不能给 5（$2 \times 5 = 10 > 9$），恰 4 种。之后剩 4 个大数（均 ≥ 9 ≥ 2×4），1~4 自由排列 $4! = 24$。故 $1 \times 2 \times 3 \times 4 \times 4! = 24 \times 24 = 576$。</p>
+      <p class="hint">要点：对照一般公式 $\lceil n/2 \rceil! \times \lfloor n/2 \rfloor!$（$n=8$ 得 $4! \times 4! = 576$），学会用公式检验分类结果。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>配对计数四步法：定角色 → 列可选 → 先定死 → 后自由</h3>
+    <ol>
+      <li><strong>定角色</strong>：由 $2x \le N$ 找出"只能当较小数"的集合，用抽屉原理确定两侧阵营；</li>
+      <li><strong>列可选</strong>：给每个较小数列出可选较大数（重点看边界：$2x$ 与大数集合的最小值）；</li>
+      <li><strong>先定死</strong>：从可选最少的元素开始安排，被迫配对直接固定；</li>
+      <li><strong>后自由</strong>：剩余约束全部自动满足时，立即用 $n!$ 收尾。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：小数不过半，强配先安排；约束一消失，阶乘马上来。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回错题总目录</a>
+    <div>AMC 10 错题精讲 · 配对计数专题 &nbsp;|&nbsp; 生成于 2026-10-08</div>
+  </div>
+</div>
+</body>
+</html>
