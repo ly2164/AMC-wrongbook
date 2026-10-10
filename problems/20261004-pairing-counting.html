@@ -47,6 +47,11 @@ window.MathJax = {
   .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
   .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
   .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
   details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
   summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
   details[open] summary{margin-bottom:8px;}
@@ -88,6 +93,14 @@ window.MathJax = {
   }
   .pager a.disabled{opacity:.35; pointer-events:none;}
   .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- 官方答案引用条 ---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -118,6 +131,11 @@ window.MathJax = {
     How many ways are there to split the integers 1 through 14 into 7 pairs such that in each pair, the greater number is at least 2 times the lesser number?
   </blockquote>
   <p><strong>中文翻译</strong>：把 1 到 14 这 14 个整数分成 7 对，使得每对中较大的数至少是较小数的 2 倍。问有多少种不同的分法？</p>
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022A/problem/14" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022A/problem/14</a><br>
+    官方给出的正确选项为 <strong>(E) 144</strong>，本站解析与之一致。
+  </p>
 
   <hr>
 
@@ -189,60 +207,101 @@ window.MathJax = {
 
   <hr>
 
-  <h2>五、举一反三：5 道进阶练习（由易到难）</h2>
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <p class="lede" style="margin-bottom:6px;">这 5 道题刻意采用<strong>不同的提问形式</strong>——列举、附加约束、补集排除、部分配对、一般化证明——但考的都是同一个内核：<strong>边界分析 → 约束优先 → 阶乘收尾</strong>。别指望用同一套"换数字"的套路通关。</p>
 
   <div class="prob">
-    <span class="tag">第 1 题 · 热身</span> <span class="stars">★</span>
-    <p>把 1, 2, …, 6 分成 3 对，使得每对中较大的数至少是较小数的 2 倍。有多少种分法？</p>
+    <span class="tag">第 1 题 · 热身</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把 1, 2, …, 6 分成 3 对，使得每对中较大的数至少是较小数的 2 倍。<strong>请把全部分法一个不漏地写出来</strong>，再回答共有几种。</p>
     <details>
       <summary>👉 点击查看解析</summary>
-      <div class="ans">答：<strong>2 种</strong></div>
-      <p>较小数必须 ≤ 3 → 小数 $\{1,2,3\}$，大数 $\{4,5,6\}$。3 只能配 6（$2 \times 3 = 6$，唯一选择）；2 可配 $\{4,5\}$：2 配 4 则 1 配 5 ✓，2 配 5 则 1 配 4 ✓。</p>
-      <p class="hint">要点：先用边界分析锁定小数集合，再从被迫配对的 3 入手。</p>
+      <div class="ans">答：<strong>共 2 种</strong>——<br>
+        ① $\{(1,4),\ (2,5),\ (3,6)\}$<br>
+        ② $\{(1,5),\ (2,4),\ (3,6)\}$
+      </div>
+      <p>较小数必须 ≤ 3（$2x \le 6$）→ 小数 $\{1,2,3\}$，大数 $\{4,5,6\}$。<strong>3 只能配 6</strong>（$2\times3=6$，唯一选择），把它先钉死；剩下 2 可配 $\{4,5\}$：2 配 4 则 1 配 5；2 配 5 则 1 配 4。共 2 条分支，都合法。</p>
+      <p class="hint">要点：要求"写出全部方案"时，一定要从<strong>被强制的那一对</strong>起笔展开分支，而不是在自由部分乱试——否则必然重复或遗漏。</p>
     </details>
   </div>
 
   <div class="prob">
-    <span class="tag">第 2 题 · 巩固</span> <span class="stars">★★</span>
-    <p>把 1, 2, …, 8 分成 4 对，使得每对中较大的数至少是较小数的 2 倍。有多少种分法？</p>
-    <details>
-      <summary>👉 点击查看解析</summary>
-      <div class="ans">答：<strong>4 种</strong></div>
-      <p>小数 $\{1,2,3,4\}$，大数 $\{5,6,7,8\}$。4 只能配 8；3 可配 $\{6,7\}$：3 配 6 → 2 配 $\{5,7\}$ 任选（2 种）；3 配 7 → 2 配 $\{5,6\}$（2 种）。即 $1 \times 2 \times 2! = 4$。</p>
-      <p class="hint">要点：轮到 1、2 时约束自动满足，直接阶乘收尾。</p>
-    </details>
-  </div>
-
-  <div class="prob">
-    <span class="tag">第 3 题 · 进阶</span> <span class="stars">★★★</span>
-    <p>把 1, 2, …, 10 分成 5 对，使得每对中较大的数至少是较小数的 2 倍。有多少种分法？</p>
+    <span class="tag">第 2 题 · 巩固</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>回到原题：把 1, 2, …, 14 分成 7 对，每对中较大的数至少是较小数的 2 倍。<strong>在其中"1 必须与 13 配成一对"的分法</strong>，有多少种？</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>12 种</strong></div>
-      <p>小数 $\{1,\dots,5\}$，大数 $\{6,\dots,10\}$。5 只能配 10；4 可配 $\{8,9\}$：4 配 8 → 3 可配 $\{6,7,9\}$（3 种）；4 配 9 → 3 可配 $\{6,7,8\}$（3 种）。轮到 1、2 剩 2 个大数（均 ≥ 6 ≥ 2×2），自由排列 $2!$。故 $1 \times 2 \times 3 \times 2! = 12$。</p>
-      <p class="hint">要点：注意 6 在大数集合里，3 的可选集要逐个核对，不能凭感觉。</p>
+      <p>先把 $(1,13)$ 钉死。剩下 12 个数中，小数仍为 $\{2,3,4,5,6,7\}$，大数变成 $\{8,9,10,11,12,14\}$（13 被抽走了）。<strong>注意：多一个约束，就要重做一次"约束优先"，不能从 144 里按比例分摊。</strong></p>
+      <ul>
+        <li>7 → 需 $\ge 14$，只有 14，<strong>1 种</strong>；</li>
+        <li>6 → 需 $\ge 12$，候选 $\{12,14\}$，14 已被占 → 只能配 12，<strong>1 种</strong>；</li>
+        <li>5 → 需 $\ge 10$，候选 $\{10,11,12,14\}$ 中 12、14 已占 → $\{10,11\}$，<strong>2 种</strong>；</li>
+        <li>4, 3, 2 → 剩 3 个大数，最小的也 $\ge 8 \ge 2\times4$，约束全消失 → $3! = 6$ 种。</li>
+      </ul>
+      <p>合计 $1 \times 1 \times 2 \times 3! = 12$。</p>
+      <p class="hint">要点：抽走一个大数 13 后，6 从"2 种选择"退化为"1 种"——约束链会往下游传导，必须从头重算。</p>
     </details>
   </div>
 
   <div class="prob">
-    <span class="tag">第 4 题 · 提高</span> <span class="stars">★★★★</span>
-    <p>把 1, 2, …, 12 分成 6 对，使得每对中较大的数至少是较小数的 2 倍。有多少种分法？</p>
+    <span class="tag">第 3 题 · 进阶</span> <span class="stars">★★★</span> <span class="form">形式｜补集排除（总数 − 合法数）</span>
+    <p>把 1, 2, …, 8 分成 4 对：<br>
+      ① <strong>不加任何限制</strong>，共有多少种分法？<br>
+      ② 其中<strong>至少有一对</strong>不满足"较大的数至少是较小数的 2 倍"的分法，有多少种？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：① <strong>105 种</strong>；② <strong>101 种</strong></div>
+      <p><strong>① 无限制配对总数</strong>：$2m$ 个数分成 $m$ 个无序对 $= \dfrac{(2m)!}{2^m \cdot m!}$。代入 $m=4$：</p>
+      <p>$$\frac{8!}{2^4 \cdot 4!} = \frac{40320}{16 \times 24} = 105$$</p>
+      <p>（记忆法：先全排列 $8!$，再除掉"对内有序"的 $2^4$ 与"对间有序"的 $4!$。）</p>
+      <p><strong>② 用补集</strong>：先算合法的——小数 $\{1,2,3,4\}$，大数 $\{5,6,7,8\}$；4 只能配 8（1 种）；3 可配 $\{6,7\}$（2 种）；之后 1、2 面对剩 2 个大数（均 $\ge 5 \ge 2\times2$）→ $2! = 2$。合法数 $= 1 \times 2 \times 2 = 4$。</p>
+      <p>于是"至少有一对违法" $= 105 - 4 = \boxed{101}$。</p>
+      <p class="hint">要点：当"满足条件"极少（4 种）而"不满足"极多（101 种）时，正面分类几乎无法下手——<strong>补集是唯一的出路</strong>。这也是本题与常规问法最大的区别。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag">第 4 题 · 提高</span> <span class="stars">★★★★</span> <span class="form">形式｜部分配对（允许落单，不是完美匹配）</span>
+    <p>从 1, 2, …, 9 中选出 <strong>4 个互不相交的对</strong>，每对中较大的数至少是较小数的 2 倍；<strong>剩下 1 个数落单不用</strong>。问有多少种不同的选法？</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>36 种</strong></div>
-      <p>小数 $\{1,\dots,6\}$，大数 $\{7,\dots,12\}$。6 只能配 12；5 可配 $\{10,11\}$（2 种）。轮到 4 时剩 4 个大数，其中 7 不能给 4（$2 \times 4 = 8 > 7$），恰 3 种选择。之后剩 3 个大数（均 ≥ 7 ≥ 2×3），1、2、3 自由排列 $3!$。故 $1 \times 2 \times 3 \times 3! = 36$。</p>
-      <p class="hint">要点："自由"不等于"所有剩余都可选"——4 不能配 7 这种隐形约束要数清楚。</p>
+      <p><strong>第 1 步（边界分析给出关键洞察）</strong>：较小数 $x$ 需满足 $2x \le 9$，即 $x \le 4$；而 4 对恰需 4 个较小数，$\{1,2,3,4\}$ 正好 4 个必须全部上场。<strong>所以落单的那个数只能是 5~9</strong>——落单 1~4 的情况一律为 0。这一步直接砍掉一半以上的分支。</p>
+      <p><strong>第 2 步（按落单数 $s$ 分类，对剩下 8 个数做完美配对）</strong>：小数恒为 $\{1,2,3,4\}$，按 4 → 3 → 2、1 的顺序安排。</p>
+      <table>
+        <tr><th>落单 $s$</th><th>剩余大数集合</th><th>4 的选法</th><th>3 的选法</th><th>2、1</th><th>小计</th></tr>
+        <tr><td>5</td><td>$\{6,7,8,9\}$</td><td>2（配 8 或 9）</td><td>3</td><td>$2!$</td><td><strong>12</strong></td></tr>
+        <tr><td>6</td><td>$\{5,7,8,9\}$</td><td>2（配 8 或 9）</td><td>2（≥6 只剩 7、8、9 中未占的 2 个）</td><td>$2!$</td><td><strong>8</strong></td></tr>
+        <tr><td>7</td><td>$\{5,6,8,9\}$</td><td>2（配 8 或 9）</td><td>2</td><td>$2!$</td><td><strong>8</strong></td></tr>
+        <tr><td>8</td><td>$\{5,6,7,9\}$</td><td>1（只有 9）</td><td>2（配 6 或 7）</td><td>$2!$</td><td><strong>4</strong></td></tr>
+        <tr><td>9</td><td>$\{5,6,7,8\}$</td><td>1（只有 8）</td><td>2（配 6 或 7）</td><td>$2!$</td><td><strong>4</strong></td></tr>
+      </table>
+      <p>合计 $12 + 8 + 8 + 4 + 4 = \boxed{36}$。</p>
+      <p class="hint">要点：把"全部分完"改成"选 $k$ 对"，边界分析依然是第一步——它不只定角色，还能反过来告诉你<strong>哪些数不可能落单</strong>。另外注意 4 对（36 种）比 5 对全配（1~10 只有 12 种）多得多：少配一对会释放大量自由度。</p>
     </details>
   </div>
 
   <div class="prob">
-    <span class="tag">第 5 题 · 挑战</span> <span class="stars">★★★★★</span>
-    <p>把 1, 2, …, 16 分成 8 对，使得每对中较大的数至少是较小数的 2 倍。有多少种分法？</p>
+    <span class="tag">第 5 题 · 挑战</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明 + 大数代入</span>
+    <p><strong>(a)</strong> 设 $n$ 为正整数。求把 $1, 2, \dots, 2n$ 分成 $n$ 对（每对中较大的数至少是较小数的 2 倍）的分法数公式，<strong>并给出证明</strong>。<br>
+       <strong>(b)</strong> 用你的公式求：把 $1, 2, \dots, 30$ 分成 15 对，有多少种分法？</p>
     <details>
       <summary>👉 点击查看解析</summary>
-      <div class="ans">答：<strong>576 种</strong></div>
-      <p>小数 $\{1,\dots,8\}$，大数 $\{9,\dots,16\}$。8 只能配 16（1 种）；7 可配 $\{14,15\}$（2 种）；6 可配 $\{12,13,14,15\}$ 中剩下的 3 个。轮到 5 时剩 5 个大数，其中 9 不能给 5（$2 \times 5 = 10 > 9$），恰 4 种。之后剩 4 个大数（均 ≥ 9 ≥ 2×4），1~4 自由排列 $4! = 24$。故 $1 \times 2 \times 3 \times 4 \times 4! = 24 \times 24 = 576$。</p>
-      <p class="hint">要点：对照一般公式 $\lceil n/2 \rceil! \times \lfloor n/2 \rfloor!$（$n=8$ 得 $4! \times 4! = 576$），学会用公式检验分类结果。</p>
+      <div class="ans">答：<strong>(a)</strong> $\left\lceil \dfrac{n}{2} \right\rceil ! \ \times \ \left\lfloor \dfrac{n}{2} \right\rfloor !$　　<strong>(b)</strong> $8! \times 7! = 40320 \times 5040 = \mathbf{203{,}212{,}800}$</div>
+      <p><strong>证明 (a)</strong>：由 $2x \le 2n$ 知较小数必为 $\{1,\dots,n\}$，较大数必为 $\{n+1,\dots,2n\}$。从<strong>最大的小数</strong>往下安排：</p>
+      <ul>
+        <li>$x = n$：需 $y \ge 2n$，只有 $2n$ → <strong>1 种</strong>；</li>
+        <li>$x = n-1$：需 $y \ge 2n-2$，候选 $\{2n-2,2n-1,2n\}$ 共 3 个，去掉已占的 1 个 → <strong>2 种</strong>；</li>
+        <li>一般地 $x = n-k$：候选 $\{2n-2k,\dots,2n\}$ 共 $2k+1$ 个，去掉已占的 $k$ 个 → 恰 <strong>$k+1$ 种</strong>。</li>
+      </ul>
+      <p>这个"1, 2, 3, …"的规律一直用到 $2(n-k) \le n+1$（大数集合的下界），即 $k \ge \frac{n-1}{2}$ 时约束彻底消失：</p>
+      <ul>
+        <li>若 $n = 2m$：$k = 0,1,\dots,m-1$ 给出 $1\times2\times\cdots\times m = m!$，此后剩 $m$ 个小数自由排列 $m!$ → 总数 $m! \cdot m!$；</li>
+        <li>若 $n = 2m+1$：$k = 0,1,\dots,m-1$ 给出 $m!$，此后剩 $m+1$ 个小数自由排列 $(m+1)!$ → 总数 $(m+1)! \cdot m!$。</li>
+      </ul>
+      <p>两种情形统一写成 $\lceil n/2 \rceil! \times \lfloor n/2 \rfloor!$。∎</p>
+      <p><strong>(b)</strong>：$n = 15 = 2\times 7+1$，故 $\lceil 15/2 \rceil! \times \lfloor 15/2 \rfloor! = 8! \times 7! = 203{,}212{,}800$。</p>
+      <p><strong>自检</strong>：代入小值——$n=3 \to 2!\cdot1! = 2$；$n=5 \to 3!\cdot2! = 12$；$n=7 \to 4!\cdot3! = 144$（正是原题答案）；$n=8 \to 4!\cdot4! = 576$。全部与暴力枚举一致。</p>
+      <p class="hint">要点：把具体数字换回字母，才看得清"1、2、3、…、k 然后阶乘收尾"不是巧合，而是<strong>约束链长度</strong>决定的结构。这类"通项 + 证明"是 AMC 高难度题的常见收尾方式。</p>
     </details>
   </div>
 
