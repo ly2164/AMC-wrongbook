@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 总目录</title>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef;
+    --accent:#7c3aed; --accent-soft:#f5f3ff; --warn:#b45309; --ok:#047857;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.7; margin:0; background:#f5f7fb;
+  }
+  .page{max-width:880px; margin:0 auto; padding:56px 40px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:32px; margin:10px 0 6px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15.5px; margin:0 0 8px;}
+  .count{display:inline-block; margin-top:6px; font-size:13px; font-weight:600;
+    color:var(--accent); background:var(--accent-soft); border-radius:20px; padding:4px 14px;}
+  hr{border:none; border-top:1px solid var(--line); margin:32px 0;}
+  .grid{display:grid; gap:16px; margin-top:8px;}
+
+  .item{
+    display:block; text-decoration:none; color:inherit;
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; transition:all .16s ease; position:relative; overflow:hidden;
+  }
+  .item::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--accent);}
+  .item:hover{border-color:var(--accent); box-shadow:0 6px 20px rgba(124,58,237,.10); transform:translateY(-1px);}
+  .item .row1{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+  .item .title{font-size:17.5px; font-weight:700;}
+  .item .date{font-size:13px; color:var(--sub);}
+  .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .badge{font-size:12px; font-weight:600; border-radius:20px; padding:3px 12px; background:var(--accent-soft); color:var(--accent);}
+  .badge.k{background:#f0fdf4; color:var(--ok);}
+  .badge.p{background:#fff7ed; color:var(--warn);}
+  .desc{color:var(--sub); font-size:14.5px; margin-top:6px;}
+
+  .empty{
+    background:#fff; border:1px dashed var(--line); border-radius:14px;
+    padding:40px; text-align:center; color:var(--sub); font-size:15px;
+  }
+  .empty b{color:var(--ink);}
+
+  h2.sec{font-size:18px; margin:36px 0 4px;}
+  .map{background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px 26px;}
+  .map table{width:100%; border-collapse:collapse; font-size:14px;}
+  .map td{padding:8px 0; border-bottom:1px solid var(--line); vertical-align:top;}
+  .map tr:last-child td{border-bottom:none;}
+  .map td.k{width:150px; font-weight:700; color:var(--ink); white-space:nowrap; padding-right:16px;}
+  .map td.v{color:var(--sub);}
+  .note{font-size:13px; color:var(--sub); margin-top:14px; padding-top:12px; border-top:1px solid var(--line);}
+
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center;
+    border-top:1px solid var(--line); padding-top:18px;}
+  a.link{color:var(--accent); text-decoration:none; font-weight:600;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>AMC 8 错题总目录</h1>
+  <p class="lede">这里汇总所有 AMC 8 错题精讲，点击任意一条进入详细解析（含知识点提炼 + 由易到难的配套练习）。</p>
+  <p class="lede" style="margin-top:10px;"><a class="link" href="../index.html">← 返回题库首页（切换 AMC 8 / AMC 10）</a></p>
+  <span class="count">共 1 道错题</span>
+
+  <hr>
+
+  <div class="grid">
+
+    <!-- ===== 错题条目模板：新增错题时，复制下面这个 <a class="item"> 块 ===== -->
+    <!-- 注意：.date 显示的是【错题页面的日期字段】，不是发布日期 -->
+    <!--
+    <a class="item" href="../problems/YYYYMMDD-<slug>.html">
+      <div class="row1">
+        <span class="title">标题：一句话点明题型</span>
+        <span class="date">YYYYMMDD</span>
+      </div>
+      <div class="desc">一句话简介：这道题的解题抓手是什么。</div>
+      <div class="badges">
+        <span class="badge k">知识点（英文）</span>
+        <span class="badge">2020AMC8(12)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+    -->
+    <!-- ===== 模板结束 ===== -->
+
+    <a class="item" href="../problems/20261005-coat-hooks-spacing.html">
+      <div class="row1">
+        <span class="title">等距挂衣钩：把排列问题配成两个因子</span>
+        <span class="date">20261005</span>
+      </div>
+      <div class="desc">35 个挂衣钩等距悬挂：先数对间隔数（外套数+1），再补 1 配成 (k+1)(c+1)=36，最后用因子计数砍掉两个边界因子对。</div>
+      <div class="badges">
+        <span class="badge k">factor counting</span>
+        <span class="badge">2025AMC8(22)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+  </div>
+
+  <h2 class="sec">AMC 8 考查范围（出题与配题的边界）</h2>
+  <div class="map">
+    <table>
+      <tr><td class="k">数与运算</td><td class="v">整数、分数、小数、百分数、比例与比率；运算律与估算；单位换算</td></tr>
+      <tr><td class="k">基础代数</td><td class="v">一次方程与方程组、简单代数式化简、用字母表示数量关系、数列规律</td></tr>
+      <tr><td class="k">初等几何</td><td class="v">三角形与四边形的面积周长、圆、勾股定理、角度关系、相似与全等初步、坐标平面、长方体与圆柱体积</td></tr>
+      <tr><td class="k">计数与概率</td><td class="v">枚举与树图、乘法原理、排列组合入门、简单概率与几何概型</td></tr>
+      <tr><td class="k">数论初步</td><td class="v">整除判别、质数与质因数分解、最大公约数与最小公倍数、余数与模运算入门</td></tr>
+      <tr><td class="k">统计与图表</td><td class="v">平均数／中位数／众数、条形图折线图扇形图读取、表格分析</td></tr>
+      <tr><td class="k">逻辑与应用</td><td class="v">行程与工程问题、年龄问题、抽屉原理入门、逻辑推理与排除法</td></tr>
+    </table>
+    <div class="note">
+      <b>不考</b>：二次函数及以上的复杂代数、复数、对数与指数函数、三角函数、向量法立体几何、中国剩余定理等高级数论。
+      配套 5 道题的难度梯度按 AMC 8 的 1~25 题分布设定，整体比 AMC 10 低一档。
+    </div>
+  </div>
+
+  <div class="footer">
+    AMC 8 错题精讲 · 总目录 &nbsp;|&nbsp; 由 WorkBuddy 维护 · 最近更新 2026-10-10
+  </div>
+</div>
+</body>
+</html>
