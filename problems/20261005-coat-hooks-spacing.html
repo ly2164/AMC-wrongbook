@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 因子计数</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  .diagram{
+    font-family:"SF Mono",Menlo,Consolas,monospace; font-size:13px;
+    background:var(--code-bg); border:1px solid var(--line); border-radius:10px;
+    padding:14px 16px; margin:14px 0; white-space:pre; overflow-x:auto; line-height:1.9;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/index.html">← 返回 AMC 8 总目录</a>
+    <div class="pager">
+      <a class="disabled" href="#">‹ 上一题</a>
+      <a class="disabled" href="#">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>等距挂衣钩：把排列问题配成两个因子</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261005</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2025AMC8(22)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">factor counting</span></div>
+  </div>
+  <p class="lede">诊断：卡在「等距」没能翻译成「间隔数 = 外套数 + 1」，于是列不出乘法结构；即便凑出 $(k+1)(c+1)=36$，也容易漏掉两条边界各砍掉一个因子对。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    A classroom has a row of 35 coat hooks. Paulina likes coats to be equally spaced, so that there is the same number of empty hooks before the first coat, after the last coat, and between every coat and the next one. Suppose there is at least 1 coat and at least 1 empty hook. How many different numbers of coats can satisfy Paulina's pattern?
+  </blockquote>
+  <p><strong>中文翻译</strong>：教室里有排成一列的 35 个挂衣钩。Paulina 希望外套「等距」悬挂：第一件外套之前、最后一件外套之后、以及每相邻两件外套之间，空钩的数量都相同。已知至少有 1 件外套、至少 1 个空钩。问有多少种不同的外套件数能满足这个排列规律？</p>
+  <p><strong>选项</strong>：(A) 2 &nbsp; (B) 4 &nbsp; (C) 5 &nbsp; (D) 7 &nbsp; (E) 9　　<strong>答案：(D) 7</strong></p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>9</code></td><td>算出了 36 的因子个数 9 就直接选 E。忘了 $\text{「}c+1\text{」}$ 与 $\text{「}k+1\text{」}$ 都要 $\ge 2$——$1\times 36$ 和 $36\times 1$ 这两个因子对是不合法的，必须砍掉。</td></tr>
+    <tr><td><code>5</code></td><td>把 $(2,18)$ 与 $(18,2)$ 当成同一种（按「矩形长宽可交换」的直觉合并）。但这里两个因子角色不同：一个是外套数，一个是空钩数，交换后是<b>不同</b>的排列方案，不能合并。</td></tr>
+    <tr><td><code>4 或 6</code></td><td>用「从 $c=1$ 开始逐个试」的笨办法枚举，中途算错或漏掉 $c=1$、$c=17$ 这种极端情形。没有方程结构兜底，全靠手算，极易丢解。</td></tr>
+    <tr><td><code>把间隔数当成 c 或 c−1</code></td><td>间隔数数错：两端都留空时是 $c+1$ 个间隔（前 1 + 中间 $c-1$ + 后 1），不是 $c$ 个。这一步错，后面全错。</td></tr>
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：这类题有两道坎——第一道是<b>建模</b>（把「等距」变成「间隔数 + 乘法方程」），第二道是<b>边界</b>（把「至少 1 件外套」「至少 1 个空钩」翻译成对两个因子的约束）。多数人栽在第二道：方程列对了，却在数因子对时忘了剔除不合法的边界情形。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+
+  <h3>方法一：列方程 + 因式分解（推荐，通法）</h3>
+  <p>设外套有 $c$ 件（$c\ge 1$），每个间隔有 $k$ 个空钩（$k\ge 1$）。</p>
+  <p><b>第 1 步：数间隔。</b>$c$ 件外套排成一排，两端都留空，间隔数是</p>
+  <div class="diagram">· · · C · · · C · · · C · · ·      ← 3 件外套 C，间隔 4 = 3+1 个
+└┬┘     └┬┘     └┬┘     └┬┘
+ 每段都有相同数量 k 个空钩</div>
+  <p>即 $c+1$ 个间隔（前 1 个 + 中间 $c-1$ 个 + 后 1 个）。</p>
+  <p><b>第 2 步：列方程。</b>总钩数 = 外套 + 空钩：</p>
+  <p>$$c + k(c+1) = 35$$</p>
+  <p><b>第 3 步：凑成乘积（Simon's Favorite Factoring Trick）。</b>展开后补 1：</p>
+  <p>$$c + kc + k = 35 \quad\Longrightarrow\quad kc + k + c + 1 = 36 \quad\Longrightarrow\quad (k+1)(c+1) = 36$$</p>
+  <p><b>第 4 步：数因子对，再砍边界。</b>$36 = 2^2\times 3^2$，因子个数 $= (2+1)(2+1) = 9$。<br>
+  有序因子对共 9 个。约束：$c\ge 1 \Rightarrow c+1 \ge 2$；$k\ge 1 \Rightarrow k+1 \ge 2$。因此 $(1,36)$ 与 $(36,1)$ 不合法，各砍一个：</p>
+  <table>
+    <tr><th>$c+1$</th><th>$k+1$</th><th>外套数 $c$</th><th>每间隔空钩 $k$</th><th>校验 $c+k(c+1)$</th></tr>
+    <tr><td>2</td><td>18</td><td>1</td><td>17</td><td>$1+17\times2=35$ ✓</td></tr>
+    <tr><td>3</td><td>12</td><td>2</td><td>11</td><td>$2+11\times3=35$ ✓</td></tr>
+    <tr><td>4</td><td>9</td><td>3</td><td>8</td><td>$3+8\times4=35$ ✓</td></tr>
+    <tr><td>6</td><td>6</td><td>5</td><td>5</td><td>$5+5\times6=35$ ✓</td></tr>
+    <tr><td>9</td><td>4</td><td>8</td><td>3</td><td>$8+3\times9=35$ ✓</td></tr>
+    <tr><td>12</td><td>3</td><td>11</td><td>2</td><td>$11+2\times12=35$ ✓</td></tr>
+    <tr><td>18</td><td>2</td><td>17</td><td>1</td><td>$17+1\times18=35$ ✓</td></tr>
+  </table>
+  <p>共 <b>7</b> 种不同的外套数：$\{1,2,3,5,8,11,17\}$。</p>
+
+  <h3>方法二：加一个「虚拟外套」（巧解，理解本质）</h3>
+  <p>想象在最后一件外套之后<b>再补一个挂了外套的钩子</b>。钩子总数变成 $35+1=36$，并且整排变成<b>完全重复的块</b>——每一块都是「$k$ 个空钩 + 1 件外套」。</p>
+  <div class="diagram">原：· · · C · · · C · · ·           (35 = 3 件 + 4 段空)
+补：· · · C · · · C · · · C           (36 = 4 块 × 每块 9 个钩子)
+     └───┬──┘└───┬──┘└───┬──┘└───┬──┘
+        每块 b 个钩子，共 d 块，bd = 36</div>
+  <p>设每块 $b$ 个钩子、共 $d$ 块，则 $bd = 36$。约束：每块至少含 1 个空钩 + 1 件外套 $\Rightarrow b\ge 2$；原本至少 1 件外套、又补了 1 件 $\Rightarrow d\ge 2$。</p>
+  <p>于是问题等价于：<b>把 36 分解成两个都 $\ge 2$ 的整数之积，有多少种有序分解？</b>因子对 9 个，剔除 $1\times36$ 与 $36\times1$，得 $9-2=7$。</p>
+  <p>这个方法的好处是「加 1 补块」把边界条件变得直观——两个因子都 $\ge 2$，一句话说清。</p>
+
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：把 7 个 $c$ 值代回原式 $c+k(c+1)$ 逐条验算（见上表最后一列），全部等于 35。反过来说，只要 $(c+1)(k+1)=36$ 且 $c,k\ge 1$，就<b>唯一确定</b>一种排列——所以「因子对数」就等于「外套数的种数」，不需要再检查重复。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<b>Factor counting（因子计数）</b> + <b>等距排列的间隔建模</b>。官方对该题标注的两个概念正是 factor counting 与 bijection（因子对 ↔ 排列方案的一一对应）。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><b>间隔数公式</b>：$n$ 个物体排成一排，两端都留空 → $n+1$ 个间隔；只在相邻之间留空 → $n-1$ 个；排成环 → $n$ 个。<b>先数对间隔数，再列方程。</b></li>
+    <li><b>Simon's Favorite Factoring Trick</b>：见到 $ab+a+b$（或 $ab+a-b$）形式，立刻补常数凑成 $(a\pm1)(b\pm1)$。本题 $kc+k+c$ 补 1 得 $(k+1)(c+1)$。</li>
+    <li><b>因子个数公式</b>：$N=p_1^{e_1}p_2^{e_2}\cdots$，正因子个数 $=(e_1+1)(e_2+1)\cdots$。有序因子对个数 = 因子个数；无序因子对 = $\lceil$因子个数$/2\rceil$。</li>
+    <li><b>有序 vs 无序要分清</b>：两个因子<b>角色相同</b>（如矩形长宽）时合并，用无序；<b>角色不同</b>（如外套数 vs 空钩数）时交换是不同解，用有序。本题是有序。</li>
+    <li><b>边界条件逐个砍</b>：每出现一个「至少 1」类约束，就回头检查它排除掉哪一个因子对。本题两条约束各砍一个，所以是 $9-2$。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 有序与无序</span> <span class="stars">★</span>
+    <p>一个长方形的面积是 36，长和宽都是正整数。问可以组成多少种<b>不同</b>的长方形？（长宽交换算同一种）</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>5 种</strong></div>
+      <p>$36=2^2\times3^2$，因子共 9 个：1, 2, 3, 4, 6, 9, 12, 18, 36。无序因子对为 $(1,36),(2,18),(3,12),(4,9),(6,6)$，共 5 种。注意 $6\times6$ 是正方形，交换后还是自己，只算一次——所以是 $\lceil 9/2\rceil = 5$ 而不是 $9/2=4.5$。</p>
+      <p class="hint">要点：先判断「交换算不算同一种」。矩形长宽角色相同 → 无序；外套数 vs 空钩数角色不同 → 有序。这一念之差就是 5 和 9 的区别。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 配方法的裸用</span> <span class="stars">★★</span>
+    <p>有多少个<b>有序</b>正整数对 $(a,b)$ 满足 $ab+a+b=35$？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>7 个</strong></div>
+      <p>两边补 1：$ab+a+b+1=36\Rightarrow (a+1)(b+1)=36$。由 $a,b\ge 1$ 得 $a+1\ge 2$、$b+1\ge 2$。36 有 9 个有序因子对，剔除 $(1,36)$ 与 $(36,1)$，剩 7 个：$(a,b)=(1,17),(2,11),(3,8),(5,5),(8,3),(11,2),(17,1)$。</p>
+      <p class="hint">要点：这就是原题抽掉故事外壳后的样子。看到 $ab+a+b$ 型，条件反射补 1。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 换数不换法</span> <span class="stars">★★★</span>
+    <p>把原题的 35 个挂衣钩改成 <b>47</b> 个，其余规则不变（两端与相邻之间空钩数相同，至少 1 件外套、至少 1 个空钩）。有多少种不同的外套数？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>8 种</strong></div>
+      <p>仍是 $(k+1)(c+1)=47+1=48$。$48=2^4\times3$，因子个数 $=(4+1)(1+1)=10$，剔除 $(1,48)$、$(48,1)$ 两个边界对，得 $10-2=8$。对应 $c\in\{1,2,3,5,7,11,15,23\}$。</p>
+      <p class="hint">要点：<b>钩子总数 $H$ 一律先加 1 变成 $H+1$，再分解</b>。记住 $H=35\to36$、$H=47\to48$ 这类「+1」的手感，别每次重新推导。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 改条件：两端不留空</span> <span class="stars">★★★★</span>
+    <p>仍是 35 个挂衣钩，但规则改为：<b>两端不留空钩</b>，只在相邻两件外套之间留相同数量的空钩。至少 1 件外套、至少 1 个空钩。有多少种不同的外套数？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>3 种</strong></div>
+      <p>两端不留空 → 间隔数变成 $c-1$（只在中间），且需 $c\ge 2$。方程为 $c+k(c-1)=35$。令 $m=c-1\ge 1$，则 $(m+1)+km=35\Rightarrow m(k+1)=34$。</p>
+      <p>$34=2\times17$，因子 4 个，有序因子对 4 个：$(m,k+1)=(1,34),(2,17),(17,2),(34,1)$。约束 $k\ge 1$ 即 $k+1\ge 2$，剔除 $(34,1)$；而 $m\ge 1$ 对剩下三个都成立。故 3 种，对应 $(c,k)=(2,33),(3,16),(18,1)$。</p>
+      <p class="hint">要点：<b>改条件先改间隔数</b>（$c+1\to c-1$），再重新配方。这次只有一条边界生效，别惯性砍两个。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 附加不等式筛选</span> <span class="stars">★★★★★</span>
+    <p>一排 <b>71</b> 个挂衣钩，规则同原题（两端与相邻之间空钩数都相同），但额外要求：<b>外套件数严格大于</b>每个间隔的空钩数。有多少种不同的外套数？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>5 种</strong></div>
+      <p>先走标准流程：$(c+1)(k+1)=71+1=72$。$72=2^3\times3^2$，因子个数 $=(3+1)(2+1)=12$，剔除 $(1,72)$、$(72,1)$ 后剩 10 个候选。</p>
+      <p>枚举 $(c,k)$：$(1,35),(2,23),(3,17),(5,11),(7,8),(8,7),(11,5),(17,3),(23,2),(35,1)$。筛选 $c>k$：只有 $(8,7),(11,5),(17,3),(23,2),(35,1)$ 满足，共 5 种。</p>
+      <p>省事技巧：$c>k \Leftrightarrow c+1>k+1$（同减 1 保序），所以直接在因子对表里比对即可，不用逐个换算。10 个候选按 $c+1$ 从小到大排，恰好前 5 个不满足、后 5 个满足。</p>
+      <p class="hint">要点：<b>先拿全候选，再用附加条件筛</b>。切忌一开始就被附加条件带偏，跳过标准流程直接乱试。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>等距排列 + 因子计数 · 三步通法</h3>
+    <ol>
+      <li><b>数间隔</b>：$n$ 个物体，两端留空 → $n+1$ 个间隔；只中间留空 → $n-1$ 个；环形 → $n$ 个。</li>
+      <li><b>配乘积</b>：列出「物体数 + 间隔数 × 每间隔空位 = 总数」，再补常数凑成两个因子的乘积（$ab+a+b$ 补 1 → $(a+1)(b+1)$）。</li>
+      <li><b>数并砍</b>：用因子个数公式数出有序因子对总数，再逐条检查每个「至少 / 至多」约束砍掉哪几个因子对。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：数清间隔列方程，加一凑成乘积形；因子公式算总数，边界条件逐个砍。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../amc8/index.html" style="margin-bottom:14px;">← 返回 AMC 8 总目录</a>
+    <div>AMC 8 错题精讲 · 因子计数 &nbsp;|&nbsp; 生成于 2026-10-11</div>
+  </div>
+</div>
+</body>
+</html>
