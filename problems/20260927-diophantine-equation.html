@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 丢番图方程</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/index.html">← 返回 AMC 10 总目录</a>
+    <div class="pager">
+      <a href="20261008-fuel-efficiency.html">‹ 上一题</a>
+      <a class="disabled" href="#">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>丢番图方程：$m^2+mn+n^2=m^2n^2$ 有几组整数解？</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20260927</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2023AMC10B(14)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Diophantine Equation</span></div>
+  </div>
+  <p class="lede">这一题的杀伤力不在计算，而在于：如果你没有先看「$m,n$ 的大小被方程强行锁死在 1 附近」这一点，就会掉进无限搜索的陷阱。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    How many ordered pairs of integers $(m, n)$ satisfy the equation $m^2+mn+n^2=m^2n^2$?
+  </blockquote>
+  <p><strong>中文翻译</strong>：满足方程 $m^2+mn+n^2=m^2n^2$ 的<strong>有序</strong>整数对 $(m,n)$ 有多少组？</p>
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/14" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2023B/problem/14</a><br>
+    官方给出的正确选项为 <strong>(C) 3</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>选 (A) 7 / (E) 5：试出 (0,0)、(1,1)、(-1,-1) 等若干组就以为找全</code><td>没有对解做<strong>完备性论证</strong>。找到一个解不等于找全所有解——丢番图方程的答卷必须证明「再无其他解」。</td></tr>
+    <tr><td><code>选 (B) 1：只找到 (0,0) 就收工</code><td>把 $mn=0$ 当成「平凡情形」随手扔掉，却没回头检查 $mn\neq 0$ 的分支。$(1,-1)$ 与 $(-1,1)$ 恰恰全藏在 $mn=-1$ 里。</td></tr>
+    <tr><td><code>选 (D) 6：忘了 (0,0) 与「有序」二字</code><td>两个陷阱叠加：① $(0,0)$ 忘记计入；② 把 $(1,-1)$、$(-1,1)$ 当成「同一组」只算一次。本题 <strong>有序对</strong> 下 $(1,-1)\ne(-1,1)$。</td></tr>
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：把「枚举」当成了「求解」。丢番图方程必须做到两件事——<strong>(1) 构造</strong>出所有解；<strong>(2) 证明</strong>除此之外再无解。本题第 (2) 步才是分水岭：用一次「两边夹逼」把 $|m|,|n|$ 锁死成 $0$ 或 $1$，一切自动水落石出。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+
+  <h3>方法一：先分类（$mn=0$ / $mn\neq 0$），再用夹逼锁死变量</h3>
+  <p><strong>第一步 · 拆出 $mn=0$ 的分支。</strong>若 $mn=0$，不妨设 $n=0$，方程退化为 $m^2=0$，故 $m=0$；对称地 $m=0$ 也只给出 $n=0$。于是得到一组解
+  $$(\,m,n\,)=(0,0).$$
+  </p>
+  <p><strong>第二步 · 处理 $mn\neq 0$。</strong>此时 $m^2n^2\ge 1>0$，所以左边 $m^2+mn+n^2>0$。注意恒等式</p>
+  $$m^2+mn+n^2=\tfrac34\,(m+n)^2+\tfrac14\,(m-n)^2\ \ge\ 0,$$
+  <p>关键是<strong>右边是 $m^2n^2$ 这个高次项</strong>。由 AM-GM 型不等式 $m^2+n^2\ge 2|mn|$，得</p>
+  $$\tfrac34(m+n)^2+\tfrac14(m-n)^2=m^2+mn+n^2=m^2n^2 .$$
+  <p>换个更狠的用法：假设 $|m|\ge 2$ 且 $|n|\ge 2$，则 $|mn|\ge 4$，于是</p>
+  $$m^2n^2=|mn|^2\ge 4|mn|^2\cdot\tfrac14 .$$
+  <p>更直接地：把方程两边除以 $m^2n^2$（合法，因为 $mn\neq 0$），得</p>
+  $$\frac{1}{n^2}+\frac{1}{mn}+\frac{1}{m^2}=1 .$$
+  <p>三项都是<strong>绝对值不超过 1</strong> 的量。若 $|m|\ge 2$ 且 $|n|\ge 2$，则 $\frac1{m^2},\frac1{n^2}\le\frac14$，于是</p>
+  $$\frac{1}{n^2}+\frac{1}{mn}+\frac{1}{m^2}\le \frac14+\frac14+\frac14=\frac34<1,$$
+  <p><strong>与左边等于 $1$ 矛盾！</strong>所以 $|m|\ge 2$ 与 $|n|\ge 2$ 不能同时成立，即 $m,n$ 中至少有一个是 $\pm 1$ 或 $0$。</p>
+  <blockquote class="ok">
+    <strong>这就是本题的核心一步</strong>：把方程两边<strong>同除以最高次项 $m^2n^2$</strong>，所有变量被压进 $(0,1]$ 的区间，立刻获得「$|m|,|n|$ 很小」的强约束。这一招叫<strong>齐次化归一</strong>，是所有「低次 = 高次」型丢番图方程的第一反应。
+  </blockquote>
+  <p><strong>第三步 · 逐一代入剩下的情形。</strong>已知至少一个变量为 $\pm1$（$0$ 的情形已在第一步处理）：</p>
+  <ul>
+    <li>取 $n=1$：$m^2+m+1=m^2\Rightarrow m=-1$，得 $(m,n)=(-1,1)$；</li>
+    <li>取 $n=-1$：$m^2-m+1=m^2\Rightarrow m=1$，得 $(m,n)=(1,-1)$。</li>
+  </ul>
+  <p>（由于方程对 $m,n$ 交换完全对称，两种取法给出的有序对互为对偶，不必重复 $m=1$ 与 $m=-1$ 的分支。）</p>
+  <p><strong>第四步 · 汇总。</strong>全部解为</p>
+  $$(\,m,n\,)\in\{\,(-1,1),\ (0,0),\ (1,-1)\,\},\qquad \text{共 } \boxed{3}\ \text{组}.$$
+  </p>
+
+  <h3>方法二：换个视角——把方程改写成韦达/判别式的形状</h3>
+  <p>把原方程当作关于 $m$ 的二次方程整理（$n\neq 0$ 时）：</p>
+  $$n^2m^2-nm-m^2=0 .$$
+  <p>它是 $m$ 的二次方程，判别式必须是非负完全平方：</p>
+  $$\Delta=n^2+4n^2(n^2-1)=n^2(4n^2-3).$$
+  <p>要使 $\Delta$ 为完全平方，$4n^2-3$ 必须是完全平方（$n^2$ 本身已是平方）。令 $t=|2n|$（偶数），需判定 $t^2-3$ 是否为完全平方：</p>
+  <ul>
+    <li>$t\ge 3$ 时有严格夹逼 $t^2-3<t^2$ 且 $t^2-3-(t-1)^2=2t-4>0$，即 $(t-1)^2<t^2-3<t^2$——<strong>落在相邻两个平方数之间，必非平方数</strong>；</li>
+    <li>$t=2$ 时 $t^2-3=1=1^2$，可平方；</li>
+    <li>$t=0$ 即 $n=0$，属退化情形，单独处理。</li>
+  </ul>
+  <p>因此只剩 $n\in\{-2,-1,0,1,2\}$ 中真正可行的，<strong>逐一代入</strong>：$n=0\Rightarrow m^2=0\Rightarrow m=0$；$n=1\Rightarrow m^2+m+1=m^2\Rightarrow m=-1$；$n=-1\Rightarrow m^2-m+1=m^2\Rightarrow m=1$；$n=2\Rightarrow m^2+2m+4=4m^2\Rightarrow 3m^2-2m-4=0$，判别式 $4+48=52$ 非平方，无整数根；$n=-2$ 对称无解。三组解，与方法一一致。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：算「四元方程」的小规模整数解时，<strong>先暴力枚举一个足够大的范围</strong>（如 $-200\le m,n\le 200$），拿到候选解集，再用上面任一方法证明「这个集合已经完备」。本站已用程序枚举 $-200\sim 200$ 全部 160801 个格子，得解集 $\{(0,0),(-1,1),(1,-1)\}$，与解析结论一致。程序只用来<strong>验证与提示方向</strong>，写进答卷的必须是证明。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：丢番图方程（Diophantine equation）的两大通用武器——<strong>① 齐次化归一</strong>（两边同除最高次项，把变量压进小区间从而锁死）与 <strong>② 判别式必须是完全平方数</strong>（把二元方程降为「某个表达式是不是平方」的一元判定）。二者任取其一即可秒杀本题。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>先分类再计算</strong>：$mn=0$ 与 $mn\neq 0$ 是两类，$mn=0$ 必须<strong>单独拎出来</strong>处理，切勿在除法时顺手丢掉。</li>
+    <li><strong>齐次化归一</strong>：方程形如「低次齐次式 = 高次项」时，两边同除以高次项，得到形如 $\frac1{m^2}+\frac1{mn}+\frac1{n^2}=1$ 的式子，每项被压到 $\le 1$，随即获得 $|m|,|n|$ 的强上界。</li>
+    <li><strong>「相邻平方数之间没有平方」</strong>：证 $4n^2-3$ 不是平方的标准技巧是与 $(2n-1)^2,\ (2n)^2$ 比较——这类<strong>夹逼证不可平方</strong>是竞赛数论最常用的武器之一。</li>
+    <li><strong>有序对意识</strong>：$(1,-1)$ 与 $(-1,1)$ 是<strong>两组</strong>；$(0,0)$ 是 $mn=0$ 分支唯一贡献的解。答案 3 = 1（零解）+ 2（非零解）。</li>
+    <li><strong>完备性论证</strong>：找全解必须「构造 + 排除」两头都做。只会构造不会排除，就会在选择题里被 5、6、7 这类干扰项骗到。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 换系数热身</span> <span class="stars">★</span> <span class="form">形式｜换约束参数</span>
+    <p>把方程换成 $m^2+mn+n^2=3m^2n^2$，求它的<strong>全部</strong>整数有序对解，并写出完整解集。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：$\{(0,0),(1,1),(-1,-1)\}$，共 <strong>3</strong> 组（注意与原题符号不同）。</div>
+      <p>仍用齐次化归一：$mn=0$ 时给出 $(0,0)$。$mn\neq 0$ 时两边同除以 $3m^2n^2$：</p>
+      $$\frac{1}{3n^2}+\frac{1}{3mn}+\frac{1}{3m^2}=1 .$$
+      <p>三项绝对值都不超过 $\frac13$（因 $\frac1{m^2},\frac1{n^2}\le 1$，$\left|\frac1{mn}\right|\le 1$），要三项之和等于 1，<strong>每项都必须取到最大绝对值 1/3</strong>，即 $|m|=|n|=1$。代入 $n=1$：$m^2+m+1=3m^2\Rightarrow 2m^2-m-1=0\Rightarrow m=1$ 或 $m=-\tfrac12$，取 $m=1$；$n=-1$ 同理给 $m=-1$。合起来是 $(1,1),(-1,-1)$，加上 $(0,0)$ 共 3 组。</p>
+      <p class="hint">要点：系数 $3$ 让「每项必须取满」成为可能，所以这一族方程的解只能是 $0$ 与 $\pm1$；系数回到 $1$ 时三项和凑不出 $1$，只剩异号组合。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 有限区间计数</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数（限定范围 + 整除）</span>
+    <p>在 $1\le m\le n\le 100$ 的范围内，统计满足 $mn\mid m^2+n^2$ 的有序对 $(m,n)$ 的个数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>100</strong> 组，恰好是 $(1,1),(2,2),\dots,(100,100)$。</div>
+      <p>设 $d=\gcd(m,n)$，$m=da,\ n=db$，$\gcd(a,b)=1$。则 $mn\mid m^2+n^2$ 等价于 $d^2ab\mid d^2(a^2+b^2)$，即 $ab\mid a^2+b^2$。</p>
+      <p>由 $ab\mid a^2+b^2$ 可知 $a\mid b^2$ 且 $b\mid a^2$。由于 $\gcd(a,b)=1$，$a\mid b^2$ 迫使 $a=1$，同理 $b=1$。于是 $m=n=d$。</p>
+      <p>反之 $m=n$ 时 $mn=m^2$，$m^2+n^2=2m^2$，确实整除，成立。因此 $m=n=1,\dots,100$，共 <strong>100</strong> 组。（程序枚举验证：$1\le m,n\le100$ 共 10000 个格子，满足条件者恰为这 100 个对角线格子。）</p>
+      <p class="hint">要点：整除题的标配动作是「除以最大公因数 + 互素化简」，互素性是推出「某因子必须为 1」的钥匙。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 换结构求无穷解集</span> <span class="stars">★★★</span> <span class="form">形式｜极值/结构证明（刻画全部解）</span>
+    <p>求方程 $m^2+n^2+m+n=2mn$ 的<strong>全部</strong>整数有序对解，并说明解为什么有无穷多组。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：令 $k=m-n\ge 0$，则 $m+n=-k^2$，全部解为 $m=\frac{-k^2+k}{2},\ n=\frac{-k^2-k}{2}$（$k\ge 0$，含 $k=0$ 时的 $(0,0)$），<strong>无穷多组</strong>。</div>
+      <p>原式移项：$m^2+n^2-2mn+(m+n)=0$，即</p>
+      $$(m-n)^2+(m+n)=0 .$$
+      <p>令 $u=m-n$，$v=m+n$，得 $u^2+v=0$，即 $v=-u^2$。回代 $m=\frac{v+u}{2}=\frac{-u^2+u}{2}$，$n=\frac{v-u}{2}=\frac{-u^2-u}{2}$。</p>
+      <p><strong>整数性自动满足</strong>：$u$ 与 $u^2$ 同奇偶（$u^2\equiv u \pmod 2$），故 $u^2\pm u$ 为偶数，两数都是整数；$m,n$ 同奇偶也保证了 $u,v$ 的一致性。对每个整数 $u$ 都得到一组解（如 $u=0\to(0,0)$；$u=1\to(0,-1)$；$u=2\to(-1,-3)$；$u=3\to(-3,-6)$；$u=4\to(-6,-10)$……），$u$ 取遍全体整数即无穷多组。</p>
+      <p>程序验证：在 $[-500,500]^2$ 内暴力枚举得 63 组，与公式生成的集合<strong>完全一致</strong>（$[{-2000},2000]$ 内 125 组、$[-5000,5000]$ 内 199 组，同样逐一吻合）。</p>
+      <p class="hint">要点：出现 $m^2+n^2-2mn=(m-n)^2$ 时立刻整体代换 $u=m-n,\ v=m+n$——线性项 $m+n$ 正好被吸收成 $v$，方程退化成 $u^2+v=0$。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 存在性与反向构造</span> <span class="stars">★★★★</span> <span class="form">形式｜反向/存在性（韦达跳跃构造无穷族）</span>
+    <p>证明：方程 $m^2+n^2+5=5mn$ 存在无穷多组<strong>正整数</strong>解，并写出前 4 组（按 $m\le n$ 排序）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：存在无穷多组；前 4 组为 $(1,2),(1,3),(2,9),(3,14)$。</div>
+      <p><strong>第一步 · 找到种子解。</strong>试 $m=1$：$1+n^2+5=5n\Rightarrow n^2-5n+6=0\Rightarrow n=2$ 或 $3$。故 $(1,2)$、$(1,3)$ 都是正整数解。</p>
+      <p><strong>第二步 · 韦达跳跃（把解搬成新解）。</strong>把方程视为关于 $n$ 的二次方程 $n^2-5mn+(m^2+5)=0$。若 $n$ 是一个根，则由韦达定理另一个根为 $n'=5m-n$。</p>
+      <p>因此只要 $(m,n)$ 是解，$(m,\ 5m-n)$ 也是解；对称地 $(n,\ 5n-m)$ 也是解（互换两变量后同理）。</p>
+      <p><strong>第三步 · 迭代生成。</strong>从 $(1,2)$ 出发：$(2,\ 5\cdot2-1)=(2,9)$；再跳 $(9,\ 5\cdot9-2)=(9,43)$；继续 $(43,\ 5\cdot43-9)=(43,206)$……<br>
+      从 $(1,3)$ 出发：$(3,\ 5\cdot3-1)=(3,14)$；再跳 $(14,\ 5\cdot14-3)=(14,67)$……</p>
+      <p>于是正整数解有无穷多组，按 $m\le n$ 排序的前 4 组是 $(1,2),(1,3),(2,9),(3,14)$。</p>
+      <p>程序验证：$m\le100000,\ 1\le n\le 60$ 范围内搜到的最小 $m$ 依次为 $1,2,3,9,14,43,\dots$，与上述两条跳跃链吻合。</p>
+      <p class="hint">要点：<strong>韦达跳跃</strong>是「配对计数 / 递推 / 无穷解」三兄弟的共同引擎——只要方程对某个变量是二次的，另一个根就免费给你，且用整数加减乘出来必然还是整数。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 一般化与因子计数</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>求满足 $\dfrac1x+\dfrac1y=\dfrac1{2026}$（$x,y$ 为正整数）的有序对 $(x,y)$ 的个数；并对一般正整数 $n$ 证明：$\dfrac1x+\dfrac1y=\dfrac1n$ 的解数为 $d(n^2)$，其中 $d(k)$ 表示 $k$ 的正因数个数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：$2026=2\times 1013$（$1013$ 为质数），$d(2026^2)=(2+1)(2+1)=\mathbf{9}$ 组。</div>
+      <p><strong>一般化证明。</strong>由 $\frac1x+\frac1y=\frac1n$ 得 $n(x+y)=xy$，即</p>
+      $$xy-nx-ny=0\ \Longrightarrow\ (x-n)(y-n)=n^2 .$$
+      <p>这一步是全题的枢纽：把倒数方程变成了<strong>因子分解</strong>。由于 $x,y>0$ 且 $\frac1x<\frac1n$，必有 $x>n$、$y>n$，故 $x-n$ 与 $y-n$ 均为<strong>正</strong>因子。于是解与 $n^2$ 的<strong>有序正因子对</strong> $(a,\ n^2/a)$ 一一对应（$a=x-n$），个数正是 $d(n^2)$。</p>
+      <p>更精细地：若 $n=\prod p_i^{a_i}$，则 $n^2=\prod p_i^{2a_i}$，故 $d(n^2)=\prod(2a_i+1)$——<strong>恒为奇数</strong>，且当 $n$ 为平方数时 $d(n^2)$ 恰为完全平方数。</p>
+      <p><strong>代入 $n=2026$。</strong>$2026=2\times1013$，$1013$ 是质数，故 $2026^2=2^2\cdot1013^2$，$d=3\times3=9$。</p>
+      <p>九组解（由 $x=2026+a,\ y=2026+2026^2/a$，$a\mid 2026^2$）依次为：$(2027,4106702),(2028,2054364),(2030,1028195),(3039,6078),(4052,4052),(6078,3039),(1028195,2030),(2054364,2028),(4106702,2027)$。程序枚举确认恰为 9 组，且中间那组 $a=n$ 给出对称解 $x=y=4052$。</p>
+      <p class="hint">要点：<strong>倒数型丢番图方程 $\frac1x+\frac1y=\frac1n$ 与「$uv=n^2$ 的因子对」是同一件事</strong>；把分式方程两边乘开配方，是这类题唯一需要记住的机械步骤。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>丢番图方程五步法</h3>
+    <ol>
+      <li><strong>分零</strong>：先假设某变量为 0，单独处理 $mn=0$ / $xy=0$ 这类退化分支，别在除法里丢掉。</li>
+      <li><strong>归一</strong>：低次式 = 高次项时，两边同除以高次项，得到形如 $\frac1{m^2}+\frac1{mn}+\frac1{n^2}=1$ 的界约束，锁死变量范围。</li>
+      <li><strong>判方</strong>：把方程看成某变量的二次式，判别式必须是完全平方 → 转化为「某表达式是否为平方」，再用相邻平方数夹逼证否。</li>
+      <li><strong>构造</strong>：把剩下的有限情形逐一代入，<strong>一个不漏</strong>地列出全部解。</li>
+      <li><strong>验算 + 计数</strong>：把解代回原方程核对，并检查「有序对」是否被误合并（$(a,b)$ 与 $(b,a)$ 在 $a\ne b$ 时是两组）。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：先分零后归一，判方夹逼证无理；构造必须列齐全，有序成对别合并。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../amc10/index.html" style="margin-bottom:14px;">← 返回 AMC 10 总目录</a>
+    <div>AMC 10 错题精讲 · 丢番图方程 &nbsp;|&nbsp; 生成于 2026-09-27</div>
+  </div>
+</div>
+</body>
+</html>
