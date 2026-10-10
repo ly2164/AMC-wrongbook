@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 平方差分解</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/index.html">← 返回 AMC 8 总目录</a>
+    <div class="pager">
+      <!-- 若本页是最新题：启用上一题（去掉 disabled，填 href）；下一题保持禁用 -->
+      <a href="20261005-coat-hooks-spacing.html">‹ 上一题</a>
+      <a class="disabled" href="#">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>比平方数小 1 的四位数：平方差分解 + 半素数筛选</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261005</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2025AMC8(23)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">difference of squares</span></div>
+  </div>
+  <p class="lede">末两位 99 把平方根锁死在 10 的倍数上；再用平方差 $N=(m-1)(m+1)$ 把"恰好两个质数的乘积"翻译成"$m-1$ 与 $m+1$ 必须是一对孪生质数"——7 个候选只剩 3599。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    How many four-digit numbers have all three of the following properties?<br>
+    (I) The tens digit and ones digit are both 9.<br>
+    (II) The number is 1 less than a perfect square.<br>
+    (III) The number is the product of exactly two prime numbers.
+  </blockquote>
+  <p><strong>中文翻译</strong>：有多少个四位数同时满足下列三条性质？(I) 十位数字与个位数字都是 9；(II) 该数比某个完全平方数小 1；(III) 该数恰好是两个质数的乘积。</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2025/problem/23" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2025/problem/23</a><br>
+    官方给出的正确选项为 <strong>(B) 1</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 2</code></td><td>把 1599 = 39 × 41 也算进去了：39 = 3 × 13 不是质数，1599 实际是 <strong>3 个</strong>质数的乘积。同类陷阱还有 8099 = 89 × 91，其中 91 = 7 × 13。</td></tr>
+    <tr><td><code>答 0</code></td><td>只试了 $m=40,50,70,80,90$ 就收手，漏掉 $m=60$ 这一对孪生质数 59 / 61；或对 59、61 的质数判定下不了手（其实只需试除 2、3、5、7）。</td></tr>
+    <tr><td><code>答 3</code></td><td>把条件 (III) 读成"恰好两个大于 1 的因数"，于是把 2499 = 49 × 51、6399 = 79 × 81 这类也计入——49、51、81 全是合数。</td></tr>
+    <tr><td><code>漏掉 m = 100</code></td><td>认为 $100^2$ 是五位数就排除它，但 $100^2-1=9999$ 仍是四位数，必须检查（99 是合数，出局但过程不能省）。</td></tr>
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把"比一个完全平方数小 1"翻译成平方差分解 $(m-1)(m+1)$，也没有用"末两位 99 ⇒ $m^2$ 末两位 00 ⇒ $m$ 是 10 的倍数"把 9000 个候选压缩到 7 个。只能逐个试除，既慢又容易把合数因子误判成质数。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：平方差分解 + 末位同余锁定（推荐）</h3>
+  <p>设这个四位数为 $N$，由 (II) 记 $N = m^2 - 1$。</p>
+  <p><strong>第 1 步 · 用末两位锁住 $m$</strong>：由 (I)，$N$ 末两位是 99，于是</p>
+  $$m^2 = N + 1 \equiv 0 \pmod{100}.$$
+  <p>因为 $100 = 2^2 \cdot 5^2$，$m^2$ 同时被 $2^2$ 与 $5^2$ 整除，等价于 $m$ 同时被 2 与 5 整除，即 <strong>$10 \mid m$</strong>（$m$ 的个位是 0）。</p>
+  <p><strong>第 2 步 · 定出 $m$ 的范围</strong>：$N$ 是四位数，</p>
+  $$1000 \le m^2 - 1 \le 9999 \implies 32 \le m \le 100 .$$
+  <p>结合第 1 步：$m \in \{40, 50, 60, 70, 80, 90, 100\}$——只剩 7 个候选。注意 $m = 100$ 虽使 $m^2$ 变成五位数，但 $m^2-1 = 9999$ 仍是四位数，不能提前丢掉。</p>
+  <p><strong>第 3 步 · 把条件 (III) 翻译成"孪生质数"</strong>：由平方差公式</p>
+  $$N = m^2 - 1 = (m-1)(m+1).$$
+  <p>这里 $m-1 \ge 39$ 且 $m+1 \ge 41$，两个因子都大于 1。$N$ 要"恰好是两个质数的乘积"，就必须 <strong>$m-1$ 与 $m+1$ 两个都是质数</strong>——只要其中一个是合数，光它自己就会贡献至少 2 个质因数，总数 $\ge 3$。也就是说，我们只在找形如 $(p,\,p+2)$ 的<strong>孪生质数</strong>，且中间那个 $m=p+1$ 是 10 的倍数。</p>
+  <p><strong>第 4 步 · 逐个筛</strong>：</p>
+  <table>
+    <tr><th>$m$</th><th>$(m-1,\;m+1)$</th><th>判定</th><th>$N$</th></tr>
+    <tr><td>40</td><td>39, 41</td><td>39 = 3 × 13 ✗</td><td>1599</td></tr>
+    <tr><td>50</td><td>49, 51</td><td>49 = 7²，51 = 3 × 17 ✗</td><td>2499</td></tr>
+    <tr><td>60</td><td>59, 61</td><td><strong>都是质数 ✓</strong></td><td><strong>3599</strong></td></tr>
+    <tr><td>70</td><td>69, 71</td><td>69 = 3 × 23 ✗</td><td>4899</td></tr>
+    <tr><td>80</td><td>79, 81</td><td>81 = 3⁴ ✗</td><td>6399</td></tr>
+    <tr><td>90</td><td>89, 91</td><td>91 = 7 × 13 ✗</td><td>8099</td></tr>
+    <tr><td>100</td><td>99, 101</td><td>99 = 9 × 11 ✗</td><td>9999</td></tr>
+  </table>
+  <p>只有 $m = 60$ 通过：$N = 3599 = 59 \times 61$。</p>
+  <blockquote class="ok">
+    <strong>答案：1 个</strong>（3599）。
+  </blockquote>
+
+  <h3>方法二：反向枚举交叉验证</h3>
+  <p>先列出所有末两位为 99 的四位数：$1099, 1199, \dots, 9999$，共 90 个；逐个加 1 检验是否为完全平方数，通过的恰好是上面那 7 个（1599, 2499, 3599, 4899, 6399, 8099, 9999）。再对这 7 个做质因数分解：</p>
+  <p>$1599 = 3\cdot13\cdot41$（3 个）｜ $2499 = 3\cdot7^2\cdot17$（4 个）｜ $3599 = 59\cdot61$（<strong>2 个 ✓</strong>）｜ $4899 = 3\cdot23\cdot71$（3 个）｜ $6399 = 3^4\cdot79$（5 个）｜ $8099 = 7\cdot13\cdot89$（3 个）｜ $9999 = 3^2\cdot11\cdot101$（4 个）。</p>
+  <p>两条路线结论一致，说明方法一没有因"只信平方差分解"而漏解。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：判定 59、61 是不是质数，只需试除到 $\sqrt{61} < 8$，即检查 2、3、5、7 均不整除即可（61 ÷ 7 = 8 余 5）；回代验证 $3599 + 1 = 3600 = 60^2$，末两位 99 且是四位数，三条全部命中。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：difference of squares（平方差公式）$a^2-b^2 = (a-b)(a+b)$，取 $b=1$ 得 $m^2-1 = (m-1)(m+1)$；与末位（$\bmod 100$）同余约束配合，把大范围枚举压成个位数个候选；"恰好两个质数的乘积"即<strong>半素数 semiprime</strong>。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>$m^2-1 = (m-1)(m+1)$</strong>：两个因数相差 2，这是把"比平方数小 1"变成乘法结构的唯一抓手，别去硬算 $m^2$。</li>
+    <li><strong>末位定根</strong>：末两位 99 ⇒ $m^2 \equiv 0 \pmod{100}$ ⇒ $10 \mid m$（因为 $100 = 2^2\cdot 5^2$，$m^2$ 含 $2^2$ 与 $5^2$ 等价于 $m$ 含 2 与 5）。同类结论：末两位 24 ⇒ $m^2$ 末两位 25 ⇒ $m$ 个位是 5。</li>
+    <li><strong>半素数的判定</strong>：在 $(m-1)(m+1)$ 这个分解下两个因子都 &gt; 1，必须<strong>两个都是质数</strong>（孪生质数），任一是合数即出局；注意 $p^2 = p\cdot p$ 也算"两个质数的乘积"（重复的质因数要计数）。</li>
+    <li><strong>端点别丢</strong>：四位数 ⇒ $32 \le m \le 100$；$m=100$ 时 $m^2$ 已是五位数但 $m^2-1 = 9999$ 仍是四位数，必须检查。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 三位数版</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把满足"末两位是 99、且比某个完全平方数小 1"的<strong>三位数</strong>一个不漏地写出来，并求它们的和。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>399 与 899，和为 1298</strong></div>
+      <p>设 $N = m^2 - 1$。末两位 99 ⇒ $m^2 \equiv 0 \pmod{100}$ ⇒ $10 \mid m$。三位数条件 $100 \le m^2-1 \le 999$ ⇒ $m^2 \ge 101$ ⇒ $m \ge 11$；$m^2 \le 1000$ ⇒ $m \le 31$。故 $m \in \{20, 30\}$，对应 $N = 399,\; 899$，和为 $1298$。</p>
+      <p class="hint">要点：边界必须回代——$m=10$（给出 99，两位数）与 $m=40$（给出 1599，四位数）都满足"$10\mid m$"，却分别被下界和上界挡在门外。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 末两位换成 24</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把原题条件 (I) 的"末两位 99"改成"<strong>末两位 24</strong>"，其余两条不变（仍是四位数、仍要求恰好是两个质数的乘积）。问有几个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>0 个</strong></div>
+      <p>$N$ 末两位 24 ⇒ $m^2 = N+1$ 末两位 25 ⇒ $m$ 个位是 5，即 <strong>$m$ 是奇数</strong>。于是 $m-1$ 与 $m+1$ 都是偶数；四位数要求 $m \ge 32$，故两者都 $\ge 34 > 2$，<strong>全都是合数</strong>。而 $N=(m-1)(m+1)$ 要成为"两个质数的乘积"必须两侧都是质数，矛盾——一个都没有。</p>
+      <p>逐个核对也一致：候选为 $m \in \{35,45,55,65,75,85,95\}$，对应因子对 $(34,36)\;(44,46)\;(54,56)\;(64,66)\;(74,76)\;(84,86)\;(94,96)$，每对都是两个偶数。</p>
+      <p class="hint">要点：换了参数别急着重算 7 遍——先看"<strong>$m$ 的奇偶性</strong>"这个结构性质，一句话就能判死；这正是"换约束参数"类题要练的眼力。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 反向追问</span> <span class="stars">★★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>若 $n$ 是正整数且 $n^2 - 1$ 是<strong>质数</strong>，求所有满足条件的 $n$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$n = 2$</strong>（此时 $n^2-1 = 3$）</div>
+      <p>$n^2-1 = (n-1)(n+1)$。若它是质数，两个正因子中必有一个等于 1。$n+1 \ge 2$，所以只能 $n-1 = 1$，即 $n = 2$，得 $3$ 是质数 ✓。$n = 1$ 时 $n^2-1 = 0$ 不是质数；$n \ge 3$ 时两个因子都 $\ge 2$，乘积必为合数。</p>
+      <p class="hint">要点：这是原题第 3 步"两个因子都必须 &gt; 1"的极限版——分解出的因子个数直接给出质因数个数的下限。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 加一条筛选条件</span> <span class="stars">★★★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>原题那 7 个候选数（1599、2499、3599、4899、6399、8099、9999）中，<strong>含有质因子 3</strong> 的有几个？分别是哪些？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>5 个</strong>：1599、2499、4899、6399、9999</div>
+      <p>逐个分解：$1599 = 3\cdot13\cdot41$ ✓；$2499 = 3\cdot7^2\cdot17$ ✓；$3599 = 59\cdot61$ ✗；$4899 = 3\cdot23\cdot71$ ✓；$6399 = 3^4\cdot79$ ✓；$8099 = 7\cdot13\cdot89$ ✗；$9999 = 3^2\cdot11\cdot101$ ✓。</p>
+      <p>提速技巧：先看数字和能否被 3 整除——24 ✓、24 ✓、26 ✗、30 ✓、27 ✓、26 ✗、36 ✓，与分解结果完全一致。</p>
+      <p class="hint">要点：候选集是<strong>可复用资产</strong>——换一个附加条件就能在同一张分解表上再练一遍，不必从头枚举。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 先证明再放大范围</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明（代入大数）</span>
+    <p>① <strong>证明</strong>：若 $N = m^2-1$ 是两个质数的乘积，则 $m-1$ 与 $m+1$ 必为一对孪生质数。② 用这个结论处理<strong>五位数</strong>（末两位仍是 99），求出所有满足三条性质的五位数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：① 见证明；② <strong>4 个</strong>：22499 = 149×151、32399 = 179×181、57599 = 239×241、72899 = 269×271</div>
+      <p><strong>证明</strong>：$N = (m-1)(m+1)$，当 $m \ge 4$ 时两个因子都 &gt; 1。若其中之一是合数，它至少贡献 2 个质因数，另一个因子 &gt; 1 又至少贡献 1 个，合计 $\ge 3$ 个质因数；由算术基本定理（分解唯一），这与"$N$ 恰好是两个质数的乘积"矛盾。故两个因子都是质数，又相差 2，即孪生质数。∎</p>
+      <p><strong>五位数</strong>：$10000 \le m^2-1 \le 99999 \Rightarrow 101 \le m \le 316$；末两位 99 ⇒ $10 \mid m$，故 $m \in \{110,120,\dots,310\}$，共 21 个候选。按证明的结论只需判定 $(m-1,m+1)$ 是否同为质数，命中 $m = 150,\,180,\,240,\,270$：</p>
+      <table>
+        <tr><th>$m$</th><th>$(m-1,m+1)$</th><th>$N = m^2-1$</th></tr>
+        <tr><td>150</td><td>149, 151</td><td>22499</td></tr>
+        <tr><td>180</td><td>179, 181</td><td>32399</td></tr>
+        <tr><td>240</td><td>239, 241</td><td>57599</td></tr>
+        <tr><td>270</td><td>269, 271</td><td>72899</td></tr>
+      </table>
+      <p>其余 17 个候选至少一侧为合数，例如 $m=110$ 的 $111 = 3\cdot37$、$m=120$ 的 $119 = 7\cdot17$ 与 $121 = 11^2$、$m=290$ 的 $289 = 17^2$、$m=310$ 的 $309 = 3\cdot103$。</p>
+      <p class="hint">要点：先一般化成"判定孪生质数"，范围再大也只是同一件事重复 21 次——这就是把具体数字换成字母再代回大数的价值。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>「比平方数小 1」类题三步走</h3>
+    <ol>
+      <li><strong>见"比平方数小 1"就写平方差</strong>：$N = m^2-1 = (m-1)(m+1)$，两个因数相差 2——这是唯一能把它变成乘法结构的抓手。</li>
+      <li><strong>用末位（$\bmod 10$ / $\bmod 100$）反推 $m$ 的末位</strong>：末两位 99 ⇒ $10 \mid m$；范围由"四位数"定出 $32 \le m \le 100$，两边端点都要回代检验。</li>
+      <li><strong>对每个候选数质因数个数</strong>：$(m-1)(m+1)$ 要"恰好两个质数"⇔ 两个因子都是质数（孪生质数）；重复的质因数也要计数，$p^2$ 算两个。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：见平方差，先拆 $(m-1)(m+1)$；末位定根，候选七个；两因子都质数，才算半素数。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../amc8/index.html" style="margin-bottom:14px;">← 返回 AMC 8 总目录</a>
+    <div>AMC 8 错题精讲 · 平方差分解 &nbsp;|&nbsp; 生成于 2026-10-11</div>
+  </div>
+</div>
+</body>
+</html>
