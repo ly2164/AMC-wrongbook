@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 总目录</title>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --ok:#047857;
+    --t1:#2563eb; --t2:#7c3aed; --t3:#0891b2; --t4:#db2777; --t5:#dc2626;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.7; margin:0; background:#f5f7fb;
+  }
+  .page{max-width:880px; margin:0 auto; padding:56px 40px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:32px; margin:10px 0 6px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15.5px; margin:0 0 8px;}
+  .count{display:inline-block; margin-top:6px; font-size:13px; font-weight:600;
+    color:var(--accent); background:var(--accent-soft); border-radius:20px; padding:4px 14px;}
+  hr{border:none; border-top:1px solid var(--line); margin:32px 0;}
+  .grid{display:grid; gap:16px; margin-top:8px;}
+  .item{
+    display:block; text-decoration:none; color:inherit;
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; transition:all .16s ease; position:relative; overflow:hidden;
+  }
+  .item::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--accent);
+  }
+  .item:hover{border-color:var(--accent); box-shadow:0 6px 20px rgba(37,99,235,.10); transform:translateY(-1px);}
+  .item .row1{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+  .item .title{font-size:17.5px; font-weight:700;}
+  .item .date{font-size:13px; color:var(--sub);}
+  .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .badge{font-size:12px; font-weight:600; border-radius:20px; padding:3px 12px; background:var(--accent-soft); color:var(--accent);}
+  .badge.k{background:#f0fdf4; color:var(--ok);}
+  .badge.p{background:#fff7ed; color:var(--warn);}
+  .desc{color:var(--sub); font-size:14.5px; margin-top:6px;}
+  .empty{
+    background:#fff; border:1px dashed var(--line); border-radius:14px;
+    padding:40px; text-align:center; color:var(--sub); font-size:15px;
+  }
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center;
+    border-top:1px solid var(--line); padding-top:18px;}
+  a.link{color:var(--accent); text-decoration:none; font-weight:600;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>AMC 10 错题总目录</h1>
+  <p class="lede">这里汇总所有 AMC 10 错题精讲，点击任意一条进入详细解析（含知识点提炼 + 由易到难的配套练习）。</p>
+  <p class="lede" style="margin-top:10px;"><a class="link" href="../index.html">← 返回题库首页（切换 AMC 8 / AMC 10）</a></p>
+  <span class="count">共 2 道错题</span>
+
+  <hr>
+
+  <div class="grid">
+
+    <!-- ===== 错题条目模板：新增错题时，复制下面这个 <a class="item"> 块 ===== -->
+    <!-- 注意：.date 显示的是【错题页面的日期字段】，不是发布日期 -->
+    <a class="item" href="../problems/20261008-fuel-efficiency.html">
+      <div class="row1">
+        <span class="title">复合单位换算：Fuel Efficiency</span>
+        <span class="date">20261004</span>
+      </div>
+      <div class="desc">汽车燃油效率：升/100公里 与 英里/加仑 的复合单位换算，用「搭桥法」理清换算方向。</div>
+      <div class="badges">
+        <span class="badge k">Unit Conversion</span>
+        <span class="badge">2022AMC10A(4)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261004-pairing-counting.html">
+      <div class="row1">
+        <span class="title">配对计数：把 1~14 配成 7 对</span>
+        <span class="date">20261004</span>
+      </div>
+      <div class="desc">带约束的配对与分组计数：边界分析定角色、强制配对优先、阶乘收尾，附通用公式 ⌈n/2⌉!·⌊n/2⌋!。</div>
+      <div class="badges">
+        <span class="badge k">Pairing and grouping</span>
+        <span class="badge">2022AMC10A(14)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+    <!-- ===== 模板结束 ===== -->
+
+  </div>
+
+  <div class="footer">
+    AMC 10 错题精讲 · 总目录 &nbsp;|&nbsp; 由 WorkBuddy 维护 · 最近更新 2026-10-08
+  </div>
+</div>
+</body>
+</html>
