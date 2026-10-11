@@ -238,9 +238,15 @@ window.MathJax = {
 
   <h2>四、知识内核提炼</h2>
   <blockquote>
-    <strong>核心知识点</strong>：<strong>弦-半圆-球面定理</strong>：球面上任取两点 $A,B$，以弦 $AB$ 为直径、且所在平面垂直于
-      $\overrightarrow{OM}$（$M$ 为弦中点）的圆，<strong>必定整个落在球面上</strong>。
-      而 $k$ 段全等半圆首尾成环时，端点必构成大圆内接正 $k$ 边形，每段弧长 $=\pi R\sin\dfrac\pi k$。
+<strong>核心知识点（<u>勾股定理的直接推论，不是独立定理，更不叫"弦-半圆-球面定理"</u>）</strong>：
+    设球心 $O$、球半径 $R$，弦 $AB$ 的中点 $M$、$AB=\ell$，则
+    $$|OM|^2=R^2-\left(\frac{\ell}{2}\right)^2.$$
+    过 $M$ 作垂直于 $\overrightarrow{OM}$ 的平面，取其中以 $AB$ 为直径的圆（半径 $r=\frac{\ell}{2}$），
+    则该圆<strong>整个落在球面上</strong>——这是因为圆上任一点 $X$ 都满足
+    $$|OX|^2=|OM|^2+|MX|^2=\left(R^2-\frac{\ell^2}{4}\right)+\frac{\ell^2}{4}=R^2.$$
+    本题只需记住 $r=\frac{\ell}{2}$，以及 $k$ 段全等半圆首尾成环时端点构成大圆内接正 $k$ 边形，
+    每段弧长 $=\pi R\sin\dfrac\pi k$。官方 concepts 标注的是 <code>sphere; arc; 3D geometry</code>，
+    并不存在以人名命名的定理，考场上也不会用到。
   </blockquote>
   <p>必须掌握的要点：</p>
   <ol>
@@ -248,8 +254,15 @@ window.MathJax = {
       通常是大圆；然后相邻端点的圆心角就是 $\dfrac{2\pi}{k}$。</li>
     <li>弦长公式必须记牢：<strong>$|AB|=2R\sin\dfrac\theta2$</strong>（$\theta$ 为圆心角）。
       本题 $\theta=90^\circ$，故弦长 $=2\cdot2\cdot\sin45^\circ=2\sqrt2$。</li>
-    <li>牢记恒等式 $|OM|^2+r^2=R^2$（$M$ 弦中点、$r$ 半圆半径）——它既是
-      <strong>「这段弧确实在球面上」的判据</strong>，也是反求未知量的常用工具。</li>
+    <li><strong>分清「闭合」与「光滑」——这是本题最容易想多的一步。</strong>官方题面只说
+      <code>creating a closed curve</code>（一条闭合曲线），<strong>从头到尾没有要求 smooth</strong>。
+      事实上 $k$ 段全等半圆首尾相接时，接点 $P_i$ 处前一段的切向与后一段的切向恰好
+      <strong>反向（共线）</strong>，夹角 $180^\circ$：$k=3,4,5,6,8$ 数值验证均如此。
+      所以接点处<strong>必有折角</strong>，<u>任何 $k\ge3$ 都不光滑，奇数个也不例外</u>。
+      闭合只保证「首尾相接不断开」，不保证「没有棱」——原题（含 $k=4$）本身就只是个闭合折线状曲线。</li>
+    <li>牢记恒等式 $|OM|^2+r^2=R^2$（$M$ 弦中点、$r=\frac{|AB|}{2}$ 为半圆半径）——它既是
+      <strong>「这段弧确实在球面上」的判据</strong>，也是反求未知量的常用工具。
+      它来自直角三角形 $OMA$ 的勾股定理，<u>不需要任何额外定理支撑</u>。</li>
     <li>本题五个选项几乎可以被<strong>通项公式 $n=\left(kR\sin\frac\pi k\right)^2$</strong>一次性解释：
       $k=4$ 给 $32$、$k=3$ 给 $27$、$k=6$ 给 $36$。能把干扰项解释出来，才是真的吃透了这道题。</li>
   </ol>
@@ -318,8 +331,10 @@ window.MathJax = {
 
   <div class="prob">
     <span class="tag t4">第 4 题 · 改成三个半圆</span> <span class="stars">★★★★</span> <span class="form">形式｜换构型参数</span>
-    <p>若不是四个，而是<strong>三个全等的半圆</strong>首尾相接成闭合曲线（三个端点在大圆上构成正三角形），
-      则总长为 $\pi\sqrt n$，求 $n$。<br>（提示：这正是官方干扰项 (E) 的来历。）</p>
+    <p>若不是四个，而是<strong>三个全等的半圆</strong>首尾相接成<strong>闭合</strong>曲线（三个端点在大圆上构成正三角形，
+      每段弧交替取在弦的两侧以免自交），则总长为 $\pi\sqrt n$，求 $n$。<br>
+      （提示：这正是官方干扰项 (E) 的来历。注意题面只要求闭合，三段弧在接点处<strong>有折角、不光滑</strong>；
+      这是合法的构型，$n$ 依然有唯一值。）</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$n=27$</strong></div>
@@ -327,6 +342,13 @@ window.MathJax = {
       半圆半径 $r=\sqrt3$，每段弧长 $\pi\sqrt3$，总长 $=3\pi\sqrt3=\pi\sqrt{27}$。
       验证合法性：$|OM|=R\cos60^\circ=1$，$|OM|^2+r^2=1+3=4=R^2$ ✓，曲线确实贴在球面上。
       数值积分也得 $3\times5.441398=16.324194=3\pi\sqrt3$，完全一致。</p>
+      <p class="hint">要点：<strong>「三段也能闭合」是真的，但别顺手把它说成「光滑闭合」。</strong>
+      三个接点处前后两弧的切向夹角都是 $180^\circ$，曲线上有<strong>三处折角</strong>，所以绝不平滑
+      （数值积分验证：$k=3$ 时每个接点的切向夹角 $180.00^\circ$；$k=4,5,6,8$ 同样如此，可见
+      <strong>折角与奇偶无关，$k\ge3$ 一律有折角</strong>）。另外，$k=3$ 时每对弧都相邻，
+      数值检验非相邻自交不存在，构型本身合法。正确的说法是：
+      <strong>三段半圆能首尾相接成一条简单的闭合曲线，把球面分成两块，但绝不平滑。</strong>
+      官方干扰项 (E) $27$ 只考长度、不看光滑性，所以 $n=27$ 依然是有效答案。</p>
       <p class="hint">要点：<strong>干扰项不是随便编的</strong>：它们往往是「同一道题、参数差一点」的正解。
       练习时把每个干扰项反推一遍，是性价比最高的复盘动作。</p>
     </details>
@@ -334,7 +356,7 @@ window.MathJax = {
 
   <div class="prob">
     <span class="tag t5">第 5 题 · $k$ 段半圆的通式</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
-    <p>一般化：球半径为 $R$，用 $k$ 个全等半圆首尾相接成闭合曲线（$k\ge 3$）。
+    <p>一般化：球半径为 $R$，用 $k$ 个全等半圆首尾相接成<strong>闭合</strong>曲线（$k\ge 3$）。
       证明总长为 $\pi\cdot kR\sin\dfrac\pi k$，据此指出 $k=3,4,6$ 分别对应哪个选项。</p>
     <details>
       <summary>👉 点击查看解析</summary>
@@ -347,6 +369,9 @@ window.MathJax = {
         k=6:\ (12\sin30^\circ)^2=6^2=36.$$
       另外 $k=2$ 得 $(4\sin90^\circ)^2=16$，$k=5$ 得 $35$，$k=8$ 得 $37$——计算机对
       $k=2,3,4,5,6,8$ 逐个数値积分，结果全部吻合。</p>
+      <p class="hint">要点：通式只管<strong>长度</strong>，不管<strong>光滑性</strong>——$k$ 任意，
+      每个接点处两弧切向都是反向共线（夹角 $180^\circ$），所以 $k\ge3$ 全都有折角，$k$ 是奇数也一样。
+      另外注意 $k\to\infty$ 时 $n\to(2\pi)^2\approx39.5$，即通式的上界是 $39.5$，这解释了为什么五个选项全都落在 $27\sim37$ 之间。</p>
       <p class="hint">要点：有了通式，整道题从「空间想象」降级为「<strong>代入一个公式</strong>」。
       这也解释了为什么 $32$ 夹在 $27$ 与 $36$ 之间：$k$ 越大，$k\sin\frac\pi k$ 越接近 $\pi$ 从而 $n$ 递增趋于 $(2\pi)^2\approx39.5$。</p>
     </details>
