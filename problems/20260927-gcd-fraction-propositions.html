@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 最大公因数 · 素因子逐个击破</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2023AMC10B.html">← 返回 2023AMC10B</a>
+    <div class="pager">
+      <!-- 若本页是最新题：启用上一题（去掉 disabled，填 href）；下一题保持禁用 -->
+      <a href="20260927-box-space-diagonal.html">‹ 上一题：长方体体对角线</a>
+      <a href="20260927-frog-geometric-probability.html">下一题：青蛙几何概率 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>分式方程里的 gcd：把等式拆成四条同余式</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20260927</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2023AMC10B(18)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Greatest Common Divisor</span></div>
+  </div>
+  <p class="lede">$\gcd$ 不是整体对象，而是<strong>逐个素因子</strong>的判断。
+      把 $210=2\cdot3\cdot5\cdot7$ 拆开，等式 $c=15a+14b$ 在每个模数下退化成一句极简单的话，
+      四条拼起来恰好等于「$\gcd(a,14)=1$ 且 $\gcd(b,15)=1$」。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Suppose $a$, $b$, and $c$ are positive integers such that
+      $\dfrac a{14}+\dfrac b{15}=\dfrac c{210}$. Which of the following statements are necessarily true?
+      <br><br>
+      $\textbf{I.}$ If $\gcd(a,14)=1$ or $\gcd(b,15)=1$ or both, then $\gcd(c,210)=1$.<br>
+      $\textbf{II.}$ If $\gcd(c,210)=1$, then $\gcd(a,14)=1$ or $\gcd(b,15)=1$ or both.<br>
+      $\textbf{III.}$ $\gcd(c,210)=1$ if and only if $\gcd(a,14)=\gcd(b,15)=1$.
+      <br><br>
+      $\textbf{(A)}\ \text{I, II, and III} \qquad \textbf{(B)}\ \text{I only} \qquad
+      \textbf{(C)}\ \text{I and II only}$<br>
+      $\textbf{(D)}\ \text{III only} \qquad \textbf{(E)}\ \text{II and III only}$
+  </blockquote>
+  <p><strong>中文翻译</strong>：设正整数 $a,b,c$ 满足 $\dfrac a{14}+\dfrac b{15}=\dfrac c{210}$。下列命题中哪些必然成立？
+      <br><br>
+      <strong>I.</strong> 若 $\gcd(a,14)=1$ 或 $\gcd(b,15)=1$（或两者），则 $\gcd(c,210)=1$。<br>
+      <strong>II.</strong> 若 $\gcd(c,210)=1$，则 $\gcd(a,14)=1$ 或 $\gcd(b,15)=1$（或两者）。<br>
+      <strong>III.</strong> $\gcd(c,210)=1$ 当且仅当 $\gcd(a,14)=\gcd(b,15)=1$。</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/18" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2023B/problem/18</a><br>
+    官方给出的正确选项为 <strong>(E) II and III only</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>选 (A)：三个命题全信</code></td><td>没有认真去找 I 的反例。取 $a=1$（满足 $\gcd(1,14)=1$）、$b=3$，则
+      $c=15\cdot1+14\cdot3=57$，而 $\gcd(57,210)=3\neq1$——<strong>一个反例就否掉 I</strong>。
+      数学里「或」是很弱的前提：只保证一边干净，另一边照样能把因子带进来。</td></tr>
+    <tr><td><code>选 (D) III only：看出 III 对，却没意识到 III 已经蕴含 II</code></td><td>III 说「$\gcd(c,210)=1\iff$ 两者<strong>都</strong> $=1$」。取其向右的方向可得
+      $\gcd(c,210)=1\Rightarrow$ 两者都 $=1\Rightarrow$ <strong>至少一个</strong> $=1$，
+      这正是 II 的结论。逻辑链必须走完：<strong>「且」推出「或」</strong>，所以 III 真必然导致 II 真。
+      计算机穷举 $1\le a,b<400$ 共得到 I 的反例 80370 个、II 与 III 的反例均为 0。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：把 $\gcd(c,210)$ 当成一个黑箱整体去猜，而不是<strong>按素因子逐个拆解</strong>。
+      $\gcd$ 题的标准动作永远是：分解模数 $\to$ 对每个素因子单独取模 $\to$ 把各条结论拼起来。
+      一旦拆开，本题的三个命题几乎是自动判定的。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：素因子逐个击破（推荐）</h3>
+  <p><strong>第 0 步 · 把分式方程化成整式。</strong>两边乘 $210$：</p>
+      $$15a+14b=c.$$
+      <p><strong>第 1 步 · 分解 $210$。</strong>$210=2\cdot3\cdot5\cdot7$，其中
+      $14=2\cdot7$、$15=3\cdot5$。<strong>注意 $14$ 与 $15$ 互素</strong>，这一步是全局关键。</p>
+      <p><strong>第 2 步 · 对每个素因子取模。</strong></p>
+      <table>
+        <tr><th>模 $p$</th><th>$c=15a+14b$ 化简</th><th>结论</th></tr>
+        <tr><td>$p=2$</td><td>$c\equiv 1\cdot a+0\equiv a$</td><td>$2\mid c\iff 2\mid a$</td></tr>
+        <tr><td>$p=7$</td><td>$c\equiv 1\cdot a+0\equiv a$</td><td>$7\mid c\iff 7\mid a$</td></tr>
+        <tr><td>$p=3$</td><td>$c\equiv 0+2b\equiv-b$</td><td>$3\mid c\iff 3\mid b$</td></tr>
+        <tr><td>$p=5$</td><td>$c\equiv 0+4b\equiv-b$</td><td>$5\mid c\iff 5\mid b$</td></tr>
+      </table>
+      <p>（左边两行用到 $p\mid14$ 且 $p\nmid15$；右边两行用到 $p\mid15$ 且 $p\nmid14$。）</p>
+      <p><strong>第 3 步 · 拼起来。</strong></p>
+      $$\gcd(c,210)=1\iff \text{$c$ 不被 }2,3,5,7\text{ 整除}
+        \iff \underbrace{2\nmid a,\ 7\nmid a}_{\gcd(a,14)=1}\ \text{且}\
+            \underbrace{3\nmid b,\ 5\nmid b}_{\gcd(b,15)=1}.$$
+      <p>这正是命题 <strong>III</strong>，故 III 为真。<br>
+      III 的「$\Rightarrow$」方向给出 $\gcd(c,210)=1\Rightarrow$ 两者都 $=1\Rightarrow$ 至少一个 $=1$，
+      即 <strong>II</strong> 为真。<br>
+      至于 <strong>I</strong>：$a=1,b=3\Rightarrow c=57,\ \gcd(57,210)=3\neq1$，反例成立，故 I 为假。</p>
+      <p>所以选 <strong>(E) II and III only</strong>。</p>
+  <h3>方法二：从一般命题俯瞰（看清 14 与 15 为什么必须互素）</h3>
+  <p>把具体数字换成字母看得更清楚。设 $m,n$ <strong>互素</strong>，$c=na+mb$。对 $m$ 的任一素因子 $p$：</p>
+      $$p\mid m,\ p\nmid n\ \Longrightarrow\ c=na+mb\equiv na \pmod p,\ \gcd(n,p)=1
+        \ \Longrightarrow\ p\mid c\iff p\mid a.$$
+      <p>对 $n$ 的任一素因子 $q$ 同理得到 $q\mid c\iff q\mid b$。由于 $\gcd(m,n)=1$，
+      $mn$ 的素因子恰好是 $m$ 的素因子与 $n$ 的素因子的<strong>不交并</strong>，于是</p>
+      $$\boxed{\gcd(c,mn)=1\iff \gcd(a,m)=1\ \text{且}\ \gcd(b,n)=1}$$
+      <p>取 $m=14,\ n=15$ 立刻得到 III。<strong>互素这个前提至关重要</strong>：一旦失效（例如换成 $6$ 与 $10$，
+      见练习题第 3 题），上面的推理在某一步就会断掉，命题 III 随之崩塌。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：三重交叉验证：① 具体反例 $a=1,b=3\Rightarrow c=57,\gcd(57,210)=3$ 一举否掉 I；
+      ② 逻辑蕴含 III $\Rightarrow$ II，无需额外验证；
+      ③ 程序穷举 $1\le a,b\le 399$（约 16 万组）统计到 I 的反例 80370 个，而 II、III 的反例数均为 <strong>0</strong>。
+      做 $\gcd$ 命题判断题时，<strong>先手算一个小反例、再想逻辑蕴含、最后才考虑穷举</strong>，效率最高。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：若 $m,n$ 互素且 $c=na+mb$，则对每个素因子而言
+      $c$ 的可整除性<strong>完全由 $a$ 或 $b$ 单独决定</strong>：$m$ 的素因子看 $a$，$n$ 的素因子看 $b$。
+      因此 $\gcd(c,mn)=1$ 精确地等价于「$\gcd(a,m)=1$ <strong>且</strong> $\gcd(b,n)=1$」。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>$\gcd$ 题的第一动作永远是<strong>质因数分解</strong>：$210=2\cdot3\cdot5\cdot7$。
+      不要对着一个大数空想。</li>
+    <li>处理线性组合 $c=na+mb$ 时，找 $m$ 的素因子 $p$（此时 $p\nmid n$），则 $c\equiv na\ (\mathrm{mod}\ p)$，
+      而 $\gcd(n,p)=1$ 允许<strong>两边同时消去 $n$</strong>——这就是「$p\mid c\iff p\mid a$」的来源。</li>
+    <li>命题 II 是「或」，III 是「且」。记住<strong>「且」蕴含「或」</strong>，
+      所以一旦 III 成立，II 自动成立，不必另行验证。反之不成立，这正是 I 会翻车的地方。</li>
+    <li>见到多条命题判断，务必先做两件事：<strong>找一个最小的具体反例</strong>、<strong>理一遍命题间的蕴含关系</strong>。
+      这两步能在半分钟内砍掉一半选项。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 一个周期内的清点</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>在范围 $1\le a\le 14$、$1\le b\le 15$ 内，有多少个有序对 $(a,b)$ 使得 $\gcd(c,210)=1$？
+      （先列出 $1\sim14$ 中与 $14$ 互素的数、$1\sim15$ 中与 $15$ 互素的数。）</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>48 对（$=6\times 8$）</strong></div>
+      <p>$1\sim14$ 中与 $14=2\cdot7$ 互素的是 $1,3,5,9,11,13$，共 $\varphi(14)=6$ 个；
+      $1\sim15$ 中与 $15=3\cdot5$ 互素的是 $1,2,4,7,8,11,13,14$，共 $\varphi(15)=8$ 个。
+      由 III，$\gcd(c,210)=1$ 当且仅当 $a$ 取自前者、$b$ 取自后者，且二者独立，故 $6\times8=48$ 对。
+      注意这里<strong>不需要逐个算 $c$</strong>，这就是结构化认知带来的效率。</p>
+      <p class="hint">要点：一旦认清「独立性」，计数就退化成两个 $\varphi$ 相乘；φ 函数 $\varphi(14)=6,\varphi(15)=8$
+      正好给出两个池子的大小。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 加上 $a=b$ 再来数</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>在上一题的范围内再追加一个条件 <strong>$a=b$</strong>：
+      有多少个 $n$ 使得 $(a,b)=(n,n)$ 满足 $\gcd(c,210)=1$？请全部写出来。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>3 个：$n=1,\ 11,\ 13$</strong></div>
+      <p>此时需要同时满足 $\gcd(n,14)=1$ 与 $\gcd(n,15)=1$，即 $\gcd(n,\operatorname{lcm}(14,15))=\gcd(n,210)=1$。
+      在 $1\le n\le 14$ 中（$a$ 的上界限制）与 $210=2\cdot3\cdot5\cdot7$ 互素的只有 $1,11,13$，共 3 个。
+      验证：$n=11\Rightarrow c=15\cdot11+14\cdot11=319=11\cdot29$，$\gcd(319,210)=1$ ✓。</p>
+      <p class="hint">要点：「$a$ 的条件」与「$b$ 的条件」原本作用在两个独立变量上，一旦令 $a=b$，
+      两个条件就<strong>合并到同一个变量</strong>上，池子从两个变成一个，答案骤降。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 把 14、15 换成不互素的 6、10</span> <span class="stars">★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把方程改成 $\dfrac a6+\dfrac b{10}=\dfrac c{30}$（即 $c=5a+3b$，$30=2\cdot3\cdot5$）。
+      仿照原题写出三条对应的命题（把 $14\to6$、$15\to10$、$210\to30$），判断哪些仍然成立。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>只有 II 成立；I 与 III 都不成立</strong></div>
+      <p>取模分析：$3\mid c\iff3\mid a$（因 $c\equiv2a$，$\gcd(2,3)=1$），$5\mid c\iff5\mid b$（$c\equiv3b$）。
+      但 $p=2$ 出问题了：因为 $2$ <strong>同时整除</strong> $6$ 与 $10$，$c=5a+3b\equiv a+b\ (\mathrm{mod}\ 2)$，
+      $c$ 的奇偶由 $a,b$ 共同决定，无法单独归因给任一个变量。<br>
+      于是：即使 $\gcd(a,6)=\gcd(b,10)=1$（此时 $a,b$ 皆为奇数），也有 $a+b$ 为偶数从而 $2\mid c$，
+      $\gcd(c,30)\ge2$——III 的「$\Leftarrow$」方向恒不成立。<br>
+      II 仍成立（$\gcd(c,30)=1\Rightarrow a+b$ 奇、$3\nmid a$、$5\nmid b$，若 $\gcd(a,6)\ne1$ 则必有 $2\mid a$，
+      从而 $b$ 为奇数，配合 $5\nmid b$ 得 $\gcd(b,10)=1$）。<br>
+      程序穷举 $1\le a,b\le599$：I 的反例 119560 个、II 的反例 0 个、III 的反例 144000 个，与手算一致。</p>
+      <p class="hint">要点：<strong>$\gcd(m,n)=1$ 是一般命题成立的前提</strong>，不是可选项。
+      一旦某个素因子被两边共享，$c$ 在该素因子上的行为就变成 $a,b$ 的联合函数，独立性消失。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般命题与证明</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>设 $m,n$ 为<strong>互素</strong>正整数，$c=na+mb$。证明：
+      $$\gcd(c,mn)=1\iff \gcd(a,m)=1\ \text{且}\ \gcd(b,n)=1.$$
+      并说明原题是它的哪个特例。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>证明见下；原题是 $m=14,\ n=15,\ mn=210$ 的特例，该式正是命题 III</strong></div>
+      <p><strong>（$\Rightarrow$）</strong>若 $\gcd(a,m)\ne1$，取素因子 $p\mid\gcd(a,m)$。
+      则 $p\mid m$ 且 $p\nmid n$（互素）。由 $c=na+mb$ 得 $c\equiv na\ (\mathrm{mod}\ p)$，而 $p\mid a$ 故 $p\mid c$，
+      于是 $p\mid\gcd(c,mn)$，与 $\gcd(c,mn)=1$ 矛盾。同理 $\gcd(b,n)$ 必须为 $1$。<br>
+      <strong>（$\Leftarrow$）</strong>若 $\gcd(a,m)=\gcd(b,n)=1$，设 $p$ 是 $mn$ 的任一素因子。
+      由 $\gcd(m,n)=1$，$p$ 恰整除 $m,n$ 之一：若 $p\mid m$ 则 $c\equiv na$，$p\nmid n$ 且 $p\nmid a$ 故 $p\nmid c$；
+      若 $p\mid n$ 则 $c\equiv mb$，同理 $p\nmid c$。所有素因子都不整除 $c$，故 $\gcd(c,mn)=1$。∎<br>
+      程序对 $(m,n)=(14,15),(3,5),(4,9),(7,8),(5,7)$ 五组互素参数在 $1\le a,b\le300$ 内穷举，<strong>零反例</strong>。</p>
+      <p class="hint">要点：证明的两个方向其实很不一样：反向（$\Leftarrow$）靠「$mn$ 的素因子不交地分配给 $m$、$n$」，
+      正向（$\Rightarrow$）靠反证。互素在两边都被用到，缺一不可。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 大范围补集</span> <span class="stars">★★★★★</span> <span class="form">形式｜补集排除</span>
+    <p>在 $1\le a\le 210$、$1\le b\le 210$ 的范围内，有多少个有序对 $(a,b)$ 使得
+      $\gcd(c,210)\neq 1$？（建议先数满足 $\gcd(c,210)=1$ 的对数，再用总数去减。）</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>34020 对</strong></div>
+      <p>总对数 $210^2=44100$。满足 $\gcd(c,210)=1$ 的由独立性得
+      $\#\{a\le210:\gcd(a,14)=1\}\times\#\{b\le210:\gcd(b,15)=1\}$。
+      $210=15\times14$，故前者 $=15\times\varphi(14)=15\times6=90$；$210=14\times15$，后者 $=14\times\varphi(15)=14\times8=112$。
+      于是互素对数 $=90\times112=10080$，所求 $=44100-10080=34020$。</p>
+      <p class="hint">要点：当范围长度恰好是<strong>模数的整数倍</strong>时，互素元素的个数就是「倍数 $\times\ \varphi$」，
+      可以直接口算——这是容斥原理被打包后的便利形式。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>卡片 · 线性组合的 gcd 三步判据</h3>
+    <ol>
+      <li><strong>化整 + 分解</strong>：先通分去分母得到 $c=na+mb$，再把模数分解成素数乘积。</li>
+      <li><strong>逐个素因子取模</strong>：对每个 $p$，看它整除 $m$ 还是 $n$，把含另一项的加数消掉，
+      得到形如「$p\mid c\iff p\mid a$」的一句判词。</li>
+      <li><strong>拼接 + 查蕴含</strong>：把所有判词拼成充要条件（通常是某个「且」式）；
+      再检查命题之间的逻辑关系——别忘了「且」自动蕴含「或」。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：分母通分变加法，模数拆成素因子；谁的因子归谁管，互素才敢两边摊。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 最大公因数 · 素因子逐个击破 &nbsp;|&nbsp; 生成于 2026-09-27</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
