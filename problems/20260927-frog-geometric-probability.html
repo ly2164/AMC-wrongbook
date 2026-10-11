@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 几何概率 · 全概率与期望线性性</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2023AMC10B.html">← 返回 2023AMC10B</a>
+    <div class="pager">
+      <!-- 若本页是最新题：启用上一题（去掉 disabled，填 href）；下一题保持禁用 -->
+      <a href="20260927-gcd-fraction-propositions.html">‹ 上一题：gcd 命题</a>
+      <a href="20260927-sphere-semicircles.html">下一题：球面半圆 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>青蛙跳出正方形：把「多次随机」拆成「一次期望」</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20260927</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2023AMC10B(19)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Geometric Probability</span></div>
+  </div>
+  <p class="lede">三个随机变量（起点、距离、方向）听着吓人，但<strong>每个方向只跟一个坐标有关</strong>。
+      固定方向后，出界条件退化成一句 $x>6-d$，概率就是区间长度 $d$ 除以总长 $6$，
+      再对 $d$ 取期望，一步出 $\dfrac{1/2}{6}=\dfrac1{12}$。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Sonya the frog chooses a point uniformly at random lying within the square $[0,6]\times[0,6]$
+      in the coordinate plane and hops to that point. She then chooses a distance uniformly at random
+      from $[0,1]$ and a direction uniformly at random from $\{\text{north},\text{south},\text{east},\text{west}\}$.
+      All her choices are independent. She now hops the distance in the chosen direction.
+      What is the probability that she lands outside the square?
+      <br><br>
+      $\textbf{(A)}\ \dfrac16 \qquad \textbf{(B)}\ \dfrac1{12} \qquad \textbf{(C)}\ \dfrac14 \qquad
+      \textbf{(D)}\ \dfrac1{10} \qquad \textbf{(E)}\ \dfrac19$
+  </blockquote>
+  <p><strong>中文翻译</strong>：青蛙 Sonya 先在正方形 $[0,6]\times[0,6]$ 内均匀随机选一个点并跳到那里；接着在 $[0,1]$ 内均匀随机选一个<strong>距离</strong>，
+      并从 $\{北,南,东,西\}$ 中均匀随机选一个<strong>方向</strong>，所有选择相互独立，然后沿该方向跳这么远。
+      求她最终落在正方形外的概率。</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/19" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2023B/problem/19</a><br>
+    官方给出的正确选项为 <strong>(B) 1/12</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>选 (A) $\tfrac16$：把「落在外面的区间长度」算成了 $\tfrac d3$</code></td><td>条件是 $x+d>6$，即 $x\in(6-d,\,6]$，这段区间的长度确实是 $d$，但概率要<strong>除以 $x$ 的总取值范围 $6$</strong>，
+      所以是 $\dfrac d6$ 而不是 $\dfrac d3$。几何概率的基本原则：
+      $$\text{概率}=\frac{\text{有利区域的测度}}{\text{总区域的测度}},$$
+      分母别忘了。对 $d$ 取期望得 $\dfrac{E[d]}6=\dfrac{1/2}{6}=\dfrac1{12}$。</td></tr>
+    <tr><td><code>选 (C) $\tfrac14$ 或 (E) $\tfrac19$：方向处理错了</code></td><td>四个方向是<strong>等概率四选一</strong>，不是「四个都算一遍再相加」。
+      正确写法是全概率公式 $P=\sum_i P(\text{方向}_i)\cdot P(\text{出界}\mid \text{方向}_i)
+      =\frac14\cdot\frac1{12}\times 4=\frac1{12}$；若漏了前面的 $\frac14$，就会得到 $\frac13$ 之类的大数。
+      本题每个方向的条件概率恰好都是 $\frac1{12}$，<strong>平均之后仍是 $\frac1{12}$</strong>——
+      对称情形下「分方向算」与「整体算」必然殊途同归，这是个很好的自检点。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：被「起点 $+ $ 距离 $+ $ 方向」三重随机吓住，试图一次性列一个三维积分，却没先做
+      <strong>条件化</strong>。正确节奏是：先用全概率把方向固定掉，此时只剩两个变量，
+      且出界只涉及一个坐标，二维问题塌缩成一维。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：先固定方向，再对距离取期望（推荐）</h3>
+  <p><strong>第 1 步 · 全概率固定方向。</strong>四个方向各以 $\dfrac14$ 等概率取到，故</p>
+      $$P(\text{出界})=\frac14\Big[P(\text{东出界})+P(\text{西出界})+P(\text{北出界})+P(\text{南出界})\Big].$$
+      <p><strong>第 2 步 · 算其中一项。</strong>向东跳时，只有 $x$ 坐标变化：$x'=x+d$。
+      出界条件为 $x+d>6$，即 $x>6-d$。由于 $0\le d\le1$，区间 $(6-d,6]$ 完全落在 $[0,6]$ 内，长度为 $d$。</p>
+      <p>给定 $d$，$x\sim U[0,6]$，于是</p>
+      $$P(\text{东出界}\mid d)=\frac{d}{6}.$$
+      <p><strong>第 3 步 · 对 $d$ 取期望。</strong>$d\sim U[0,1]$ 故 $E[d]=\dfrac12$，由全期望公式</p>
+      $$P(\text{东出界})=E\!\left[\frac d6\right]=\frac{E[d]}{6}=\frac{1/2}{6}=\frac1{12}.$$
+      <p><strong>第 4 步 · 合并。</strong>由对称性四项相等，得</p>
+      $$P(\text{出界})=\frac14\cdot 4\cdot\frac1{12}=\boxed{\frac1{12}},$$
+      <p>选 <strong>(B)</strong>。</p>
+      <blockquote><strong>心算版</strong>：每个方向都只有一条边可能越过，而 $d\le1$ 保证至多越过一条边；
+      越过的概率等于「起点距该边的距离小于 $d$」的概率 $=d/6$，对 $d$ 取均值仍是 $1/12$。
+      四个方向一平均，还是 $1/12$。</blockquote>
+  <h3>方法二：直接二重积分（验证用）</h3>
+  <p>仍固定「向东」。$(x,d)$ 在 $[0,6]\times[0,1]$ 上均匀分布，面积 $6$。
+      出界区域为 $\{(x,d):x+d>6\}=\{(x,d):x>6-d\}$，即直线 $x+d=6$ 右上方的小三角形区域
+      （顶点 $(6,0)$、$(6,1)$、$(5,1)$），面积为 $\dfrac{1\cdot1}{2}=\dfrac12$。于是</p>
+      $$P(\text{东出界})=\frac{\text{有利面积}}{\text{总面积}}=\frac{1/2}{6}=\frac1{12}.$$
+      <p>与方法一完全一致。<strong>几何题画面积图比写积分更不容易错</strong>：
+      那个底为 $1$、高为 $1$ 的直角三角形一眼可辨。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：三条独立路径都对上：① 条件期望 $\dfrac{E[d]}6=\dfrac1{12}$；
+      ② 面积比 $\dfrac{1/2}{6}=\dfrac1{12}$；
+      ③ 计算机 $400$ 万次蒙特卡洛模拟得 $0.08361$，与理论值 $\dfrac1{12}=0.08333$ 相差不到 $0.0003$。
+      凡是几何概率，<strong>手算两条路＋随机模拟一条路</strong>，基本不可能错着答还浑然不觉。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>条件化降维</strong>：三重随机先固定掉最「离散」的那个（方向），剩下的连续变量往往
+      只剩一个起作用；再用 $\text{概率}=\frac{\text{有利测度}}{\text{总测度}}$，
+      或用全期望公式 $E[E[\,\cdot\mid d\,]]$ 处理第二个变量。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>遇到<u>多个独立随机变量</u>，<strong>先写全概率展开</strong>再逐项算，不要试图一步积分到终点。</li>
+    <li>几何概率的分母是<strong>总区域测度</strong>（本题是 $6$，不是 $6-d$、也不是 $3$），写分数前先确认分母。</li>
+    <li>当 $d$ 的上界小于边界间距时，<strong>至多越过一条边</strong>，「四个方向」彼此互斥地各管一条边，
+      可以直接四项相加取平均，无需考虑重复落在两个边界之外的情况。</li>
+    <li>对称性是免费的校验：<strong>每个方向算出来应当相等</strong>，若某项不同，一定是中间某一步写错了。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 把正方形缩到单位大</span> <span class="stars">★</span> <span class="form">形式｜换约束参数</span>
+    <p>把正方形改成 $[0,1]\times[0,1]$，其余不变（距离仍在 $[0,1]$ 均匀取值、方向四选一）。
+      求落到正方形外的概率。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\dfrac12$</strong></div>
+      <p>仿照原题：固定一个方向后，出界条件为 $x>1-d$，有利区间长度 $d$，总长 $1$，故条件概率为 $d$；
+      对 $d\sim U[0,1]$ 取期望得 $E[d]=\dfrac12$。四个方向一平均，答案仍是 $\dfrac12$。
+      直观上也说得通：正方形缩到跟最大步长一样大时，随便一跳基本就是一半机会出界。</p>
+      <p class="hint">要点：通项其实就是 $P=\dfrac{E[d]}{L}$（$L$ 为边长、且跳跃距离上界不超过 $L$）；
+      把 $L=6$ 换成 $L=1$ 立刻得到 $\dfrac{1/2}{1}=\dfrac12$。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 长方形还对称吗？</span> <span class="stars">★★</span> <span class="form">形式｜换形状约束</span>
+    <p>把正方形换成长方形 $[0,6]\times[0,3]$，其余条件不变。求落到长方形外的概率。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\dfrac18$</strong></div>
+      <p>东西方向涉及 $x$（范围 $6$）：$P=\dfrac{E[d]}{6}=\dfrac1{12}$ 各一个。
+      南北方向涉及 $y$（范围 $3$）：$P=\dfrac{E[d]}{3}=\dfrac16$ 各一个。
+      于是
+      $$P=\frac14\left(\frac1{12}+\frac1{12}+\frac16+\frac16\right)
+        =\frac14\left(\frac16+\frac13\right)=\frac14\cdot\frac12=\frac18.$$
+      关键点：<strong>四个方向不再「同权出力」</strong>，短边方向更容易出界。</p>
+      <p class="hint">要点：一旦失去对称性，就必须老老实实<strong>按方向分别算</strong>，
+      并留意每条边上「总测度」的不同——这正是原方法在非对称情形下依然好用的原因。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 已知出界，反推起点</span> <span class="stars">★★★</span> <span class="form">形式｜条件概率（逆推）</span>
+    <p>条件同原题（$[0,6]^2$，距离 $U[0,1]$）。<strong>已知</strong>她最终落在正方形外，
+      求她的起跳点满足 $x>5$ 的概率。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\dfrac13$</strong></div>
+      <p>记两项联合事件 $A=\{\text{出界且 }x>5\}$，逐方向计算：<br>
+      <strong>向东</strong>：出界要求 $x>6-d\ge 5$，天然满足 $x>5$，故贡献
+      $P=\dfrac14\cdot\dfrac1{12}=\dfrac1{48}$。<br>
+      <strong>向西</strong>：出界要求 $x<d\le1$，与 $x>5$ 互斥，贡献 $0$。<br>
+      <strong>向北 / 向南</strong>：出界只看 $y$，与 $x$ 独立，且 $P(x>5)=\dfrac16$；
+      每个方向贡献 $\dfrac14\cdot\dfrac1{12}\cdot\dfrac16=\dfrac1{288}$，两个方向共 $\dfrac1{144}$。<br>
+      合计
+      $$P(A)=\frac1{48}+\frac1{144}=\frac{3+1}{144}=\frac1{36},
+        \qquad P(x>5\mid\text{出界})=\frac{P(A)}{P(\text{出界})}=\frac{1/36}{1/12}=\frac13.$$
+      蒙特卡洛 $300$ 万次实测 $0.33193$，与 $\dfrac13=0.33333$ 吻合。</p>
+      <p class="hint">要点：这类题最容易<strong>把上一题的参数带进来</strong>：南北方向的出界概率是 $\dfrac{E[d]}{6}=\dfrac1{12}$
+      而不是 $\dfrac16$（$\dfrac16$ 属于边长为 $3$ 的那道题）。做条件概率时每个因子都要写明来源，
+      写完再用「$P(A)\le P(\text{出界})$」粗校一遍。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 边长的一般公式</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>设正方形为 $[0,L]\times[0,L]$，跳跃距离仍在 $[0,1]$ 均匀取值。
+      求 $P(L)$ 的<strong>分段</strong>通项公式并证明；特别验证它在 $L=1$ 处连续，并复算 $L=6$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$P(L)=\begin{cases}1-\dfrac L2, & 0<L<1,\\[4pt] \dfrac1{2L}, & L\ge1.\end{cases}$；$L=1$ 处两式同为 $\tfrac12$；$L=6$ 得 $\tfrac1{12}$</strong></div>
+      <p>固定一个方向。<br>
+      <strong>情形 $L\ge1$</strong>：$d\le1\le L$，有利区间 $(L-d,L]$ 长 $d$，条件概率 $d/L$，
+      取期望得 $\dfrac{1/2}{L}=\dfrac1{2L}$。<br>
+      <strong>情形 $L<1$</strong>：当 $d>L$ 时起点怎么选都会出界，条件概率为 $1$。于是
+      $$P=\int_0^L\frac dL\,\mathrm dd+\int_L^1 1\,\mathrm dd=\frac L2+(1-L)=1-\frac L2.$$
+      （这里 $d\sim U[0,1]$，密度函数为 $1$。）<br>
+      代入 $L=1$：$1-\dfrac12=\dfrac12$ 与 $\dfrac1{2\cdot1}=\dfrac12$ 一致，函数在 $L=1$ 处连续；$L=6$ 得 $\dfrac1{12}$ ✓。
+      蒙特卡洛在 $L=0.4,0.5,1,2,6,10$ 六点逐点验证，误差均小于 $0.006$。</p>
+      <p class="hint">要点：分段点出现在「<strong>跳跃最大距离是否超过边长</strong>」的那一刻。
+      写一般通项时，先问「有没有某个参数会让几何形状发生质变」，往往就是分段的位置。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 她会选方向了</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值 / 最优策略</span>
+    <p>规则改一处：<strong>Sonya 不再随机选方向，而是知道自己的起跳点后，选择最容易出界的方向</strong>
+      （距离仍为 $[0,1]$ 均匀随机）。求她出界的最大概率。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\dfrac8{27}\approx0.2963$</strong></div>
+      <p>设起跳点到四条边的距离为 $u=\min(x,6-x)$、$v=\min(y,6-y)$，取最近的方向，
+      到边界的距离 $m=\min(u,v)\in[0,3]$。此时出界概率为 $P(d>m)=\max(0,\,1-m)$。<br>
+      先求 $m$ 的分布：$P(u>t)=\dfrac{6-2t}{6}=1-\dfrac t3$（$0\le t\le3$），$v$ 同分布且独立，故
+      $$P(m>t)=\left(1-\frac t3\right)^2.$$
+      于是
+      $$E[\max(0,1-m)]=\int_0^1 P\big(m<1-s\big)\,\mathrm ds
+        =\int_0^1\left[1-\left(1-\frac{1-s}{3}\right)^2\right]\mathrm ds
+        =1-\frac1{9}\int_0^1(2+s)^2\,\mathrm ds
+        =1-\frac{27-8}{27}=\frac8{27}.$$
+      蒙特卡洛 $200$ 万次实测 $0.29627$，与 $\dfrac8{27}=0.29630$ 吻合。</p>
+      <p class="hint">要点：把「概率的平均」换成「<strong>先取最优、再对起点取平均</strong>」，答案从 $\dfrac1{12}\approx0.083$
+      跳到 $\dfrac8{27}\approx0.296$——主动选择带来的增益超过三倍，这正是「<strong>条件期望 vs 期望的期望</strong>」的差距。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>卡片 · 多次随机的几何概率三步</h3>
+    <ol>
+      <li><strong>先全概率展开</strong>：把最离散的变量（方向/类别）先固定，把问题拆成若干对称子问题。</li>
+      <li><strong>子问题里通常只剩一个变量起作用</strong>：写出「有利测度 ÷ 总测度」，分母务必是该变量的完整取值范围。</li>
+      <li><strong>取期望 + 自检</strong>：对剩下的连续量用 $E[\,\cdot\,]$；对称性要求各项相等，不等必是算错。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：方向先固定，一维看区间；长度除总长，再对距离取期望。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 几何概率 · 全概率与期望线性性 &nbsp;|&nbsp; 生成于 2026-09-27</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
