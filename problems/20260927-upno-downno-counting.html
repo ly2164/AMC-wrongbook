@@ -181,6 +181,10 @@ window.MathJax = {
   <hr>
 
   <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/16" target="_blank" rel="noopener">2023AMC10B(16)</a> 的书面解答一致——upno 的数字只能取自 $\{1..9\}$ 且至少 2 个，downno 可含末尾 0；$U=2^9-10$、$D=2^{10}-11$，差 511。
+    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+  </blockquote>
   <h3>方法一：子集双射（推荐 · 三步出答案）</h3>
   <p><strong>第 0 步 · 建立双射。</strong>严格单调的数字一旦集合确定，排法就<strong>唯一</strong>：
       $\{2,5,8\}$ 只能排成 $258$（增）或 $852$（减）。所以「数 upno / downno 的个数」等于「数允许的数字子集个数」。</p>
