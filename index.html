@@ -85,6 +85,33 @@
     display:inline-block; font-size:12px; font-weight:600; border-radius:20px;
     padding:3px 12px; background:#f1f5f9; color:var(--sub); margin:0 6px 6px 0;
   }
+
+  /* ---- v3.1 双栏考试布局（第一层直接承载考试卡片） ---- */
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:8px; align-items:start;}
+  @media(max-width:680px){ .cols{grid-template-columns:1fr;} }
+  .colhead{margin-bottom:14px;}
+  .colhead .tag{
+    display:inline-block; font-size:12px; font-weight:700; letter-spacing:.06em;
+    border-radius:6px; padding:3px 10px; margin-bottom:8px;
+  }
+  .colhead.t8 .tag{background:var(--a8-soft); color:var(--a8);}
+  .colhead.t10 .tag{background:var(--a10-soft); color:var(--a10);}
+  .colhead h2{font-size:21px; margin:0;}
+  .colhead .sub{font-size:13.5px; color:var(--sub); margin:4px 0 0;}
+  .item{
+    display:block; text-decoration:none; color:inherit;
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:18px 22px; margin-bottom:14px; transition:all .16s ease; position:relative; overflow:hidden;
+  }
+  .item::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px;}
+  .col.t8 .item::before{background:var(--a8);}
+  .col.t10 .item::before{background:var(--a10);}
+  .col.t8 .item:hover{border-color:var(--a8); box-shadow:0 6px 20px rgba(124,58,237,.12); transform:translateY(-1px);}
+  .col.t10 .item:hover{border-color:var(--a10); box-shadow:0 6px 20px rgba(37,99,235,.10); transform:translateY(-1px);}
+  .item .row1{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:6px;}
+  .item .title{font-size:17px; font-weight:700;}
+  .item .date{font-size:12.5px; color:var(--sub);}
+  .item .desc{color:var(--sub); font-size:13.5px; margin-top:4px;}
   .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center;
     border-top:1px solid var(--line); padding-top:18px;}
 </style>
@@ -94,44 +121,58 @@
 
   <div class="kicker">AMC Wrongbook</div>
   <h1>❤️精讲库</h1>
-  <p class="lede">按竞赛等级分区。每个分区收录该等级的❤️精讲：精准解析 → 核心知识点 → 由易到难 5 道配套练习。</p>
+  <p class="lede">按竞赛等级与考试场次收录❤️精讲：左栏 AMC 8、右栏 AMC 10，点击任意一场考试进入该场错题卡片（精准解析 → 核心知识点 → 由易到难 5 道配套练习）。</p>
 
   <hr>
 
-  <div class="grid">
+  <!-- ===== v3.1 双栏考试布局：左 AMC 8 / 右 AMC 10，卡片按考试时间倒排（最新在上） ===== -->
+  <!-- 新增考试：在对应 .col 里按时间顺序插入一个 <a class="item"> 块 -->
+  <div class="cols">
 
-    <!-- ===== 分区卡片模板：新增等级分区时，复制下面这个 <div class="track"> 块 ===== -->
-    <div class="track t8">
-      <span class="tag">AMC 8</span>
-      <h2>AMC 8 ❤️精讲</h2>
-      <div class="stat"><b>2</b><span>道错题</span></div>
-      <div class="members">
-        <span class="m"><b>YC</b><em>2</em> 道</span>
+    <div class="col t8">
+      <div class="colhead t8">
+        <span class="tag">AMC 8</span>
+        <h2>AMC 8 ❤️精讲</h2>
+        <p class="sub">共 1 场考试 · 2 道错题 · 成员 YC</p>
       </div>
-      <div class="exams">
-        <a href="amc8/2025AMC8.html">2025AMC8</a>
-      </div>
-      <p class="desc">面向 8 年级及以下，聚焦算术、基础代数、初等几何与计数概率入门。</p>
-      <a class="go" href="amc8/index.html">全部考试 →</a>
+
+      <a class="item" href="amc8/2025AMC8.html">
+        <div class="row1">
+          <span class="title">2025AMC8</span>
+          <span class="date">2 道错题</span>
+        </div>
+        <div class="desc">等距挂衣钩(22)、平方差分解(23)</div>
+      </a>
+
     </div>
 
-    <div class="track t10">
-      <span class="tag">AMC 10</span>
-      <h2>AMC 10 ❤️精讲</h2>
-      <div class="stat"><b>3</b><span>道错题</span></div>
-      <div class="members">
-        <span class="m"><b>YY</b><em>3</em> 道</span>
+    <div class="col t10">
+      <div class="colhead t10">
+        <span class="tag">AMC 10</span>
+        <h2>AMC 10 ❤️精讲</h2>
+        <p class="sub">共 2 场考试 · 3 道错题 · 成员 YY</p>
       </div>
-      <div class="exams">
-        <a href="amc10/2022AMC10A.html">2022AMC10A</a>
-        <a href="amc10/2023AMC10B.html">2023AMC10B</a>
-      </div>
-      <p class="desc">面向 10 年级及以下，含代数进阶、几何、数论与计数概率的中高难度题型。</p>
-      <a class="go" href="amc10/index.html">全部考试 →</a>
+
+      <a class="item" href="amc10/2023AMC10B.html">
+        <div class="row1">
+          <span class="title">2023AMC10B</span>
+          <span class="date">1 道错题</span>
+        </div>
+        <div class="desc">丢番图方程(14)</div>
+      </a>
+
+      <a class="item" href="amc10/2022AMC10A.html">
+        <div class="row1">
+          <span class="title">2022AMC10A</span>
+          <span class="date">2 道错题</span>
+        </div>
+        <div class="desc">复合单位换算(4)、配对计数(14)</div>
+      </a>
+
     </div>
-    <!-- ===== 模板结束 ===== -->
 
   </div>
+  <!-- ===== 布局结束 ===== -->
 
   <hr>
 
