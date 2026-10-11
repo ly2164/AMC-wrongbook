@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 单调数字计数 · 子集双射</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2023AMC10B.html">← 返回 2023AMC10B</a>
+    <div class="pager">
+      <!-- 若本页是最新题：启用上一题（去掉 disabled，填 href）；下一题保持禁用 -->
+      <a href="20260927-diophantine-equation.html">‹ 上一题：丢番图方程</a>
+      <a href="20260927-box-space-diagonal.html">下一题：长方体体对角线 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>单调数字计数：|U − D| 的组合解释</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20260927</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2023AMC10B(16)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Subsets</span></div>
+  </div>
+  <p class="lede">单调数字的排列方式是<strong>唯一</strong>的，所以「数数」等于「数子集」；
+      而递增与递减唯一的差别只有一处——<strong>0 能不能出现在末位</strong>。想通这一点，
+      答案不用算组合和就能直接写出 $2^9-1$。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Define an <em>upno</em> to be a positive integer of 2 or more digits where the digits are
+      strictly increasing moving left to right. Similarly, define a <em>downno</em> to be a positive
+      integer of 2 or more digits where the digits are strictly decreasing moving left to right.
+      For instance, the number $258$ is an upno and $8620$ is a downno. Let $U$ equal the total number
+      of upnos and let $D$ equal the total number of downnos. What is $|U-D|$?
+      <br><br>
+      $\textbf{(A)}\ 512 \qquad \textbf{(B)}\ 10 \qquad \textbf{(C)}\ 0 \qquad \textbf{(D)}\ 9 \qquad \textbf{(E)}\ 511$
+  </blockquote>
+  <p><strong>中文翻译</strong>：称一个至少两位、且各位数字<strong>从左到右严格递增</strong>的正整数为 <em>upno</em>；
+      类似地，称一个至少两位、且各位数字<strong>从左到右严格递减</strong>的正整数为 <em>downno</em>。
+      例如 $258$ 是 upno，$8620$ 是 downno。设 $U$ 为 upno 的总数，$D$ 为 downno 的总数，求 $|U-D|$。</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/16" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2023B/problem/16</a><br>
+    官方给出的正确选项为 <strong>(E) 511</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>选 (C) 0：以为「递增和递减对称，把数倒过来就配对」</code></td><td>配对思路是对的，但漏了一个断点：$258 \leftrightarrow 852$ 确实配对，
+      可 $8620$ 倒过来是 $0268$，<strong>首位是 0，根本不是一个四位数</strong>（它其实是三位数 $268$）。
+      凡是<strong>含 0</strong> 的 downno 都在配对中落单，绝不是零差。</td></tr>
+    <tr><td><code>选 (B) 10 / (D) 9：只看到「downno 多了一个数字 0」就报 10，或只数了两位数的情形报 9</code></td><td>「多一个数字」的说法太粗糙。含 0 的 downno 不是 10 个，而是
+      <strong>任选一个 $\{1,\dots,9\}$ 的非空子集再配上 0</strong>，共 $2^9-1=511$ 个。
+      这里把「一个元素」当成了「一个子集」，是典型的<strong>线性思维替代指数思维</strong>。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有建立「<strong>严格单调 ⟺ 子集</strong>」这个双射，只能逐位列组合数再求和，
+      于是一方面容易在 $\{0,\dots,9\}$ 与 $\{1,\dots,9\}$ 之间搞混取值范围，
+      另一方面算完得到一个「干巴巴的数字」却毫无校验手段。真正的抓手是：
+      <strong>一个数字集合一旦选定，单调排列方式唯一</strong>，所以计数对象从「数」降维成「集合」。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：子集双射（推荐 · 三步出答案）</h3>
+  <p><strong>第 0 步 · 建立双射。</strong>严格单调的数字一旦集合确定，排法就<strong>唯一</strong>：
+      $\{2,5,8\}$ 只能排成 $258$（增）或 $852$（减）。所以「数 upno / downno 的个数」等于「数允许的数字子集个数」。</p>
+
+      <p><strong>第 1 步 · 数 upno。</strong>严格递增时，若集合含 $0$，则 $0$ 必然落在<strong>首位</strong>，
+      那就不是合法的正整数写法了（例如 $\{0,2,5\}$ 只能写成 $025$，实际是两位数 $25$）。
+      因此 <strong>upno 的数字只能从 $\{1,2,\dots,9\}$ 里选</strong>，且至少选 $2$ 个：
+      $$U=\sum_{k=2}^{9}\binom9k=2^9-\binom90-\binom91=512-1-9=502.$$</p>
+
+      <p><strong>第 2 步 · 数 downno。</strong>严格递减时，$0$ 只会落到<strong>末位</strong>，
+      完全合法（$8620$ 就是例子）。因此 downno 的数字可从 $\{0,1,\dots,9\}$ 全集中选，至少选 $2$ 个：
+      $$D=\sum_{k=2}^{10}\binom{10}k=2^{10}-\binom{10}0-\binom{10}1=1024-1-10=1013.$$</p>
+
+      <p><strong>第 3 步 · 相减。</strong>$|U-D|=1013-502=\boxed{511}$，选 <strong>(E)</strong>。</p>
+
+      <blockquote><strong>更狠的一步到位</strong>：把每个数「倒过来写」，不含 $0$ 的 downno 与全体 upno
+      <strong>一一对应</strong>；落单的只有<strong>含 0 的 downno</strong>。这类数的集合形如
+      $\{0\}\cup T$，其中 $T$ 是 $\{1,\dots,9\}$ 的<strong>非空</strong>子集（非空是因为至少要两位）。
+      于是直接得到
+      $$D-U=\#\{T\subseteq\{1,\dots,9\}:T\neq\varnothing\}=2^9-1=511,$$
+      连 $U$、$D$ 都不必分别算出来。</blockquote>
+  <h3>方法二：按位数逐项对账（帕斯卡恒等式）</h3>
+  <p>设 $U_k$、$D_k$ 分别为 $k$ 位的 upno、downno 个数。由上面的取值范围：
+      $U_k=\binom9k$（$k\le 9$，$k\ge 10$ 时为 $0$），$D_k=\binom{10}k$（$k\le 10$）。</p>
+      <p>对 $2\le k\le 10$，用帕斯卡恒等式 $\binom{10}k=\binom9k+\binom9{k-1}$ 逐项相减：
+      $$D_k-U_k=\binom{10}k-\binom9k=\binom9{k-1}.$$</p>
+      <p>求和并换元 $j=k-1$：
+      $$D-U=\sum_{k=2}^{10}\binom9{k-1}=\sum_{j=1}^{9}\binom9j=2^9-\binom90=511.$$</p>
+      <table>
+        <tr><th>位数 $k$</th><th>$U_k=\binom9k$</th><th>$D_k=\binom{10}k$</th><th>差 $=\binom9{k-1}$</th></tr>
+        <tr><td>2</td><td>36</td><td>45</td><td>9</td></tr>
+        <tr><td>3</td><td>84</td><td>120</td><td>36</td></tr>
+        <tr><td>4</td><td>126</td><td>210</td><td>84</td></tr>
+        <tr><td>5</td><td>126</td><td>252</td><td>126</td></tr>
+        <tr><td>6</td><td>84</td><td>210</td><td>126</td></tr>
+        <tr><td>7</td><td>36</td><td>120</td><td>84</td></tr>
+        <tr><td>8</td><td>9</td><td>45</td><td>36</td></tr>
+        <tr><td>9</td><td>1</td><td>10</td><td>9</td></tr>
+        <tr><td>10</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><th>合计</th><th>502</th><th>1013</th><th>511</th></tr>
+      </table>
+      <p>这张表同时解释了三个干扰项：<strong>(D) 9</strong> 是只算了两位数的差，
+      <strong>(B) 10</strong> 是把 $k=9,10$ 两行只顾着看 $\binom91$，<strong>(A) 512</strong> 则是 $2^9$ 忘了减 1。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：两条独立路径必须对上：① 分别算 $U=502$、$D=1013$；② 直接算差 $=2^9-1=511$；
+      ③ 位数表逐行相加也得 $511$。此外计算机枚举 $10\le n<10^7$ 内严格递增的数得 <strong>492</strong> 个，
+      恰等于 $\binom92+\cdots+\binom97=36+84+126+126+84+36$，与 $U_k$ 的一整段对得上——
+      组合模型一旦有问题，这种「部分和」最容易先露馅。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>严格单调的数字 ⟺ 一个数字子集</strong>（排列方式唯一）。
+      upno 的池子是 $\{1,\dots,9\}$（9 个），downno 的池子是 $\{0,\dots,9\}$（10 个），
+      差别<strong>只在 0 能不能用</strong>，根子是「首位不得为 0」。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>见到「严格递增 / 严格递减 / 各位互不相同」的计数题，第一反应应该是
+      <strong>选子集</strong>而不是「先排再除」——因为排法本来就只有一种。</li>
+    <li>凡是涉及「正整数」「$k$ 位数」的计数，都要单独检查 <strong>0 的位置</strong>：
+      递增时 0 只能居首位（非法），递减时 0 只落末位（合法）。本题 511 这个差，全部来自这一条。</li>
+    <li>$2^n-1$ 长相的答案几乎都意味着「<strong>非空子集</strong>」。
+      看到 511 应立刻反应 $511=2^9-1=7\times 73$，并回头去找那个 9 元集。</li>
+    <li>算完务必用 <strong>第二种算法对账</strong>（分别求和 vs 直接求差 vs 按位列表），
+      本题三个干扰项恰好是三种「半途而废」的算路，单算一遍极易选中其中一个。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 两个数字的天下</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>只考虑<strong>两位数</strong>：两位数的 upno 有多少个？两位数的 downno 有多少个？
+      请把最小的三个和最大的三个各写出来验证你的计数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>upno 36 个，downno 45 个，相差 9</strong></div>
+      <p>两位 upno 从 $\{1,\dots,9\}$ 选 2 个：$\binom92=36$；最小的三个是 $12,13,14$，
+      最大的三个按数值是 $78,79,89$（十位为 8 的两位 upno 只剩 $89$，再往下依次是 $79$、$78$）。
+      两位 downno 从 $\{0,\dots,9\}$ 选 2 个：$\binom{10}2=45$；最小的三个是 $10,20,21$，
+      最大的三个是 $98,97,96$。差 $45-36=9$，正是位数表中 $k=2$ 那一行的 $\binom91$。</p>
+      <p class="hint">要点：downno 那一头多出来的 9 个就是 $10,20,\dots,90$ 这 9 个「含 0 的两位数」——
+      「多出来的部分＝含 0 的那批」这条规律在最小的情形已经完全显现。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 锁定数字 5</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>在<strong>全体</strong> upno 中，数字里<strong>恰好含有 5</strong> 的有多少个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>255</strong></div>
+      <p>含 5 的 upno 对应一个含 5 的子集 $S\subseteq\{1,\dots,9\}$，$|S|\ge 2$。
+      其余元素从另外 8 个数字里挑，个数 $=|S|-1\ge 1$（因为必须再配至少一个数字才够两位），故
+      $$\sum_{j=1}^{8}\binom8j=2^8-1=255.$$
+      另一种思路交叉验证：全体 upno 共 $502$ 个，不含 5 的 upno 是从剩下 8 个数字里选的非单元素且非空的集合，
+      即 $2^8-1-8=247$ 个，$502-247=255$，一致。</p>
+      <p class="hint">要点：「必选某元素」就把剩余问题降为更小全集的子集计数；注意下界跟着从「≥2 个」
+      变成「其余≥1 个」，是这类题最容易漏掉的一步。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 三位数中的「路人」</span> <span class="stars">★★★</span> <span class="form">形式｜补集排除</span>
+    <p>在三位数（$100\sim 999$，共 900 个）中，<strong>既不是 upno 也不是 downno</strong> 的有多少个？
+      先回答：一个三位数可能同时是 upno 和 downno 吗？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>不可能同时成立（交集为 0）；既非 upno 亦非 downno 的共 696 个</strong></div>
+      <p>同时要求 $d_1<d_2<d_3$ 与 $d_1>d_2>d_3$，两者不能并存，故交集为空，可以直接相加。
+      三位 upno：$\binom93=84$；三位 downno：$\binom{10}3=120$（含 $\{0,1,2\}\to 210$ 这类末位为 0 的）。
+      于是答案 $=900-84-120=696$。</p>
+      <p class="hint">要点：用补集前<strong>必须先确认交集是否为空</strong>——这点在本类题中总是成立
+      （严格增与严格减互斥），但每次都要顺手证一句，别养成「默认不交」的习惯。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 位数通项</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>记 $U_k$、$D_k$ 为 $k$ 位的 upno、downno 个数。
+      证明：<strong>对 $2\le k\le 10$ 恒有 $D_k-U_k=\binom9{k-1}$</strong>，并用它重新求出 $D-U$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>由帕斯卡恒等式得证；$D-U=\sum_{j=1}^{9}\binom9j=2^9-1=511$</strong></div>
+      <p>$k\le 9$ 时 $U_k=\binom9k$、$D_k=\binom{10}k$，由帕斯卡恒等式
+      $\binom{10}k=\binom9k+\binom9{k-1}$ 得 $D_k-U_k=\binom9{k-1}$。
+      $k=10$ 时 $U_{10}=0$（9 个非零数字撑不出 10 位严格递增），$D_{10}=\binom{10}{10}=1$（即 $9876543210$），
+      而 $\binom99=1$，公式依然成立。故
+      $$D-U=\sum_{k=2}^{10}\binom9{k-1}=\sum_{j=1}^{9}\binom9j=2^9-\binom90=511.$$</p>
+      <p class="hint">要点：逐位恒等式比只算总数更可靠：它把 511 拆成 9 个可逐个核对的分量，
+      任何一个池子取错都会在某一位上当场暴露。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 拉开差距的新规则</span> <span class="stars">★★★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把规则改一改：称一个至少两位、且<strong>相邻两位之差至少为 2</strong>
+      （即 $d_{i+1}\ge d_i+2$）的递增数为 <em>gapno</em>。求 gapno 的总个数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>79</strong></div>
+      <p>作变量替换把它变回「严格递增」：令 $e_i=d_i-(i-1)$。则
+      $$e_{i+1}-e_i=(d_{i+1}-d_i)-1\ \ge\ 2-1=1>0,$$
+      所以 $e_1<e_2<\cdots<e_k$ 严格递增。范围上 $e_1=d_1\ge 1$，$e_k=d_k-(k-1)\le 9-k+1=10-k$，
+      即 $e$ 是从 $\{1,2,\dots,10-k\}$ 中选 $k$ 个严格递增的数，共 $\binom{10-k}{k}$ 个。于是
+      $$\binom82+\binom73+\binom64+\binom55=28+35+15+1=79,$$
+      $k\ge 6$ 时为 $0$。计算机枚举 $10\le n<10^6$ 实测同样得到 $79$，验证无误。</p>
+      <p class="hint">要点：核心技巧是<strong>「减去线性漂移」把带间隔的单调变回严格单调</strong>
+      （$e_i=d_i-(i-1)$），这是处理「间隔至少为 $m$」类组合题的通用手法。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>卡片 · 单调数字计数三步法</h3>
+    <ol>
+      <li><strong>认出双射</strong>：严格单调 ⟺ 数字集合，排法唯一，别再「先排列再除」。</li>
+      <li><strong>检查 0</strong>：递增时 0 只能居首（非法，池子去掉 0）；递减时 0 落末位（合法，池子留 0）。</li>
+      <li><strong>算完对账</strong>：分别求和、直接求差、按位数列表，三条路必须撞出同一个数。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：单调一排位已定，数数就数那个「集」；0 这个差别专割递增，511＝非空九子集。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 单调数字计数 · 子集双射 &nbsp;|&nbsp; 生成于 2026-09-27</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
