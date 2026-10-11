@@ -184,6 +184,10 @@ window.MathJax = {
   <hr>
 
   <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/19" target="_blank" rel="noopener">2023AMC10B(19)</a> 的书面解答一致——对称性固定一个方向；固定跳距 $d$ 时越界概率为 $d/6$，再对 $d\sim U[0,1]$ 取期望得 $1/12$。
+    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+  </blockquote>
   <h3>方法一：先固定方向，再对距离取期望（推荐）</h3>
   <p><strong>第 1 步 · 全概率固定方向。</strong>四个方向各以 $\dfrac14$ 等概率取到，故</p>
       $$P(\text{出界})=\frac14\Big[P(\text{东出界})+P(\text{西出界})+P(\text{北出界})+P(\text{南出界})\Big].$$
