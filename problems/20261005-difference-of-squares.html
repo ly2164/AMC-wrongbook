@@ -169,6 +169,10 @@ window.MathJax = {
   <hr>
 
   <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2025/problem/23" target="_blank" rel="noopener">2025AMC8(23)</a> 的书面解答一致——由末两位 99 知 $m^2\equiv0\pmod{100}$ 故 $10\mid m$；再由 $(m-1)(m+1)$ 两因子皆质，锁定孪生质数 $59,61$。
+    本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+  </blockquote>
   <h3>方法一：平方差分解 + 末位同余锁定（推荐）</h3>
   <p>设这个四位数为 $N$，由 (II) 记 $N = m^2 - 1$。</p>
   <p><strong>第 1 步 · 用末两位锁住 $m$</strong>：由 (I)，$N$ 末两位是 99，于是</p>
