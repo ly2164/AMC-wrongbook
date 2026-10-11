@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<!--
+  ═══════════════════════════════════════════════════════════════
+  AMC 错题页模板（AMC 8 / AMC 10 通用）· 使用说明
+  ═══════════════════════════════════════════════════════════════
+  0. 【关键闸口】建页之前，先与用户确认四字段——日期(YYYYMMDD)、
+     成员(默认 YY 大写)、题目(如 2022AMC10A(4))、知识点(英文)。
+     用户未确认前，不得复制/生成本模板。
+  1. 复制本文件到 /workspace/site/problems/YYYYMMDD-<slug>.html
+     （slug 用英文短横线命名，如 20261010-rates）
+  2. 逐个替换所有 {{双花括号占位符}}（全文搜索 "{{" 确认无遗漏）
+  3. 导航处理：
+     - 上一题：若本页是最新题，把"上一题"的 class="disabled" 去掉，
+       href 填上一题的相对路径（如 20261008-fuel-efficiency.html）
+     - 下一题：本页是最新题时保持 disabled；同时去上一题页面把它的
+       "下一题"启用并指向本页
+ 4. 更新本等级分区目录页（site/amc10/index.html 或 amc8/index.html）：
+     复制卡片模板块，.date 用本页日期字段，该页「共 N 道错题」+1；
+     再同步首页 index.html 里该分区的卡片题数与成员统计
+ 5. 归档（仅 HTML）+ 发布 + 探查同步（见 /workspace/SKILL.md 第三节）
+ 6. AMC 10 填 "AMC 8" 或 "AMC 10"；../amc10/2022AMC10A.html 填 ../amc8/index.html
+    或 ../amc10/index.html（千万别写 ../index.html，那是首页不是目录页）
+ 7. 【v2.6 新增·必做】撰写解析前先核对官方答案：
+     https://live.poshenloh.com/past-contests/<amc10|amc8>/<年份><A|B>/problem/<题号>
+     抓到的官方答案填 (D) 30；与你的解析不一致时必须复查。
+ 8. 【v2.6 新增·必做】5 道练习题难度递增且「形式各异」：
+     每道题的 {{EXn_FORM}} 必须写明不同的提问形式（如 完整列举 /
+     附加约束的子计数 / 补集排除 / 部分配对留单 / 一般化证明），
+     不得 5 题都是同一种题型换数字。
+  ═══════════════════════════════════════════════════════════════
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 韦达定理 · 三次多项式的初等对称式</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2022AMC10A.html">← 返回 2022AMC10A</a>
+    <div class="pager">
+      <a href="20261004-pairing-counting.html">‹ 上一题：配对计数</a>
+      <a href="20261004-repeating-decimal-digits.html">下一题：循环小数 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>韦达定理：三次多项式的根当棱长</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261004</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2022AMC10A(16)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Vieta&#39;s formulas</span></div>
+  </div>
+  <p class="lede">
+把三次多项式的三个根当作长方体的三条棱，每条棱再加长 $2$ 求新体积。全程不需要求出任何一个根——
+只要把 $(r+2)(s+2)(t+2)$ 展开成「初等对称多项式」，再用韦达定理整体代入。
+真正致命的坑是：首项系数是 $10$ 而不是 $1$。
+</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    
+The roots of the polynomial $10x^3-39x^2+29x-6$ are the height, length, and width of a rectangular
+box (right rectangular prism). A new rectangular box is formed by lengthening each edge of the
+original box by $2$ units. What is the volume of the new box?
+<br><br>
+$\textbf{(A) }\dfrac{24}{5}\qquad \textbf{(B) }\dfrac{42}{5}\qquad \textbf{(C) }\dfrac{81}{5}\qquad
+\textbf{(D) }30\qquad \textbf{(E) }48$
+
+  </blockquote>
+  <p><strong>中文翻译</strong>：
+多项式 $10x^3-39x^2+29x-6$ 的三个根，分别是一个长方体（直矩形棱柱）的高、长和宽。
+现在把原长方体的<b>每条棱都加长 2 个单位</b>，做成一个新长方体。问新长方体的体积是多少？
+</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022A/problem/16" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022A/problem/16</a><br>
+    官方给出的正确选项为 <strong>(D) 30</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>选 (A) 24/5</code></td><td>
+把「每条棱加长 2 单位」误读成「每条棱翻倍」，于是体积变成 $2^3=8$ 倍：$\frac35\times 8=\frac{24}{5}$。
+错在读题，不是算错——「加长 2」是加法 $(r+2)$，不是乘法 $2r$。
+</td></tr>
+    <tr><td><code>选 (C) 81/5</code></td><td>
+展开 $(r+2)(s+2)(t+2)$ 时漏项，只算了头尾：$\frac35+4\cdot\frac{39}{10}
+=\frac{6}{10}+\frac{156}{10}=\frac{81}{5}$。漏掉的是「两两乘积项」$2(rs+st+tr)$ 和常数项 $8$。
+</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：
+<b>把「先求根、再算体积」当成唯一路径。</b>三次方程求根不是 AMC 的考法——
+题干把「根」和「棱长」绑在一起，就是在提示你用<b>对称式整体代入</b>绕过求根。
+此外本题首项系数是 $10$，韦达定理的<b>每一个</b>初等对称式都要除以 $a_3=10$，
+这是全场最容易失守的一步。
+
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一｜对称式整体代入（推荐，全程不求出根）</h3>
+  
+<p>设三个根为 $r,s,t$，即长方体的三条棱长。原盒体积 $=rst$。</p>
+
+<p><b>第 1 步：写出韦达定理（注意除以首项系数 $10$）</b></p>
+<p>对 $ax^3+bx^2+cx+d=a(x-r)(x-s)(x-t)$，有</p>
+$$r+s+t=-\frac{b}{a},\qquad rs+st+tr=\frac{c}{a},\qquad rst=-\frac{d}{a}$$
+<p>代入 $a=10,\ b=-39,\ c=29,\ d=-6$：</p>
+$$r+s+t=\frac{39}{10},\qquad rs+st+tr=\frac{29}{10},\qquad rst=\frac{6}{10}=\frac35$$
+
+<blockquote class="warn">
+<strong>最容易翻车的一步</strong>：若你记的是「首一版本」$x^3+px^2+qx+r$，
+会直接得到 $rst=6,\ rs+st+tr=29,\ r+s+t=39$，算出来的答案会离谱到不像选项——
+发现结果不对时，<b>第一件事是回来检查有没有除以首项系数</b>。
+</blockquote>
+
+<p><b>第 2 步：把新体积展开成对称式</b></p>
+$$V_{\text{新}}=(r+2)(s+2)(t+2)=rst+2(rs+st+tr)+4(r+s+t)+8$$
+<p>这个展开式的来历：从三项里<b>选 0 个</b>取 $2$（$1$ 种）→ $rst$；<b>选 1 个</b>取 $2$（$3$ 种）→ $2(rs+st+tr)$；
+<b>选 2 个</b>取 $2$（$3$ 种）→ $4(r+s+t)$；<b>选 3 个</b>取 $2$（$1$ 种）→ $8$。系数呈 $1,2,4,8$。</p>
+
+<p><b>第 3 步：整体代入</b></p>
+$$V_{\text{新}}=\frac35+2\cdot\frac{29}{10}+4\cdot\frac{39}{10}+8
+=\frac{6}{10}+\frac{58}{10}+\frac{156}{10}+\frac{80}{10}
+=\frac{300}{10}=30$$
+<p>答案为 $\boxed{30}$，对应选项 <b>(D)</b>。</p>
+
+  <h3>方法二｜因式分解直接验证（草稿纸上 20 秒出答案）</h3>
+  
+<p>如果一时想不到对称式，用有理根定理也能硬算。$10x^3-39x^2+29x-6$ 的可能有理根为
+$\pm\frac{p}{q}$（$p\mid 6,\ q\mid 10$）。试 $x=3$：</p>
+$$10\cdot 27-39\cdot 9+29\cdot 3-6=270-351+87-6=0\ \checkmark$$
+<p>所以 $(x-3)$ 是一个因式，做多项式除法：</p>
+$$10x^3-39x^2+29x-6=(x-3)(10x^2-9x+2)=(x-3)(2x-1)(5x-2)$$
+<p>三个根为 $3,\ \dfrac12,\ \dfrac25$。三条棱加长 2 后为 $5,\ \dfrac52,\ \dfrac{12}{5}$：</p>
+$$V_{\text{新}}=5\times\frac52\times\frac{12}{5}=30\ \checkmark$$
+<p>两种方法结果一致。<b>但要注意：方法二只是「碰巧」这题能因式分解。</b>
+若三个根是无理数或复数，只有方法一走得通——这才是这道题真正要训练的能力。</p>
+
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：
+算完一定要做一次「独立路径复核」：本题既可用对称式整体代入，也可用因式分解直接算，
+两条完全不同的路都得到 $30$，基本可排除计算失误。
+另外可以<b>粗估量级</b>：三根之和 $3.9$、之积 $0.6$，若一条棱是 $3$，另两条之和 $0.9$、之积 $0.2$，
+新体积约 $(5)(2.5)(2.4)=30$，量级合理，不会被 $\frac{24}{5}$ 这种小值骗到。
+
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：
+三次韦达定理 + 三项乘积的对称展开。<b>凡是遇到「若干量的对称函数」，一律先想初等对称式，
+而不是先求单个值。</b>对 $ax^3+bx^2+cx+d$ 的三根有 $s_1=-\frac{b}{a}$、$s_2=\frac{c}{a}$、$s_3=-\frac{d}{a}$；
+而 $(r+m)(s+m)(t+m)=s_3+ms_2+m^2s_1+m^3$。
+
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>
+<b>韦达定理一定要除以最高次项系数。</b>只有首一多项式（首项系数为 1）才能直接用
+「$s_3=-d$、$s_2=c$、$s_1=-b$」的记忆口诀。本题 $a=10$，三个式子全部要除以 10。
+</li>
+    <li>
+<b>三项乘积的标准展开</b>：$(r+m)(s+m)(t+m)=rst+m(rs+st+tr)+m^2(r+s+t)+m^3$，
+系数 $1,m,m^2,m^3$ 与组合数 $\binom30,\binom31,\binom32,\binom33=1,3,3,1$ 的对应关系要记牢。
+</li>
+    <li>
+<b>「加长」和「翻倍」是两回事。</b>lengthen by 2 → $(r+2)$；double → $2r$。
+AMC 的干扰项往往就是按误读出的答案设计的（本题 (A)、(E) 都来自这类误读）。
+</li>
+    <li>
+<b>因式分解是校验工具，不是主武器。</b>当题目给出的三次式恰好有有理根时可以用来复核；
+但要养成「先在对称式层面解决」的习惯，否则遇到不可分解的情形会卡死。
+</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <!-- 练习题标准块 ×5：随难度递增；tag 用 t2/t3/t4/t5 配色；stars 对应 ★~★★★★★ -->
+  <!-- ⚠ v2.6 硬性要求：{{EXn_FORM}} 五题必须填「不同的提问形式」，
+       严禁 5 题全是“同一题型换数字”。形式池见 SKILL.md 第 3.1 节 -->
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 首一多项式的同款操作</span> <span class="stars">★</span> <span class="form">形式｜基础代入 · 单步对称式</span>
+    <p>
+多项式 $x^3-6x^2+11x-6$ 的三个根是某长方体的高、长、宽。把每条棱加长 $1$ 个单位，
+求新长方体的体积。
+</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>24</strong></div>
+      <p>
+首一多项式可直接用韦达定理：$s_1=r+s+t=6$，$s_2=rs+st+tr=11$，$s_3=rst=6$。
+套公式 $(r+1)(s+1)(t+1)=s_3+1\cdot s_2+1^2\cdot s_1+1^3=6+11+6+1=24$。
+<br><b>因式分解复核</b>：$x^3-6x^2+11x-6=(x-1)(x-2)(x-3)$，三棱为 $1,2,3$，
+加 1 后为 $2,3,4$，体积 $2\times3\times4=24$ ✓
+</p>
+      <p class="hint">要点：
+把 $m=1$ 代入标准展开式。这一步练的是「先写对称式、后代入」的肌肉记忆，千万别急着因式分解求根。
+</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 已知新体积，反求加长量</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数 · 反求未知量</span>
+    <p>
+多项式 $2x^3-7x^2+7x-2$ 的三个根是某长方体的三条棱长。把每条棱加长 $k$ 个单位
+（$k$ 为正整数）后，新长方体体积为 $30$。求 $k$。
+</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>k = 2</strong></div>
+      <p>
+先<b>除以首项系数 2</b>：$s_1=\dfrac{7}{2}$，$s_2=\dfrac{7}{2}$，$s_3=\dfrac{2}{2}=1$。
+（可复核：$2x^3-7x^2+7x-2=(x-1)(x-2)(2x-1)$，三根为 $1,2,\frac12$，
+和 $3.5$ ✓、两两积 $0.5+2+1=3.5$ ✓、积 $1$ ✓）
+<br>套展开式：
+$$V(k)=s_3+ks_2+k^2s_1+k^3=1+\frac72k+\frac72k^2+k^3$$
+这是关于 $k$ 的<b>严格递增</b>函数（$k>0$ 时三项同时递增），故至多一个正整数解。逐一试：
+$k=1\to 9$，$k=2\to 1+7+14+8=30$ ✓。所以 $k=2$。
+<br><b>复核</b>：三棱 $1,2,\frac12$ 各加 2 得 $3,4,\frac52$，体积 $3\times4\times\frac52=30$ ✓
+</p>
+      <p class="hint">要点：
+把 $V$ 看成 $k$ 的三次多项式后用<b>单调性</b>保证唯一性，不必担心漏解；
+再次提醒 $s_1,s_2,s_3$ 都要除以首项系数。
+</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 由条件反求缺失系数</span> <span class="stars">★★★</span> <span class="form">形式｜反向构造 · 由对称式还原多项式</span>
+    <p>
+某个<b>首一</b>三次多项式 $x^3+px^2+qx+r$ 的三个根是长方体的三条棱长。
+已知：三条棱之和为 $6$，三条棱之积为 $6$，把每条棱加长 $2$ 个单位后新体积为 $60$。
+求这个多项式，并写出三条棱长。
+</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>多项式 x³ − 6x² + 11x − 6；三条棱长 1, 2, 3</strong></div>
+      <p>
+设三个根为 $u,v,w$，其初等对称式为 $s_1,s_2,s_3$。已知 $s_1=6$、$s_3=6$，待定的是 $s_2$。
+<br>展开式：$(u+2)(v+2)(w+2)=s_3+2s_2+4s_1+8=6+2s_2+24+8=38+2s_2$。
+令其等于 $60$：$2s_2=22$，得 $s_2=11$。
+<br>由韦达定理（首一）反推：$p=-s_1=-6$，$q=s_2=11$，$r=-s_3=-6$，即
+$$x^3-6x^2+11x-6=(x-1)(x-2)(x-3)$$
+三条棱长为 $1,2,3$。<b>复核</b>：$(1+2)(2+2)(3+2)=3\times4\times5=60$ ✓
+</p>
+      <p class="hint">要点：
+展开式不仅能「正向求值」，还能<b>反向解出某个未知对称式</b>，进而由韦达定理还原整个多项式。
+这类题的关键是把未知量锁定为 $s_2$（唯一出现在中间项的那个）。
+</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 加长与缩短：配对消去</span> <span class="stars">★★★★</span> <span class="form">形式｜对称差值 · 奇偶项消去</span>
+    <p>
+沿用原题，设 $10x^3-39x^2+29x-6$ 的三根为 $r,s,t$。令
+$$A=(r+2)(s+2)(t+2),\qquad B=(r-2)(s-2)(t-2)$$
+求 $A+B$ 与 $A-B$ 的值。
+</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>A + B = 162/5，A − B = 138/5</strong></div>
+      <p>
+沿用原题的 $s_1=\dfrac{39}{10}$，$s_2=\dfrac{29}{10}$，$s_3=\dfrac35$。分别取 $m=2$ 与 $m=-2$：
+$$A=s_3+2s_2+4s_1+8,\qquad B=s_3-2s_2+4s_1-8$$
+<b>相加时，$m$ 的奇数次幂项全部抵消</b>：
+$$A+B=2s_3+8s_1=2\cdot\frac35+8\cdot\frac{39}{10}=\frac{12}{10}+\frac{312}{10}=\frac{162}{5}=32.4$$
+<b>相减时，偶数次幂项抵消</b>：
+$$A-B=4s_2+16=4\cdot\frac{29}{10}+16=\frac{58}{5}+\frac{80}{5}=\frac{138}{5}=27.6$$
+<b>数值复核</b>（用 $3,\frac12,\frac25$）：$A=5\times2.5\times2.4=30$，
+$B=1\times(-1.5)\times(-1.6)=2.4$，于是 $A+B=32.4$、$A-B=27.6$ ✓
+</p>
+      <p class="hint">要点：
+$m\to -m$ 时展开式中<b>奇次项变号、偶次项不变</b>，所以 $A+B$ 抹掉奇次项、$A-B$ 抹掉偶次项。
+这是处理「对称配对」问题的通用技巧。
+</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 把 m 变成变量：通项公式</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明 + 回代检验</span>
+    <p>
+设 $Q(x)=ax^3+bx^2+cx+d$（$a\neq0$）的三个根为 $r,s,t$，定义 $P(m)=(r+m)(s+m)(t+m)$。
+<br>(a) 把 $P(m)$ 完全用 $a,b,c,d,m$ 表示，并证明；
+<br>(b) 用你的公式重算原题在 $m=2$ 时的值；
+<br>(c) 求所有使 $P(m)=0$ 的 $m$，并说明它们与原多项式根的关系。
+</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>
+(a) $P(m)=-\dfrac{1}{a}Q(-m)=m^3-\dfrac{b}{a}m^2+\dfrac{c}{a}m-\dfrac{d}{a}$；
+(b) $30$；(c) $m\in\{-r,-s,-t\}$，对原题即 $m\in\left\{-3,-\tfrac12,-\tfrac25\right\}$
+</strong></div>
+      <p>
+<b>(a) 证明</b>：由韦达定理 $s_1=r+s+t=-\dfrac{b}{a}$，$s_2=rs+st+tr=\dfrac{c}{a}$，
+$s_3=rst=-\dfrac{d}{a}$。而 $P(m)=s_3+ms_2+m^2s_1+m^3$，代入得
+$$P(m)=-\frac{d}{a}+\frac{c}{a}m-\frac{b}{a}m^2+m^3=m^3-\frac{b}{a}m^2+\frac{c}{a}m-\frac{d}{a}$$
+另一方面 $Q(-m)=-am^3+bm^2-cm+d$，故 $-\dfrac{1}{a}Q(-m)=m^3-\dfrac{b}{a}m^2+\dfrac{c}{a}m-\dfrac{d}{a}=P(m)$。∎
+<br><b>(b)</b> 原题 $a=10,b=-39,c=29,d=-6$：
+$$P(m)=m^3+\frac{39}{10}m^2+\frac{29}{10}m+\frac35$$
+取 $m=2$：$8+\dfrac{156}{10}+\dfrac{58}{10}+\dfrac{6}{10}=8+15.6+5.8+0.6=30$ ✓，与原题答案一致。
+<br><b>(c)</b> 由 $P(m)=-\dfrac{1}{a}Q(-m)$ 知
+$$P(m)=0\iff Q(-m)=0\iff -m\in\{r,s,t\}\iff m\in\{-r,-s,-t\}$$
+原题三根为 $3,\frac12,\frac25$，故零点为 $-3,-\frac12,-\frac25$。
+<b>直觉解读</b>：$m$ 恰好是「把某条棱补到 0」所需的量——那时新盒子退化成零体积。
+</p>
+      <p class="hint">要点：
+把具体数字换成字母后，答案反而更简洁：$P(m)=-\dfrac{1}{a}Q(-m)$。
+「代入原多项式的 $-m$ 再除以 $-a$」这一句话，涵盖了前面四道题的全部计算。
+</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>「根当棱长」类问题通用三步</h3>
+    <ol>
+      <li>
+<b>定对称式</b>：由韦达定理写出 $s_1,s_2,s_3$——<b>每一项都要除以最高次项系数 $a$</b>，
+并且注意符号是 $-b/a,\ +c/a,\ -d/a$。
+</li>
+      <li>
+<b>写展开式</b>：$(r+m)(s+m)(t+m)=s_3+ms_2+m^2s_1+m^3$。不要现场推，直接套；
+$m$ 的幂次从 0 涨到 3，系数规律清晰。
+</li>
+      <li>
+<b>整体代 + 双路复核</b>：数值代入后，再用有理根定理因式分解验算一次。
+两条独立的路给出同一个数，才算真的稳。
+</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：根不必求，对称在手；除以首项，展开不丢。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../amc10/2022AMC10A.html" style="margin-bottom:14px;">← 返回 2022AMC10A</a>
+    <div>AMC 10 错题精讲 · 韦达定理 · 三次多项式的初等对称式 &nbsp;|&nbsp; 生成于 2026-10-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
