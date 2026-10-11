@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<!--
+  ═══════════════════════════════════════════════════════════════
+  AMC 错题页模板（AMC 8 / AMC 10 通用）· 使用说明
+  ═══════════════════════════════════════════════════════════════
+  0. 【关键闸口】建页之前，先与用户确认四字段——日期(YYYYMMDD)、
+     成员(默认 YY 大写)、题目(如 2022AMC10A(4))、知识点(英文)。
+     用户未确认前，不得复制/生成本模板。
+  1. 复制本文件到 /workspace/site/problems/YYYYMMDD-<slug>.html
+     （slug 用英文短横线命名，如 20261010-rates）
+  2. 逐个替换所有 {{双花括号占位符}}（全文搜索 "{{" 确认无遗漏）
+  3. 导航处理：
+     - 上一题：若本页是最新题，把"上一题"的 class="disabled" 去掉，
+       href 填上一题的相对路径（如 20261008-fuel-efficiency.html）
+     - 下一题：本页是最新题时保持 disabled；同时去上一题页面把它的
+       "下一题"启用并指向本页
+ 4. 更新本等级分区目录页（site/amc10/index.html 或 amc8/index.html）：
+     复制卡片模板块，.date 用本页日期字段，该页「共 N 道错题」+1；
+     再同步首页 index.html 里该分区的卡片题数与成员统计
+ 5. 归档（仅 HTML）+ 发布 + 探查同步（见 /workspace/SKILL.md 第三节）
+ 6. AMC 10 填 "AMC 8" 或 "AMC 10"；../amc10/2022AMC10A.html 填 ../amc8/index.html
+    或 ../amc10/index.html（千万别写 ../index.html，那是首页不是目录页）
+ 7. 【v2.6 新增·必做】撰写解析前先核对官方答案：
+     https://live.poshenloh.com/past-contests/<amc10|amc8>/<年份><A|B>/problem/<题号>
+     抓到的官方答案填 (D) 13；与你的解析不一致时必须复查。
+ 8. 【v2.6 新增·必做】5 道练习题难度递增且「形式各异」：
+     每道题的 {{EXn_FORM}} 必须写明不同的提问形式（如 完整列举 /
+     附加约束的子计数 / 补集排除 / 部分配对留单 / 一般化证明），
+     不得 5 题都是同一种题型换数字。
+  ═══════════════════════════════════════════════════════════════
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 循环小数化分数 · 数位方程</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2022AMC10A.html">← 返回 2022AMC10A</a>
+    <div class="pager">
+      <a href="20261004-vieta-box-volume.html">‹ 上一题：韦达定理</a>
+      <a href="20261004-rotation-reflection-composition.html">下一题：旋转与反射 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>循环小数：把无限小数变成数位方程</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261004</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2022AMC10A(17)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Repeating decimal</span></div>
+  </div>
+  <p class="lede">
+一个三位数 $\underline{a}\underline{b}\underline{c}$ 的「三位循环」$0.\overline{abc}$ 与三个「一位循环」
+$0.\overline{a},0.\overline{b},0.\overline{c}$ 之间满足一个等式，问这样的三位数有几个。
+核心动作只有一个：<b>循环小数化分数</b>——循环节有几位，分母就是几个 9。
+化完之后题目立刻变成一个 $7a=3b+4c$ 的数位方程。
+</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    
+How many three-digit positive integers $\underline{a}\,\underline{b}\,\underline{c}$ are there whose
+nonzero digits $a$, $b$, and $c$ satisfy
+$$0.\overline{\underline{a}\,\underline{b}\,\underline{c}}
+=\frac13\left(0.\overline{a}+0.\overline{b}+0.\overline{c}\right)?$$
+(The bar indicates digit repetition, thus $0.\overline{\underline{a}\,\underline{b}\,\underline{c}}$
+is the infinite repeating decimal $0.\underline{a}\,\underline{b}\,\underline{c}\,
+\underline{a}\,\underline{b}\,\underline{c}\cdots$)
+<br><br>
+$\textbf{(A) }9\qquad \textbf{(B) }10\qquad \textbf{(C) }11\qquad \textbf{(D) }13\qquad \textbf{(E) }14$
+
+  </blockquote>
+  <p><strong>中文翻译</strong>：
+有多少个三位正整数 $\underline{a}\underline{b}\underline{c}$，它的三个<b>非零</b>数字 $a,b,c$ 满足
+$$0.\overline{\underline{a}\underline{b}\underline{c}}
+=\frac13\left(0.\overline{a}+0.\overline{b}+0.\overline{c}\right)?$$
+（横线表示这几位循环，例如 $0.\overline{123}=0.123123123\cdots$，而 $0.\overline{3}=0.3333\cdots$）
+</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022A/problem/17" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022A/problem/17</a><br>
+    官方给出的正确选项为 <strong>(D) 13</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>选 (A) 9</code></td><td>
+只找到了「三位数字全相同」的那一类：$111,222,\ldots,999$ 共 9 个，就以为找齐了。
+事实上 $a=b=c$ 一定满足条件，但它<b>不是全部</b>——还有 4 个「非对角解」：
+$481,\ 518,\ 592,\ 629$。<b>枚举类题目最怕的就是找到一个舒服的规律就停手。</b>
+</td></tr>
+    <tr><td><code>选 (C) 11</code></td><td>
+方向对、枚举漏。$13$ 个解里漏掉了两个（通常是最难想到的 $518$ 和 $629$，
+因为它们的数字 $8,9$ 偏大，$b$ 或 $c$ 与 $a$ 差得比较多）。
+说明枚举<b>没有按系统化的顺序走</b>，而是凭感觉试。
+</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：
+<b>「代数化」这一步没做干净，就提前跳进了数数。</b>只要规规矩矩把循环小数全部分数化，
+题目会在三步之内自己化成一个线性方程 $7a=3b+4c$；剩下的计数工作就有了<b>可判定的筛选标准</b>，
+不必靠穷举碰运气。绝大多数丢分都发生在「来不及代数化、边想边数」上。
+
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一｜循环小数化分数 → 数位方程 → 系统枚举（主线）</h3>
+  
+<p><b>第 1 步：把三种循环小数写成分数</b></p>
+<table>
+<tr><th>写法</th><th>循环节位数</th><th>分数形式</th></tr>
+<tr><td>$0.\overline{abc}$</td><td>3 位</td><td>$\dfrac{100a+10b+c}{999}$</td></tr>
+<tr><td>$0.\overline{a}$</td><td>1 位</td><td>$\dfrac{a}{9}$（同理 $0.\overline{b}=\dfrac{b}{9}$，$0.\overline{c}=\dfrac{c}{9}$）</td></tr>
+</table>
+<p><b>为什么分母是 9 的倍数？</b>因为 $0.\overline{1}=\dfrac19$，$0.\overline{01}=\dfrac1{99}$，
+$0.\overline{001}=\dfrac1{999}$——<b>循环节有几位，分母就是几个 9</b>，分子就是那个循环节本身。</p>
+
+<p><b>第 2 步：代入等式，化简</b></p>
+$$\frac{100a+10b+c}{999}=\frac13\left(\frac a9+\frac b9+\frac c9\right)=\frac{a+b+c}{27}$$
+<p>关键观察：$999=27\times 37$。两边同乘 $999$：</p>
+$$100a+10b+c=37(a+b+c)$$
+<p>展开并整理：</p>
+$$100a+10b+c=37a+37b+37c\ \Longrightarrow\ 63a-27b-36c=0\ \Longrightarrow\ 7a=3b+4c$$
+<p>到此，一个看着很吓人的循环小数题，变成了一个<b>整数线性方程</b>，约束是 $a,b,c\in\{1,2,\ldots,9\}$。</p>
+
+<blockquote class="ok">
+<strong>顺手白捡一个性质</strong>：上面中间那一步 $100a+10b+c=37(a+b+c)$ 说明，
+<b>每一个解都满足「这个三位数 = 37 × 它的数字和」</b>。这条性质后面还能反过来用来验算。
+</blockquote>
+
+<p><b>第 3 步：系统枚举（按 $a$ 扫，$a$ 决定右边必须是 $7$ 的几倍）</b></p>
+<table>
+<tr><th>$a$</th><th>$3b+4c$ 必须等于</th><th>$(b,c)$ 的全部取法</th><th>对应的三位数</th><th>个数</th></tr>
+<tr><td>1</td><td>7</td><td>$(1,1)$</td><td>111</td><td>1</td></tr>
+<tr><td>2</td><td>14</td><td>$(2,2)$</td><td>222</td><td>1</td></tr>
+<tr><td>3</td><td>21</td><td>$(3,3)$</td><td>333</td><td>1</td></tr>
+<tr><td>4</td><td>28</td><td>$(8,1),\ (4,4)$</td><td>481, 444</td><td>2</td></tr>
+<tr><td>5</td><td>35</td><td>$(9,2),\ (5,5),\ (1,8)$</td><td>592, 555, 518</td><td>3</td></tr>
+<tr><td>6</td><td>42</td><td>$(6,6),\ (2,9)$</td><td>666, 629</td><td>2</td></tr>
+<tr><td>7</td><td>49</td><td>$(7,7)$</td><td>777</td><td>1</td></tr>
+<tr><td>8</td><td>56</td><td>$(8,8)$</td><td>888</td><td>1</td></tr>
+<tr><td>9</td><td>63</td><td>$(9,9)$</td><td>999</td><td>1</td></tr>
+</table>
+<p>合计 $1+1+1+2+3+2+1+1+1=\boxed{13}$，对应选项 <b>(D)</b>。</p>
+
+  <h3>方法二｜平移参数化：一次算出全部解的结构（更高阶，推荐掌握）</h3>
+  
+<p>逐个枚举容易漏。更好的办法是把解<b>参数化</b>：既然 $a=b=c$ 一定是解，就把 $b,c$ 相对 $a$ 的偏离量设为新变量。</p>
+<p>令 $b=a+u,\ c=a+v$，代入 $7a=3b+4c$：</p>
+$$7a=3(a+u)+4(a+v)=7a+3u+4v\ \Longrightarrow\ 3u+4v=0$$
+<p>于是 $3u=-4v$。由 $\gcd(3,4)=1$ 知 $3\mid v$，令 $v=3t$，则 $u=-4t$。所以<b>所有解的通式</b>为</p>
+$$(a,\ b,\ c)=(a,\ a-4t,\ a+3t)$$
+<p>再加范围约束 $1\leq a,\ a-4t,\ a+3t\leq 9$，逐 $t$ 讨论：</p>
+<ul>
+<li>$t=0$：$(a,a,a)$，$a=1,\ldots,9$ → $111,222,\ldots,999$，<b>9 个</b></li>
+<li>$t=1$：$(a,a-4,a+3)$，需 $a\geq5$ 且 $a\leq6$ → $a=5,6$ → $518,\ 629$，<b>2 个</b></li>
+<li>$t=-1$：$(a,a+4,a-3)$，需 $a\geq4$ 且 $a\leq5$ → $a=4,5$ → $481,\ 592$，<b>2 个</b></li>
+<li>$|t|\geq2$：无解。理由是 $t>0$ 时需 $1+4t\leq a\leq 9-3t$，即 $7t\leq8\Rightarrow t\leq1$；
+$t<0$ 时令 $t=-s$，需 $1+3s\leq a\leq 9-4s$，即 $7s\leq8\Rightarrow s\leq1$。</li>
+</ul>
+<p>总计 $9+2+2=\boxed{13}$ ✓，与方法一完全一致。</p>
+<blockquote class="ok">
+<strong>这一步为什么值得学</strong>：参数化把「$9\times9\times9=729$ 次穷举」压缩成「讨论 $t$ 的 3 个值」，
+而且<b>结构上证明了没有第 14 个解</b>——枚举再多也只是在增加信心，参数化才是证明。
+</blockquote>
+
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：
+<b>用「37 的倍数」交叉验算。</b>由第 2 步的中间结论，每个解都必须等于 $37\times(\text{数字和})$：
+$111=37\times3$，$481=37\times13$，$518=37\times14$，$592=37\times16$，$629=37\times17$，$999=37\times27$，
+13 个数<b>全部</b>成立 ✓。反过来，如果枚举出来的某个数不是 37 的倍数，立刻说明算错了——
+这是一条<b>零成本的查错钩子</b>。此外 $9$ 个对角解 + $4$ 个非对角解 $=13$，两种结构口径也对得上。
+
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：
+<b>循环小数分数化 + 数位方程的参数化求解。</b>
+（1）循环节有 $k$ 位 → 分母是 $\underbrace{99\cdots9}_{k}=\dfrac{10^k-1}{9}$ 再乘以 $10^k-1$ 的对应权重，
+即 $0.\overline{d_1\cdots d_k}=\dfrac{\overline{d_1\cdots d_k}}{10^k-1}$；
+（2）化完之后，凡是形如「若干个一位数字线性组合」的条件，都可以设偏离量做<b>平移参数化</b>，
+把穷举变成小规模的参数讨论。
+
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>
+<b>循环小数化分数的口诀</b>：分子 = 循环节组成的数，分母 = 同样位数的全 9 数。
+$0.\overline{7}=\frac79$，$0.\overline{25}=\frac{25}{99}$，$0.\overline{148}=\frac{148}{999}$。
+若是「混循环」（如 $0.1\overline{6}$）才需要额外处理，AMC 里多数是纯循环。
+</li>
+    <li>
+<b>看到 999 先想 999 = 27 × 37。</b>$999=27\times37=9\times111$ 这几个分解在 AMC 里反复出现，
+本题正是靠 $999=27\times37$ 才把分母约干净。同类常用：$99=9\times11$，$9999=99\times101$，$111=3\times37$。
+</li>
+    <li>
+<b>$a=b=c$ 一定满足条件，但不是全部。</b>这类「对称-looking」的条件常常藏着非对称解；
+找到规律后一定要问一句：<b>还有别的吗？</b>
+</li>
+    <li>
+<b>枚举要「按某个变量固定 + 降维」。</b>本题按 $a$ 从小到大扫，$3b+4c=7a$ 的右端就锁定了，
+$b,c$ 只剩 $9\times9=81$ 种组合且还能进一步缩小范围——这就是「系统枚举」和「乱试」的区别。
+</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <!-- 练习题标准块 ×5：随难度递增；tag 用 t2/t3/t4/t5 配色；stars 对应 ★~★★★★★ -->
+  <!-- ⚠ v2.6 硬性要求：{{EXn_FORM}} 五题必须填「不同的提问形式」，
+       严禁 5 题全是“同一题型换数字”。形式池见 SKILL.md 第 3.1 节 -->
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 两位的同款：条件改成 1/2</span> <span class="stars">★</span> <span class="form">形式｜基础代入 · 降维后直接求解</span>
+    <p>
+有多少个两位正整数 $\underline{a}\underline{b}$（数字非零）满足
+$$0.\overline{ab}=\frac12\left(0.\overline{a}+0.\overline{b}\right)?$$
+请列出全部这样的两位数。
+</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>共 9 个：11, 22, 33, 44, 55, 66, 77, 88, 99</strong></div>
+      <p>
+两位循环 → 分母 $99$，一位循环 → 分母 $9$：
+$$\frac{10a+b}{99}=\frac12\cdot\frac{a+b}{9}=\frac{a+b}{18}$$
+交叉相乘：$18(10a+b)=99(a+b)$，即 $180a+18b=99a+99b$，整理得 $81a=81b$，故 $\boxed{a=b}$。
+$a=b\in\{1,\ldots,9\}$，共 9 个：$11,22,\ldots,99$。
+<br><b>复核</b>：$0.\overline{33}=\frac{33}{99}=\frac13$，右边 $\frac12\left(\frac39+\frac39\right)=\frac13$ ✓
+</p>
+      <p class="hint">要点：
+把位数从 3 降到 2，方程直接退化成 $a=b$。<b>先做简化版的同类题</b>，
+既能确认自己掌握了工具，又能建立对答案量级（这里恰好也是 9）的直觉。
+</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 等价转化：小数条件 ↔ 整除条件</span> <span class="stars">★★</span> <span class="form">形式｜结构发现 · 等价重述并证明</span>
+    <p>
+证明：原题的循环小数条件，等价于一个<b>纯粹的整除等式</b>
+$$N=37\cdot S(N)$$
+其中 $N=\overline{abc}$ 是那个三位数，$S(N)=a+b+c$ 是它的数字和。
+并利用这个等价形式，重新数出满足条件的三位数（各位非零）共有 13 个。
+</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>
+条件等价于 N = 37·S(N)；由此重数仍得 13 个：
+111, 222, 333, 444, 481, 518, 555, 592, 629, 666, 777, 888, 999
+</strong></div>
+      <p>
+<b>等价性</b>：由 $\dfrac{N}{999}=\dfrac{S}{27}$ 且 $999=27\times37$，两边乘 $999$ 立即得到
+$N=\dfrac{999}{27}S=37S$。反过来若 $N=37S$，则 $\dfrac{N}{999}=\dfrac{37S}{999}=\dfrac{S}{27}$，
+正好就是原题等式。<b>两者完全等价</b>，小数符号被彻底消掉了。
+<br><b>重新计数</b>：只需找各位非零的三位数 $N$ 满足 $N=37(a+b+c)$。
+注意 $100a+10b+c=37a+37b+37c$ 展开就是 $63a=27b+36c$，即 $7a=3b+4c$——
+与主线方程完全一样。其余步骤照旧：
+<br>· $a=1,2,3,7,8,9$ 各 1 个（对角解）
+<br>· $a=4$：$3b+4c=28$ → $(8,1)=481$、$(4,4)=444$
+<br>· $a=5$：$3b+4c=35$ → $(9,2)=592$、$(5,5)=555$、$(1,8)=518$
+<br>· $a=6$：$3b+4c=42$ → $(6,6)=666$、$(2,9)=629$
+<br>合计 $6+2+3+2=13$ ✓
+</p>
+      <p class="hint">要点：
+<b>把题目改写成一个等价但更「硬」的形式，常常能顺手得到一个查错钩子。</b>
+这里 $N=37S(N)$ 让我们可以直接用除法检验每个候选数，不用再回头算循环小数。
+</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 非对角解到底有几个</span> <span class="stars">★★★</span> <span class="form">形式｜参数化通解 · 结构化完整列举</span>
+    <p>
+沿用方法一得到的方程 $7a=3b+4c$（$a,b,c\in\{1,\ldots,9\}$）。
+<br>(a) 证明：所有解都能写成 $(a,\ a-4t,\ a+3t)$ 的形式，其中 $t$ 为整数；
+<br>(b) 由此说明非对角解（即 $a,b,c$ 不全相等）恰好有 4 个，并全部写出来。
+</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>
+(a) $(a,b,c)=(a,\ a-4t,\ a+3t)$；(b) 非对角解恰 4 个：481, 518, 592, 629
+</strong></div>
+      <p>
+<b>(a)</b> 令 $b=a+u,\ c=a+v$，代入 $7a=3b+4c$：
+$$7a=3(a+u)+4(a+v)=7a+3u+4v\ \Longrightarrow\ 3u+4v=0$$
+于是 $3u=-4v$。由 $\gcd(3,4)=1$ 知 $v$ 必为 $3$ 的倍数，令 $v=3t$，则 $u=-4t$。∎
+<br><b>(b)</b> 由范围约束 $1\leq a,a-4t,a+3t\leq 9$ 限定 $t$：
+<br>· 若 $t>0$：需 $1+4t\leq a\leq 9-3t$，要求 $7t\leq 8$，故 $t=1$，此时 $a\in\{5,6\}$，得 $(5,1,8)$、$(6,2,9)$
+<br>· 若 $t<0$：写 $t=-s$（$s>0$），需 $1+3s\leq a\leq 9-4s$，要求 $7s\leq 8$，故 $s=1$，此时 $a\in\{4,5\}$，得 $(4,8,1)$、$(5,9,2)$
+<br>· $t=0$ 给出 9 个对角解
+<br>所以非对角解恰好 $2+2=4$ 个：$481,\ 518,\ 592,\ 629$，总计 $9+4=13$ ✓
+</p>
+      <p class="hint">要点：
+参数化不只是「更快」，它还能<b>证明已经找全了</b>。本题靠 $7t\leq8$ 与 $7s\leq8$
+两个不等式就把 $t$ 的可能性钉死，杜绝了「第 14 个解藏在某处」的隐忧。
+</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 不求每个数，求它们的和</span> <span class="stars">★★★★</span> <span class="form">形式｜聚合求和 · 在参数化解集上求和</span>
+    <p>
+原题的 13 个三位数中，<b>全部加起来的总和</b>是多少？
+（提示：不要先算出 13 个数再硬加，试试用 $N=37\cdot S(N)$ 这个等价形式。）
+</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>7215</strong></div>
+      <p>
+由 EX2 的等价式，总和 $=\sum N=\sum 37\,S(N)=37\sum S(N)$，转而只求<b>数字和之和</b>，计算量骤降。
+按参数化的三组分别算：
+<br>· $t=0$：$(a,a,a)$，$a=1\ldots9$，每个数字和 $3a$，合计 $3(1+2+\cdots+9)=3\times45=135$
+<br>· $t=1$：$(5,1,8)$ 与 $(6,2,9)$，数字和分别 $14$ 与 $17$，合计 $31$
+<br>· $t=-1$：$(4,8,1)$ 与 $(5,9,2)$，数字和分别 $13$ 与 $16$，合计 $29$
+<br>数字和总和 $=135+31+29=195$，于是
+$$\sum N=37\times195=7215$$
+<br><b>硬算复核</b>：对角解之和 $=111(1+\cdots+9)=111\times45=4995$；
+非对角解 $481+518+592+629=2220$；总计 $4995+2220=7215$ ✓
+</p>
+      <p class="hint">要点：
+遇到「求所有解的和」时，<b>先想能不能在参数空间里求和，而不是先枚举再相加</b>。
+等价形式 $N=37S(N)$ 把「13 个三位数相加」变成了「13 个数字和相加」，位数直接降一个量级。
+</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 推广到任意位数 n</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明 + 多情形讨论</span>
+    <p>
+把原题推广：设 $n$ 位正整数 $N=\overline{d_1d_2\cdots d_n}$ 的各位数字均非零，条件为
+$$0.\overline{d_1d_2\cdots d_n}=\frac1n\sum_{i=1}^{n}0.\overline{d_i}$$
+<br>(a) 证明该条件等价于 $N=\dfrac{R_n}{n}\cdot S$，其中 $R_n=\underbrace{11\cdots1}_{n\text{ 个 }1}=\dfrac{10^n-1}{9}$，
+$S$ 为数字和；
+<br>(b) 用通式重算 $n=1,2,3$ 的解的个数（应得 $9,\ 9,\ 13$）；
+<br>(c) 求 $n=4$ 与 $n=5$ 的解各有多少个，并指出「非对角解」何时才会出现，找出下一个这样的 $n$。
+</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>
+(a) $N=\dfrac{R_n}{n}S$；(b) $n=1\to9$ 个，$n=2\to9$ 个，$n=3\to13$ 个；
+(c) $n=4\to9$ 个，$n=5\to9$ 个；仅当 $n\mid R_n$ 时才可能出现非对角解，下一个是 $n=9$
+</strong></div>
+      <p>
+<b>(a) 证明</b>：左边 $=\dfrac{N}{10^n-1}$；右边每个 $0.\overline{d_i}=\dfrac{d_i}{9}$，故右边
+$=\dfrac1n\cdot\dfrac{S}{9}=\dfrac{S}{9n}$。于是
+$$\frac{N}{10^n-1}=\frac{S}{9n}\ \Longrightarrow\ N=\frac{10^n-1}{9n}S=\frac{R_n}{n}S\qquad\blacksquare$$
+<br><b>(b)</b>
+<br>· $n=1$：$R_1=1$，$N=S=d_1$ 恒成立 → $1,2,\ldots,9$ 共 <b>9 个</b>
+<br>· $n=2$：$R_2=11$，$N=\dfrac{11}{2}S$ → $20a+2b=11a+11b$ → $9a=9b$ → $a=b$ → <b>9 个</b>
+<br>· $n=3$：$R_3=111$，$\dfrac{111}{3}=37$，$N=37S$ → 即原题，<b>13 个</b> ✓
+<br><b>(c)</b>
+<br>· $n=4$：$R_4=1111$，$\dfrac{R_4}{4}=277.75$，需 $4\mid S$。逐一枚举 $9^4$ 种组合，
+只有全等的 $1111,\ldots,9999$ 成立（数字和 $4,8,\ldots,36$ 都是 4 的倍数）→ <b>9 个</b>
+<br>· $n=5$：$R_5=11111$，$\dfrac{R_5}{5}=2222.2$，枚举后同样只有 $11111,\ldots,99999$ → <b>9 个</b>
+<br>· <b>规律</b>：只有 $\dfrac{R_n}{n}$ 是整数时（即 $n\mid R_n$），才给非对角解留出空间；
+否则 $\dfrac{R_n}{n}$ 带来的分母会逼得各位数字必须全等。$n=1,2,3,4,5$ 中仅 $n=3$ 满足 $n\mid R_n$。
+<br>· 下一个：$n=9$ 时 $R_9=111111111=9\times12345679$，故 $9\mid R_9$，是非对角解再度出现的下一个位置。
+</p>
+      <p class="hint">要点：
+一般化的价值在于<b>看清「答案究竟取决于哪个参数」</b>：这里决定解个数的关键量就是
+$R_n/n$ 是否为整数。$n=3$ 之所以特别（13 个而不是 9 个），根子就在 $111=3\times37$。
+</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>循环小数数位题通用三步</h3>
+    <ol>
+      <li>
+<b>先分数化，别边读边数。</b>循环节 $k$ 位 → 分母 $10^k-1$（$k$ 个 9），分子就是循环节本身。
+把等式两边的根号/横线全都消掉为止。
+</li>
+      <li>
+<b>化简成整数方程，并留意到「突然出现的整除结构」。</b>本题的中间产物 $N=37S(N)$
+既简化了计数，又提供了零成本的验算钩子。
+</li>
+      <li>
+<b>优先做平移参数化，实在不行才按变量扫表枚举。</b>参数化能证明「已经找全」，
+纯枚举只能增加信心；两者都用一遍最稳。
+</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：循环几位，分母几个九；先代数，再数数。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../amc10/2022AMC10A.html" style="margin-bottom:14px;">← 返回 2022AMC10A</a>
+    <div>AMC 10 错题精讲 · 循环小数化分数 · 数位方程 &nbsp;|&nbsp; 生成于 2026-10-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
