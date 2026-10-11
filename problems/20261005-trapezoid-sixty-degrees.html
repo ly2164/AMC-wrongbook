@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 梯形（等腰梯形的底角与边长计数）</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2025AMC8.html">← 返回 2025AMC8</a>
+    <div class="pager">
+      <a href="20261005-difference-of-squares.html">‹ 上一题</a>
+      <a href="20261005-lattice-path-area-sum.html">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>60° 等腰梯形：把「正整数边长 + 固定周长」翻译成一个整数区间的计数</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261005</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2025AMC8(24)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Trapezoid</span></div>
+  </div>
+  <p class="lede">两条等腰、两个 60° 底角——一旦把「底角 60°」翻译成「每条腰在水平方向投影恰是腰长的一半」，上底与下底之差就被钉死为腰长，整个四边形塌缩成一个自由变量。周长 30 于是变成一条一元一次方程，剩下的问题只是数区间里的整数。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    In trapezoid ABCD, angles B and C measure 60&deg; and $AB = DC$. The side lengths are all positive integers and the perimeter of $ABCD$ is 30 units. How many non-congruent trapezoids satisfy all of these conditions?
+<img src="https://live.poshenloh.com/images/past-contests/amc8/2025/24.svg" style="max-height:11rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：在梯形 $ABCD$ 中，角 $B$ 与角 $C$ 都是 $60^\circ$，且 $AB = DC$。四条边的长度都是正整数，且 $ABCD$ 的周长为 30。满足全部这些条件的<strong>互不全等</strong>的梯形共有多少个？</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2025/problem/24" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2025/problem/24</a><br>
+    官方给出的正确选项为 <strong>(E) 4</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 3</code></td><td>多半是漏掉了最"扁"的那一个：$AD = 12,\; BC = 14,\; AB = DC = 2$。这个解的腰只有 2、上下底差也只有 2，画出来"看着不像梯形"，于是被下意识划掉了。另一种漏法是只枚举了 $BC \in \{11,12,13\}$ 而忘了 $BC = 14$ 仍满足 $AD = 12 \ge 1$。</td></tr>
+    <tr><td><code>答 5（或任何多于 4 的数）</code></td><td>把关系写成了 $AD = BC + l$（即认为上底比下底长）。当 $\angle B = \angle C = 60^\circ$ 且 $B,C$ 是同一底边上的两个角时，梯形是"下底长、上底短"的，$60^\circ$ 这个锐角只可能出现在长底一侧；写成加号会凭空多造出一批 $2b + 3l = 30$ 的解。另一种多算来自没检查<strong>不全等</strong>：$AD = 6,BC = 12,l = 6$ 与 $AD = 3,BC = 9,l = 6$ 形状不同但常被草草视作"同一族"而合并。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有意识到本题的四个条件里真正起作用的只有两条：<strong>$AB = DC$ 把它变成等腰梯形</strong>（于是两个底角自动相等，且上下底对称），<strong>$\angle B = \angle C = 60^\circ$ 给出腰的水平投影恰为腰长的一半</strong>。没抓住"投影 = 腰长一半"这个特殊角度，就只能在四个边长之间硬解方程组，既慢又容易把加号写成减号。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：坐标系 + 整数区间计数（推荐）</h3>
+  <p><strong>第 1 步 · 认角色。</strong>$AD \parallel BC$（否则 $AB = DC$ 且 $AB \parallel DC$ 就成了平行四边形）。由 $AB = DC$，这是<strong>等腰梯形</strong>，$B,C$ 是同一条底 $BC$ 上的两个底角，两腰关于底 $BC$ 的中垂线对称。记</p>
+    $$AB = DC = l,\qquad BC = b\ (\text{下底}),\qquad AD = a\ (\text{上底}).$$
+    <p><strong>第 2 步 · 把 60° 翻译成水平投影。</strong>从 $B$ 出发沿 $BA$ 走一步，水平方向前进 $l\cos 60^\circ = \dfrac{l}{2}$，竖直方向上升 $\dfrac{\sqrt3}{2}l$。左腿如此，右腿对称地也向右让出 $\dfrac{l}{2}$。所以</p>
+    $$a = b - 2\cdot\frac{l}{2} = b - l .$$
+    <p>这一步是全题的题眼：<strong>选 60° 就是为了让投影变成半个腰长</strong>，公式从而退化成纯整数运算，不需要处理 $\sqrt3$。</p>
+    <p><strong>第 3 步 · 周长变成一元一次方程。</strong></p>
+    $$a + b + 2l = (b-l) + b + 2l = 2b + l = 30 .$$
+    <p>只剩 $b$ 一个未知数，$l = 30 - 2b$，$a = b - l = 3b - 30$。</p>
+    <p><strong>第 4 步 · 边长为正整数 $\Rightarrow$ 两条不等式。</strong></p>
+    $$\begin{cases} l = 30-2b \ge 1 &\Rightarrow\ b \le \dfrac{29}{2} = 14.5 \Rightarrow b \le 14 \\[2mm] a = 3b-30 \ge 1 &\Rightarrow\ b \ge \dfrac{31}{3} \approx 10.33 \Rightarrow b \ge 11 \end{cases}$$
+    <p>于是 $b \in \{11,12,13,14\}$，<strong>整数区间里 4 个值 $\Rightarrow$ 4 个梯形</strong>。</p>
+    <p><strong>第 5 步 · 逐个列出，确认互不全等。</strong></p>
+    <table>
+      <tr><th>$b = BC$</th><th>$l = AB = DC$</th><th>$a = AD$</th><th>周长校验</th></tr>
+      <tr><td>11</td><td>8</td><td>3</td><td>$3+11+16 = 30$ ✓</td></tr>
+      <tr><td>12</td><td>6</td><td>6</td><td>$6+12+12 = 30$ ✓</td></tr>
+      <tr><td>13</td><td>4</td><td>9</td><td>$9+13+8 = 30$ ✓</td></tr>
+      <tr><td>14</td><td>2</td><td>12</td><td>$12+14+4 = 30$ ✓</td></tr>
+    </table>
+    <p>四组 $(a, b, l)$ 两两不同，故对应梯形互不全等（边长集合不同 $\Rightarrow$ 不全等）。</p>
+    <blockquote class="ok"><strong>答案：4 个</strong>，对应选项 (E)。</blockquote>
+  <h3>方法二：按腰长枚举（更快，且天然给出参数表）</h3>
+  直接猜 $l$。由 $2b + l = 30$ 且 $b$ 为整数，得 <strong>$l$ 必须是偶数</strong>（否则 $30 - l$ 为奇数，$b$ 不是整数）。再由上底为正：</p>
+    $$a = b - l = \frac{30-l}{2} - l = \frac{30-3l}{2} \ge 1 \;\Longrightarrow\; 30 - 3l \ge 2 \;\Longrightarrow\; l \le \dfrac{28}{3} \approx 9.33 \;\Longrightarrow\; l \le 9 .$$
+    <p>结合"$l$ 为正偶数"：$l \in \{2,4,6,8\}$，<strong>4 个值</strong>。代回得</p>
+    $$l=2:\ (a,b)=(12,14);\quad l=4:\ (9,13);\quad l=6:\ (6,12);\quad l=8:\ (3,11).$$
+    <p>与方法一的表恰好互为逆序，两条路交叉验证，结论可靠。</p>
+    <blockquote class="ok"><strong>一句话总结</strong>：$\text{周长} = 2b + l$ 固定了 $b$ 与 $l$ 的一一对应；正整数条件把 $b$ 锁在 $[\,11,14\,]$ 或把 $l$ 锁在 $\{\,2,4,6,8\,\}$ 里，两端都恰好 4 个。</blockquote>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：把 4 个解代回三条硬条件逐条打勾：① 周长 $a+b+2l = 2b+l$，四个 $b$ 都让 $2b + (30-2b) = 30$ 恒成立；② 底角——由 $a = b - l$ 反推每条腰的水平投影是 $\frac{b-a}{2} = \frac{l}{2} = l\cos 60^\circ$，故 $\angle B = \angle C = 60^\circ$；③ 全等——三边长 $(2,11,8)$ 类差异明显。<strong>反向自检</strong>：若某个梯形没被列出，则它的 $b$ 必须落在 $\{10 \text{ 及以下}\} \cup \{15 \text{ 及以上}\}$，前者使 $a \le 0$，后者使 $l \le 0$，两者都违反"正整数边长"，故无遗漏。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：等腰梯形里，<strong>底角 $\theta$ 通过「腰的水平投影 $l\cos\theta$」把上下底锁死</strong>：上底 $a = b - 2l\cos\theta$。当 $\theta = 60^\circ$ 时 $2\cos\theta = 1$，于是 $a = b - l$，周长 $a + b + 2l = 2b + l$ 退化为<strong>单个整数 $b$ 的线性函数</strong>——"几何题"就此变成"数区间里的整数"。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>等腰梯形的两个底角自动相等；本例 $\angle B, \angle C$ 同在底边 $BC$ 上，所以它们同时是 $60^\circ$，两腰 $AB, DC$ 对称。</li>
+    <li>腰在水平方向的投影是 $l\cos 60^\circ = \dfrac l2$，<strong>两腰各让出 $\dfrac l2$</strong>，所以 $a = b - l$。误写成 $a = b + l$ 是本题最常见的致命错误。</li>
+    <li>边长为正整数 $\Rightarrow$ 每条边都给出<strong>一条整数不等式</strong>：$l \ge 1 \Rightarrow b \le 14$；$a \ge 1 \Rightarrow b \ge 11$。计数就是 $\lfloor\text{上界}\rfloor - \lceil\text{下界}\rceil + 1$。</li>
+    <li>"互不全等"在这题里是免费送的：$l$ 与 $b$ 一一对应，$l$ 不同则边长集合不同，必然不全等。若某道变体把"互不全等"换成"面积不同"或"对角线不同"，才需要额外检查。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 小周长完整列举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>仍设等腰梯形的两个底角都是 $60^\circ$、腰长相等、四边为正整数，但<strong>周长改成 20</strong>。求所有这样的梯形（列出 $AD, BC, AB$），并给出个数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>3 个：$(AD,BC,AB) = (1,7,6),\ (4,8,4),\ (7,9,2)$</strong></div>
+      <p>沿用 $2b + l = 20$：$l = 20 - 2b \ge 1 \Rightarrow b \le 9.5 \Rightarrow b \le 9$；$a = 3b - 20 \ge 1 \Rightarrow b \ge 7$。故 $b \in \{7,8,9\}$。逐个代回：</p>
+    <table>
+      <tr><th>$b$</th><th>$l = 20-2b$</th><th>$a = 3b-20$</th><th>校验</th></tr>
+      <tr><td>7</td><td>6</td><td>1</td><td>$1+7+12=20$ ✓</td></tr>
+      <tr><td>8</td><td>4</td><td>4</td><td>$4+8+8=20$ ✓</td></tr>
+      <tr><td>9</td><td>2</td><td>7</td><td>$7+9+4=20$ ✓</td></tr>
+    </table>
+    <p>注意 $b=8$ 那行 $a = l = 4$，它<strong>不是</strong>退化情形——只有 $a = b$（即 $l=0$）才是，而 $l=0$ 不可能。</p></p>
+      <p class="hint">要点：周长从 30 降到 20，区间从 $[11,14]$（4 个）缩到 $[7,9]$（3 个）；<strong>只要把周长换成 $P$，同一套不等式立刻复用</strong>：$\left\lceil\frac{P+1}{3}\right\rceil \le b \le \left\lfloor\frac{P-1}{2}\right\rfloor$。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 大周长换参数</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>条件不变（等腰、底角 $60^\circ$、正整数边长），把周长改成 <strong>40</strong>。求梯形个数，并写出所有 $(AD, BC, AB)$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>6 个：$(2,14,12),\ (5,15,10),\ (8,16,8),\ (11,17,6),\ (14,18,4),\ (17,19,2)$</strong></div>
+      <p>$2b + l = 40$：$l = 40 - 2b \ge 1 \Rightarrow b \le 19.5 \Rightarrow b \le 19$；$a = 3b - 40 \ge 1 \Rightarrow b \ge 14$（$b \ge \frac{41}{3} \approx 13.67$）。故 $b \in \{14,\dots,19\}$ 共 <strong>6 个</strong>。</p>
+    <p>逐个代入 $l = 40-2b$、$a = 3b-40$：$(a,b,l) = (2,14,12),(5,15,10),(8,16,8),(11,17,6),(14,18,4),(17,19,2)$，每组都满足 $a+b+2l=40$。</p>
+    <p>顺手验证通项：区间长度约为 $\frac{P}{2} - \frac{P}{3} = \frac{P}{6}$，$P = 40$ 时 $\frac{40}{6} \approx 6.7$，取整后 6，与枚举一致。</p></p>
+      <p class="hint">要点：个数约等于<strong>周长的六分之一</strong>。区间下界 $\approx\frac{P}{3}$ 来自上底为正，上界 $\approx\frac{P}{2}$ 来自腰为正，两端各由<strong>一条边</strong>决定——这是"四个正整数边"题的标准计数框架。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 附加下底约束</span> <span class="stars">★★★</span> <span class="form">形式｜附加约束子计数</span>
+    <p>回到周长 <strong>30</strong> 的原题，但现在只统计<strong>上底 $AD \ge 8$</strong> 的梯形。这样的梯形有多少个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>2 个：$(AD,BC,AB) = (9,13,4)$ 与 $(12,14,2)$</strong></div>
+      <p>先看周长 30 的全部四个解：$(3,11,8)$、$(6,12,6)$、$(9,13,4)$、$(12,14,2)$（上底依次为 $3,6,9,12$）。</p>
+    <p>加约束 $a \ge 8$，只剩上底为 $9$ 与 $12$ 的两个，<strong>答 2 个</strong>。</p>
+    <p>也可以不枚举直接算：$a = 3b - 30 \ge 8 \Rightarrow b \ge \frac{38}{3} \approx 12.67 \Rightarrow b \ge 13$，而 $b \le 14$，故 $b \in \{13,14\}$ 两个值。</p>
+    <p><strong>进阶一问</strong>：若约束改成"腰 $AB \ge 5$"呢？由 $l = 30 - 2b \ge 5 \Rightarrow b \le 12.5 \Rightarrow b \le 12$，配合 $b \ge 11$ 得 $b \in \{11,12\}$，也是 2 个（对应 $(3,11,8)$ 与 $(6,12,6)$）。</p></p>
+      <p class="hint">要点：附加约束不要重新枚举，<strong>把它折成区间端点的新不等式</strong>即可——$AD \ge 8$ 只是把下界 $11$ 抬到 $13$，腰和上底的约束一个都没松。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 周长设为 6m 的通项</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>证明：若周长为 $P = 6m$（$m$ 为正整数），则满足条件的梯形恰有 <strong>$m - 1$ 个</strong>。并据此求出周长为 $48$ 时梯形的个数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$m-1$ 个；周长 48（$m=8$）时为 7 个</strong></div>
+      <p>由 $2b + l = 6m$、$l \ge 1$、$a = 3b - 6m \ge 1$：</p>
+    $$l \ge 1 \Rightarrow 6m - 2b \ge 1 \Rightarrow b \le \frac{6m-1}{2} = 3m - \tfrac12 \Rightarrow b \le 3m-1,$$
+    $$a \ge 1 \Rightarrow 3b \ge 6m + 1 \Rightarrow b \ge \frac{6m+1}{3} = 2m + \tfrac13 \Rightarrow b \ge 2m+1 .$$
+    <p>于是整数 $b$ 的取值恰为 $2m+1,\, 2m+2,\, \dots,\, 3m-1$，共</p>
+    $$(3m-1) - (2m+1) + 1 = m - 1 .$$
+    <p><strong>验证</strong>（$m=1,2,3,4,5$）：$P = 6,12,18,24,30$ 分别给出 $0,1,2,3,4$ 个，与 $m-1$ 全部吻合；原题 $P=30 \Rightarrow m=5 \Rightarrow 4$ 个，正是 (E)。</p>
+    <p>取 $m = 8$：$P = 48$，个数 $= 8 - 1 = \boxed{7}$。</p></p>
+      <p class="hint">要点：通项里的常数不是凑出来的——<strong>下界 $2m+1$ 与上界 $3m-1$ 都带 $+1/-1$ 的修正</strong>，那正是"$a \ge 1$ 而非 $\ge 0$"、"$l \ge 1$ 而非 $\ge 0$"带来的。写通项时务必先取整，别写 $\frac{m}{6}$ 这种近似。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 反过来定周长</span> <span class="stars">★★★★★</span> <span class="form">形式｜反向存在性</span>
+    <p>给定任意正整数 $N$，求使梯形个数<strong>恰好等于 $N$</strong> 的最小周长 $P$。当 $N = 10$ 时，这个 $P$ 是多少？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>最小周长 $P = 6N - 1$；$N = 10$ 时 $P = 59$</strong></div>
+      <p>先看两个"标杆"周长。仍由 $2b + l = P$、$l\ge1$、$a = 3b - P \ge 1$：</p>
+    <ul>
+      <li>$P = 6m$ 时（如 EX4）个数为 $m - 1$；</li>
+      <li>$P = 6m - 1$ 时：$l \ge 1 \Rightarrow b \le \frac{6m-2}{2} = 3m-1$；$a \ge 1 \Rightarrow b \ge \frac{6m}{3} = 2m$。于是 $b \in [2m,\, 3m-1]$，共 $(3m-1) - 2m + 1 = m$ 个。</li>
+    </ul>
+    <p>要个数 $= N$，取 $m = N$、$P = 6N - 1$ 即可得到 <strong>$N$ 个</strong>。</p>
+    <p><strong>为什么是最小？</strong>个数约为 $P/6$，程序穷举 $N = 1,\dots,12$ 的最小 $P$ 依次是 $5,11,17,23,29,35,41,47,53,59,65,71$，恰为 $6N-1$；严格地说，$P \le 6N-2$ 时区间长度 $\le \frac{P}{6} + \frac{1}{2} < N$，装不下 $N$ 个整数解。</p>
+    <p>取 $N = 10$：$P = 6\cdot10 - 1 = \boxed{59}$。</p></p>
+      <p class="hint">要点：反向题的正向解法是<strong>"解数与区间长度同时变"的单调性</strong>：$P$ 每增 1 可数出的梯形数不减少（$\frac{P}{6}$ 缓升），所以"最小 $P$"就是"$N$ 第一次出现"的 $P$。相邻的两个 $6m$ 与 $6m-1$ 分别给出 $m-1$ 与 $m$，正好把整数段填满、不留空隙。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>60° 等腰梯形 · 三行卡</h3>
+    <ol>
+      <li><strong>认等腰</strong>：$AB = DC$ ⇒ 上下底对称，$\angle B = \angle C$，两腰在水平方向各让出 $l\cos 60^\circ = \dfrac l2$ ⇒ <strong>上底 $a = b - l$</strong>（是减不是加）。</li>
+      <li><strong>压成一元</strong>：周长 $a + b + 2l = (b-l) + b + 2l = 2b + l = P$。只剩 $b$ 一个自由量，$l = P - 2b$，$a = 3b - P$。</li>
+      <li><strong>写死两条不等式</strong>：$l \ge 1 \Rightarrow b \le \left\lfloor\frac{P-1}{2}\right\rfloor$；$a \ge 1 \Rightarrow b \ge \left\lceil\frac{P+1}{3}\right\rceil$。个数 $=$ 区间内整数个数；$P = 6m$ 给 $m-1$ 个，$P = 6m-1$ 给 $m$ 个。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：底角六十投影半，上底等于下底减腰；周长压成一个量，整数区间数一数。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 梯形（等腰梯形的底角与边长计数） &nbsp;|&nbsp; 生成于 2026-10-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
