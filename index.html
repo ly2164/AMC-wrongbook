@@ -70,6 +70,17 @@
   .t10 .go{color:var(--a10);}
   .t8  .go{color:var(--a8);}
 
+  .exams{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 16px;}
+  .exams a{
+    display:inline-block; text-decoration:none; font-size:13px; font-weight:700;
+    border-radius:8px; padding:6px 14px; border:1px solid var(--line); background:#fff;
+    transition:all .14s ease;
+  }
+  .t10 .exams a{color:var(--a10);}
+  .t10 .exams a:hover{border-color:var(--a10); background:var(--a10-soft);}
+  .t8  .exams a{color:var(--a8);}
+  .t8  .exams a:hover{border-color:var(--a8); background:var(--a8-soft);}
+
   .pill{
     display:inline-block; font-size:12px; font-weight:600; border-radius:20px;
     padding:3px 12px; background:#f1f5f9; color:var(--sub); margin:0 6px 6px 0;
@@ -89,28 +100,35 @@
 
   <div class="grid">
 
-    <!-- ===== 分区卡片模板：新增等级分区时，复制下面这个 <a class="track"> 块 ===== -->
-    <a class="track t8" href="amc8/index.html">
+    <!-- ===== 分区卡片模板：新增等级分区时，复制下面这个 <div class="track"> 块 ===== -->
+    <div class="track t8">
       <span class="tag">AMC 8</span>
       <h2>AMC 8 ❤️精讲</h2>
       <div class="stat"><b>2</b><span>道错题</span></div>
       <div class="members">
         <span class="m"><b>YC</b><em>2</em> 道</span>
       </div>
+      <div class="exams">
+        <a href="amc8/2025AMC8.html">2025AMC8</a>
+      </div>
       <p class="desc">面向 8 年级及以下，聚焦算术、基础代数、初等几何与计数概率入门。</p>
-      <div class="go">进入分区 →</div>
-    </a>
+      <a class="go" href="amc8/index.html">全部考试 →</a>
+    </div>
 
-    <a class="track t10" href="amc10/index.html">
+    <div class="track t10">
       <span class="tag">AMC 10</span>
       <h2>AMC 10 ❤️精讲</h2>
       <div class="stat"><b>3</b><span>道错题</span></div>
       <div class="members">
         <span class="m"><b>YY</b><em>3</em> 道</span>
       </div>
+      <div class="exams">
+        <a href="amc10/2022AMC10A.html">2022AMC10A</a>
+        <a href="amc10/2023AMC10B.html">2023AMC10B</a>
+      </div>
       <p class="desc">面向 10 年级及以下，含代数进阶、几何、数论与计数概率的中高难度题型。</p>
-      <div class="go">进入分区 →</div>
-    </a>
+      <a class="go" href="amc10/index.html">全部考试 →</a>
+    </div>
     <!-- ===== 模板结束 ===== -->
 
   </div>
