@@ -166,8 +166,11 @@ window.MathJax = {
   <hr>
 
   <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/16" target="_blank" rel="noopener">2024AMC8(16)</a> 的书面解答一致——$27$ 个 $3$ 的倍数必须全落在 $r$ 行 $c$ 列的 $rc$ 个交叉格里，故 $rc\ge27$；配 AM-GM 得 $r+c\ge\lceil2\sqrt{27}\rceil=11$，$(5,6)$ 构造可达。
+    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+  </blockquote>
   <h3>方法一：交集瓶颈定下界 + 构造定上界（官方思路，推荐）</h3>
-  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/16" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
     <p><strong>第 1 步 · 翻译条件。</strong>$1$ 到 $81$ 中 3 的倍数有 $\frac{81}3=27$ 个。一行（列）的乘积被 3 整除 $\iff$ 这一行（列）里<strong>至少有一个</strong> 3 的倍数。设被标记的行有 $r$ 个、列有 $c$ 个。</p>
     <p><strong>第 2 步 · 关键观察：特殊数必须住在交集里。</strong>若某个 3 的倍数所在的行<strong>不在</strong>被标记的 $r$ 行中，它自己就会把那行变成新的标记行——与「恰好 $r$ 行」矛盾。列同理。所以<strong>全部 27 个 3 的倍数都落在 $r$ 行与 $c$ 列的交集</strong>里，交集共有 $rc$ 格，于是</p>
     $$rc \ge 27 .$$
