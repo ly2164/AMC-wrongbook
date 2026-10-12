@@ -166,8 +166,11 @@ window.MathJax = {
   <hr>
 
   <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/6" target="_blank" rel="noopener">2024AMC8(6)</a> 的书面解答一致——把弧形路段换成弦必然变短，故 R 最短；P 与 S 的比较落在同一直角三角形里「直角边 vs 斜边」上，故 S 比 P 长。
+    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+  </blockquote>
   <h3>方法一：逐对隔离差异 + 标准不等式（官方思路，推荐）</h3>
-  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/6" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
     <p><strong>第 1 步 · R 为什么最短。</strong>R 在四个圆角处用<strong>直线切角</strong>（弦）代替了圆弧弯。连接两点的所有曲线中<strong>线段最短</strong>，所以每个角上「弦 &lt; 弧」。其余部分 R 与边界路径相同或更短，因此 R 短于所有走边界的路径。</p>
     <p><strong>第 2 步 · Q 为什么最长。</strong>Q 走完整边界，并且在中部来回穿插（两度横穿冰场）。每一段穿插都是「从边界出发又回到边界」的额外行程，且穿插线本身比被它替代的直边更长（同样含斜边成分），所以 Q 比 P 长出一大截，是四条中最长的。</p>
     <p><strong>第 3 步 · P 与 S 之争：一个直角三角形定胜负。</strong>S 与 P 的圆弧端完全相同，差异只剩中部：S 的中部经过一条<strong>横穿的对角线</strong>，P 的中部对应的是冰场的<strong>直边</strong>。这条对角线与这条直边、以及冰场的短边一起，构成一个直角三角形——对角线是<strong>斜边</strong>，直边是<strong>直角边</strong>。直角三角形斜边大于任一直角边，故</p>
