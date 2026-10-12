@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 概率 + 补集计数（生成函数）</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2024AMC8.html">← 返回 2024AMC8</a>
+    <div class="pager">
+      <a href="20261011-stained-glass-overlap.html">‹ 上一题</a>
+      <a class="disabled" href="#">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>飞机邻座概率：盯空位不盯人，每行一个多项式搞定</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261011</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2024AMC8(25)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Probability and complementary counting</span></div>
+  </div>
+  <p class="lede">八个人已经坐下后，夫妻能否找到相邻座，<strong>只取决于剩下 4 个空位的分布</strong>——根本不用管谁来谁去。样本空间因此是 $\binom{12}{4}=495$ 种空位组合。算补集（没有任何一排出现相邻空位）时，把「一排 3 个座位」的空位模式写成多项式 $1+3x+x^2$（0 个空位 1 种、1 个 3 种、2 个不相邻 1 种），4 排相乘取 $x^4$ 系数得 $195$。于是 $\frac{495-195}{495}=\frac{20}{33}$。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    A small airplane has $4$ rows of seats with $3$ seats in each row. Eight passengers have boarded the plane and are distributed randomly among the seats. A married couple is next to board. What is the probability there will be $2$ adjacent seats in the same row for the couple?
+<img src="../img/amc8/2024/25.svg" style="max-height:8rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：一架小飞机有 $4$ 排座位，每排 $3$ 个座位。已有 $8$ 名乘客登机并随机分布在座位上。一对夫妻即将登机。求这架飞机<strong>仍然存在同一排的两个相邻座位</strong>给这对夫妻的概率。
+(A) $\frac{8}{15}$　(B) $\frac{32}{55}$　(C) $\frac{20}{33}$　(D) $\frac{34}{55}$　(E) $\frac{8}{11}$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/25" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2024/problem/25</a><br>
+    官方给出的正确选项为 <strong>$(\text{C})\ \frac{20}{33}$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) $\frac8{11}$</code></td><td>直接从 Xu「人」的角度下手：把这 8 个人与夫妻一起排列，分母误用 $12\times11$ 或 $\binom{12}{8}\cdot$ 排列数，或者把「随机分布」误解为「八人预先固定不动、夫妻随机挑两座」，于是分母变成 $\binom{12}{2}=66$、分子误数 48 得 $\frac8{11}$。错在<strong>没有理解「8 人随机就座」意味着空位的 495 种分布等可能</strong>，而不是「夫妻的选座方式等可能」。</td></tr>
+    <tr><td><code>答 (A) $\frac8{15}$</code></td><td>正着数「至少一排有相邻空位」时用错了掌握：例如先数「恰好一排有相邻空位」再乘 4，忘了「两排都有」会被重复计。或者把每排看成「3 座相邻对有 2 个」，直接套独立事件公式 $1-(1-p)^4$——<strong>各排并不独立</strong>（空位总数固定为 4），这种算法必错。计数题里「至少」两个字通常就是「用补集」的提示。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有完成「视线从<strong>人</strong>转到<strong>空位</strong>」的切换。夫妻能坐下 $\iff$ 存在一个相邻空位对 $\iff$ 空位的 4 元组里有一排含两个相邻位置。转成空位之后样本空间立刻变成干净的 $\binom{12}{4}=495$，再用<strong>补集 + 每排模式多项式</strong>计数，全程是整数计算，没有任何「人排列顺序」的干扰。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：空位分布 + 补集生成函数计数（官方思路，推荐）</h3>
+  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/25" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
+    <p><strong>第 1 步 · 换视角。</strong>「夫妻能有相邻座」$\iff$「存在一个相邻的空位对」。而 8 人坐下后留下 <strong>4 个空位</strong>，这 4 个空位的分布方式共
+    $$\binom{12}{4}=495\ \text{种，等可能}。$$
+    （每种 4 元子集都对应同样数量的落座方式——8 个人分配到余下 8 座的方式数与空位的具体位置无关，故子集等可能。）</p>
+    <p><strong>第 2 步 · 转补集。</strong>「至少一排有两个相邻空位」的否定是「<strong>每一排的空位都互不相邻</strong>」。在 3 个座位的一排里，空位patterns 若不相邻，可能的个数与选法数是：</p>
+    <table>
+      <tr><th>该排空位数</th><th>0</th><th>1</th><th>2</th><th>3</th></tr>
+      <tr><td>选法数</td><td>1</td><td>3</td><td>1（只能取两个外侧）</td><td>0（必有相邻）</td></tr>
+    </table>
+    <p>写成多项式就是 $(1+3x+x^2)$，指数是空位数、系数是选法数。</p>
+    <p><strong>第 3 步 · 4 排相乘取 $x^4$ 系数。</strong>总空位恰好 4 个，所以补集的大小是 $(1+3x+x^2)^4$ 中 $x^4$ 的系数。按「4 个空位分布在几排」拆开：</p>
+    $$\underbrace{3^4}_{1+1+1+1}+\underbrace{4\cdot3\cdot3^2}_{2+1+1\ \text{：选哪排取2、该排1种、其余三排各3种}}+\underbrace{\binom42}_{2+2\ \text{：两排各取外侧}}=81+108+6=195 .$$
+    <p><strong>第 4 步 · 求概率。</strong></p>
+    $$P=1-\frac{195}{495}=\frac{300}{495}=\frac{20}{33}.$$
+    <blockquote class="ok"><strong>答案：(C) $\dfrac{20}{33}$</strong>。</blockquote>
+  <h3>方法二：直接分类计数（不用多项式）</h3>
+  把 4 个空位在 4 排之间的<strong>分布</strong>分为四类（每排至多 3 座）：
+    <ul>
+      <li>$(1,1,1,1)$：选哪排含相邻不适用——每排 1 个空位 ⇒ 一定无相邻：$3^4=81$；</li>
+      <li>$(2,1,1,0)$：选含 2 个空位的排（4 种）、该排必须取两个外侧（1 种）、再选两排各 1 个（$\binom32=3$ 种）× 每排 3 种 $=3^2$：$4\times1\times3\times9=108$；</li>
+      <li>$(2,2,0,0)$：选两排（$\binom42=6$）、每排取外侧（$1\times1$）：$6$；</li>
+      <li>$(3,1,0,0)$、$(4,0,0,0)$ 等：一排放 3 个或 4 个必然有相邻，不属于补集。</li>
+    </ul>
+    <p>补集 $=81+108+6=195$，与方法一的多项式完全相同。分类法的价值在于它把「$x^4$ 系数」拆成了看得见的三类情况——看不懂生成函数时就用它。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① Python 暴力枚举 $\binom{12}{4}=495$ 个空位组合，逐个检查是否「存在一排含相邻空位」，得无相邻 195 组、有相邻 300 组，$300/495=\frac{20}{33}$ ✓；② 展开 $(1+3x+x^2)^4$ 取 $x^4$ 系数得 195 ✓；③ 分子分母同除 15：$300=20\times15$、$495=33\times15$，约分干净且分母 33 出现在选项 (C) 中，交叉印证。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：两招定了这题：<strong>① 从「谁坐哪」切换到「空位在哪」</strong>——样本空间从排列数（几十亿级）塌缩到 $\binom{12}{4}=495$；<strong>② 补集 + 每行模式多项式</strong>——一排 3 座中「互不相邻」的空位模式是 $1+3x+x^2$（0/1/2 个空位，2 个时只能坐两个外侧），$m$ 排就是 $(1+3x+x^2)^m$，幂次取指数为该排座位数。这条思路对任何「一排 $n$ 座、若干排」的相邻空位概率题都成立。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>随机的是空位分布</strong>：8 人随机落座 ⇒ 4 个空位的 $\binom{12}{4}=495$ 种位置等可能（每种空位集合对应同样多的 8 人落座方式）。把样本空间定在空位上，一切都干净了。</li>
+    <li>一排 3 座的「互不相邻」多选集：$0$ 个 —— $1$ 种；$1$ 个 —— $3$ 种；$2$ 个 —— 只有$1$ 种（左右两端各一）；$3$ 个 —— $0$ 种。写成多项式即 $1+3x+x^2$。</li>
+    <li>$m$ 排就用 $(1+3x+x^2)^m$，所求空位数 $k$ 对应 $x^k$ 的系数。<strong>幂次 = 排数，指数 = 空位数</strong>——这个对应关系是生成函数计数里唯一需要记住的。</li>
+    <li>「至少有一处」题型优先<strong>用补集</strong>；算完分子分母记得约分：$300/495$ 同除 15 得 $20/33$。没约到最简往往会撞上干扰项 (B) 或 (D)。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 小规模类比</span> <span class="stars">★</span> <span class="form">形式｜小规模手算</span>
+    <p>小飞机改成 $2$ 排、每排 $3$ 座，已有 $2$ 名乘客登机（留 $4$ 个空位）。夫妻登机时能有相邻座的概率是多少？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\dfrac{14}{15}$</strong></div>
+      <p>样本空间 $\binom64=15$。补集（每排空位都不相邻）用 $(1+3x+x^2)^2$ 的 $x^4$ 系数：只能两排各取 2 个外侧座，共 $1\times1=1$ 种。故 $P=1-\frac1{15}=\frac{14}{15}$。</p>
+      <p class="hint">要点：同一套「空位 + 补集 + 多项式」在小规模上也成立；用小手算建立对方法的信心。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 换参数</span> <span class="stars">★★</span> <span class="form">形式｜换构型参数</span>
+    <p>改成 $3$ 排、每排 $3$ 座（共 9 座），已有 $3$ 名乘客坐下（留 $6$ 个空位）。求存在一排相邻空位的概率。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\dfrac{83}{84}$</strong></div>
+      <p>样本空间 $\binom96=\binom93=84$。补集是 $(1+3x+x^2)^3$ 的 $x^6$ 系数：指数最大只能是每行 2 ⇒ 三行都取 2 ⇒ 每行取外侧唯一 ⇒ $1$ 种。故 $P=1-\frac1{84}=\frac{83}{84}$。空位越多越容易有相邻——毕竟每行最多只「装得下」2 个不相邻空位。</p>
+      <p class="hint">要点：空位数接近「每排最大不相邻容量」时，补集会急剧变小——用 prompt: 每行 ≤2，所以 k 排最多容纳 2k 个不相邻空位。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 第二种算法</span> <span class="stars">★★★</span> <span class="form">形式｜分类计数（不动多项式）</span>
+    <p>不用多项式，直接按「4 个空位分布在几排」分类，重数原题补集，验证 195。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>81 + 108 + 6 = 195</strong></div>
+      <p>分布只能是 $(1,1,1,1)$、$(2,1,1,0)$、$(2,2,0,0)$ 三类（出现 3 或 4 就必有相邻，不在补集里）。逐一计数：
+    $(1,1,1,1)$：每排选 1 个 → $3^4=81$；
+    $(2,1,1,0)$：选含 2 的排 4 种、该排取外侧 1 种、再选两排各 1 个 $\binom32=3$、各 3 种 → $4\cdot1\cdot3\cdot3^2=108$；
+    $(2,2,0,0)$：选两排 $\binom42=6$、各取外侧 → $6$。
+    合计 $81+108+6=195$ ✓，与方法一、Python 穷举三方一致。</p>
+      <p class="hint">要点：「$x^k$ 系数」的可读版就是「按分布分类」；看不懂多项式时就用它，边数边对照。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般化 + 证明</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化证明（插空法）</span>
+    <p>证明：一排 $n$ 个座位中放 $k$ 个<strong>互不相邻</strong>的空位，选法数为 $\dbinom{n-k+1}{k}$；据此写出一排 4 座时的模式多项式，并求 4 排、8 人已坐（留 8 空位）时「有相邻空位」的概率。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\binom{n-k+1}{k}$；4 座时 $1+4x+3x^2$；$(1+4x+3x^2)^4$ 的 $x^8$ 系数为 1 ⇒ $P=1-\frac1{\binom{16}{8}}=\frac{12869}{12870}$</strong></div>
+      <p><strong>插空法证明</strong>：先把 $n-k$ 个「已占座」排成一列，它们之间有 $n-k+1$ 个空隙（含两端）；把 $k$ 个互不相邻的空位插进互不相同的空隙里，每个空隙至多一个 ⇒ 恰保证互不相邻 ⇒ 选法 $\binom{n-k+1}{k}$。<br>
+    <strong>4 座时</strong>：$k=0,1,2$ 分别为 $\binom50=1$、$\binom41=4$、$\binom32=3$；$k\ge3$ 时为 $0$ ⇒ 多项式 $1+4x+3x^2$。<br>
+    <strong>代入</strong>：4 排 16 座、留 8 个空位，样本空间 $\binom{16}{8}=12870$；补集 $=(1+4x+3x^2)^4$ 的 $x^8$ 系数，指数要达 8 只能四排各取 $x^2$ ⇒ 系数 $3^4$? ——不，$x^2$ 系数是 3，四排各贡献 3 时是「每排恰 2 个不相邻空位」有 3 种，共 $3^4=81$。另外 $(2,2,2,2)$ 之外还有别的拆法（如 $4$ 个 = $2+2+2+2$ 是唯一的，因为每排最多贡献指数 2）：指数和 8 = 四个 2 ⇒ 唯一 ⇒ 补集 $=3^4=81$。故 $P=1-\frac{81}{12870}=\frac{12789}{12870}=\frac{4259...}{}$——约分：$\gcd(12789,12870)=3$ ⇒ $\frac{4263}{4290}$，再除 3 得 $\frac{1421}{1430}$；检查还能否约分：$\gcd(1421,1430)=1$（$1421=7^2\cdot29$、$1430=2\cdot5\cdot11\cdot13$）⇒ <strong>$P=\frac{1421}{1430}$</strong>。</p>
+      <p class="hint">要点：插空法给出 $\binom{n-k+1}{k}$（一排通用），配上一排多项式就能应对任何「每排 $n$ 座、$m$ 排」的变体——这才是真正的通项能力。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 反向思考</span> <span class="stars">★★★★★</span> <span class="form">形式｜等价命题 + 边界讨论</span>
+    <p>解释为什么「8 人随机就座」等价于「4 个空位的 495 种位置等可能」；并讨论若改成「先随机排好 8 人、夫妻再随机挑两个空座」，概率是否会变。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>等价；概率不变，仍是 $\frac{20}{33}$</strong></div>
+      <p><strong>等价性</strong>：每一种 4 元空位集合 $E$，对应的落座方式数都是「8 个人分配到余下 8 个座位」$=8!$ 种（人对座是双射，财 Importing座 >\zeta Kun khong: 8 人排 8 座 = 8!）。既然每个 $E$ 对应同样多的落座方式，按均匀分布它们就等可能。这就把「关于人的随机」完全换成了「关于空位集合的均匀随机」。<br>
+    <strong>第二种模型</strong>：若已固定 8 人位置（等价于固定了某个空位集合 $E$），夫妻在 4 个空位里挑 2 个，则「能否挑到相邻」对<strong>这个特定的 $E$</strong> 是确定性的（$E$ 含相邻对时为 1，否则为 0）；再对 $E$ 取平均，得到的仍是以 495 个 $E$ 为等可能样本空间的同一概率 $\frac{20}{33}$。<strong>概率不变</strong>——两种描述只是同一随机试验的两种讲法，这正是「视角不变性」的体现。</p>
+      <p class="hint">要点：「人随机」与「空位均匀」是同一试验的两副眼镜：每副都能做题，选让计数最省事的那副。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>考场 60 秒决策卡</h3>
+    <ol>
+      <li>把视线从人移到空位：样本空间 = C(12,4) = 495。</li>
+      <li>写每排模式多项式 1+3x+x²（0/1/2 个不相邻空位）；4 排 → 四次方。</li>
+      <li>取 x⁴ 系数 = 195 ⇒ P = 1 − 195/495 = 300/495 = 20/33，选 (C)。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「看空位、数补集、多项式取幂」——八个字的概率题，不用排任何人。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 概率 + 补集计数（生成函数） &nbsp;|&nbsp; 生成于 2026-10-12</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
