@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 坐标几何（水平底三角形的高）</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2024AMC8.html">← 返回 2024AMC8</a>
+    <div class="pager">
+      <a href="20261011-ice-rink-path-order.html">‹ 上一题</a>
+      <a href="20261011-grid-divisibility-extremal.html">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>坐标三角形反求纵坐标：高与第三点的横坐标无关</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261011</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2024AMC8(11)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Coordinate triangle area</span></div>
+  </div>
+  <p class="lede">$A$、$B$ 两点纵坐标相同——底边水平，这是出题人白送的礼物：<strong>底 = 横坐标之差 = 6</strong>，面积公式 $\frac12\times底\times高$ 里只剩一个未知数。由面积 12 解出高 4，而高就是 $C$ 到直线 $y=7$ 的竖直距离，$y = 7+4 = 11$。<strong>全程用不到 $C$ 的横坐标 3</strong>——这是坐标三角形最反直觉也最有用的一条性质。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    The coordinates of $\bigtriangleup ABC$ are $A(5, 7),$ $B(11, 7),$ and $C(3, y),$ with $y > 7.$ The area of $\bigtriangleup ABC$ is $12.$ What is the value of $y?$
+<img src="../img/amc8/2024/11.svg" style="max-height:11rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：$\triangle ABC$ 的三个顶点坐标为 $A(5,7)$、$B(11,7)$、$C(3,y)$，其中 $y>7$。已知 $\triangle ABC$ 的面积为 $12$，求 $y$。
+(A) 8　(B) 9　(C) 10　(D) 11　(E) 12</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/11" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2024/problem/11</a><br>
+    官方给出的正确选项为 <strong>(D) 11</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 12</code></td><td>把「高」当成了「$C$ 的纵坐标」：算出高为 4 后直接答 $y=4$ 发现不在选项里，转而把 4 与某个坐标乱组合（比如 $7+4+1$ 或 $8+4$），凑到 12。根子是<strong>没说清「高」是哪两点间的距离</strong>——高是 $C$ 到<strong>底边所在直线</strong> $y=7$ 的竖直距离，$y = 7 + 高$，而不是任何别的组合。</td></tr>
+    <tr><td><code>答 (A) 8</code></td><td>把底算成了 $11-5=6$ 的一半或者用了 $C$ 的横坐标：例如用「底 $= 11-3 = 8$」（错把 $B$、$C$ 横坐标之差当底），得出高 $=\frac{2\cdot12}{8}=3$、$y=7+3=10$ 选 (C)；或者用「底 $=5$」之类。另一种典型：套公式时把 $\frac12$ 丢了，解出高 $= \frac{12}{6} = 2$、$y=9$ 选 (B)。<strong>底必须取在水平那条边上</strong>（$A$、$B$ 的横坐标之差），公式必须带 $\frac12$。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有先观察三个坐标的<strong>结构</strong>就动手套公式。$A$、$B$ 纵坐标相同意味着底边水平，这时候面积公式里根本不出现 $C$ 的横坐标——整个题目退化成「$12=\frac12\cdot6\cdot高$」的一元一次方程。看不出这个结构的人会去用鞋带公式或者硬画图数格子，路走得又长又容易错。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：水平底 + 面积公式反解高（官方思路，推荐）</h3>
+  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/11" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
+    <p><strong>第 1 步 · 选底。</strong>取 $\overline{AB}$ 为底。$A$、$B$ 纵坐标都是 7，底边在直线 $y=7$ 上，长度
+    $$|AB| = 11-5 = 6 .$$</p>
+    <p><strong>第 2 步 · 用面积解高。</strong>设 $C$ 到直线 $y=7$ 的（竖直）距离为 $h$。面积公式给出</p>
+    $$12 = \frac12\cdot 6\cdot h \quad\Longrightarrow\quad h = \frac{2\cdot12}{6} = 4 .$$
+    <p><strong>第 3 步 · 由高定 $y$。</strong>$C=(3,y)$ 到直线 $y=7$ 的竖直距离是 $|y-7|$。由 $y>7$ 知 $|y-7|=y-7=4$，所以</p>
+    $$y = 7+4 = 11 .$$
+    <blockquote class="ok"><strong>答案：(D) 11</strong>。</blockquote>
+    <p>注意全题<strong>没有用到 $C$ 的横坐标 3</strong>——水平底三角形的高只由 $C$ 的纵坐标决定，这是本条公式最重要的特征。</p>
+  <h3>方法二：鞋带公式（用于验算或底不水平时）</h3>
+  鞋带公式：顶点按逆（顺）时针排列 $A(5,7),B(11,7),C(3,y)$ 时，
+    $$\text{面积} = \frac12\big|x_A(y_B-y_C)+x_B(y_C-y_A)+x_C(y_A-y_B)\big|
+      = \frac12\big|5(7-y)+11(y-7)+3(7-7)\big|.$$
+    化简：$\frac12\big|35-5y+11y-77\big|=\frac12\big|6y-42\big|=3|y-7|$。令其等于 12：$|y-7|=4$，$y=11$（取 $y>7$）或 $y=3$（舍去）。
+    <p>鞋带公式给出了同一个方程 $3|y-7|=12$——它比方法一多算了不少，但<strong>不依赖「底水平」的观察</strong>，是任意坐标三角形都适用的兜底工具。两法一致，答案可靠。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① 把 $y=11$ 代回：底 6、高 $11-7=4$，面积 $\frac12\cdot6\cdot4=12$ ✓；② 极限自检：把 $C$ 的横坐标从 3 改成 100（纵坐标仍 11），底和高都不变，面积仍是 12——这正是「高与横坐标无关」的直接演示；③ Python 用鞋带公式数值计算 $(5,7),(11,7),(3,11)$ 的面积得 12.0，一致。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：底边水平的三角形（两端点 $(x_1,k),(x_2,k)$、第三点 $(x_3,y)$），面积 $=\frac12|x_2-x_1|\cdot|y-k|$——<strong>与 $x_3$ 完全无关</strong>。这是因为高按「点到直线距离」取竖直方向即可，跟第三点水平位置没有关系。这条性质是坐标几何里把二维问题压成一维的第一工具；它的通用兜底是鞋带公式 $\frac12|x_1(y_2-y_3)+x_2(y_3-y_1)+x_3(y_1-y_2)|$。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>先看坐标<strong>结构</strong>再选工具：两端点纵坐标相同 → 底水平 → 用「底 = 横坐标之差」；两端点横坐标相同 → 底竖直 → 用「底 = 纵坐标之差」。都不是 → 鞋带公式。</li>
+    <li>面积公式<strong>必须带 $\frac12$</strong>。由面积反解高时是 $h=\frac{2S}{\text{底}}$，这个 2 就是 $\frac12$ 的化身——漏掉它会把高 4 算成 2，正中干扰项 (B) 9。</li>
+    <li>「高」的严格含义是<strong>点到直线（底边所在直线）的垂线段长度</strong>。底水平时垂线恰好竖直，高 $=|y_C-k|$；由面积只能解出 $|y_C-k|$，还要靠 $y>7$ 这种条件<strong>定符号</strong>才能给出唯一的 $y$。</li>
+    <li>第三点的横坐标是「烟雾弹」：本题的 3 在解法里一次也没用上。做坐标题时先问「哪些数其实不起作用」，能直接排除一批干扰项，也能防止自己硬把 3 塞进计算里。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 直接应用</span> <span class="stars">★</span> <span class="form">形式｜直接计算</span>
+    <p>$\triangle ABC$ 中 $A(0,0)$、$B(6,0)$、$C(2,8)$，求面积。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$24$</strong></div>
+      <p>底 $AB$ 在 $x$ 轴上，长 $6$；高 $=C$ 的纵坐标 $=8$。面积 $=\frac12\cdot6\cdot8=24$。$C$ 的横坐标 2 一次也没用。</p>
+      <p class="hint">要点：最基础的一次应用：水平底 + 竖直高，十秒出答案。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 同构换数</span> <span class="stars">★★</span> <span class="form">形式｜同构换参</span>
+    <p>$A(1,2)$、$B(9,2)$、$C(3,y)$，$y>2$，面积为 $20$。求 $y$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$y=7$</strong></div>
+      <p>底 $=9-1=8$，$20=\frac12\cdot8\cdot h\Rightarrow h=5$，$y=2+5=7$。结构与原题完全一致，只是数字换了。</p>
+      <p class="hint">要点：换皮不换骨：底取水平边两点横坐标之差，高用 $h=\frac{2S}{\text{底}}$，加回基准纵坐标。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 附加约束</span> <span class="stars">★★★</span> <span class="form">形式｜附加约束反求坐标</span>
+    <p>$C(x,y)$ 在直线 $y=x+2$ 上，$A(0,0)$、$B(4,0)$，$\triangle ABC$ 面积为 $6$ 且 $y>0$。求 $C$ 的坐标。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$C=(1,3)$</strong></div>
+      <p>底 $=4-0=4$，$6=\frac12\cdot4\cdot h\Rightarrow h=3$。$y>0$ 给 $y=3$；代入约束 $y=x+2$ 得 $x=1$。所以 $C=(1,3)$。注意面积条件只锁定 $y$，附加条件（在直线上）才锁定 $x$——两个条件各管一个未知数。</p>
+      <p class="hint">要点：水平底面积只约束纵坐标；横坐标要靠题目给的附加条件（在直线上、在某个象限等）来定。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 鞋带公式</span> <span class="stars">★★★★</span> <span class="form">形式｜通用公式计算</span>
+    <p>用鞋带公式求 $A(1,1)$、$B(5,3)$、$C(2,7)$ 的三角形面积（此题底不水平，必须用通用方法）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$11$</strong></div>
+      <p>$$\text{面积}=\frac12\big|1(3-7)+5(7-1)+2(1-3)\big|=\frac12\big|{-4}+30-4\big|=\frac{22}2=11.$$
+    <strong>交叉验算</strong>（矩形减三小块）：三点的外接矩形是 $(1,1)\sim(5,7)$，面积 $4\times6=24$。矩形减去三个直角三角形：$AB$ 下方（底4高2）面积4、$BC$ 右上方（底3高4）面积6、$AC$ 左上方（底1高6）面积3。$24-4-6-3=11$ ✓ 两种方法一致。</p>
+      <p class="hint">要点：底不水平时鞋带公式是唯一条大道；三个顶点必须按同一旋转方向排列。「外接矩形减直角三角形」是不依赖公式繁琐符号的天然验算工具。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 一般化 + 证明</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化 + 证明</span>
+    <p>证明：底边水平（两端点 $(x_1,k),(x_2,k)$）的三角形面积 $=\frac12|x_2-x_1|\cdot|y-k|$，其中 $(x_3,y)$ 为第三点——<strong>与 $x_3$ 无关</strong>；并说明这为什么等价于「同底等高」原理。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>面积 $=\frac12|x_2-x_1|\cdot|y-k|$，与 $x_3$ 无关</strong></div>
+      <p>证法一（鞋带公式）：面积 $=\frac12|x_1(k-y)+x_2(y-k)+x_3(k-k)|=\frac12\big|(y-k)(x_2-x_1)\big|$——$x_3$ 所在项系数为 $k-k=0$，直接消失。
+    证法二（同底等高）：把底取为水平线段 $\overline{AB}$，高是 $C$ 到直线 $y=k$ 的距离 $|y-k|$（水平底的垂线竖直，与 $x_3$ 无关）。面积 $=\frac12\times底\times高$ 即得。两条证法等价；「同底等高」原理说：只要第三点沿着一条平行于底的直线滑动，三角形面积不变——滑动正是改变 $x_3$。本题 $y>7$ 的作用是把 $|y-7|$ 解成 $y-7$，锁定唯一解。</p>
+      <p class="hint">要点：「高与横坐标无关」就是同底等高原理在坐标纸上的样子；鞋带公式里 $x_3$ 的系数恰为 0 是它的代数身份证。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>考场 20 秒决策卡</h3>
+    <ol>
+      <li>看三点坐标：有两点纵坐标（或横坐标）相同吗？有 → 底水平（竖直），底长 = 坐标差。</li>
+      <li>由面积反解高：$h=\frac{2S}{底}$；高 = 第三点相应坐标与基准线的距离。</li>
+      <li>用题目条件（$y>7$）定符号得 $y=11$，对照选项 (D)；第三点的横坐标从头到尾没用——若你的解法用到了它，回头检查。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「水平底、竖直高、横坐标白给」——看到水平底，就把二维压成一维。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 坐标几何（水平底三角形的高） &nbsp;|&nbsp; 生成于 2026-10-12</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
