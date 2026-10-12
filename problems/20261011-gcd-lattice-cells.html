@@ -166,8 +166,11 @@ window.MathJax = {
   <hr>
 
   <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/23" target="_blank" rel="noopener">2024AMC8(23)</a> 的书面解答一致——线段穿过的格子数是 $a+b-\gcd(a,b)$（$\gcd$ 扣掉的是过格点时「竖穿 + 横穿」的重合计次），代入 $a=3000,b=5000,\gcd=1000$。
+    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+  </blockquote>
   <h3>方法一：网格线计数 + 格点去重（官方思路，推荐）</h3>
-  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/23" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
     <p><strong>第 1 步 · 建立计数模型。</strong>把线段看作从起点出发一路向前，每<strong>穿过一条网格线</strong>就进入一个新格子。设线段水平跨 $a$ 列、竖直跨 $b$ 行，则它要穿过 $a$ 条竖网格线与 $b$ 条横网格线——但终点不算（终点在线上路了）。</p>
     <p><strong>第 2 步 · 唯一的重复：内部格点。</strong>当线段正好经过一个格点（横竖坐标都是整数）时，它同时穿过该点处的横线与竖线，一次跨完；此时「进入新格子」发生 <strong>1</strong> 次，而不是 $2$ 次。所以总格子数要在 $a+b$ 的基础上减掉这类点的个数。</p>
     <p><strong>第 3 步 · 数内部格点。</strong>从 $(0,0)$ 到 $(a,b)$ 的线段上格点个数为 $\gcd(a,b)+1$（含两端），故<strong>内部</strong>格点有 $\gcd(a,b)-1$ 个。（理由：设 $g=\gcd(a,b)$，把 $a=ga',b=gb'$ 且 $\gcd(a',b')=1$，则参数方程 $(x,y)=(ta',tb')\cdot g$… 段上的格点恰对应 $t$ 取 $0,\frac1g,\dots,1$ 共 $g+1$ 个。）</p>
