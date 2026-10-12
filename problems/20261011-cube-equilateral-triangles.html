@@ -166,8 +166,11 @@ window.MathJax = {
   <hr>
 
   <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/20" target="_blank" rel="noopener">2024AMC8(20)</a> 的书面解答一致——等边三角形只能走正方形面的对角线；从 $P$ 出发的面对角线两两配对，穷举得 $\triangle PVT$、$\triangle PRT$、$\triangle PRV$ 共 3 个。
+    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+  </blockquote>
   <h3>方法一：边长分类 + 面对角线配对（官方思路，推荐）</h3>
-  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/20" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
     <p><strong>第 1 步 · 边长分类。</strong>建立坐标：设棱长为 1，$P=(0,0,1)$，则任意两顶点的距离只可能是
     $$1\ (\text{棱}),\qquad \sqrt2\ (\text{面对角线}),\qquad     \sqrt3\ (\text{体对角线}).$$</p>
 
