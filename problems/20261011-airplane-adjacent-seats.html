@@ -166,8 +166,11 @@ window.MathJax = {
   <hr>
 
   <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/25" target="_blank" rel="noopener">2024AMC8(25)</a> 的书面解答一致——只看空位分布，样本空间塌缩到 $\binom{12}{4}=495$；补集用每排模式多项式 $1+3x+x^2$，$(1+3x+x^2)^4$ 的 $x^4$ 系数为 195，故概率 $1-\frac{195}{495}=\frac{20}{33}$。
+    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+  </blockquote>
   <h3>方法一：空位分布 + 补集生成函数计数（官方思路，推荐）</h3>
-  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/25" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
     <p><strong>第 1 步 · 换视角。</strong>「夫妻能有相邻座」$\iff$「存在一个相邻的空位对」。而 8 人坐下后留下 <strong>4 个空位</strong>，这 4 个空位的分布方式共
     $$\binom{12}{4}=495\ \text{种，等可能}。$$
     （每种 4 元子集都对应同样数量的落座方式——8 个人分配到余下 8 座的方式数与空位的具体位置无关，故子集等可能。）</p>
