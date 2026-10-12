@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 立体几何计数（立方体中的等边三角形）</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2024AMC8.html">← 返回 2024AMC8</a>
+    <div class="pager">
+      <a href="20261011-grid-divisibility-extremal.html">‹ 上一题</a>
+      <a href="20261011-tape-roll-unroll.html">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>立方体顶点三角形：等边只认面对角线</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261011</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2024AMC8(20)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Cube equilateral triangles</span></div>
+  </div>
+  <p class="lede">立方体上任意两顶点的距离只有三种：棱 $1$、面对角线 $\sqrt2$、体对角线 $\sqrt3$。等边三角形要求三边相等，逐个检验：三条棱凑不出（共面直角）、含体对角线的三角形三边互不相同——<strong>唯一的三边相等组合是 $\sqrt2,\sqrt2,\sqrt2$，即三条面对角线</strong>。含 $P$ 的这种三角形恰好 3 个：$\triangle PVT$、$\triangle PRT$、$\triangle PRV$。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Any three vertices of the cube $PQRSTUVW,$ shown in the figure below, can be connected to form a triangle. (For example, vertices $P,$ $Q,$ and $R$ can be connected to form isosceles $\bigtriangleup PQR.$) How many of these triangles are equilateral and contain $P$ as a vertex?
+<img src="../img/amc8/2024/20.svg" style="max-height:12rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：立方体 $PQRSTUVW$（如图）的任意三个顶点都可以连成一个三角形（例如 $P,Q,R$ 连成等腰 $\triangle PQR$）。这些三角形中，<strong>等边且以 $P$ 为顶点</strong>的有多少个？
+(A) 0　(B) 1　(C) 2　(D) 3　(E) 6</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/20" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2024/problem/20</a><br>
+    官方给出的正确选项为 <strong>(D) 3</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 6</code></td><td>把「从 $P$ 出发有 3 条面对角线」当成了答案：$PR$、$PV$、$PT$ 三条面对角线两两组合出 $\binom32=3$ 对，每对配第三点时数成了两个方向（$\triangle PRV$ 与 $\triangle RVP$ 之类重复计数），或者误以为每个面对角线对都能配出<strong>两个</strong>不同的第三点。实际上三条面对角线两两之间的「第三顶点」是唯一确定的：$PR$ 与 $PV$ 配 $V$？——$R,V$ 间必须是面对角线，逐一核对只有 3 种组合、每组合一个三角形。重复计数是立方体计数题的头号坑。</td></tr>
+    <tr><td><code>答 (B) 1</code></td><td>只找到了一个（比如 $\triangle PRV$——由顶面、前面、右面的三条面对角线围成的那个「斜切」三角形），就默认其他方向「应该对称地不存在」或「图上看不见」。其实立方体的对称性恰恰保证：每个「隔一个取」的三顶点组都给出一个等边三角形。图是三维示意，纸上看不全不代表不存在——<strong>对称类的存在性要用对称性论证，而不是用眼睛在图上找</strong>。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有先把「任意两顶点的距离」做完整分类。立方体顶点间距离只有 $1,\sqrt2,\sqrt3$ 三种，等边条件把候选压缩到「三边都是 $\sqrt2$」一种，这一步做完，剩下的只是「从 $P$ 出发的三条面对角线两两配对」的小组合题（$\binom32=3$）。跳过分类直接在图上「找三角形」，既容易漏（三维图只画得出部分）又容易重。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：边长分类 + 面对角线配对（官方思路，推荐）</h3>
+  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/20" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
+    <p><strong>第 1 步 · 边长分类。</strong>建立坐标：设棱长为 1，$P=(0,0,1)$，则任意两顶点的距离只可能是
+    $$1\ (\text{棱}),\qquad \sqrt2\ (\text{面对角线}),\qquad     \sqrt3\ (\text{体对角线}).$$</p>
+
+    <p><strong>第 2 步 · 等边条件的筛选。</strong>三边相等的组合只可能是「三条棱」或「三条面对角线」或「三条体对角线」：</p>
+    <ul>
+      <li>三条棱：从 $P$ 出发的三条棱两两垂直，任取两条棱加对角的面对角线构成的是<strong>等腰直角</strong>三角形（如题面示例 $\triangle PQR$），三条棱本身围不成三角形（共点）；</li>
+      <li>含体对角线的三角形三边长互不相同（$1,\sqrt2,\sqrt3$ 中至多出现两种），不可能三边相等；</li>
+      <li><strong>三条面对角线</strong>：$P$ 的面对角线恰有 3 条——$PR$（顶面）、$PV$（前面）、$PT$（左面）。任取两条 $Px,Py$，第三边 $xy$ 必须也是面对角线。逐一核对：
+      $$\{PR,PV\}\to RV\ \checkmark,\qquad \{PR,PT\}\to RT\ \checkmark,\qquad \{PV,PT\}\to VT\ \checkmark.$$
+      三种组合全部合法（每个恰好对应一个三角形）。</li>
+    </ul>
+    <p><strong>第 3 步 · 计数与结论。</strong>等边且含 $P$ 的三角形恰为
+    $$\triangle PRV,\quad \triangle PRT,\quad \triangle PVT,$$
+    共 <strong>3</strong> 个。</p>
+    <blockquote class="ok"><strong>答案：(D) 3</strong>。</blockquote>
+  <h3>方法二：坐标枚举（穷举验算）</h3>
+  给 8 个顶点赋坐标（棱长 1）：
+    $$P(0,0,1),\ Q(1,0,1),\ R(1,1,1),\ S(0,1,1),\ T(0,1,0),\ U(1,1,0),\ V(1,0,0),\ W(0,0,0).$$
+    含 $P$ 的三角形有 $\binom72=21$ 个，逐一算三边长，筛出三边相等的：Python 枚举结果为
+    $$\{P,R,T\},\ \{P,R,V\},\ \{P,T,V\}$$
+    恰 3 个（三边均为 $\sqrt2$）。顺带得到全立方体的等边三角形总数为 8 个——除含 $P$ 的 3 个外还有 $\{Q,S,U\},\{Q,S,W\},\{Q,U,W\},\{R,T,V\},\{S,U,W\}$，与「每个顶点恰好属于 3 个等边三角形、$8\times3/3=8$」的对称性核算完全一致。
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① 坐标穷举（方法二）与方法一的结构计数都是 3；② 对称性核对：立方体 8 个顶点地位完全对等，含每个顶点的等边三角形都应是 3 个，$8\times3\div3$（每三角形 3 顶点）= 全体 8 个，为整数且与穷举一致；③ 反向排除自查：任何含体对角线（长 $\sqrt3$）的三角形另两边只能取 $1$ 与 $\sqrt2$，$1+\sqrt2\neq\sqrt3$ 且两两不等，绝无等边可能——分类完整无遗漏。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：立方体顶点间距离的<strong>三分类</strong>（棱 $a$、面对角线 $a\sqrt2$、体对角线 $a\sqrt3$）是所有立方体顶点计数题的出发点：先把「边长相等/直角/共面」等几何条件翻译成「用了哪几种距离」，组合结构立刻清晰。等边三角形的判定在这里退化成一句：<strong>三边必须同阶，而只有面对角线能凑出三条同长</strong>。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>立方体任意两顶点距离只有 $1,\sqrt2,\sqrt3$ 三种（对应坐标差 1 个、2 个、3 个非零分量），$12+12+4=28=\binom82$ 对全覆盖、无遗漏。先分类距离，再谈三角形。</li>
+    <li>等边三角形在立方体顶点中<strong>只能由三条面对角线构成</strong>：三条棱共点围不成三角形，体对角线一出现三边必不等。含每个顶点的等边三角形恰好 3 个。</li>
+    <li>计数用<strong>组合结构</strong>而不是用眼睛：从 $P$ 出发的面对角线有 3 条，任取两条 $\binom32=3$，每种取法第三边自动合法——答案 $\binom32=3$ 一步算出，逐个列举只是验证。</li>
+    <li><strong>对称性自检</strong>：8 个顶点地位对等 ⇒ 每顶点参与的等边三角形数相同 ⇒ 全体个数 = $8\times3/3=8$，必须是整数且与穷举一致。对称性核算抓重复计数、抓遗漏，两分钟内完成。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 距离分类计数</span> <span class="stars">★</span> <span class="form">形式｜分类计数</span>
+    <p>立方体的 8 个顶点两两连线，长为 $1$、$\sqrt2$、$\sqrt3$ 的线段各有多少条？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>棱 12 条、面对角线 12 条、体对角线 4 条</strong></div>
+      <p>棱：每面 4 条、6 面但每条棱属 2 面 → $6\times4/2=12$。面对角线：每面 2 条、6 面 → 12。体对角线：4 条（8 顶点配成 4 对「相对顶点」）。合计 $12+12+4=28=\binom82$ ✓ 无重无漏。</p>
+      <p class="hint">要点：「每面数完除以共享度」是立方体线段计数的基本功；28 = 12+12+4 的闭合是分类完整的证据。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 等腰直角三角形计数</span> <span class="stars">★★</span> <span class="form">形式｜同法迁移计数</span>
+    <p>立方体顶点三角形中，含顶点 $P$ 的<strong>等腰直角三角形</strong>有几个？（边长组合为 $1,1,\sqrt2$。）</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>9 个</strong></div>
+      <p>等腰直角对应边长组合 $1,1,\sqrt2$：两条棱 + 一条面对角线，且三条边落在一个面上（半个正方形）。含 $P$ 的面有 3 个（顶面、左面、前面）；每个正方形面有 4 个「半正方形」三角形，其中含指定顶点 $P$ 的有 3 个（以 $P$ 为直角顶点的 1 个 + 以 $P$ 为锐角顶点的 2 个）。$3\times3=9$。坐标穷举验证：含 $P$、边长 $\{1,1,\sqrt2\}$ 的三角形恰 9 个 ✓。</p>
+      <p class="hint">要点：同一套「距离分类」换个组合（$1,1,\sqrt2$）就是新题；每面含 $P$ 的半正方形 3 个 × 含 P 的面 3 个。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 对称性核算</span> <span class="stars">★★★</span> <span class="form">形式｜全局计数 + 一致性检验</span>
+    <p>立方体顶点三角形中，等边三角形共有多少个？请用两种独立方法（直接构造 / 对称性核算）得出一致答案。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>8 个</strong></div>
+      <p><strong>法一（构造）</strong>：等边三角形 = 三条面对角线 = 「对角面」的边。立方体的对角面（过 4 个顶点的矩形，如 $PRTV$）有 6 个，每个对角面的两条对角线交叉给出 2 个等边三角形 → $6\times2=12$？——不对，重数了：每个等边三角形的三条面对角线分属<strong>三个</strong>不同对角面，故每个三角形被数了……直接改用顶点组：等边三角形的三顶点在某个「交替组」里。更直接：坐标穷举给出 8 个：$\{P,R,T\},\{P,R,V\},\{P,T,V\},\{Q,S,U\},\{Q,S,W\},\{Q,U,W\},\{R,T,V\},\{S,U,W\}$。<strong>法二（对称核算）</strong>：每顶点属 3 个，$8\times3/3=8$ ✓。法一的正确打开方式：8 个等边三角形恰好是<strong>两个内接正四面体</strong>的表面——四面体 $\{P,R,T,V\}$ 的 4 个面 + 四面体 $\{Q,S,U,W\}$ 的 4 个面 = 8。两法一致：8 个。</p>
+      <p class="hint">要点：全局计数先做对称核算（$8\times3/3$）往往比直接构造更快更稳；「两个内接正四面体」是立方体最漂亮的隐藏结构。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 直角三角形计数</span> <span class="stars">★★★★</span> <span class="form">形式｜附加约束计数</span>
+    <p>含顶点 $P$ 的 21 个三角形中，<strong>直角三角形</strong>有几个？（提示：按最大边长是 $\sqrt2$ 还是 $\sqrt3$ 分类；$\{1,1,\sqrt2\}$ 与 $\{1,\sqrt2,\sqrt3\}$ 两族。）</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>18 个（含 $P$ 的 21 个三角形中，另 3 个是等边三角形、不是直角三角形）</strong></div>
+      <p>含 $P$ 的三角形共 $\binom72=21$ 个。按三边的平方长分类（记棱长 1，三种距离为 $1,\sqrt2,\sqrt3$）：
+    <table>
+      <tr><th>边长组合</th><th>个数</th><th>是否为直角三角形</th></tr>
+      <tr><td>$\{1,1,\sqrt2\}$</td><td>9</td><td>✓ $1^2+1^2=(\sqrt2)^2$</td></tr>
+      <tr><td>$\{1,\sqrt2,\sqrt3\}$</td><td>9</td><td>✓ $1^2+(\sqrt2)^2=(\sqrt3)^2$</td></tr>
+      <tr><td>$\{\sqrt2,\sqrt2,\sqrt2\}$</td><td>3</td><td>✗ 等边三角形，三个角都是 $60^\circ$</td></tr>
+    </table>
+    勾股逆定理（看两较小平方之和是否等于最大平方）判定前两类都是直角，第三类是等边所以不是直角。$9+9=\mathbf{18}$，另有 3 个等边三角形不在计数内。$18+3=21$ ✓ 分类闭合、无重无漏。Python 穷举 21 个三角形核对三边平方，分布恰为上表。</p>
+      <p class="hint">要点：计数题先猜后验：猜「全直角」再用勾股逆定理逐类核对 + 穷举兜底；发现 $\{\sqrt2,\sqrt2,\sqrt3\}$ 组合在含 P 的情形根本不出现，是分类闭合的关键一环。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 一般化 + 结构证明</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化 + 证明</span>
+    <p>证明：立方体顶点构成的等边三角形恰好是两个内接正四面体（$\{P,R,T,V\}$ 与 $\{Q,S,U,W\}$）的表面三角形，共 $2\times4=8$ 个；并说明为什么任意等边三角形的三顶点必属同一个四面体。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>8 个；等边三角形三顶点两两以面对角线相连，而「以面对角线相连」是同一交替组内的关系</strong></div>
+      <p>给顶点按坐标分量和的奇偶分组：偶组 $\{P,R,T,V\}$（和为 1,2,1,0？取 $P(0,0,1),R(1,1,1),T(0,1,0),V(1,0,0)$，两两坐标差恰有 2 个非零分量 → 距离 $\sqrt2$）、奇组 $\{Q,S,U,W\}$ 同理。组内任意两点相异 → 距离都是 $\sqrt2$；组间点距离为 1（差 1 个分量）或 $\sqrt3$（差 3 个）。等边三角形三边同为 $\sqrt2$ ⇒ 三顶点两两距离 $\sqrt2$ ⇒ 都落在同一组 ⇒ 是该组正四面体（4 顶点两两 $\sqrt2$，恰好构成正四面体，棱长 $\sqrt2$）的某 3 个顶点即一个表面。每个四面体 4 个面，两个四面体共 <strong>8</strong> 个等边三角形。这个「交替组」就是立方体图（顶点当图、棱当边）的<strong>二分性</strong>：立方体的圈全是偶圈，顶点可二染色，同色点不相邻。</p>
+      <p class="hint">要点：「坐标和奇偶分组」把立方体拆成两个正四面体——距离 $\sqrt2$ 的全部 12 对线段恰是这两个四面体的 12 条棱，8 个等边三角形就是它们的 8 张脸。一个二染色，三层结构全看清。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>考场 40 秒决策卡</h3>
+    <ol>
+      <li>列距离三分类：1、√2、√3。等边 ⇒ 三边同长 ⇒ 只能三条面对角线。</li>
+      <li>从 P 出发的面对角线 3 条：PR、PV、PT；任取两条 C(3,2)=3，第三边逐一核对都合法。</li>
+      <li>答 3 选 (D)；对称性自检：8 顶点 × 3 ÷ 3 = 全体 8 个，穷举可再核一遍。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「先分类、再组合、后对称」——距离三分类是立方体计数题的万能起手。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 立体几何计数（立方体中的等边三角形） &nbsp;|&nbsp; 生成于 2026-10-12</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
