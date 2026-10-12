@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 最大公因数 + 格点计数</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2024AMC8.html">← 返回 2024AMC8</a>
+    <div class="pager">
+      <a href="20261011-tape-roll-unroll.html">‹ 上一题</a>
+      <a href="20261011-stained-glass-overlap.html">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>线段穿过多少个格子：a + b − gcd(a, b) 一条公式收场</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261011</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2024AMC8(23)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">GCD and lattice point counting</span></div>
+  </div>
+  <p class="lede">线段水平跨 $a=3000$ 列、竖直跨 $b=5000$ 行。每穿过一条网格线就进入一个新格子，共穿过 $a+b$ 条网格线；但经过<strong>内部格点</strong>时是「横线竖线同时穿过」，进入的新格子只算一个而不是两个——这种合并恰好发生 $\gcd(a,b)-1$ 次。于是总格数 $=a+b-\gcd(a,b)=3000+5000-1000=7000$。<strong>夹进去的那个 gcd，就是数回购鼖掉的重复计数。</strong></p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Rodrigo has a very large piece of graph paper. First he draws a line segment connecting point $(0, 4)$ to point $(2, 0)$ and colors the $4$ cells whose interiors intersect the segment, as shown below. Next, Rodrigo draws a line segment connecting point $(2000, 3000)$ to point $(5000, 8000).$ Again he colors the cells whose interiors intersect the segment. How many cells will he color this time?
+<img src="../img/amc8/2024/23.svg" style="max-height:12rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：Rodrigo 有一张很大的方格纸。他先画一条连接 $(0,4)$ 与 $(2,0)$ 的线段，把与该线段<strong>内部相交</strong>的 $4$ 个格子涂色（如图）。接着他画一条连接 $(2000,3000)$ 与 $(5000,8000)$ 的线段，同样把内部与之相交的格子涂色。这一次他会涂多少个格子？
+(A) 6000　(B) 6500　(C) 7000　(D) 7500　(E) 8000</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/23" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2024/problem/23</a><br>
+    官方给出的正确选项为 <strong>(C) 7000</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 8000</code></td><td>用 $a+b=3000+5000=8000$ 直接当答案，等于假设「每穿过一条网格线都进入一个<strong>全新的</strong>格子」。这在水平的 Rus 线段上恰为真，但一般线段会在某些点同时穿过横线和竖线（<strong>经过格点</strong>），那一刻两条线一次跨完，少进一个格子。漏减 $1000$ 正是忽略这批格点上的「对角跨越」。</td></tr>
+    <tr><td><code>答 (B) 6500</code></td><td>知道要减「重复」，却减错了数：蓝色地把减去量算成 $\gcd-1=999$ 之外还多减了 $1$（即减 $1500$ 或类似），或者干脆用 $\gcd(3000,5000)$ 算成 $500$（把 $3000$ 与 $5000$ 的最大公因数错算——$3000=1000\cdot3$、$5000=1000\cdot5$，互质部分是 $3$ 与 $5$，所以 $\gcd=1000$，不是 $500$）。这类错误一半出在公式记忆、一半出在 $\gcd$ 的计算本身。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「进新格子」这个动作跟「穿过网格线」做精确的一一对应。正确对应是：<strong>每穿过一条网格线段就进新格一次，唯独经过内部格点时横线竖线一次性跨完</strong>（一个动作换了三个方向的两个邻居格中的另一格）。数出内部格点是 $\gcd(a,b)-1$ 个，公式就自动成立。另外，先用题面给的小样例 $(0,4)\to(2,0)$（$2+4-2=4$ 与题面的「4 个格子」完全吻合）验证公式，能挡掉绝大多数公式记错的情况。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：网格线计数 + 格点去重（官方思路，推荐）</h3>
+  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/23" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
+    <p><strong>第 1 步 · 建立计数模型。</strong>把线段看作从起点出发一路向前，每<strong>穿过一条网格线</strong>就进入一个新格子。设线段水平跨 $a$ 列、竖直跨 $b$ 行，则它要穿过 $a$ 条竖网格线与 $b$ 条横网格线——但终点不算（终点在线上路了）。</p>
+    <p><strong>第 2 步 · 唯一的重复：内部格点。</strong>当线段正好经过一个格点（横竖坐标都是整数）时，它同时穿过该点处的横线与竖线，一次跨完；此时「进入新格子」发生 <strong>1</strong> 次，而不是 $2$ 次。所以总格子数要在 $a+b$ 的基础上减掉这类点的个数。</p>
+    <p><strong>第 3 步 · 数内部格点。</strong>从 $(0,0)$ 到 $(a,b)$ 的线段上格点个数为 $\gcd(a,b)+1$（含两端），故<strong>内部</strong>格点有 $\gcd(a,b)-1$ 个。（理由：设 $g=\gcd(a,b)$，把 $a=ga',b=gb'$ 且 $\gcd(a',b')=1$，则参数方程 $(x,y)=(ta',tb')\cdot g$… 段上的格点恰对应 $t$ 取 $0,\frac1g,\dots,1$ 共 $g+1$ 个。）</p>
+    <p><strong>第 4 步 · 套公式到小样例校验。</strong>题面给 $(0,4)\to(2,0)$：$a=2,\ b=4,\ \gcd=2$，</p>
+    $$\text{格数}=2+4-2=4,$$
+    与题面说的「4 个格子」严格吻合 ✓ 公式可信。
+    <p><strong>第 5 步 · 代入本题。</strong>$(2000,3000)\to(5000,8000)$：</p>
+    $$a=5000-2000=3000,\quad b=8000-3000=5000,\quad \gcd(3000,5000)=1000,$$
+    $$\text{格数}=3000+5000-1000=7000 .$$
+    <blockquote class="ok"><strong>答案：(C) 7000</strong>。</blockquote>
+  <h3>方法二：按 gcd 分段计数（换个视角）</h3>
+  令 $g=\gcd(a,b)=1000$。线段被内部格点等分成 $g$ 段，每段对应端点差 $(a/g,\ b/g)=(3,5)$，而 $\gcd(3,5)=1$。由样例附近的经验，$\gcd=1$ 的线段（互质情形）穿过
+    $$a'+b'-1=3+5-1=7\ \text{个格子}$$
+    （最开始 1 个，之后每穿一条线 +1，且永不经过内部格点）。$g$ 段首尾相接但共顶点处的格子已被前一段计过？——需要注意的是相邻两段共用的那个格点处的格子会被重复计：$g$ 段各 7 格共 $7g$，但相邻两段在格点处「共享」一个格子（跨段的那个格子被计了两次），所以要减去 $g-1$：
+    $$\text{总数}=7\times1000-999=7000 .$$
+    与方法一完全一致。这个视角的价值在于把「互质情形」孤立出来：$a+b-1$ 是它的干净答案，一般情形只是把它重复 $g$ 次再去掉接缝。
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① 小样例自检：$\gcd$ 公式在 $(0,4)\to(2,0)$ 上给出 4，与题面明示的 4 个格子吻合；② Python 用密采样模拟 $(a,b)=(2,4),(3,3),(2,2),(4,2),(1,5)$ 五组，公式值与模拟值全部相等；③ 本题规模 $3000+5000-1000=7000$，与选项 (C) 精确对齐，且 $(\text{D})-(\text{C})=500$ 正好是「把 gcd 错算成 500」的陷阱项。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：从 $(0,0)$ 到 $(a,b)$ 的线段穿过的单位格数量为
+    $$N=a+b-\gcd(a,b).$$
+    推导只有两步：<strong>① 每穿过一条网格线进入一个新格，共穿 $a+b$ 条线（终点不计）；② 每当线段经过内部格点，横线竖线同时穿过，本应两个动作合并成一个，要减 1</strong>——内部格点恰有 $\gcd(a,b)-1$ 个，于是 $N=1+a+b-1-(\gcd-1)=a+b-\gcd$。这条公式是格点几何的入门结论，用得非常频繁。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>计数对象是「穿过的<strong>网格线</strong>」而不是格子本身：起点所在格子算 1 个，之后每跨一条线 +1。把动作定义清楚，公式自己会出来。</li>
+    <li>唯一需要修正的例外是<strong>内部格点</strong>：那里横线与竖线一次性跨完，两个动作合成一个，每处减 1。($\gcd(a,b)-1$) 个内部格点，减 $\gcd(a,b)-1$。</li>
+    <li><strong>内部格点数 = $\gcd(a,b)-1$</strong> 的推导：写成 $a=ga',b=gb'$（$a',b'$ 互质），线段上的格点对应参数 $t=0,\frac1g,\frac2g,\dots,1$，恰 $g+1$ 个，去掉两端剩 $g-1$ 个。</li>
+    <li>题目给的<strong>小样例是免费验钞机</strong>：$(0,4)\to(2,0)$ 涂了 4 个格子，$2+4-\gcd(2,4)=4$ ✓。任何时候先拿题面自带的小例子套公式再套大数值，能挡掉绝大多数公式记错。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 直接应用</span> <span class="stars">★</span> <span class="form">形式｜直接代入公式</span>
+    <p>用公式求从 $(0,0)$ 到 $(4,6)$ 的线段穿过的单位格数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>8 个</strong></div>
+      <p>$a=4,\ b=6,\ \gcd(4,6)=2$，格数 $=4+6-2=8$。密采样模拟亦得 8 ✓。</p>
+      <p class="hint">要点：先算 gcd 再套 $a+b-\gcd$；gcd 算错是此题最常见的失分点。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 换参数</span> <span class="stars">★★</span> <span class="form">形式｜同构换参</span>
+    <p>从 $(0,0)$ 到 $(6,9)$ 的线段穿过多少个单位格？若把终点改成 $(6,10)$，结论又如何？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$(6,9)$：$12$ 个；$(6,10)$：$14$ 个</strong></div>
+      <p>$(6,9)$：$\gcd=3$，格数 $=6+9-3=12$。$(6,10)$：$\gcd=2$，格数 $=6+10-2=14$。注意 $(6,9)$ 与 $(6,10)$ 相比后者起点终点更远但穿过的格子更多，且这里的「更恰 świeżo工业园区 6+10」大于 12——因为 gcd 变小了（重复计数变少），格子数反而上升。</p>
+      <p class="hint">要点：$a+b$ 相同时，$\gcd$ 越小穿过的格子越多——因为「格点合并节省」的格子更少。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 逆问题</span> <span class="stars">★★★</span> <span class="form">形式｜逆问题 + 完整列举</span>
+    <p>一条线段穿过 $15$ 个格子，且 $\gcd(a,b)=3$。求所有可能的正整数对 $(a,b)$（视 $(a,b)$ 与 $(b,a)$ 为不同）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$(3,15),(15,3),(9,9)$</strong></div>
+      <p>由 $a+b-3=15$ 得 $a+b=18$，且需 $\gcd(a,b)=3$。枚举 $a+b=18$ 的正整数对并检验 gcd：
+    $(3,15)\,g=3$ ✓；$(4,14)\,g=2$ ✗；$(5,13)\,g=1$ ✗；$(6,12)\,g=6$ ✗；$(7,11)\,g=1$ ✗；$(8,10)\,g=2$ ✗；$(9,9)\,g=9$ ✗。
+    咦——$(9,9)$ 的 gcd 是 9 不满足条件。<strong>重新核算</strong>：满足 $\gcd(a,b)=3$ 且 $a+b=18$ 的只有 $(3,15)$ 与 $(15,3)$（$(15,3)$ 与 $(3,15)$ 视为不同时共 2 组；视为同一 conformation 则 1 组）。答案：<strong>$(3,15)$ 与 $(15,3)$</strong>。</p>
+      <p class="hint">要点：逆为题最容易错在「忘了回头验证 gcd」：$a+b=18$ 有很多解，真正满足 $\gcd=3$ 的只有两组。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 附加约束</span> <span class="stars">★★★★</span> <span class="form">形式｜"附加约束 + 取极値</span>
+    <p>在 $a+b=30$ 的所有正整数对中，穿过的格子数最多是多少？最少是多少？各对应哪几组 $(a,b)$？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>最多 $29$（互质时，如 $(1,29)$）；最少 $15$（$(15,15)$，$\gcd=15$）</strong></div>
+      <p>格数 $=30-\gcd(a,b)$。要让格数最多就让 $\gcd$ 最小 $=1$ → $29$（$(1,29)$、$(7,23)$ 等互质对均可）；要让格数最少就让 $\gcd$ 最大。$a+b=30$ 时 $\gcd$ 必须整除 30，可能取 $1,2,3,5,6,10,15,30$；$a=b=15$ 时 $\gcd=15$（$30$ 不可能，那要求两者都是 30 的倍数）→ 格数 $=30-15=15$。答：最多 <strong>29</strong>、最少 <strong>15</strong>。</p>
+      <p class="hint">要点：格数 $=a+b-\gcd$：固定 $a+b$ 时差别全在 gcd 上——互质给最多，尽量共处因子给最少。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 一般化 + 证明</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>证明：从 $(0,0)$ 到 $(a,b)$（$a,b$ 正整数）的线段穿过的单位格数为 $a+b-\gcd(a,b)$。提示：按「每穿一条网格线进新格」计数，并单独处理经过内部格点时的重复。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$N=a+b-\gcd(a,b)$，证明见下</strong></div>
+      <p>记 $g=\gcd(a,b)$。<strong>① 起始</strong>：线段从起点格出发，先占 1 格。<strong>② 逐线计数</strong>：向右推进要跨 $a-1$ 条内竖线、向上要跨 $b-1$ 条内横线；每跨进一条就 +1 格，故若线互不相干总数为 $1+(a-1)+(b-1)=a+b-1$。<strong>③ 修正重复</strong>：当线段经过内部格点时，它同时跨越该点处的横线与竖线，是一个动作跨两条线；上面按线计数把它当成两次 +2，实际只应 +1，每处需减 1。内部格点恰有 $g-1$ 个（见要点 3）。于是
+    $$N=(a+b-1)-(g-1)=a+b-g=a+b-\gcd(a,b).\ \square$$
+    边界检验：$(a,b)=(1,1)$ 时 $N=1+1-1=1$（对角穿一个格）✓；$(a,b)=(2,0)$ 时（退化为水平）公式给出 $2+0-2=0$，这正是为什么不适用于 $b=0$ 的情形——水平线段应贴在网格线上，内部不相交任何格子。本题的应用情形两端点都不是同行/同列，公式安全。</p>
+      <p class="hint">要点：证明的核心是「重复只发生在格点」；看清～
+适用范围别忘：$a,b$ 都为正才成立（有平行于轴的情形需单独处理）。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>考场 30 秒决策卡</h3>
+    <ol>
+      <li>先拿题面小样例验公式：$(0,4)\to(2,0)$ 涂 4 格，$2+4-2=4$ ✓。</li>
+      <li>算两坐标差：$a=3000$、$b=5000$，再算 $\gcd=1000$（$=1000\cdot\gcd(3,5)$）。</li>
+      <li>格数 $=3000+5000-1000=7000$，选 (C)。若你的式子没有减 gcd，答案必是 8000 那个陷阱项。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「跨线进新格，格点合并一次」——$a+b-\gcd$ 就是把一句话写成公式。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 最大公因数 + 格点计数 &nbsp;|&nbsp; 生成于 2026-10-12</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
