@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 等腰直角三角形面积 + 容斥原理</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2024AMC8.html">← 返回 2024AMC8</a>
+    <div class="pager">
+      <a href="20261011-gcd-lattice-cells.html">‹ 上一题</a>
+      <a href="20261011-airplane-adjacent-seats.html">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>双山玻璃画：重叠区也是 45-45-90，面积恰好等于高的平方</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261011</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2024AMC8(24)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">45-45-90 triangle overlap area</span></div>
+  </div>
+  <p class="lede">每座山都是 $45^\circ\text{-}45^\circ\text{-}90^\circ$ 三角形：高 $x$ 时两条直角边长 $x\sqrt2$，面积 $=\frac12(x\sqrt2)^2=x^2$——<strong>面积就是峰高的平方</strong>。重叠部分的两条边分别是两座山的内侧斜边（斜率 $-1$ 与 $+1$，互相垂直），所以它同样是等腰直角三角形，高为交点高度 $h$、面积 $h^2$。于是 $64+144-h^2=183$，$h=5$。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Jean made a piece of stained glass art in the shape of two mountains, as shown in the figure below. One mountain peak is $8$ feet high and the other peak is $12$ feet high. Each peak forms a $90^\circ$ angle, and the straight sides of the mountains form $45^\circ$ angles with the ground. The artwork has an area of $183$ square feet. The sides of the mountains meet at an intersection point near the center of the artwork, $h$ feet above the ground. What is the value of $h?$
+<img src="../img/amc8/2024/24.svg" style="max-height:8rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：Jean 做了一件「双山」形状的彩色玻璃艺术品，如图。两座山峰分别高 $8$ 英尺与 $12$ 英尺，每个峰顶都是 $90^\circ$，山的两条直边与地面成 $45^\circ$。整件作品的面积为 $183$ 平方英尺。两座山的斜边在靠近中心处相交于一点，该点距地面 $h$ 英尺。求 $h$。
+(A) 4　(B) 5　(C) $4\sqrt2$　(D) 6　(E) $5\sqrt2$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/24" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2024/problem/24</a><br>
+    官方给出的正确选项为 <strong>(B) 5</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (C) $4\sqrt2$</code></td><td>把「$h$」理解成了<strong>斜边的长度</strong>而非「离地面的高度」：$h^2=25$ 算出后，把 $h=5$ 当成直角边、再去乘 $\sqrt2$ 得 $5\sqrt2$，或把高度 4（误算 $h^2=32$ 之类）配上 $\sqrt2$。根子在没分清「面积 $=x^2$」里的 $x$ 是<strong>高（直角顶点到底边的距离）</strong>，不是斜边长：$45^\circ$ 三角形的直角边长 $x\sqrt2$、面积 $\frac12(x\sqrt2)^2=x^2$——平方完 $\sqrt2$ 就没了，答案干干净净是个整数。</td></tr>
+    <tr><td><code>答 (D) 6</code></td><td>用 $64+144=208$ 减去 $183$ 得 $25$，然后把 $25$ 当成了「重叠面积对应的<strong>边长</strong>」或者直接猜「$h^2=36$」凑选项。真正的中间量是 $h^2=25$ 而不是 $h$ 直接等于某个整数减出来。选出 6 的人多半是倒着往选项里套：$h=6$ 时重叠面积 36、总面积 172 不对；$h=5$ 时 25、总面积 183 ✓。<strong>剩下的注意力应该放在「$h^2$」这个中间量上，而不是在 $h$ 上猜数字。</strong></td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有抓住「等腰直角三角形的面积 $=$ 高的平方」这个一步到位的结论，也没意识到<strong>重叠区同样是等腰直角三角形</strong>（它的两条边就是两山的内侧斜边，斜率 $+1$ 与 $-1$ 恰好垂直）。抓住这两点，全题就剩一行式子 $64+144-h^2=183$；抓不住就只能拿 $183$ 去拼各种 $8$、$12$、$\sqrt2$ 的组合，越拼越乱。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：面积 = 高² + 容斥（官方思路，推荐）</h3>
+  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/24" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
+    <p><strong>第 1 步 · 单座山的面积。</strong>山的高度为 $x$、两条直边各与地面成 $45^\circ$，峰顶因此是 $90^\circ$——这是等腰直角三角形。两条直角边（也就是两条斜边）的长度为 $x\sqrt2$（$45^\circ$ 直角三角形里，斜边 $=$ 直角边 $\cdot\sqrt2$，这里「直角边」指峰到山脚的水平+竖直平移合成的那条斜边）。更直接地算面积：底 $=2x$（两个 $45^\circ$ 底角各向左右平移 $x$），高 $=x$，故
+    $$S=\frac12\cdot(2x)\cdot x=x^2 .$$</p>
+
+    <p><strong>第 2 步 · 两座山。</strong>高 8 的山：$S_1=8^2=64$；高 12 的山：$S_2=12^2=144$。</p>
+    <p><strong>第 3 步 · 重叠区形状。</strong>重叠区的两条边界恰好是「左侧山的右边」与「右侧山的左边」，它们的斜率分别是 $-1$ 与 $+1$，<strong>互相垂直</strong>；底边是水平的地面。因此重叠区也是等腰直角三角形，其直角顶点就是两条斜边的交点，高度为 $h$，面积 $=h^2$。</p>
+    <p><strong>第 4 步 · 容斥，解出 $h$。</strong></p>
+    $$64+144-h^2=183\quad\Longrightarrow\quad h^2=25\quad\Longrightarrow\quad h=5 .$$
+    <blockquote class="ok"><strong>答案：(B) 5</strong>。</blockquote>
+  <h3>方法二：坐标积分（严格化第 3 步）</h3>
+  建立坐标：地面为 $y=0$，取左山峰 $(x_1,8)$、右山峰 $(x_2,12)$。左山的右边界：$y=8-(x-x_1)$；右山的左边界：$y=12+(x-x_2)$。两线交于
+    $$x=\frac{x_1+x_2-4}{2},\qquad h=8-\Bigl(\frac{x_1+x_2-4}{2}-x_1\Bigr)=\frac{x_1-x_2+20}{2}.$$
+    重叠区上界为两条边界的较小者，数值积分得面积 $=h^2$（等腰直角三角形的两条直角边各长 $h\sqrt2$，面积 $\frac12(h\sqrt2)^2=h^2$）。取与总条件相容的布局（$h=5$ 时 $x_2=x_1+10$，如 $x_1=-3,\ x_2=7$），积分值为 $25.000$，与 $h^2$ 完全吻合；总面积 $64+144-25=183$ ✓。
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① 代入 $h=5$：$64+144-25=183$ ✓ 与题面面积一致；② 数值把 $h=5$ 时两个山峰的相对位置解出（$x_2-x_1=10$），精确积分重叠区得 $25.000000$，毫无误差；③ 选项反向扫描：$h=4\to193$、$h=6\to172$、$h=5\sqrt2\to158$、$h=4\sqrt2\to175$，只有 $h=5$ 给出 $183$。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>$45^\circ\text{-}45^\circ\text{-}90^\circ$ 三角形的核心数据：两条直角边相等，斜边为直角边的 $\sqrt2$ 倍；若「高」为 $x$（峰到底边的垂距），则底边 $=2x$、面积 $=x^2$。</strong>配合<strong>容斥原理</strong>（$|A\cup B|=|A|+|B|-|A\cap B|$），「两个图形交叠、总面积已知」的题型就是一行等式。关键在于<strong>认出重叠部分的形状</strong>——本题重叠区的两条边是两条斜率 $\pm1$ 的直线，天然垂直，于是又是 $45\text{-}45\text{-}90$。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>等腰直角三角形若高为 $x$，则底边 $2x$、面积 $x^2$。这条比「斜边 $=x\sqrt2$」更好用——<strong>题目给高，面积立刻是高的平方</strong>。</li>
+    <li>两条斜率分别是 $+1$ 与 $-1$ 的直线<strong>互相垂直</strong>（斜率乘积 $-1$）。本题重叠区的两条边刚好是这两条，所以重叠区必然是等腰直角三角形——这一步可以只靠斜率判断，不必看图猜。</li>
+    <li><strong>容斥</strong>：总面积 $=S_1+S_2-S_{\text{重叠}}$。已知总面积反求重叠，再反求 $h$。见到「两个交叠图形 + 总面积」就自动写这行。</li>
+    <li><strong>中间量是 $h^2$ 不是 $h$</strong>：方程解出 $h^2=25$，再进行开方。把 $25$ 当成 $h$ 或给 $h$ 配上 $\sqrt2$，都会落到干扰项 (C)(E) 上。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 同构换数</span> <span class="stars">★</span> <span class="form">形式｜同构换参</span>
+    <p>两座山分别高 $6$ 英尺与 $9$ 英尺（峰顶均 $90^\circ$、边与地面 $45^\circ$），若重叠部分的高度也是 $h$，且整件作品面积为 $81$ 平方英尺，求 $h$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$h=6$</strong></div>
+      <p>面积分别是 $6^2=36$ 与 $9^2=81$？——重与合作：$S_1=36$，$S_2=81$，重叠 $h^2$，总 $=36+81-h^2=81\Rightarrow h^2=36\Rightarrow h=6$。</p>
+      <p class="hint">要点：换数字不换结构：$S_{\text{总}}=A^2+B^2-h^2$，反解 $h=\sqrt{A^2+B^2-S_{\text{总}}}$。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 反求总面积</span> <span class="stars">★★</span> <span class="form">形式｜正向求值</span>
+    <p>原题中若把交点高度改成 $h=4$，整件作品的面积是多少平方英尺？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>192 平方英尺</strong></div>
+      <p>$64+144-4^2=208-16=192$。正向套用同一条式子，注意减的是 $h^2=16$ 而不是 $h=4$。</p>
+      <p class="hint">要点：同一等式的正用与反用要来回练；本题每个数字都在平方位上，别把 $h$ 与 $h^2$ 搞混。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 逆问题</span> <span class="stars">★★★</span> <span class="form">形式｜反求未知参数</span>
+    <p>原题布局不变（左峰 8、右峰未知为 $X$、交点高 $h=5$、总面积 183），求 $X$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$X=12$</strong></div>
+      <p>$64+X^2-25=183\Rightarrow X^2=144\Rightarrow X=12$。容斥式里三个未知量（两峰面积、重叠面积、总面积）知三求一，这里的第三已知量是 $h=5$。</p>
+      <p class="hint">要点：把 $h$ 当已知、总面积当已知，就能反求峰高——同一条等式四个列举 («选三求一») 的万能玩法。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 面积公式证明</span> <span class="stars">★★★★</span> <span class="form">形式｜证明 + 解释</span>
+    <p>证明：峰高 $x$、两边与地面成 $45^\circ$ 的山峰面积为 $x^2$；并说清这时「斜边」「直角边」「高」「底边」分别指什么、各多长。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>面积 $=x^2$，两条直角边长 $x\sqrt2$，斜边 $=2x$ 即底边</strong></div>
+      <p>山是等腰直角三角形，直角顶点在峰处（题面说峰顶 $90^\circ$）。「高」$x$ 是直角顶点到斜边（水平底边）的垂距。两个底角各 $45^\circ$，从峰向底边作高，高把原三角形分成两个更小的等腰直角三角形，每个的小直角边为 $x$，故左半底与右半底各自长 $x$，整条底边 $=2x$。面积 $=\frac12\cdot(2x)\cdot x=x^2$ ✓。至于两条「斜边」（题面说的「straight sides」，实际是原三角形的两条直角边，即山的斜坡面）：它们各自的长度是 $\sqrt{x^2+x^2}=x\sqrt2$（水平、竖直位移都是 $x$）。<strong>术语厘清</strong>：直角顶点在山顶，所以山的两条斜坡是直角边（长 $x\sqrt2$），底边是真正的斜边（长 $2x$）——这个「角色反转」是这类题最容易绕晕的地方。</p>
+      <p class="hint">要点：先分清谁是直角<Pose,Artist>…直角在山顶上时，斜坡是直角边、地面是斜边；面积用「底×高÷2」永远安全。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 一般化 + 证明</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>一般化：两座 $45\text{-}45\text{-}90$ 山峰高分别为 $A$、$B$，交㬪区高度 $h$，总面积 $S$。证明 $S=A^2+B^2-h^2$，并说明 $h$ 为何由 $S$ 唯一确定（取正根的意义）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$S=A^2+B^2-h^2$；$h=\sqrt{A^2+B^2-S}$ 取正根</strong></div>
+      <p>由要点 1，两山面积分别是 $A^2$、$B^2$。重叠区两条边为斜率 $\pm1$ 的直线（互相垂直）且底边水平 ⇒ 也是 $45\text{-}45\text{-}90$，高 $=h$ ⇒ 面积 $=h^2$。容斥：$S=A^2+B^2-h^2$。移项得 $h^2=A^2+B^2-S$；$h$ 是距离，必须取算术平方根（正根），故 $h=\sqrt{A^2+B^2-S}$ 唯一确定。此外须满足 $h\le\min(A,B)$（交点不可能高于较矮的峰），原题 $5\le8$ ✓，这一条是合法性的自检条件。</p>
+      <p class="hint">要点：一般化的通项 $h=\sqrt{A^2+B^2-S}$ 顺带给出合法性判据：$h$ 必须不超过较矮的峰，否则构型不存在。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>考场 30 秒决策卡</h3>
+    <ol>
+      <li>见到「45° + 90° 峰」→ 面积 = 峰高的平方：64、144。</li>
+      <li>认出重叠也是 45-45-90（两边斜率 ±1 垂直）→ 重叠面积 = h²。</li>
+      <li>容斥：64+144−h²=183 ⇒ h²=25 ⇒ h=5，选 (B)；自检 h≤8 ✓。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「45° 山，面积是高方；重叠也同理，容斥一行完」。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 等腰直角三角形面积 + 容斥原理 &nbsp;|&nbsp; 生成于 2026-10-12</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
