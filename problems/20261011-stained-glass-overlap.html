@@ -166,8 +166,11 @@ window.MathJax = {
   <hr>
 
   <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/24" target="_blank" rel="noopener">2024AMC8(24)</a> 的书面解答一致——高为 $x$ 的等腰直角三角形面积是 $x^2$，重叠部分同型；故 $8^2+12^2-h^2=183$，得 $h^2=25$、$h=5$。
+    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+  </blockquote>
   <h3>方法一：面积 = 高² + 容斥（官方思路，推荐）</h3>
-  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/24" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
     <p><strong>第 1 步 · 单座山的面积。</strong>山的高度为 $x$、两条直边各与地面成 $45^\circ$，峰顶因此是 $90^\circ$——这是等腰直角三角形。两条直角边（也就是两条斜边）的长度为 $x\sqrt2$（$45^\circ$ 直角三角形里，斜边 $=$ 直角边 $\cdot\sqrt2$，这里「直角边」指峰到山脚的水平+竖直平移合成的那条斜边）。更直接地算面积：底 $=2x$（两个 $45^\circ$ 底角各向左右平移 $x$），高 $=x$，故
     $$S=\frac12\cdot(2x)\cdot x=x^2 .$$</p>
 
