@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>2025AMC8 · AMC 8 ❤️精讲</title>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --ok:#047857;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.7; margin:0; background:#f5f7fb;
+  }
+  .page{max-width:880px; margin:0 auto; padding:56px 40px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:32px; margin:10px 0 6px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15.5px; margin:0 0 8px;}
+  .backtop{margin:0 0 24px; padding-bottom:14px; border-bottom:1px solid var(--line);}
+  .backtop .link{font-size:14.5px; margin-right:18px;}
+  .count{display:inline-block; margin-top:6px; font-size:13px; font-weight:600;
+    color:var(--accent); background:var(--accent-soft); border-radius:20px; padding:4px 14px;}
+  hr{border:none; border-top:1px solid var(--line); margin:32px 0;}
+  .grid{display:grid; gap:16px; margin-top:8px;}
+  .item{
+    display:block; text-decoration:none; color:inherit;
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; transition:all .16s ease; position:relative; overflow:hidden;
+  }
+  .item::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--accent);
+  }
+  .item:hover{border-color:var(--accent); box-shadow:0 6px 20px rgba(37,99,235,.10); transform:translateY(-1px);}
+  .item .row1{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+  .item .title{font-size:17.5px; font-weight:700;}
+  .item .date{font-size:13px; color:var(--sub);}
+  .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .badge{font-size:12px; font-weight:600; border-radius:20px; padding:3px 12px; background:var(--accent-soft); color:var(--accent);}
+  .badge.k{background:#f0fdf4; color:var(--ok);}
+  .badge.p{background:#fff7ed; color:var(--warn);}
+  .desc{color:var(--sub); font-size:14.5px; margin-top:6px;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center;
+    border-top:1px solid var(--line); padding-top:18px;}
+  a.link{color:var(--accent); text-decoration:none; font-weight:600;}
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="backtop">
+    <a class="link" href="../index.html">← 返回题库首页</a>
+  </div>
+
+  <div class="kicker">AMC 8</div>
+  <h1>2024AMC8</h1>
+  <p class="lede">本场考试已收录的❤️精讲，点击任意一张卡片进入详细解析（含知识点提炼 + 由易到难的 5 道配套练习）。</p>
+  <span class="count">共 9 道错题</span>
+
+  <hr>
+
+  <div class="grid">
+
+    <a class="item" href="../problems/20261011-fraction-decimal-sum.html">
+      <div class="row1">
+        <span class="title">分数化小数的三连加：先约分，别急着通分</span>
+        <span class="date">20261011</span>
+      </div>
+      <div class="desc">三同因子结构 44/11 + 110/44 + 44/1100 各自约分成 4、5/2、1/25，合计 6.54。教训：分母含 11 不代表结果是循环小数——先约分再判断。</div>
+      <div class="badges">
+        <span class="badge k">fraction; decimal</span>
+        <span class="badge ">2024AMC8(2)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261011-ice-rink-path-order.html">
+      <div class="row1">
+        <span class="title">冰场四路径比长短：弦永远短于弧</span>
+        <span class="date">20261011</span>
+      </div>
+      <div class="desc">R 用直线砍掉圆角最短，Q 交叉弦最多最长，P 与 S 之争在「对角线 vs 直角边」——直角三角形斜边大于直角边一锤定音：R, P, S, Q。</div>
+      <div class="badges">
+        <span class="badge k">arc; bounding</span>
+        <span class="badge ">2024AMC8(6)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261011-coordinate-triangle-area.html">
+      <div class="row1">
+        <span class="title">坐标三角形反求纵坐标：高与第三点的横坐标无关</span>
+        <span class="date">20261011</span>
+      </div>
+      <div class="desc">底 AB 平行 x 轴是白送的：面积 12 = ½·6·h 给出高 4，y = 7+4 = 11。抓住「水平底」就把二维问题压成一维减法。</div>
+      <div class="badges">
+        <span class="badge k">coordinate geometry</span>
+        <span class="badge ">2024AMC8(11)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261011-grid-divisibility-extremal.html">
+      <div class="row1">
+        <span class="title">9×9 方格的行列积：27 个 3 的倍数挤进多小的交集</span>
+        <span class="date">20261011</span>
+      </div>
+      <div class="desc">每个 3 的倍数必须同时落在被标记行与被标记列的交集：r+c≤10 ⇒ rc≤25 < 27 放不下，故至少 11；5×5 块加第 6 列放 2 个恰好 5+6=11。</div>
+      <div class="badges">
+        <span class="badge k">divisibility; extremal</span>
+        <span class="badge ">2024AMC8(16)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261011-cube-equilateral-triangles.html">
+      <div class="row1">
+        <span class="title">立方体顶点三角形：等边只认面对角线</span>
+        <span class="date">20261011</span>
+      </div>
+      <div class="desc">棱长 1、面对角线 √2、体对角线 √3——唯一能三边相等的组合是三条面对角线。含 P 的恰有 △PVT、△PRT、△PRV 共 3 个。</div>
+      <div class="badges">
+        <span class="badge k">cube geometry</span>
+        <span class="badge ">2024AMC8(20)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261011-tape-roll-unroll.html">
+      <div class="row1">
+        <span class="title">胶带卷展开：横截面积守恒</span>
+        <span class="date">20261011</span>
+      </div>
+      <div class="desc">胶带截面是外径 4、内径 2 的圆环，面积 3π；展开成厚 0.015 的细长矩形，0.015L = 3π ⇒ L = 200π ≈ 628 → 最近百位 600。</div>
+      <div class="badges">
+        <span class="badge k">circumference; estimation</span>
+        <span class="badge ">2024AMC8(22)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261011-gcd-lattice-cells.html">
+      <div class="row1">
+        <span class="title">线段穿过多少个格子：a + b − gcd(a, b)</span>
+        <span class="date">20261011</span>
+      </div>
+      <div class="desc">水平跨 a 列、竖直跨 b 行，每经过一个格点就重复计一次、共 gcd(a,b)−1 次。3000+5000−1000 = 7000。小样例 (0,4)→(2,0) 恰好 2+4−2 = 4 与题面吻合。</div>
+      <div class="badges">
+        <span class="badge k">gcd; lattice point</span>
+        <span class="badge ">2024AMC8(23)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261011-stained-glass-overlap.html">
+      <div class="row1">
+        <span class="title">双山玻璃画：重叠区也是 45-45-90</span>
+        <span class="date">20261011</span>
+      </div>
+      <div class="desc">峰高 x 的 45-45-90 山面积恰为 x²：64 + 144 − h² = 183 ⇒ h = 5。关键一步是认出重叠三角形的高就是交点高度 h。</div>
+      <div class="badges">
+        <span class="badge k">special right triangle</span>
+        <span class="badge ">2024AMC8(24)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261011-airplane-adjacent-seats.html">
+      <div class="row1">
+        <span class="title">飞机邻座概率：空位视角 + 每行模式多项式</span>
+        <span class="date">20261011</span>
+      </div>
+      <div class="desc">盯空位不盯人：C(12,4)=495 种空位分布；补集「每行空位互不相邻」的计数是 (1+3x+x²)⁴ 的 x⁴ 系数 = 195；(495−195)/495 = 20/33。</div>
+      <div class="badges">
+        <span class="badge k">probability; complementary counting</span>
+        <span class="badge ">2024AMC8(25)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 2024AMC8 &nbsp;|&nbsp; 生成于 2026-10-12</div>
+  </div>
+
+</div>
+</body>
+</html>
