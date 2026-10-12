@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 圆环面积 + 展开等积估算</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2024AMC8.html">← 返回 2024AMC8</a>
+    <div class="pager">
+      <a href="20261011-cube-equilateral-triangles.html">‹ 上一题</a>
+      <a href="20261011-gcd-lattice-cells.html">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>胶带卷展开：横截面积守恒，卷与带是一家</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261011</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2024AMC8(22)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Circumference and area estimation</span></div>
+  </div>
+  <p class="lede">胶带卷的截面是外径 4、内径 2 的圆环，面积 $\pi(2^2-1^2)=3\pi$；把整卷展开摊平，截面变成<strong>厚 0.015、长 $L$ 的细长矩形</strong>。同一卷胶带不管卷着还是摊着，<strong>截面积不变</strong>：$0.015L=3\pi$，$L=200\pi\approx628$，最近百位取 <strong>600</strong>。一道立体感的题，实际是「面积守恒」一行等式。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    A roll of tape is $4$ inches in diameter and is wrapped around a ring that is $2$ inches in diameter. A cross section of the tape is shown in the figure below. The tape is $0.015$ inches thick. If the tape is completely unrolled, approximately how long would it be? Round your answer to the nearest $100$ inches.
+<img src="../img/amc8/2024/22.svg" style="max-height:12rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：一卷胶带外径 $4$ 英寸，缠绕在内径 $2$ 英寸的纸芯上，横截面如图。胶带厚度为 $0.015$ 英寸。若把整卷胶带完全展开，总长约为多少英寸（精确到最近的 $100$ 英寸）？
+(A) 300　(B) 600　(C) 1200　(D) 1500　(E) 1800</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/22" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2024/problem/22</a><br>
+    官方给出的正确选项为 <strong>(B) 600</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (C) 1200</code></td><td>把「直径 4」当成了半径 2 之后又把「直径 2」当成半径 2——外半径取 2 没错（直径 4），但内径 2 对应的<strong>内半径是 1</strong>，误用 2 会让环面积变成 $\pi(2^2-2^2)=0$ 一眼可见；实际多见的错法是直接用外圆面积 $\pi\cdot2^2=4\pi$ 当胶带面积（忘减纸芯孔），得 $L=\frac{4\pi}{0.015}\approx838\to800$？——更常见的路径是把厚度 0.015 看成 0.0075（想当然除以 2），$L$ 翻倍到 1256 → 最近百位 1200。<strong>厚度别动它，它是展开矩形的宽</strong>。</td></tr>
+    <tr><td><code>答 (D) 1500</code></td><td>用「周长 × 圈数」时圈数算错：把圈数当成 $\frac{\text{外径}}{\text{厚度}}=\frac{4}{0.015}\approx267$ 圈，再乘平均周长 $2\pi\cdot1.5\approx9.4$ 得 2500 → 选更近的 1800/1500 之间徘徊。错在圈数应为<strong>半径差 ÷ 厚度</strong> $=\frac{2-1}{0.015}\approx66.7$ 圈，不是直径比。<strong>一层胶带叠在半径上只占一个厚度</strong>，直径要除以 2——两种错法都源于没把「卷层」的几何想清楚。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有抓住「<strong>截面积守恒</strong>」这条主线。卷着时截面是圆环（外半径 2、内半径 1），摊开时截面是 $0.015\times L$ 的矩形，<strong>同一个截面的两种摆法</strong>，面积相等。抓住守恒，全题只有一步等式；抓不住，就会在「多少圈、每圈多长、逐圈累加」的泥潭里打转，且每一步都有掉坑的机会（半径 vs 直径、圈数怎么算、用哪圈的周长）。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：环形面积 = 展开矩形面积（官方思路，推荐）</h3>
+  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/22" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
+    <p><strong>第 1 步 · 卷着时的截面积。</strong>外径 4 → 外半径 $R=2$；内径 2 → 内半径 $r=1$。胶带截面是圆环：
+    $$S=\pi R^2-\pi r^2=\pi(4-1)=3\pi .$$</p>
+
+    <p><strong>第 2 步 · 摊开时的截面积。</strong>展开后胶带是一条长 $L$、厚 $0.015$ 的细长矩形，截面积
+    $$S=0.015\,L .$$</p>
+
+    <p><strong>第 3 步 · 面积守恒，解出 $L$。</strong></p>
+    $$0.015\,L=3\pi\quad\Longrightarrow\quad L=\frac{3\pi}{0.015}=200\pi\approx628.3\ \text{英寸}.$$
+    <p><strong>第 4 步 · 按题意取整。</strong>最近的 100 英寸：<strong>600</strong>。</p>
+    <blockquote class="ok"><strong>答案：(B) 600</strong>。</blockquote>
+  <h3>方法二：逐圈累加（平均周长法，用于理解与验算）</h3>
+  胶带每绕一圈半径增加一个厚度 $0.015$，所以圈数
+    $$n=\frac{R-r}{0.015}=\frac{2-1}{0.015}\approx66.7\ \text{圈}.$$
+    每圈周长随半径线性增长，用<strong>平均半径</strong> $\frac{2+1}2=1.5$ 的周长代替平均：
+    $$L\approx n\cdot2\pi\cdot1.5=66.7\times3\pi\approx200\pi\approx628,$$
+    与方法一完全一致（这不是巧合——$\underbrace{n}_{\frac{R-r}t}\times\underbrace{2\pi\frac{R+r}2}_{\text{平均周长}}=\frac{\pi(R^2-r^)}{t}\cdot t=\pi(R^2-r^2)$，两种算法恒等）。逐圈累加在考场上太慢，但它是「面积守恒」为什么成立的直观来源：环形面积被切成 $n$ 个细圈，摊平就是 $n$ 段细矩形。
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① Python：`3*math.pi/0.015 = 628.318…`，`round(628.318,-2)=600` ✓；② 量级检查：60 多圈、平均一圈约 9.4 英寸，$67\times9.4\approx630$，一致；③ 选项区分度：答案对 $\pi$ 取 3.14 还是 22/7 不敏感（628 与 629 都取 600），对厚度的小数位极敏感——代入 0.015 复核一遍是最后的保险。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>截面积守恒</strong>：可弯曲的均匀薄带（胶带、纸卷、电缆、卫生纸），卷起来的环形截面与摊开的矩形截面是同一块材料，面积相等 $\pi(R^2-r^2)=t\cdot L$，即
+    $$L=\frac{\pi(R^2-r^2)}{t}.$$
+    它与「圈数 × 平均周长」恒等（$\frac{R-r}t\cdot2\pi\cdot\frac{R+r}2$ 展开相同）。这类题的全部变体——正着求 $L$、反着求 $R$、求圈数——都是这一条等式的移项。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>半径与直径</strong>：外径 4 → $R=2$，内径 2 → $r=1$。题面给的是直径，公式里全是半径，第一件事就是统一除以 2——这是本题最大的失分点。</li>
+    <li>圆环面积 = 外圆减内圆 $\pi(R^2-r^2)$，也可以用「平均半径 × 周长展开」$\pi(R+r)(R-r)$ 的因式分解形式心算：$\pi\cdot3\cdot1=3\pi$。</li>
+    <li>展开后的矩形：<strong>长 $L$、厚 $t$</strong>。$t$ 是展开矩形的宽，不要对它做任何加工（有人下意识除以 2，直接把答案翻倍）。</li>
+    <li>「精确到最近的 100」是<strong>估算指令</strong>：$200\pi\approx628$ 落在 600 档。$\pi$ 取 3.14 或 22/7 都不影响档位——见到「nearest 100/10」就放宽心算精度，把注意力留给等式本身。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 同构换数</span> <span class="stars">★</span> <span class="form">形式｜同构换参</span>
+    <p>一卷胶带外径 6、内径 4（英寸），厚 0.01 英寸。完全展开后长约多少英寸（精确到最近的 100 英寸）？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>1600 英寸</strong></div>
+      <p>$R=3,\ r=2$：环面积 $=\pi(9-4)=5\pi$。$0.01L=5\pi\Rightarrow L=500\pi\approx1570.8$，最近百位 <strong>1600</strong>。</p>
+      <p class="hint">要点：同一公式换数：先统一半径，再 $\pi(R^2-r^2)/t$。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 另一种算法</span> <span class="stars">★★</span> <span class="form">形式｜圈数 × 平均周长（验算）</span>
+    <p>用「圈数 × 平均周长」重新计算原题，验证与方法一一致；指出圈数为何是 $(R-r)/t$ 而不是 $R/t$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>圈数 $\approx66.7$、平均周长 $3\pi$、总长 $\approx200\pi\approx628$ ✓</strong></div>
+      <p>胶带从半径 1 卷到半径 2，每绕一圈半径增厚 $t=0.015$，圈数 $=\frac{2-1}{0.015}\approx66.7$。若误用 $R/t=\frac{2}{0.015}\approx133$ 圈，是把「从 0 卷起」当成了「从纸芯卷起」——纸芯已占掉内半径 1。平均周长取半径 1.5 的圆周 $3\pi$。总长 $66.7\times3\pi\approx200\pi$。两法恒等：$\frac{R-r}t\cdot\pi(R+r)=\frac{\pi(R^2-r^2)}t$。</p>
+      <p class="hint">要点：圈数 = 半径跨度 ÷ 厚度；「平均周长法」既是验算也是守恒律的直观来源。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 逆问题</span> <span class="stars">★★★</span> <span class="form">形式｜反求参数</span>
+    <p>一卷厚 0.02 英寸的胶带完全展开后长 $400\pi$ 英寸，纸芯外半径 1 英寸。求卷的外半径 $R$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$R=3$（外径 6 英寸）</strong></div>
+      <p>守恒：$tL=\pi(R^2-r^2)$。代入：$0.02\times400\pi=8\pi=\pi(R^2-1)\Rightarrow R^2=9\Rightarrow R=3$。外径 6 英寸。反求题只是同一等式移项，注意先约掉 $\pi$ 再动数字。</p>
+      <p class="hint">要点：卷与带的四个量 $R,r,t,L$ 知三求一；等式 $tL=\pi(R^2-r^2)$ 是唯一的方程。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 逐层求和验算</span> <span class="stars">★★★★</span> <span class="form">形式｜离散求和 + 误差分析</span>
+    <p>把原题的胶带卷按 67 层离散求和（各层半径取 $1.0075,1.0225,\dots$，步长 0.015），验证总长约为 $200\pi$，并估计与精确值的相对误差。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>求和 $\approx632.5$ 英寸，与 $200\pi\approx628.32$ 相差约 $0.67\%$（偏差来自最后一层不足一整层）</strong></div>
+      <p>第 $k$ 层半径取 $r_k=1+(k-\tfrac12)\cdot0.015$（$k=1..67$），第 $k$ 层周长 $2\pi r_k$，求和
+    $$L=\sum_{k=1}^{67}2\pi r_k=2\pi\Bigl(67+0.015\cdot\tfrac{67\cdot66}{2}\Bigr)
+      =2\pi\cdot100.6675\approx632.5 .$$
+    连续（面积）法给出 $200\pi\approx628.32$，两者相差约 $0.67\%$。<strong>偏差的来源值得一说</strong>：$(2-1)/0.015=66\tfrac23$ <strong>层</strong>，本不存在整数层；硬凑成 67 层等于凭空多加了 $\tfrac13$ 层（约 $\tfrac13\cdot3\pi\approx3.1$ 英寸），恰好解释了这个差值。
+    <strong>结论</strong>：层数越多（胶带越薄），离散求和与连续公式越贴近；本题 67 层的 0.67% 已经足够好，而答案要精确到「最近的 100」，两法毫无差别都落 600。</p>
+      <p class="hint">要点：「薄层离散 → 连续守恒」：层数一大，求和自动变成 $\pi(R^2-r^2)/t$；误差分析让我们放心用一行等式替代 67 次加法。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 一般化 + 证明</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化公式 + 证明</span>
+    <p>证明一般公式 $L=\dfrac{\pi(R^2-r^2)}{t}$，并证明它与「圈数 × 平均周长」算法恒等；讨论当 $R\to r$（胶带很薄、圈数很少）时两法都退化为什么。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>恒等：$\frac{R-r}t\cdot2\pi\cdot\frac{R+r}2=\frac{\pi(R^2-r^2)}t$；$R\to r$ 时退化为单层周长 $2\pi r$ × 层数</strong></div>
+      <p><strong>证明（守恒）</strong>：环形截面 $\pi(R^2-r^2)$ 摊平为 $t\times L$ 矩形，面积相等即 $tL=\pi(R^2-r^2)$。<strong>恒等（平均法）</strong>：圈数 $n=\frac{R-r}t$，半径从 $r$ 线性升到 $R$，平均半径 $\frac{R+r}2$，故 $L=n\cdot2\pi\cdot\frac{R+r}2=\frac{R-r}t\cdot\pi(R+r)=\frac{\pi(R^2-r^2)}t$——因式分解 $(R^2-r^2)=(R-r)(R+r)$ 后两式逐字相同。<strong>极限</strong>：$R\to r$ 时 $\frac{R^2-r^2}t\to\frac{(R-r)\cdot2r}t=n\cdot2r$，即「单层周长 × 圈数」——薄卷情形平均周长法最直观，守恒式最省事，二者永远同答案。</p>
+      <p class="hint">要点：一条恒等式管全部变体；因式分解 $(R^2-r^2)=(R-r)(R+r)$ 是「守恒视角」与「圈数视角」互相翻译的字典。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>考场 30 秒决策卡</h3>
+    <ol>
+      <li>认出「卷/带/纸/电缆」家族 → 直接写守恒式 $tL=\pi(R^2-r^2)$。</li>
+      <li>直径 ÷2 变半径：R=2、r=1 → 环面积 3π → L=200π≈628。</li>
+      <li>「nearest 100」→ 600，选 (B)。复查：厚度没被加工过 ✓。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「卷是环、摊是条、面积是一家」——半径差当圈数，平均半径当周长，两个视角随便挑。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 圆环面积 + 展开等积估算 &nbsp;|&nbsp; 生成于 2026-10-12</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
