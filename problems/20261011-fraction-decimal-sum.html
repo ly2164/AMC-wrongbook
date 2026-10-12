@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 分数与小数互化（同因子约分）</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2024AMC8.html">← 返回 2024AMC8</a>
+    <div class="pager">
+      <a href="20261005-lattice-path-area-sum.html">‹ 上一题</a>
+      <a href="20261011-ice-rink-path-order.html">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>分数化小数的三连加：先约分，别急着通分</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261011</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2024AMC8(2)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Fraction and decimal conversion</span></div>
+  </div>
+  <p class="lede">这题的三个分数共享同一个因子 11——把每一项<strong>先约分</strong>再化小数，三步就出结果。真正的陷阱是 <strong>44/1100</strong>：分母含 11 会让人以为是循环小数，但约分后是 1/25 = 0.04，是干干净净的两位小数。<strong>判断能否化成有限小数，必须先约分再看分母</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    What is the value of this expression in decimal form?
+\[ \frac{44}{11} + \frac{110}{44} + \frac{44}{1100} \]
+  </blockquote>
+  <p><strong>中文翻译</strong>：把下面这个式子的值写成小数形式：
+$$\frac{44}{11} + \frac{110}{44} + \frac{44}{1100}$$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/2" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2024/problem/2</a><br>
+    官方给出的正确选项为 <strong>(C) 6.54</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 6.94</code></td><td>把 $\frac{44}{1100}$ 算成了 $0.44$——分母 $1100$ 变小数时数错零的个数（$1100$ 有两个零，却只挪了一位）。这类错误是纯粹的<strong>小数点位置失控</strong>：分子 44 与分母 1100 同时去掉一个零得 $\frac4{110}$，再去掉公共因子 11 才是 $\frac{4}{100}$。多挪一位就多出 0.4，恰好从 6.54 跳到 6.94。</td></tr>
+    <tr><td><code>答 (B) 6.504</code></td><td>把 $\frac{110}{44}$ 算成了 $2.05$ 而不是 $2.5$——用 44 除 110 时商 2 余 22，接着把余数直接「接」在商后面写成 2.22 的人会得 6.26，而写成 $2.05$ 的人多半是继续做 $22\div44=0.5$ 时把 5 写错了位。归根到底是<strong>带余除法转小数的那一步没有规矩</strong>：余数必须补零继续除（$220\div44=5$，商 5 落在十分位），而不是把余数当小数部分。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：三个分数其实共享同一个「骨架」：$11$。$44=4\times11$、$110=10\times11$、$1100=100\times11$。先约分再化小数，每项都退化成一位小数以内的干净值；反之，如果一上来就想着通分到 1100，计算量暴涨且每一步都在给小数点搬家制造出错机会。<strong>「见分数先约分」是这类题的唯一正道</strong>。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <h3>方法一：逐项约分再化小数（官方思路，推荐）</h3>
+  <p class="hint">✅ <strong>与官方解法同源</strong>：本页方案一的主线直接采用 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/2" target="_blank" rel="noopener">官方书面解答</a> 的思路，官方因篇幅省略的中间推理（以及背后的「为什么」）由本站补全，两者结论完全一致。</p>
+    <p><strong>第 1 步 · 找公共因子并约分。</strong>三项的分子分母都含因子 $11$：</p>
+    $$\frac{44}{11}=\frac{4\cdot11}{1\cdot11}=4,\qquad
+      \frac{110}{44}=\frac{10\cdot11}{4\cdot11}=\frac{10}{4}=\frac52,\qquad
+      \frac{44}{1100}=\frac{4\cdot11}{100\cdot11}=\frac{4}{100}=\frac1{25}.$$
+    <p><strong>第 2 步 · 化小数。</strong>$\frac52=2.5$，$\frac1{25}=\frac{4}{100}=0.04$（分子分母同乘 4，把分母凑成 100）。</p>
+    <p><strong>第 3 步 · 相加。</strong>位数对齐：</p>
+    $$4 + 2.5 + 0.04 = 6.54.$$
+    <blockquote class="ok"><strong>答案：(C) 6.54</strong>。</blockquote>
+  <h3>方法二：统一分母 100 后一次相加</h3>
+  把三项全部化成<strong>分母为 100</strong> 的分数：$\frac{44}{11}=\frac{400}{100}$，$\frac{110}{44}=\frac52=\frac{250}{100}$，$\frac{44}{1100}=\frac4{100}$。于是
+    $$\frac{400+250+4}{100}=\frac{654}{100}=6.54.$$
+    <p>这条路的好处是<strong>加法只发生一次</strong>，而且 654 这个结果一眼能跟选项 (C) 对上；坏处是 $\frac{110}{44}\to\frac{250}{100}$ 这步仍要先约分成 $\frac52$，所以方法二本质上离不开方法一的第一步。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：三重校验：① 用 Python 直接算 `44/11 + 110/44 + 44/1100` 得 `6.54`（浮点误差 0）；② 量级检查——$4+2.5+0.04$ 三个加数一位小数内可心算，$4+2.5=6.5$、$6.5+0.04=6.54$；③ 反向验证选项：(E) 6.94 与 (B) 6.504 都与「三项之和应在 6.5 与 7 之间、且第三项贡献不足 0.1」矛盾，只有 (C) 吻合。
+  </blockquote>
+
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>判断一个分数能否化成有限小数，标准是「约分后」分母的质因数只有 2 和 5</strong>——必须先约分再看分母。$\frac{44}{1100}$ 的分母 1100 含质因数 11，但约分后是 $\frac1{25}$，分母 $25=5^2$，是干净的两位小数 0.04。另外，「分子分母同含大因子」是出题人埋的加速带：先提公共因子，计算量立刻坍缩。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>见到分数<strong>第一步永远是约分</strong>：$\frac{44}{11}$、$\frac{110}{44}$、$\frac{44}{1100}$ 三个分数表面分母不同，约分后分别是 $4$、$\frac52$、$\frac1{25}$，没有一个是需要竖式除法硬算的。</li>
+    <li>化小数的<strong>凑整技巧</strong>：分母是 25 就同乘 4 凑成 100（$\frac1{25}=\frac4{100}=0.04$）；分母是 4 就同乘 25 凑成 100；分母是 2 就同乘 5。考试里常用到的分母只有 2、4、5、8、10、16、20、25、50、100，各自的凑整倍数应当形成条件反射。</li>
+    <li><strong>有限小数判定法</strong>：最简分数 $\frac pq$ 能写成有限小数 $\iff$ $p$ 的质因数只有 2 和 5。判定的对象是<strong>最简分数</strong>，不是原始分数——这就是为什么 $\frac{44}{1100}$（分母含 11）反而是有限小数。</li>
+    <li>小数加法<strong>必须小数点对齐</strong>（即按位值对齐）：$4$ 补成 $4.00$、$2.5$ 补成 $2.50$，再与 $0.04$ 相加得 $6.54$。逐位加：百分位 $0+0+4$、十分位 $0+5+0$、个位 $4+2+0$，没有任何「进位」环节，出错概率为零。</li>
+  </ol>
+
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+
+  <div class="prob">
+    <span class="tag">第 1 题 · 同构换数</span> <span class="stars">★</span> <span class="form">形式｜同构换参</span>
+    <p>计算：$\dfrac{66}{11} + \dfrac{99}{33} + \dfrac{66}{6600}$，结果写成小数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$9.01$</strong></div>
+      <p>逐项约分：$\frac{66}{11}=6$，$\frac{99}{33}=3$，$\frac{66}{6600}=\frac1{100}=0.01$。相加：$6+3+0.01=9.01$。结构跟原题一模一样——三项各含公共因子（11、33、66），先约分后每项都极简。</p>
+      <p class="hint">要点：换数字不换结构：见到「分子 = 分母的倍数」就先把这个倍数提出来，三步出答案。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 完整列举 + 分类</span> <span class="stars">★★</span> <span class="form">形式｜完整列举</span>
+    <p>把 $\dfrac12,\ \dfrac15,\ \dfrac14,\ \dfrac1{10},\ \dfrac1{20},\ \dfrac1{25}$ 全部化成小数，并指出其中<strong>恰好两位小数</strong>的有几个。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>3 个（0.25、0.05、0.04）</strong></div>
+      <p>全部化出：$0.5,\ 0.2,\ 0.25,\ 0.1,\ 0.05,\ 0.04$。六个分母 $2,5,4,10,20,25$ 的质因数都只有 2 和 5，所以全部能化成有限小数。其中恰好两位小数的是 $0.25$（$\frac14$）、$0.05$（$\frac1{20}$）、$0.04$（$\frac1{25}$），共 <strong>3 个</strong>。</p>
+      <p class="hint">要点：小数位数由「约分后分母中 2 和 5 的最大幂」决定：分母 $4=2^2$ 给两位、$20=2^2\cdot5$ 给两位、$25=5^2$ 给两位；分母 10 给一位。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 附加约束筛选</span> <span class="stars">★★★</span> <span class="form">形式｜附加约束子计数</span>
+    <p>在 $1\le n\le 100$ 且 $\gcd(n,12)=1$ 的整数 $n$ 中，分数 $\dfrac n{12}$ 能化成有限小数的有几个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>0 个</strong></div>
+      <p>$\gcd(n,12)=1$ 意味着 $\frac n{12}$ 已经是最简分数（分子与 12 无公共因子），分母固定为 $12=2^2\cdot3$。最简分数能化有限小数要求分母质因数只有 2 和 5，而这里分母含 3，<strong>一个都不满足</strong>。答案 <strong>0 个</strong>。对照：如果不加互质条件，$n=4$ 时 $\frac4{12}=\frac13$（仍无限），$n=6$ 时 $\frac6{12}=\frac12=0.5$（有限）——可见约分这一步能彻底改变结论。</p>
+      <p class="hint">要点：「分母含 3」不代表一定无限循环——$\frac6{12}$ 约分成 $\frac12$ 就是有限的。判断永远针对<strong>约分之后</strong>的分母。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 对比辨析</span> <span class="stars">★★★★</span> <span class="form">形式｜对比辨析 + 理由陈述</span>
+    <p>$\dfrac{44}{1100}$ 与 $\dfrac{42}{110}$ 的分母都含质因数 11。为什么前者是有限小数、后者是无限循环小数？请各化到最简分数说明。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\frac{44}{1100}=\frac1{25}=0.04$ 有限；$\frac{42}{110}=\frac{21}{55}$ 分母含 11，无限循环</strong></div>
+      <p>$\frac{44}{1100}$：分子分母同除 44 得 $\frac1{25}$，最简分母 $25=5^2$ 只含 5，是有限小数 $0.04$。<br>$\frac{42}{110}$：同除 2 得 $\frac{21}{55}$，$55=5\cdot11$，分子 21 与 55 互质，最简分母含 11，所以是无限循环小数（循环节由 11 决定）。<strong>同样含 11 的分母，约分后 11 可能被消掉也可能消不掉</strong>——这就是为什么判定必须放在最简分数上做。</p>
+      <p class="hint">要点：「分母含 11」本身不说明任何问题；约分后 11 还在不在才说明问题。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 一般化 + 证明</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>设 $k$ 为任意正整数，记 $S(k)=\dfrac{4k}{k}+\dfrac{10k}{4k}+\dfrac{4k}{100k}$。证明 $S(k)$ 与 $k$ 无关，并求出这个公共值。（原题就是 $k=11$ 的情形。）</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$S(k)\equiv 6.54$，与 $k$ 无关</strong></div>
+      <p>逐项约分（$k\neq0$，可安全消去）：$\frac{4k}{k}=4$；$\frac{10k}{4k}=\frac{10}4=\frac52=2.5$；$\frac{4k}{100k}=\frac4{100}=0.04$。三项的分子分母中 $k$ <strong>成对出现</strong>，约分后彻底消失，所以对一切正整数 $k$，
+    $$S(k)=4+2.5+0.04=6.54.$$
+    反过来看，原题的三个分数正是取 $k=11$：$44=4\cdot11$、$110=10\cdot11$、$1100=100\cdot11$。出题人选 11 是为了掩盖这个「成对因子」结构——看穿它，题目瞬间变成三个个位数加法。</p>
+      <p class="hint">要点：分子分母<strong>同时</strong>含同一个因子时，这个因子对分数值毫无贡献。识别「成对因子」是把大数题变成小数题的万能钥匙。</p>
+    </details>
+  </div>
+
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>考场 15 秒决策卡</h3>
+    <ol>
+      <li>扫一眼三个分数：分子分母有公因子吗？有——全部含 11（或结构性的成对因子），先约分。</li>
+      <li>约分后分母只剩 1、4、100 → 同乘凑成 10/100，直接写小数：4、2.5、0.04。</li>
+      <li>小数点对齐相加得 6.54；对照选项确认 (C)，全程不超过 40 秒。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「先约分、后化小、点对点」——顺序错了三步全错。
+    </p>
+  </div>
+
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 分数与小数互化（同因子约分） &nbsp;|&nbsp; 生成于 2026-10-12</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
