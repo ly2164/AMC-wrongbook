@@ -140,22 +140,14 @@ window.MathJax = {
 
   <h2>一、错题原题</h2>
   <blockquote>
-    Four congruent semicircles are drawn on the surface of a sphere with radius $2$, as shown,
-      creating a closed curve that divides the surface into two congruent regions.
-      The length of the curve is $\pi\sqrt n$. What is $n$?
-      <br><br>
-      $\textbf{(A)}\ 32 \qquad \textbf{(B)}\ 12 \qquad \textbf{(C)}\ 48 \qquad
-      \textbf{(D)}\ 36 \qquad \textbf{(E)}\ 27$
+    Four congruent semicircles are drawn on the surface of a sphere with radius $2$, as shown, creating a closed curve that divides the surface into two congruent regions. The length of the curve is $\pi\sqrt n$. What is $n$?<br><br>$\textbf{(A)}\ 32 \qquad \textbf{(B)}\ 12 \qquad \textbf{(C)}\ 48 \qquad \textbf{(D)}\ 36 \qquad \textbf{(E)}\ 27$
   </blockquote>
-  <p><strong>中文翻译</strong>：在半径为 $2$ 的球面上画出<strong>四个全等的半圆</strong>（如配图所示），
-      它们首尾相接形成一条闭合曲线，把球面分成两个全等的区域。已知这条曲线的总长为 $\pi\sqrt n$，求 $n$。
-      <br><br>
-      <figure style="margin:16px 0; text-align:center;">
-        <img src="https://live.poshenloh.com/images/past-contests/amc10/2023B/20.svg" alt="2023 AMC 10B Problem 20 配图" style="max-width:340px; width:100%;">
-        <figcaption style="font-size:13px; color:var(--sub);">官方配图：球面上的四个全等半圆（形如网球表面的缝线）</figcaption>
-      </figure>
-      <em>构型描述</em>：设四个端点为 $P_1,P_2,P_3,P_4$，它们共面且落在某个<strong>大圆</strong>上，
-      相邻两点之间由一段半圆弧相连；四段弧全等、首尾相接成一条闭合曲线。</p>
+  <p><strong>中文翻译</strong>：在半径为 $2$ 的球面上画出<strong>四个全等的半圆</strong>（如配图所示）， 它们首尾相接形成一条闭合曲线，把球面分成两个全等的区域。已知这条曲线的总长为 $\pi\sqrt n$，求 $n$。 <br>  <br>
+  <figure style="margin:16px 0; text-align:center;">
+  <img src="https://live.poshenloh.com/images/past-contests/amc10/2023B/20.svg" alt="2023 AMC 10B Problem 20 配图" style="max-width:340px; width:100%;">
+  <figcaption style="font-size:13px; color:var(--sub);">官方配图：球面上的四个全等半圆（形如网球表面的缝线）</figcaption>
+</figure>
+  <em>构型描述</em>：设四个端点为 $P_1,P_2,P_3,P_4$，它们共面且落在某个<strong>大圆</strong>上， 相邻两点之间由一段半圆弧相连；四段弧全等、首尾相接成一条闭合曲线。</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
   <p class="official">
     📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
@@ -168,215 +160,110 @@ window.MathJax = {
   <h2>二、错误原因诊断</h2>
   <table>
     <tr><th>常见错误</th><th>错在哪</th></tr>
-    <tr><td><code>选 (E) $27$：把四个端点看成了正三角形的顶点</code></td><td>相邻端点对应的<strong>圆心角</strong>决定了弦长：$k$ 段闭合曲线对应圆心角 $\dfrac{2\pi}{k}$。
-      若错按 $k=3$（正三角形，圆心角 $120^\circ$）算，弦长 $=2R\sin60^\circ=2\sqrt3$，半圆半径 $=\sqrt3$，
-      每段弧长 $\pi\sqrt3$，总长 $3\pi\sqrt3=\pi\sqrt{27}$——正好撞上干扰项 (E)。
-      <strong>$27$ 是「三段」构型的正确答案</strong>，不是本题的。</td></tr>
-    <tr><td><code>选 (C) $48$ 或 (D) $36$：圆心角或段数用错</code></td><td>(C) $48$ 的来源是把<strong>圆心角当成 $120^\circ$ 却仍按 $4$ 段</strong>求和：
-      弦长 $2\sqrt3$、半圆半径 $\sqrt3$、总长 $4\pi\sqrt3=\pi\sqrt{48}$。
-      (D) $36$ 则是「$6$ 段」构型的答案：$6\pi R\sin30^\circ=6\pi=\pi\sqrt{36}$。
-      可见这组选项是被<strong>按「段数 $k$」和「圆心角」两个维度系统性生成</strong>的，
-      算之前务必先把 $k=4$ 和圆心角 $90^\circ$ 钉死。</td></tr>
+    <tr><td><code>选 (E) $27$：把四个端点看成了正三角形的顶点</code></td><td>相邻端点对应的<strong>圆心角</strong>决定了弦长：$k$ 段闭合曲线对应圆心角 $\dfrac{2\pi}{k}$。 若错按 $k=3$（正三角形，圆心角 $120^\circ$）算，弦长 $=2R\sin60^\circ=2\sqrt3$，半圆半径 $=\sqrt3$， 每段弧长 $\pi\sqrt3$，总长 $3\pi\sqrt3=\pi\sqrt{27}$——正好撞上干扰项 (E)。 <strong>$27$ 是「三段」构型的正确答案</strong>，不是本题的。</td></tr>
+    <tr><td><code>选 (C) $48$ 或 (D) $36$：圆心角或段数用错</code></td><td>(C) $48$ 的来源是把<strong>圆心角当成 $120^\circ$ 却仍按 $4$ 段</strong>求和： 弦长 $2\sqrt3$、半圆半径 $\sqrt3$、总长 $4\pi\sqrt3=\pi\sqrt{48}$。 (D) $36$ 则是「$6$ 段」构型的答案：$6\pi R\sin30^\circ=6\pi=\pi\sqrt{36}$。 可见这组选项是被<strong>按「段数 $k$」和「圆心角」两个维度系统性生成</strong>的， 算之前务必先把 $k=4$ 和圆心角 $90^\circ$ 钉死。</td></tr>
     <!-- 按需增删行 -->
   </table>
   <blockquote class="warn">
-    <strong>根本问题</strong>：把「半圆」当成了纯平面对象，没有追问两个关键问题：
-      <strong>① 这条半圆的直径是哪条线段？② 为什么以它为直径的圆会整个落在球面上？</strong>
-      回答①需要看出四个端点构成大圆内接正方形；回答②需要一条关于弦中点的小性质。
-      这两步走完，剩下的只是算术。
+    <strong>根本问题</strong>：把「半圆」当成了纯平面对象，没有追问两个关键问题： <strong>① 这条半圆的直径是哪条线段？② 为什么以它为直径的圆会整个落在球面上？</strong> 回答①需要看出四个端点构成大圆内接正方形；回答②需要一条关于弦中点的小性质。 这两步走完，剩下的只是算术。
   </blockquote>
 
   <hr>
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/20" target="_blank" rel="noopener">2023AMC10B(20)</a> 的书面解答一致——四段全等半圆弧，四端点构成大圆内接正方形，边长 $2\sqrt2$ 即弧直径，故弧半径 $\sqrt2$、总长 $\pi\sqrt{32}$。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/20" target="_blank" rel="noopener">2023AMC10B(20)</a> 的书面解答一致——四段全等半圆弧，四端点构成大圆内接正方形，边长 $2\sqrt2$ 即弧直径，故弧半径 $\sqrt2$、总长 $\pi\sqrt{32}$。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：抓住那条弦 —— 三步锁定几何（推荐）</h3>
-  <p><strong>第 1 步 · 四个端点在大圆上构成正方形。</strong>四段弧全等，故四段弦等长，
-      四个端点等间距地分布在某个圆上。又因为这四点都在球面上，而球面上与球心等距的圆只有
-      <strong>小圆</strong>和<strong>大圆</strong>——此处四个点共面且要把球面分成两个全等区域，
-      该圆必须是<strong>大圆</strong>（半径为球半径 $R=2$）。于是四点构成大圆的内接正方形，
-      相邻两点对应的圆心角为 $\dfrac{2\pi}{4}=90^\circ$，</p>
-      $$\text{弦长}=2R\sin\frac{90^\circ}{2}\cdot 2\ \Big/ 2 = 2R\sin 45^\circ=2\cdot2\cdot\frac{\sqrt2}{2}=2\sqrt2,$$
-      <p>即相邻两点间的距离 $|P_iP_{i+1}|=2\sqrt2$，这就是每条半圆的直径。</p>
-
-      <p><strong>第 2 步 · 半圆半径。</strong>直径 $2\sqrt2$，故半圆半径 $r=\sqrt2$，
-      每段弧长 $=\pi r=\pi\sqrt2$。</p>
-
-      <p><strong>第 3 步 · 求和并化成 $\pi\sqrt n$。</strong></p>
-      $$\text{总长}=4\cdot\pi\sqrt2=4\pi\sqrt2=\pi\sqrt{16\cdot2}=\pi\sqrt{32},$$
-      <p>故 $n=\boxed{32}$，选 <strong>(A)</strong>。</p>
-
-      <blockquote><strong>为什么这个圆真的贴在球面上？</strong>设弦为 $AB$，中点为 $M$，球心为 $O$。
-      因 $|OA|=|OB|=R$，等腰三角形底边上的中线也是高，故 $OM\perp AB$，且由勾股定理
-      $|OM|^2+\left(\frac{|AB|}{2}\right)^2=R^2$。取过 $M$ 且<strong>垂直于 $OM$</strong> 的平面，
-      在其中以 $M$ 为圆心、$r=\frac{|AB|}2$ 为半径作圆；对该圆上任一点 $X$，向量 $MX\perp OM$，于是
-      $$|OX|^2=|OM|^2+|MX|^2=|OM|^2+r^2=R^2,$$
-      即 <strong>$X$ 恒在球面上</strong>。代入本题：$|OM|^2=4-2=2$，$r^2=2$，和为 $4=R^2$ ✓。</blockquote>
+  <p><strong>第 1 步 · 四个端点在大圆上构成正方形。</strong>四段弧全等，故四段弦等长， 四个端点等间距地分布在某个圆上。又因为这四点都在球面上，而球面上与球心等距的圆只有 <strong>小圆</strong>和<strong>大圆</strong>——此处四个点共面且要把球面分成两个全等区域， 该圆必须是<strong>大圆</strong>（半径为球半径 $R=2$）。于是四点构成大圆的内接正方形， 相邻两点对应的圆心角为 $\dfrac{2\pi}{4}=90^\circ$，</p>
+$$\text{弦长}=2R\sin\frac{90^\circ}{2}\cdot 2\ \Big/ 2 = 2R\sin 45^\circ=2\cdot2\cdot\frac{\sqrt2}{2}=2\sqrt2,$$
+  <p>即相邻两点间的距离 $|P_iP_{i+1}|=2\sqrt2$，这就是每条半圆的直径。</p>
+  <p><strong>第 2 步 · 半圆半径。</strong>直径 $2\sqrt2$，故半圆半径 $r=\sqrt2$， 每段弧长 $=\pi r=\pi\sqrt2$。</p>
+  <p><strong>第 3 步 · 求和并化成 $\pi\sqrt n$。</strong></p>
+$$\text{总长}=4\cdot\pi\sqrt2=4\pi\sqrt2=\pi\sqrt{16\cdot2}=\pi\sqrt{32},$$
+  <p>故 $n=\boxed{32}$，选 <strong>(A)</strong>。</p>
+  <blockquote><strong>为什么这个圆真的贴在球面上？</strong>设弦为 $AB$，中点为 $M$，球心为 $O$。 因 $|OA|=|OB|=R$，等腰三角形底边上的中线也是高，故 $OM\perp AB$，且由勾股定理 $|OM|^2+\left(\frac{|AB|}{2}\right)^2=R^2$。取过 $M$ 且<strong>垂直于 $OM$</strong> 的平面， 在其中以 $M$ 为圆心、$r=\frac{|AB|}2$ 为半径作圆；对该圆上任一点 $X$，向量 $MX\perp OM$，于是 $$|OX|^2=|OM|^2+|MX|^2=|OM|^2+r^2=R^2,$$ 即 <strong>$X$ 恒在球面上</strong>。代入本题：$|OM|^2=4-2=2$，$r^2=2$，和为 $4=R^2$ ✓。</blockquote>
   <h3>方法二：坐标法（把构型彻底钉死）</h3>
   <p>取大圆所在的平面为 $xz$ 平面，四个端点取为</p>
-      $$P_1=(2,0,0),\quad P_2=(0,0,2),\quad P_3=(-2,0,0),\quad P_4=(0,0,-2).$$
-      <p>它们两两相邻的间距都是 $\sqrt{2^2+2^2}=2\sqrt2$ ✓，且都在半径 $2$ 的球面上 ✓。</p>
-      <p>以 $P_1P_2$ 为例：中点 $M=(1,0,1)$，半圆所在平面的法向取 $\overrightarrow{OM}=(1,0,1)$，
-      该平面方程为 $x+z=2$。在此平面内以 $M$ 为圆心、
-      $r=\frac{|P_1P_2|}{2}=\sqrt2$ 作半圆。用参数验证：取正交基
-      $u=\frac{(1,0,-1)}{\sqrt2}$、$v=(0,1,0)$，则半圆上的点为</p>
-      $$X(\theta)=M+\sqrt2\big(\cos\theta\,u+\sin\theta\,v\big),\quad 0\le\theta\le\pi,$$
-      <p>可直接算出 $|X(\theta)|^2\equiv 4$，即<strong>整段弧都贴在球面上</strong>（数值采样 $20$ 万个点，
-      偏离球面的最大值仅 $4.4\times10^{-16}$）。四段全等，弧长各 $\pi\sqrt2$，总长 $\pi\sqrt{32}$。</p>
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：三重校验：① 几何法得 $4\pi\sqrt2=\pi\sqrt{32}$；② 坐标法数值积分每段的弧长
-      $=4.442883$，与 $\pi\sqrt2=4.442883$ 完全吻合；③ 通项公式 $k\pi R\sin\frac\pi k$ 代入
-      $k=4,R=2$ 得 $8\pi\sin45^\circ=4\sqrt2\pi$，同一结果。
-      <strong>另外务必确认答在问什么</strong>：题目求的是 $n$ 而不是曲线长度，
-      $\pi\sqrt{32}$ 的 $n=32$，别把 $\sqrt{32}$ 或 $4\sqrt2$ 当成答案。
-  </blockquote>
-
+$$P_1=(2,0,0),\quad P_2=(0,0,2),\quad P_3=(-2,0,0),\quad P_4=(0,0,-2).$$
+  <p>它们两两相邻的间距都是 $\sqrt{2^2+2^2}=2\sqrt2$ ✓，且都在半径 $2$ 的球面上 ✓。</p>
+  <p>以 $P_1P_2$ 为例：中点 $M=(1,0,1)$，半圆所在平面的法向取 $\overrightarrow{OM}=(1,0,1)$， 该平面方程为 $x+z=2$。在此平面内以 $M$ 为圆心、 $r=\frac{|P_1P_2|}{2}=\sqrt2$ 作半圆。用参数验证：取正交基 $u=\frac{(1,0,-1)}{\sqrt2}$、$v=(0,1,0)$，则半圆上的点为</p>
+$$X(\theta)=M+\sqrt2\big(\cos\theta\,u+\sin\theta\,v\big),\quad 0\le\theta\le\pi,$$
+  <p>可直接算出 $|X(\theta)|^2\equiv 4$，即<strong>整段弧都贴在球面上</strong>（数值采样 $20$ 万个点， 偏离球面的最大值仅 $4.4\times10^{-16}$）。四段全等，弧长各 $\pi\sqrt2$，总长 $\pi\sqrt{32}$。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：三重校验：① 几何法得 $4\pi\sqrt2=\pi\sqrt{32}$；② 坐标法数值积分每段的弧长 $=4.442883$，与 $\pi\sqrt2=4.442883$ 完全吻合；③ 通项公式 $k\pi R\sin\frac\pi k$ 代入 $k=4,R=2$ 得 $8\pi\sin45^\circ=4\sqrt2\pi$，同一结果。 <strong>另外务必确认答在问什么</strong>：题目求的是 $n$ 而不是曲线长度， $\pi\sqrt{32}$ 的 $n=32$，别把 $\sqrt{32}$ 或 $4\sqrt2$ 当成答案。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
   <blockquote>
-<strong>核心知识点（<u>勾股定理的直接推论，不是独立定理，更不叫"弦-半圆-球面定理"</u>）</strong>：
-    设球心 $O$、球半径 $R$，弦 $AB$ 的中点 $M$、$AB=\ell$，则
-    $$|OM|^2=R^2-\left(\frac{\ell}{2}\right)^2.$$
-    过 $M$ 作垂直于 $\overrightarrow{OM}$ 的平面，取其中以 $AB$ 为直径的圆（半径 $r=\frac{\ell}{2}$），
-    则该圆<strong>整个落在球面上</strong>——这是因为圆上任一点 $X$ 都满足
-    $$|OX|^2=|OM|^2+|MX|^2=\left(R^2-\frac{\ell^2}{4}\right)+\frac{\ell^2}{4}=R^2.$$
-    本题只需记住 $r=\frac{\ell}{2}$，以及 $k$ 段全等半圆首尾成环时端点构成大圆内接正 $k$ 边形，
-    每段弧长 $=\pi R\sin\dfrac\pi k$。官方 concepts 标注的是 <code>sphere; arc; 3D geometry</code>，
-    并不存在以人名命名的定理，考场上也不会用到。
+    <strong>核心知识点（<u>勾股定理的直接推论，不是独立定理，更不叫"弦-半圆-球面定理"</u>）</strong>：设球心 $O$、球半径 $R$，弦 $AB$ 的中点 $M$、$AB=\ell$，则 $$|OM|^2=R^2-\left(\frac{\ell}{2}\right)^2.$$ 过 $M$ 作垂直于 $\overrightarrow{OM}$ 的平面，取其中以 $AB$ 为直径的圆（半径 $r=\frac{\ell}{2}$）， 则该圆<strong>整个落在球面上</strong>——这是因为圆上任一点 $X$ 都满足 $$|OX|^2=|OM|^2+|MX|^2=\left(R^2-\frac{\ell^2}{4}\right)+\frac{\ell^2}{4}=R^2.$$ 本题只需记住 $r=\frac{\ell}{2}$，以及 $k$ 段全等半圆首尾成环时端点构成大圆内接正 $k$ 边形， 每段弧长 $=\pi R\sin\dfrac\pi k$。官方 concepts 标注的是 <code>sphere; arc; 3D geometry</code>， 并不存在以人名命名的定理，考场上也不会用到。
   </blockquote>
   <p>必须掌握的要点：</p>
   <ol>
-    <li>遇到「球面上画了 $k$ 段弧」的题，第一件事是找<strong>端点所在的那个圆</strong>，
-      通常是大圆；然后相邻端点的圆心角就是 $\dfrac{2\pi}{k}$。</li>
-    <li>弦长公式必须记牢：<strong>$|AB|=2R\sin\dfrac\theta2$</strong>（$\theta$ 为圆心角）。
-      本题 $\theta=90^\circ$，故弦长 $=2\cdot2\cdot\sin45^\circ=2\sqrt2$。</li>
-    <li><strong>分清「闭合」与「光滑」——这是本题最容易想多的一步。</strong>官方题面只说
-      <code>creating a closed curve</code>（一条闭合曲线），<strong>从头到尾没有要求 smooth</strong>。
-      事实上 $k$ 段全等半圆首尾相接时，接点 $P_i$ 处前一段的切向与后一段的切向恰好
-      <strong>反向（共线）</strong>，夹角 $180^\circ$：$k=3,4,5,6,8$ 数值验证均如此。
-      所以接点处<strong>必有折角</strong>，<u>任何 $k\ge3$ 都不光滑，奇数个也不例外</u>。
-      闭合只保证「首尾相接不断开」，不保证「没有棱」——原题（含 $k=4$）本身就只是个闭合折线状曲线。</li>
-    <li>牢记恒等式 $|OM|^2+r^2=R^2$（$M$ 弦中点、$r=\frac{|AB|}{2}$ 为半圆半径）——它既是
-      <strong>「这段弧确实在球面上」的判据</strong>，也是反求未知量的常用工具。
-      它来自直角三角形 $OMA$ 的勾股定理，<u>不需要任何额外定理支撑</u>。</li>
-    <li>本题五个选项几乎可以被<strong>通项公式 $n=\left(kR\sin\frac\pi k\right)^2$</strong>一次性解释：
-      $k=4$ 给 $32$、$k=3$ 给 $27$、$k=6$ 给 $36$。能把干扰项解释出来，才是真的吃透了这道题。</li>
+    <li>遇到「球面上画了 $k$ 段弧」的题，第一件事是找<strong>端点所在的那个圆</strong>， 通常是大圆；然后相邻端点的圆心角就是 $\dfrac{2\pi}{k}$。</li>
+    <li>弦长公式必须记牢：<strong>$|AB|=2R\sin\dfrac\theta2$</strong>（$\theta$ 为圆心角）。 本题 $\theta=90^\circ$，故弦长 $=2\cdot2\cdot\sin45^\circ=2\sqrt2$。</li>
+    <li><strong>分清「闭合」与「光滑」——这是本题最容易想多的一步。</strong>官方题面只说 <code>creating a closed curve</code>（一条闭合曲线），<strong>从头到尾没有要求 smooth</strong>。 事实上 $k$ 段全等半圆首尾相接时，接点 $P_i$ 处前一段的切向与后一段的切向恰好 <strong>反向（共线）</strong>，夹角 $180^\circ$：$k=3,4,5,6,8$ 数值验证均如此。 所以接点处<strong>必有折角</strong>，<u>任何 $k\ge3$ 都不光滑，奇数个也不例外</u>。 闭合只保证「首尾相接不断开」，不保证「没有棱」——原题（含 $k=4$）本身就只是个闭合折线状曲线。</li>
+    <li>牢记恒等式 $|OM|^2+r^2=R^2$（$M$ 弦中点、$r=\frac{|AB|}{2}$ 为半圆半径）——它既是 <strong>「这段弧确实在球面上」的判据</strong>，也是反求未知量的常用工具。 它来自直角三角形 $OMA$ 的勾股定理，<u>不需要任何额外定理支撑</u>。</li>
+    <li>本题五个选项几乎可以被<strong>通项公式 $n=\left(kR\sin\frac\pi k\right)^2$</strong>一次性解释： $k=4$ 给 $32$、$k=3$ 给 $27$、$k=6$ 给 $36$。能把干扰项解释出来，才是真的吃透了这道题。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
   <div class="prob">
     <span class="tag">第 1 题 · 把半径换成 3</span> <span class="stars">★</span> <span class="form">形式｜换约束参数</span>
-    <p>若球半径改为 $3$，其余构型完全不变（仍是四个全等半圆首尾成环），
-      则闭合曲线长度为 $\pi\sqrt n$，求 $n$。</p>
+    <p>若球半径改为 $3$，其余构型完全不变（仍是四个全等半圆首尾成环）， 则闭合曲线长度为 $\pi\sqrt n$，求 $n$。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$n=72$</strong></div>
-      <p>大圆半径 $R=3$，内接正方形边长 $=2\cdot3\cdot\sin45^\circ=3\sqrt2$，故半圆半径 $r=\dfrac{3\sqrt2}{2}=\dfrac3{\sqrt2}$。
-      每段弧长 $=\pi r=\dfrac{3\pi}{\sqrt2}$，总长 $=4\cdot\dfrac{3\pi}{\sqrt2}=\dfrac{12\pi}{\sqrt2}
-      =\pi\sqrt{\dfrac{144}{2}}=\pi\sqrt{72}$。故 $n=72$。
-      <strong>规律</strong>：$n=8R^2$，$R=2$ 得 $32$、$R=3$ 得 $72$，完全吻合。</p>
-      <p class="hint">要点：总长与球半径成<strong>正比</strong>，所以 $n$ 随 $R^2$ 增长；记住 $n=8R^2$ 这条短线，
-      遇到同构型换半径的题可以直接秒答。</p>
+      <p>大圆半径 $R=3$，内接正方形边长 $=2\cdot3\cdot\sin45^\circ=3\sqrt2$，故半圆半径 $r=\dfrac{3\sqrt2}{2}=\dfrac3{\sqrt2}$。 每段弧长 $=\pi r=\dfrac{3\pi}{\sqrt2}$，总长 $=4\cdot\dfrac{3\pi}{\sqrt2}=\dfrac{12\pi}{\sqrt2} =\pi\sqrt{\dfrac{144}{2}}=\pi\sqrt{72}$。故 $n=72$。 <strong>规律</strong>：$n=8R^2$，$R=2$ 得 $32$、$R=3$ 得 $72$，完全吻合。</p>
+      <p class="hint">要点：总长与球半径成<strong>正比</strong>，所以 $n$ 随 $R^2$ 增长；记住 $n=8R^2$ 这条短线， 遇到同构型换半径的题可以直接秒答。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t2">第 2 题 · 坐标与平面方程</span> <span class="stars">★★</span> <span class="form">形式｜完整列举</span>
-    <p>取 $R=2$、大圆在 $xz$ 平面。请写出四个端点的坐标、每段相邻两点间的距离、
-      每段半圆所在<strong>平面的方程</strong>，并验证 $|OM|^2+r^2=4$。</p>
+    <p>取 $R=2$、大圆在 $xz$ 平面。请写出四个端点的坐标、每段相邻两点间的距离、 每段半圆所在<strong>平面的方程</strong>，并验证 $|OM|^2+r^2=4$。</p>
     <details>
       <summary>👉 点击查看解析</summary>
-      <div class="ans">答：<strong>端点 $(2,0,0),(0,0,2),(-2,0,0),(0,0,-2)$；相邻距离均为 $2\sqrt2$，半圆半径 $r=\sqrt2$；
-      四段所在平面分别为 $x+z=2$、$-x+z=2$、$x+z=-2$、$-x+z=-2$（法向沿各自 $\overrightarrow{OM}$）；$|OM|^2+r^2=2+2=4$ ✓</strong></div>
-      <p>① $P_1=(2,0,0)$、$P_2=(0,0,2)$：$|P_1P_2|=\sqrt{4+4}=2\sqrt2$，中点 $M_1=(1,0,1)$，
-      $\overrightarrow{OM_1}=(1,0,1)$ 即为该段半圆所在平面的法向，方程 $x+z=2$，$|OM_1|^2=2$。
-      ② $P_2=(0,0,2)$、$P_3=(-2,0,0)$：中点 $M_2=(-1,0,1)$，法向 $(-1,0,1)$，方程 $-x+z=2$。
-      ③ $P_3P_4$ 与 $P_4P_1$ 由中心对称得到，平面分别为 $x+z=-2$、$-x+z=-2$。
-      ④ 每一段都有 $|OM_i|=\sqrt2$、$r=\sqrt2$，故 $|OM_i|^2+r^2=2+2=4=R^2$ ✓。</p>
-      <p class="hint">要点：把图形<strong>坐标化</strong>是破解空间想象题的通用手段：一旦能写出坐标，
-      「相邻两点距离」「平面方程」「是否有 $|OX|=R$」都变成可由程序或手算核实的代数事实。</p>
+      <div class="ans">答：<strong>端点 $(2,0,0),(0,0,2),(-2,0,0),(0,0,-2)$；相邻距离均为 $2\sqrt2$，半圆半径 $r=\sqrt2$； 四段所在平面分别为 $x+z=2$、$-x+z=2$、$x+z=-2$、$-x+z=-2$（法向沿各自 $\overrightarrow{OM}$）；$|OM|^2+r^2=2+2=4$ ✓</strong></div>
+      <p>① $P_1=(2,0,0)$、$P_2=(0,0,2)$：$|P_1P_2|=\sqrt{4+4}=2\sqrt2$，中点 $M_1=(1,0,1)$， $\overrightarrow{OM_1}=(1,0,1)$ 即为该段半圆所在平面的法向，方程 $x+z=2$，$|OM_1|^2=2$。 ② $P_2=(0,0,2)$、$P_3=(-2,0,0)$：中点 $M_2=(-1,0,1)$，法向 $(-1,0,1)$，方程 $-x+z=2$。 ③ $P_3P_4$ 与 $P_4P_1$ 由中心对称得到，平面分别为 $x+z=-2$、$-x+z=-2$。 ④ 每一段都有 $|OM_i|=\sqrt2$、$r=\sqrt2$，故 $|OM_i|^2+r^2=2+2=4=R^2$ ✓。</p>
+      <p class="hint">要点：把图形<strong>坐标化</strong>是破解空间想象题的通用手段：一旦能写出坐标， 「相邻两点距离」「平面方程」「是否有 $|OX|=R$」都变成可由程序或手算核实的代数事实。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t3">第 3 题 · 任意弦都行吗？</span> <span class="stars">★★★</span> <span class="form">形式｜反向 / 存在性 + 结构证明</span>
-    <p>上述构造只用了特殊的两点。<strong>证明一般命题</strong>：
-      在半径为 $R$ 的球面上任取两点 $A,B$，记弦中点为 $M$。证明以 $AB$ 为直径、
-      且所在平面垂直于 $\overrightarrow{OM}$ 的圆<strong>必定整个落在球面上</strong>。</p>
+    <p>上述构造只用了特殊的两点。<strong>证明一般命题</strong>： 在半径为 $R$ 的球面上任取两点 $A,B$，记弦中点为 $M$。证明以 $AB$ 为直径、 且所在平面垂直于 $\overrightarrow{OM}$ 的圆<strong>必定整个落在球面上</strong>。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>恒成立；证明关键在 $|OA|=|OB|=R\Rightarrow \overrightarrow{OM}\perp\overrightarrow{AB}$</strong></div>
-      <p><strong>先证垂直。</strong>$\overrightarrow{OM}=\frac12(\overrightarrow{OA}+\overrightarrow{OB})$，
-      $\overrightarrow{AB}=\overrightarrow{OB}-\overrightarrow{OA}$，点积为
-      $$\overrightarrow{OM}\cdot\overrightarrow{AB}
-        =\frac12\big(\overrightarrow{OB}^2-\overrightarrow{OA}^2\big)
-        =\frac12(R^2-R^2)=0.$$
-      这一步<strong>只用到了 $|OA|=|OB|$</strong>，与 $A,B$ 的具体位置无关。<br>
-      <strong>再算距离。</strong>设圆半径为 $r=\frac{|AB|}2$。对圆上任一点 $X$，
-      $\overrightarrow{MX}\perp\overrightarrow{OM}$ 且 $|\overrightarrow{MX}|=r$，由勾股定理
-      $$|OX|^2=|OM|^2+|MX|^2=|OM|^2+r^2.$$
-      而直角三角形 $OMA$ 中 $|OM|^2+r^2=|OM|^2+\left(\frac{|AB|}{2}\right)^2=R^2$，故 $|OX|=R$ 恒成立。∎<br>
-      随机取 $2000$ 组球面上的点对验证，$|OM|^2+r^2-R^2$ 的最大偏差仅 $1.8\times10^{-15}$。</p>
-      <p class="hint">要点：这条性质说明「球面上以弦为直径的圆」<strong>永远存在且总是合法</strong>，
-      因此这一类题的几何自由度其实很小——真正需要你确定的只有那条<strong>弦的长度</strong>。</p>
+        <p><strong>先证垂直。</strong>$\overrightarrow{OM}=\frac12(\overrightarrow{OA}+\overrightarrow{OB})$， $\overrightarrow{AB}=\overrightarrow{OB}-\overrightarrow{OA}$，点积为 $$\overrightarrow{OM}\cdot\overrightarrow{AB} =\frac12\big(\overrightarrow{OB}^2-\overrightarrow{OA}^2\big) =\frac12(R^2-R^2)=0.$$ 这一步<strong>只用到了 $|OA|=|OB|$</strong>，与 $A,B$ 的具体位置无关。 <br> <strong>再算距离。</strong>设圆半径为 $r=\frac{|AB|}2$。对圆上任一点 $X$， $\overrightarrow{MX}\perp\overrightarrow{OM}$ 且 $|\overrightarrow{MX}|=r$，由勾股定理 $$|OX|^2=|OM|^2+|MX|^2=|OM|^2+r^2.$$ 而直角三角形 $OMA$ 中 $|OM|^2+r^2=|OM|^2+\left(\frac{|AB|}{2}\right)^2=R^2$，故 $|OX|=R$ 恒成立。∎ <br> 随机取 $2000$ 组球面上的点对验证，$|OM|^2+r^2-R^2$ 的最大偏差仅 $1.8\times10^{-15}$。</p>
+      <p class="hint">要点：这条性质说明「球面上以弦为直径的圆」<strong>永远存在且总是合法</strong>， 因此这一类题的几何自由度其实很小——真正需要你确定的只有那条<strong>弦的长度</strong>。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t4">第 4 题 · 改成三个半圆</span> <span class="stars">★★★★</span> <span class="form">形式｜换构型参数</span>
-    <p>若不是四个，而是<strong>三个全等的半圆</strong>首尾相接成<strong>闭合</strong>曲线（三个端点在大圆上构成正三角形，
-      每段弧交替取在弦的两侧以免自交），则总长为 $\pi\sqrt n$，求 $n$。<br>
-      （提示：这正是官方干扰项 (E) 的来历。注意题面只要求闭合，三段弧在接点处<strong>有折角、不光滑</strong>；
-      这是合法的构型，$n$ 依然有唯一值。）</p>
+    <p>若不是四个，而是<strong>三个全等的半圆</strong>首尾相接成<strong>闭合</strong>曲线（三个端点在大圆上构成正三角形， 每段弧交替取在弦的两侧以免自交），则总长为 $\pi\sqrt n$，求 $n$。 <br> （提示：这正是官方干扰项 (E) 的来历。注意题面只要求闭合，三段弧在接点处<strong>有折角、不光滑</strong>； 这是合法的构型，$n$ 依然有唯一值。）</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$n=27$</strong></div>
-      <p>三个端点在大圆上构成内接正三角形，圆心角 $120^\circ$，边长 $=2R\sin60^\circ=2\cdot2\cdot\frac{\sqrt3}{2}=2\sqrt3$。
-      半圆半径 $r=\sqrt3$，每段弧长 $\pi\sqrt3$，总长 $=3\pi\sqrt3=\pi\sqrt{27}$。
-      验证合法性：$|OM|=R\cos60^\circ=1$，$|OM|^2+r^2=1+3=4=R^2$ ✓，曲线确实贴在球面上。
-      数值积分也得 $3\times5.441398=16.324194=3\pi\sqrt3$，完全一致。</p>
-      <p class="hint">要点：<strong>「三段也能闭合」是真的，但别顺手把它说成「光滑闭合」。</strong>
-      三个接点处前后两弧的切向夹角都是 $180^\circ$，曲线上有<strong>三处折角</strong>，所以绝不平滑
-      （数值积分验证：$k=3$ 时每个接点的切向夹角 $180.00^\circ$；$k=4,5,6,8$ 同样如此，可见
-      <strong>折角与奇偶无关，$k\ge3$ 一律有折角</strong>）。另外，$k=3$ 时每对弧都相邻，
-      数值检验非相邻自交不存在，构型本身合法。正确的说法是：
-      <strong>三段半圆能首尾相接成一条简单的闭合曲线，把球面分成两块，但绝不平滑。</strong>
-      官方干扰项 (E) $27$ 只考长度、不看光滑性，所以 $n=27$ 依然是有效答案。</p>
-      <p class="hint">要点：<strong>干扰项不是随便编的</strong>：它们往往是「同一道题、参数差一点」的正解。
-      练习时把每个干扰项反推一遍，是性价比最高的复盘动作。</p>
+      <p>三个端点在大圆上构成内接正三角形，圆心角 $120^\circ$，边长 $=2R\sin60^\circ=2\cdot2\cdot\frac{\sqrt3}{2}=2\sqrt3$。 半圆半径 $r=\sqrt3$，每段弧长 $\pi\sqrt3$，总长 $=3\pi\sqrt3=\pi\sqrt{27}$。 验证合法性：$|OM|=R\cos60^\circ=1$，$|OM|^2+r^2=1+3=4=R^2$ ✓，曲线确实贴在球面上。 数值积分也得 $3\times5.441398=16.324194=3\pi\sqrt3$，完全一致。</p>
+      <p class="hint">要点：<strong>「三段也能闭合」是真的，但别顺手把它说成「光滑闭合」。</strong> 三个接点处前后两弧的切向夹角都是 $180^\circ$，曲线上有<strong>三处折角</strong>，所以绝不平滑 （数值积分验证：$k=3$ 时每个接点的切向夹角 $180.00^\circ$；$k=4,5,6,8$ 同样如此，可见 <strong>折角与奇偶无关，$k\ge3$ 一律有折角</strong>）。另外，$k=3$ 时每对弧都相邻， 数值检验非相邻自交不存在，构型本身合法。正确的说法是： <strong>三段半圆能首尾相接成一条简单的闭合曲线，把球面分成两块，但绝不平滑。</strong> 官方干扰项 (E) $27$ 只考长度、不看光滑性，所以 $n=27$ 依然是有效答案。</p>
+      <p class="hint">要点：<strong>干扰项不是随便编的</strong>：它们往往是「同一道题、参数差一点」的正解。 练习时把每个干扰项反推一遍，是性价比最高的复盘动作。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t5">第 5 题 · $k$ 段半圆的通式</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
-    <p>一般化：球半径为 $R$，用 $k$ 个全等半圆首尾相接成<strong>闭合</strong>曲线（$k\ge 3$）。
-      证明总长为 $\pi\cdot kR\sin\dfrac\pi k$，据此指出 $k=3,4,6$ 分别对应哪个选项。</p>
+    <p>一般化：球半径为 $R$，用 $k$ 个全等半圆首尾相接成<strong>闭合</strong>曲线（$k\ge 3$）。 证明总长为 $\pi\cdot kR\sin\dfrac\pi k$，据此指出 $k=3,4,6$ 分别对应哪个选项。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>总长 $=k\pi R\sin\frac\pi k$；$k=3\to n=27$（选 E）、$k=4\to n=32$（选 A，正解）、$k=6\to n=36$（选 D）</strong></div>
-      <p>$k$ 个端点等分大圆，圆心角 $\dfrac{2\pi}{k}$，故弦长 $=2R\sin\dfrac\pi k$，
-      半圆半径 $r=R\sin\dfrac\pi k$，每段弧长 $=\pi R\sin\dfrac\pi k$，乘以 $k$ 段即得总长 $=k\pi R\sin\dfrac\pi k$。
-      代入 $R=2$：$n=\left(kR\sin\frac\pi k\right)^2=\left(2k\sin\frac\pi k\right)^2$：
-      $$k=3:\ (6\sin60^\circ)^2=(3\sqrt3)^2=27;\quad
-        k=4:\ (8\sin45^\circ)^2=(4\sqrt2)^2=32;\quad
-        k=6:\ (12\sin30^\circ)^2=6^2=36.$$
-      另外 $k=2$ 得 $(4\sin90^\circ)^2=16$，$k=5$ 得 $35$，$k=8$ 得 $37$——计算机对
-      $k=2,3,4,5,6,8$ 逐个数値积分，结果全部吻合。</p>
-      <p class="hint">要点：通式只管<strong>长度</strong>，不管<strong>光滑性</strong>——$k$ 任意，
-      每个接点处两弧切向都是反向共线（夹角 $180^\circ$），所以 $k\ge3$ 全都有折角，$k$ 是奇数也一样。
-      另外注意 $k\to\infty$ 时 $n\to(2\pi)^2\approx39.5$，即通式的上界是 $39.5$，这解释了为什么五个选项全都落在 $27\sim37$ 之间。</p>
-      <p class="hint">要点：有了通式，整道题从「空间想象」降级为「<strong>代入一个公式</strong>」。
-      这也解释了为什么 $32$ 夹在 $27$ 与 $36$ 之间：$k$ 越大，$k\sin\frac\pi k$ 越接近 $\pi$ 从而 $n$ 递增趋于 $(2\pi)^2\approx39.5$。</p>
+        <p>$k$ 个端点等分大圆，圆心角 $\dfrac{2\pi}{k}$，故弦长 $=2R\sin\dfrac\pi k$， 半圆半径 $r=R\sin\dfrac\pi k$，每段弧长 $=\pi R\sin\dfrac\pi k$，乘以 $k$ 段即得总长 $=k\pi R\sin\dfrac\pi k$。 代入 $R=2$：$n=\left(kR\sin\frac\pi k\right)^2=\left(2k\sin\frac\pi k\right)^2$： $$k=3:\ (6\sin60^\circ)^2=(3\sqrt3)^2=27;\quad k=4:\ (8\sin45^\circ)^2=(4\sqrt2)^2=32;\quad k=6:\ (12\sin30^\circ)^2=6^2=36.$$ 另外 $k=2$ 得 $(4\sin90^\circ)^2=16$，$k=5$ 得 $35$，$k=8$ 得 $37$——计算机对 $k=2,3,4,5,6,8$ 逐个数値积分，结果全部吻合。</p>
+      <p class="hint">要点：通式只管<strong>长度</strong>，不管<strong>光滑性</strong>——$k$ 任意， 每个接点处两弧切向都是反向共线（夹角 $180^\circ$），所以 $k\ge3$ 全都有折角，$k$ 是奇数也一样。 另外注意 $k\to\infty$ 时 $n\to(2\pi)^2\approx39.5$，即通式的上界是 $39.5$，这解释了为什么五个选项全都落在 $27\sim37$ 之间。</p>
+      <p class="hint">要点：有了通式，整道题从「空间想象」降级为「<strong>代入一个公式</strong>」。 这也解释了为什么 $32$ 夹在 $27$ 与 $36$ 之间：$k$ 越大，$k\sin\frac\pi k$ 越接近 $\pi$ 从而 $n$ 递增趋于 $(2\pi)^2\approx39.5$。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -391,10 +278,9 @@ window.MathJax = {
       口诀：端点等分大圆跑，半圆的直径就是那条弦；弦长 $2R\sinrac\pi k$，总长再乘 $k$ 个 $\pi/1$——别忘了除回头。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 10 错题精讲 · 球面几何 · 弦、半圆与大圆内接正多边形 &nbsp;|&nbsp; 生成于 2026-09-27</div>
+    <div>AMC 10 错题精讲 · 球面几何 · 弦、半圆与大圆内接正多边形 &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
