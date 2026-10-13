@@ -138,11 +138,9 @@ window.MathJax = {
 
   <h2>一、错题原题</h2>
   <blockquote>
-    Minh enters the numbers $1$ through $81$ into the cells of a $9 \times 9$ grid in some order. She calculates the product of the numbers in each row and column. What is the least number of rows and columns that could have a product divisible by $3?$
-(A) 8　(B) 9　(C) 10　(D) 11　(E) 12
+    Minh enters the numbers $1$ through $81$ into the cells of a $9 \times 9$ grid in some order. She calculates the product of the numbers in each row and column. What is the least number of rows and columns that could have a product divisible by $3?$ (A) 8　(B) 9　(C) 10　(D) 11　(E) 12
   </blockquote>
-  <p><strong>中文翻译</strong>：Minh 把 $1$ 到 $81$ 这 81 个数按某种顺序填进 $9\times9$ 方格表。她分别计算每行、每列的数的乘积。被 $3$ 整除的行与列的个数之和<strong>最少</strong>可以是多少？
-(A) 8　(B) 9　(C) 10　(D) 11　(E) 12</p>
+  <p><strong>中文翻译</strong>：Minh 把 $1$ 到 $81$ 这 81 个数按某种顺序填进 $9\times9$ 方格表。她分别计算每行、每列的数的乘积。被 $3$ 整除的行与列的个数之和<strong>最少</strong>可以是多少？ (A) 8　(B) 9　(C) 10　(D) 11　(E) 12</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
   <p class="official">
     📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
@@ -155,7 +153,7 @@ window.MathJax = {
   <h2>二、错误原因诊断</h2>
   <table>
     <tr><th>常见错误</th><th>错在哪</th></tr>
-    <tr><td><code>答 (C) 10</code></td><td>只做了「感觉合理」的构造就停手：把 27 个 3 的倍数填成一个 $3\times9$ 的横条——3 行 9 列，共 12，不对；再优化成两个 $3\times5$ 交叠块之类，凑出 10 行列就以为是最少。错误在于<strong>没有证明 10 不可能</strong>：缺了下界论证（$r+c\le10\Rightarrow rc\le25<27$），构造再漂亮也排除不了「还有更省的摆法」的可能。极端原理题的答案必须两侧合拢，只给构造只完成一半。</td></tr>
+    <tr><td><code>答 (C) 10</code></td><td>只做了「感觉合理」的构造就停手：把 27 个 3 的倍数填成一个 $3\times9$ 的横条——3 行 9 列，共 12，不对；再优化成两个 $3\times5$ 交叠块之类，凑出 10 行列就以为是最少。错误在于<strong>没有证明 10 不可能</strong>：缺了下界论证（$r+c\le10\Rightarrow rc\le25\lt 27$），构造再漂亮也排除不了「还有更省的摆法」的可能。极端原理题的答案必须两侧合拢，只给构造只完成一半。</td></tr>
     <tr><td><code>答 (E) 12</code></td><td>用了 $3\times9$ 的整条横带（3 行 9 列 = 12）当作答案。这个构造合法但浪费：第 4 行以下完全空着，而 9 列全被标记是因为把 27 个数摊得太开。稍微压缩——把 25 个挤进 $5\times5$ 块、剩下 2 个放进第 6 列的两行——就立刻降到 11。没意识到<strong>列可以被复用</strong>（多行共享同一列），多算了 1。</td></tr>
     <!-- 按需增删行 -->
   </table>
@@ -167,33 +165,27 @@ window.MathJax = {
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/16" target="_blank" rel="noopener">2024AMC8(16)</a> 的书面解答一致——$27$ 个 $3$ 的倍数必须全落在 $r$ 行 $c$ 列的 $rc$ 个交叉格里，故 $rc\ge27$；配 AM-GM 得 $r+c\ge\lceil2\sqrt{27}\rceil=11$，$(5,6)$ 构造可达。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/16" target="_blank" rel="noopener">2024AMC8(16)</a> 的书面解答一致——$27$ 个 $3$ 的倍数必须全落在 $r$ 行 $c$ 列的 $rc$ 个交叉格里，故 $rc\ge27$；配 AM-GM 得 $r+c\ge\lceil2\sqrt{27}\rceil=11$，$(5,6)$ 构造可达。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：交集瓶颈定下界 + 构造定上界（官方思路，推荐）</h3>
-    <p><strong>第 1 步 · 翻译条件。</strong>$1$ 到 $81$ 中 3 的倍数有 $\frac{81}3=27$ 个。一行（列）的乘积被 3 整除 $\iff$ 这一行（列）里<strong>至少有一个</strong> 3 的倍数。设被标记的行有 $r$ 个、列有 $c$ 个。</p>
-    <p><strong>第 2 步 · 关键观察：特殊数必须住在交集里。</strong>若某个 3 的倍数所在的行<strong>不在</strong>被标记的 $r$ 行中，它自己就会把那行变成新的标记行——与「恰好 $r$ 行」矛盾。列同理。所以<strong>全部 27 个 3 的倍数都落在 $r$ 行与 $c$ 列的交集</strong>里，交集共有 $rc$ 格，于是</p>
-    $$rc \ge 27 .$$
-
-    <p><strong>第 3 步 · 下界。</strong>若 $r+c\le 10$，由均值不等式 $rc\le\left(\frac{r+c}2\right)^2\le25<27$，放不下。故</p>
-    $$r+c\ \ge\ 11 .$$
-
-    <p><strong>第 4 步 · 构造达到 11。</strong>把其中 $25$ 个 3 的倍数填成一个 $5\times5$ 的块（占 5 行 5 列），再把剩下 $2$ 个填进<strong>第 6 列</strong>与这 5 行中任意两行的交叉格。于是恰好 5 行、6 列含 3 的倍数：</p>
-    $$r+c=5+6=11 .$$
-    （其余 54 个非倍数填满所有空格即可，它们不产生新标记。）
-    <blockquote class="ok"><strong>答案：(D) 11</strong>。下界 11 与构造 11 合拢，完毕。</blockquote>
+  <p><strong>第 1 步 · 翻译条件。</strong>$1$ 到 $81$ 中 3 的倍数有 $\frac{81}3=27$ 个。一行（列）的乘积被 3 整除 $\iff$ 这一行（列）里<strong>至少有一个</strong> 3 的倍数。设被标记的行有 $r$ 个、列有 $c$ 个。</p>
+  <p><strong>第 2 步 · 关键观察：特殊数必须住在交集里。</strong>若某个 3 的倍数所在的行<strong>不在</strong>被标记的 $r$ 行中，它自己就会把那行变成新的标记行——与「恰好 $r$ 行」矛盾。列同理。所以<strong>全部 27 个 3 的倍数都落在 $r$ 行与 $c$ 列的交集</strong>里，交集共有 $rc$ 格，于是</p>
+$$rc \ge 27 .$$
+  <p><strong>第 3 步 · 下界。</strong>若 $r+c\le 10$，由均值不等式 $rc\le\left(\frac{r+c}2\right)^2\le25\lt 27$，放不下。故</p>
+$$r+c\ \ge\ 11 .$$
+  <p><strong>第 4 步 · 构造达到 11。</strong>把其中 $25$ 个 3 的倍数填成一个 $5\times5$ 的块（占 5 行 5 列），再把剩下 $2$ 个填进<strong>第 6 列</strong>与这 5 行中任意两行的交叉格。于是恰好 5 行、6 列含 3 的倍数：</p>
+$$r+c=5+6=11 .$$
+  <p>（其余 54 个非倍数填满所有空格即可，它们不产生新标记。）</p>
+  <blockquote class="ok"><strong>答案：(D) 11</strong>。下界 11 与构造 11 合拢，完毕。</blockquote>
   <h3>方法二：逐对枚举 $(r,c)$ 核对（验算视角）</h3>
-  $r+c=11$ 且 $rc\ge27$ 的组合只有 $(4,7),(5,6),(6,5),(7,4)$（$(3,8)$ 只有 24 格不够）。逐一确认可行：
-    <ul>
-      <li>$(5,6)$：25 个放 5×5 块 + 2 个放第 6 列 —— 官方构造 ✓；</li>
-      <li>$(4,7)$：27 个恰好放满 $4\times7=28$ 格中的 27 格 ✓（另一种更「满」的构造）；</li>
-      <li>$(6,5)$、$(7,4)$：把上面两种转置（行列互换）即得 ✓。</li>
-    </ul>
-    <p>而 $r+c\le10$ 的每一种 $(r,c)$ 都有 $rc\le25<27$（$rc$ 在 $r=c=5$ 时取最大），全部排除。两种视角都指向 $11$。</p>
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：① Python 枚举 $1\le r,c\le9$、$r+c\le10$ 的所有 81 组合，$rc$ 的最大值恰为 25（$r=c=5$），确认 10 不可达；② 构造用程序落格验证：按官方构造填完 27 个 3 的倍数后，数出被标记的行数 = 5、列数 = 6，和为 11；③ 小规模对照：$m\times m$ 网格填 $1..m^2$ 的同类问题，$m=2,3,4,5$ 的暴力最优解为 2、4、5、6，均与「交集瓶颈 + 构造」法的结论一致，说明方法本身可靠。
-  </blockquote>
-
+  <p>$r+c=11$ 且 $rc\ge27$ 的组合只有 $(4,7),(5,6),(6,5),(7,4)$（$(3,8)$ 只有 24 格不够）。逐一确认可行：</p>
+  <ul>
+    <li>$(5,6)$：25 个放 5×5 块 + 2 个放第 6 列 —— 官方构造 ✓；</li>
+    <li>$(4,7)$：27 个恰好放满 $4\times7=28$ 格中的 27 格 ✓（另一种更「满」的构造）；</li>
+    <li>$(6,5)$、$(7,4)$：把上面两种转置（行列互换）即得 ✓。</li>
+  </ul>
+  <p>而 $r+c\le10$ 的每一种 $(r,c)$ 都有 $rc\le25\lt 27$（$rc$ 在 $r=c=5$ 时取最大），全部排除。两种视角都指向 $11$。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① Python 枚举 $1\le r,c\le9$、$r+c\le10$ 的所有 81 组合，$rc$ 的最大值恰为 25（$r=c=5$），确认 10 不可达；② 构造用程序落格验证：按官方构造填完 27 个 3 的倍数后，数出被标记的行数 = 5、列数 = 6，和为 11；③ 小规模对照：$m\times m$ 网格填 $1..m^2$ 的同类问题，$m=2,3,4,5$ 的暴力最优解为 2、4、5、6，均与「交集瓶颈 + 构造」法的结论一致，说明方法本身可靠。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
@@ -207,18 +199,16 @@ window.MathJax = {
     <li><strong>和转积</strong>：$r+c$ 固定时 $rc$ 在两者均分时最大（AM-GM / 二次函数顶点）。$r+c\le10\Rightarrow rc\le25$。这一步把「个数之和」的约束变成「容量」的约束。</li>
     <li><strong>构造要具体到格子</strong>：5×5 块 + 第 6 列放 2 个，每一格都写得出是谁。「我觉得能摆出来」不算构造——把 27 个位置一一指出来才算。构造同时给出等号成立的情形，与下界合拢。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
   <div class="prob">
     <span class="tag">第 1 题 · 小网格完整求解</span> <span class="stars">★</span> <span class="form">形式｜小规模完整求解</span>
     <p>把 $1$ 到 $6$ 填进 $2\times3$ 网格。被 $2$ 整除的行与列的个数之和最少是多少？（$1..6$ 中偶数有 $2,4,6$ 共 3 个。）</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$4$</strong></div>
-      <p>3 个偶数必须住在标记行列的交集 $rc$ 里且 $rc\ge3$。$r+c=3$ 时（$r,c$ 取 1 和 2，共 2×3=... $rc=2<3$ 不够；$r+c=4$：取 $r=1,c=3$，交集 $3$ 格恰好放 3 个偶数，被标记 1 行 3 列，和为 4。构造：3 个偶数放满第一行的 3 格。下界：$r+c=3\Rightarrow rc\le2$（$1\times2$）放不下 3 个。故最少 <strong>4</strong>。（Python 暴力枚举 $2^5\times$ 排列亦得 4。）</p>
+      <p>3 个偶数必须住在标记行列的交集 $rc$ 里且 $rc\ge3$。$r+c=3$ 时（$r,c$ 取 1 和 2，共 2×3=... $rc=2\lt 3$ 不够；$r+c=4$：取 $r=1,c=3$，交集 $3$ 格恰好放 3 个偶数，被标记 1 行 3 列，和为 4。构造：3 个偶数放满第一行的 3 格。下界：$r+c=3\Rightarrow rc\le2$（$1\times2$）放不下 3 个。故最少 <strong>4</strong>。（Python 暴力枚举 $2^5\times$ 排列亦得 4。）</p>
       <p class="hint">要点：小网格可以直接枚举验证公式逻辑；交集瓶颈在 2×3 上就出现了（$r+c=3$ 时 $rc=2$）。</p>
     </details>
   </div>
@@ -229,7 +219,7 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$6$</strong></div>
-      <p>5 的倍数有 $5,10,15,20,25$ 共 5 个。下界：$rc\ge5$；$r+c\le4\Rightarrow rc\le4<5$，故 $r+c\ge5$。等等——$r+c=5$ 时 $rc$ 最大 $2\times3=6\ge5$，是否可行？$r=2,c=3$：5 个 5 的倍数放进 2 行 3 列的 6 格交集，标记恰好 2 行 3 列，和 = 5？构造：5 个数放在 $(1,1),(1,2),(1,3),(2,1),(2,2)$，标记行 {1,2}、列 {1,2,3}，恰好 2+3=5。哦但下界论证 $r+c\le4\Rightarrow rc\le4$ 只给 $r+c\ge5$，而 5 取得到。答案 <strong>5</strong>？验证：$rc\ge5$ 且 $r+c=5$：$(2,3)$ 可行 ✓。所以最少是 <strong>5</strong>。（注意不是 6——先给下界再试构造，别预设。）</p>
+      <p>5 的倍数有 $5,10,15,20,25$ 共 5 个。下界：$rc\ge5$；$r+c\le4\Rightarrow rc\le4\lt 5$，故 $r+c\ge5$。等等——$r+c=5$ 时 $rc$ 最大 $2\times3=6\ge5$，是否可行？$r=2,c=3$：5 个 5 的倍数放进 2 行 3 列的 6 格交集，标记恰好 2 行 3 列，和 = 5？构造：5 个数放在 $(1,1),(1,2),(1,3),(2,1),(2,2)$，标记行 {1,2}、列 {1,2,3}，恰好 2+3=5。哦但下界论证 $r+c\le4\Rightarrow rc\le4$ 只给 $r+c\ge5$，而 5 取得到。答案 <strong>5</strong>？验证：$rc\ge5$ 且 $r+c=5$：$(2,3)$ 可行 ✓。所以最少是 <strong>5</strong>。（注意不是 6——先给下界再试构造，别预设。）</p>
       <p class="hint">要点：下界给方向、构造定真值：本题 $r+c\ge5$ 且 5 取得到，答案 5。「先猜后证」的顺序是——下界先说至少几，构造再说恰好几。</p>
     </details>
   </div>
@@ -240,7 +230,7 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$(4,7),(5,6),(6,5),(7,4)$ 共 4 组（$(3,8),(8,3)$ 不可行）</strong></div>
-      <p>$r+c=11$ 且 $1\le r,c\le9$ 的组合有 $(2,9),(3,8),(4,7),(5,6),(6,5),(7,4),(8,3),(9,2)$。逐个验容量 $rc$：$(2,9)=18<27$ ✗；$(3,8)=24<27$ ✗；$(4,7)=28\ge27$ ✓（27 个放满 28 格中的 27 格）；$(5,6)=30$ ✓（官方构造）；$(6,5),(7,4)$ 为前两者转置 ✓；$(8,3),(9,2)$ 容量不足 ✗。可行的是 <strong>4 组</strong>。</p>
+      <p>$r+c=11$ 且 $1\le r,c\le9$ 的组合有 $(2,9),(3,8),(4,7),(5,6),(6,5),(7,4),(8,3),(9,2)$。逐个验容量 $rc$：$(2,9)=18\lt 27$ ✗；$(3,8)=24\lt 27$ ✗；$(4,7)=28\ge27$ ✓（27 个放满 28 格中的 27 格）；$(5,6)=30$ ✓（官方构造）；$(6,5),(7,4)$ 为前两者转置 ✓；$(8,3),(9,2)$ 容量不足 ✗。可行的是 <strong>4 组</strong>。</p>
       <p class="hint">要点：「和固定，积越大越松」：容量不够的组合直接出局；可行组合还要落格验证「恰好」标记这些行列，不能有多余标记。</p>
     </details>
   </div>
@@ -266,7 +256,6 @@ window.MathJax = {
       <p class="hint">要点：一族题一个公式：$n$ 个特殊数 $\Rightarrow$ 最少标记行列数是「$\lceil2\sqrt n\rceil$ 与可行构造」的合拢值；本题族里等号总能取到。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -281,10 +270,9 @@ window.MathJax = {
       口诀：「翻译 → 瓶颈 → 构造」：整除变存在，交集当抽屉，两头一夹数就出来。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 8 错题精讲 · 整除性 + 极端原理（行列交集计数） &nbsp;|&nbsp; 生成于 2026-10-12</div>
+    <div>AMC 8 错题精讲 · 整除性 + 极端原理（行列交集计数） &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
