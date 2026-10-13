@@ -47,6 +47,19 @@ window.MathJax = {
   .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
   .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
   .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
   details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
   summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
   details[open] summary{margin-bottom:8px;}
@@ -67,6 +80,7 @@ window.MathJax = {
   .meta .item{display:flex; gap:6px; align-items:baseline;}
   .meta .k{color:var(--sub);}
   .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
   .topbar{
     position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
     padding:12px 48px; background:rgba(255,255,255,.92);
@@ -87,11 +101,6 @@ window.MathJax = {
   }
   .pager a.disabled{opacity:.35; pointer-events:none;}
   .pager a:hover{border-color:var(--accent); color:var(--accent);}
-  .diagram{
-    font-family:"SF Mono",Menlo,Consolas,monospace; font-size:13px;
-    background:var(--code-bg); border:1px solid var(--line); border-radius:10px;
-    padding:14px 16px; margin:14px 0; white-space:pre; overflow-x:auto; line-height:1.9;
-  }
   /* ---- v2.9 done 勾选（练习完成状态） ---- */
   .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
     color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
@@ -131,8 +140,13 @@ window.MathJax = {
   <blockquote>
     A classroom has a row of 35 coat hooks. Paulina likes coats to be equally spaced, so that there is the same number of empty hooks before the first coat, after the last coat, and between every coat and the next one. Suppose there is at least 1 coat and at least 1 empty hook. How many different numbers of coats can satisfy Paulina's pattern?
   </blockquote>
-  <p><strong>中文翻译</strong>：教室里有排成一列的 35 个挂衣钩。Paulina 希望外套「等距」悬挂：第一件外套之前、最后一件外套之后、以及每相邻两件外套之间，空钩的数量都相同。已知至少有 1 件外套、至少 1 个空钩。问有多少种不同的外套件数能满足这个排列规律？</p>
-  <p><strong>选项</strong>：(A) 2 &nbsp; (B) 4 &nbsp; (C) 5 &nbsp; (D) 7 &nbsp; (E) 9　　<strong>答案：(D) 7</strong></p>
+  <p><strong>中文翻译</strong>：教室里有排成一列的 35 个挂衣钩。Paulina 希望外套「等距」悬挂：第一件外套之前、最后一件外套之后、以及每相邻两件外套之间，空钩的数量都相同。已知至少有 1 件外套、至少 1 个空钩。问有多少种不同的外套件数能满足这个排列规律？ <strong>选项</strong>：(A) 2   (B) 4   (C) 5   (D) 7   (E) 9　　<strong>答案：(D) 7</strong></p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2025/problem/22" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2025/problem/22</a><br>
+    官方给出的正确选项为 <strong>(D) 7</strong>，本站解析与之一致。
+  </p>
 
   <hr>
 
@@ -140,62 +154,54 @@ window.MathJax = {
   <table>
     <tr><th>常见错误</th><th>错在哪</th></tr>
     <tr><td><code>9</code></td><td>算出了 36 的因子个数 9 就直接选 E。忘了 $\text{「}c+1\text{」}$ 与 $\text{「}k+1\text{」}$ 都要 $\ge 2$——$1\times 36$ 和 $36\times 1$ 这两个因子对是不合法的，必须砍掉。</td></tr>
-    <tr><td><code>5</code></td><td>把 $(2,18)$ 与 $(18,2)$ 当成同一种（按「矩形长宽可交换」的直觉合并）。但这里两个因子角色不同：一个是外套数，一个是空钩数，交换后是<b>不同</b>的排列方案，不能合并。</td></tr>
+    <tr><td><code>5</code></td><td>把 $(2,18)$ 与 $(18,2)$ 当成同一种（按「矩形长宽可交换」的直觉合并）。但这里两个因子角色不同：一个是外套数，一个是空钩数，交换后是<strong>不同</strong>的排列方案，不能合并。</td></tr>
     <tr><td><code>4 或 6</code></td><td>用「从 $c=1$ 开始逐个试」的笨办法枚举，中途算错或漏掉 $c=1$、$c=17$ 这种极端情形。没有方程结构兜底，全靠手算，极易丢解。</td></tr>
     <tr><td><code>把间隔数当成 c 或 c−1</code></td><td>间隔数数错：两端都留空时是 $c+1$ 个间隔（前 1 + 中间 $c-1$ + 后 1），不是 $c$ 个。这一步错，后面全错。</td></tr>
+    <!-- 按需增删行 -->
   </table>
   <blockquote class="warn">
-    <strong>根本问题</strong>：这类题有两道坎——第一道是<b>建模</b>（把「等距」变成「间隔数 + 乘法方程」），第二道是<b>边界</b>（把「至少 1 件外套」「至少 1 个空钩」翻译成对两个因子的约束）。多数人栽在第二道：方程列对了，却在数因子对时忘了剔除不合法的边界情形。
+    <strong>根本问题</strong>：这类题有两道坎——第一道是<strong>建模</strong>（把「等距」变成「间隔数 + 乘法方程」），第二道是<strong>边界</strong>（把「至少 1 件外套」「至少 1 个空钩」翻译成对两个因子的约束）。多数人栽在第二道：方程列对了，却在数因子对时忘了剔除不合法的边界情形。
   </blockquote>
 
   <hr>
 
   <h2>三、正确解法</h2>
-
   <h3>方案一｜补一件「虚拟外套」，把排列变成完全重复的块（官方解法，推荐）</h3>
-  <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站<strong>方案一即官网</strong>
-    <a href="https://live.poshenloh.com/past-contests/amc8/2025/problem/22" target="_blank" rel="noopener">2025 AMC 8 Problem 22</a>
-    的书面解答——补一件虚拟外套，把 $35$ 变成 $36$ 并使整排成为重复块，于是 $bd=36$；$b\ge2,\ d\ge2$；因子对 $9-2=7$。
-    官网的两条提示正是「<em>Add one imaginary final coat to make equal blocks</em>」与「<em>The block size and number of blocks must multiply to 36</em>」。
-    本站在此基础上补出了官网未明写的一句：<strong>为什么补完之后整排恰好是若干个「完全相同的块」</strong>——因为题目要求<em>每段空钩数相同且等于 $k$</em>，补上的最后一件外套让末尾也能凑成一个完整块。
-  </blockquote>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0"><strong>与官方解法同源</strong>：本站<strong>方案一即官网</strong> <a href="https://live.poshenloh.com/past-contests/amc8/2025/problem/22" target="_blank" rel="noopener">2025 AMC 8 Problem 22</a> 的书面解答——补一件虚拟外套，把 $35$ 变成 $36$ 并使整排成为重复块，于是 $bd=36$；$b\ge2,\ d\ge2$；因子对 $9-2=7$。 官网的两条提示正是「<em>Add one imaginary final coat to make equal blocks</em>」与「<em>The block size and number of blocks must multiply to 36</em>」。 本站在此基础上补出了官网未明写的一句：<strong>为什么补完之后整排恰好是若干个「完全相同的块」</strong>——因为题目要求<em>每段空钩数相同且等于 $k$</em>，补上的最后一件外套让末尾也能凑成一个完整块。</blockquote>
   <p><strong>第 1 步 · 想清楚为什么要「补」。</strong>原题里 $c$ 件外套把空钩分成 $c+1$ 段（头尾各一段），其中<strong>最后一段只有 $k$ 个空钩、后面没有外套</strong>，与中间各段的「$k$ 空 + 1 衣」结构不对称，无法整体分块。</p>
   <p><strong>第 2 步 · 在最后一件外套之后，再补一个挂着外套的钩子。</strong>于是钩子总数从 $35$ 变成 $36$，而整排变成<strong>完全重复的块</strong>——每块都是「$k$ 个空钩 + 1 件外套」：</p>
-  <div class="diagram">原：· · · C · · · C · · ·           (35 = 3 件外套 + 4 段空)
+<div class="diagram">原：· · · C · · · C · · ·           (35 = 3 件外套 + 4 段空)
 补：· · · C · · · C · · · C           (36 = 4 块 × 每块 9 个钩子)
      └───┬──┘└───┬──┘└───┬──┘└───┬──┘
         每块 b 个钩子，共 d 块，b × d = 36</div>
   <p>官网把「为什么 $d$ 恰好比外套数多 1」讲得很干脆：$d$ 正好等于外套数加上补的那一件。</p>
   <p><strong>第 3 步 · 列方程与两条约束。</strong>设每块 $b$ 个钩子、共 $d$ 块，则</p>
-  $$bd = 36 .$$
+$$bd = 36 .$$
   <ul>
     <li><strong>$b \ge 2$</strong>：每块结尾必须挂一件外套，块内至少还有 1 个空钩（题设每段空钩数 $k\ge1$）。</li>
     <li><strong>$d \ge 2$</strong>：原本至少已有 1 件外套，又补了 1 件，所以块数至少为 2。</li>
   </ul>
   <p><strong>第 4 步 · 问题化为「把 36 分解成两个都 $\ge 2$ 的整数之积」。</strong></p>
   <p>把 $36$ 写成质因数分解 $36 = 2^2\times 3^2$，正因子个数为</p>
-  $$(2+1)(2+1) = 9,$$
+$$(2+1)(2+1) = 9,$$
   <p>而每个正因子 $t$ 唯一配出因子对 $(t,\ 36/t)$，所以<strong>有序因子对恰好 9 个</strong>。其中被两条约束否掉的正是两个边界情形：</p>
-  $$1\times 36\ (\text{对应 } b=1,\ 	ext{块内无空钩}) \qquad 36\times 1\ (\text{对应 } d=1,\ 	ext{只有一个块}).$$
+$$1\times 36\ (\text{对应 } b=1,\ 	ext{块内无空钩}) \qquad 36\times 1\ (\text{对应 } d=1,\ 	ext{只有一个块}).$$
   <p>故合法方案数为 $9 - 2 = \boxed{7}$，对应选项 (D)。</p>
   <blockquote class="ok"><strong>答案：7</strong>，对应选项 (D)。</blockquote>
-
   <h3>方案二｜列方程 + 因式分解：同一结论的代数路径</h3>
   <p>方案一靠「补一件外套」把问题化成分块，方案二则老老实实把原条件列成方程——<strong>两者得到的是同一个因子分解</strong>，只是出发方式不同。方案二的好处是<strong>不依赖「想象补一件外套」这一步的灵感</strong>，见到「每段空钩数相同」就能直接列方程，属于通法；缺点是要先自己想到 Simon 恒等式补常数。官网把这一层留给了读者，本站把它显式写出。</p>
   <p>设外套有 $c$ 件（$c\ge 1$），每个间隔有 $k$ 个空钩（$k\ge 1$）。</p>
-  <p><b>第 1 步：数间隔。</b>$c$ 件外套排成一排，两端都留空，间隔数是</p>
-  <div class="diagram">· · · C · · · C · · · C · · ·      ← 3 件外套 C，间隔 4 = 3+1 个
+  <p><strong>第 1 步：数间隔。</strong>$c$ 件外套排成一排，两端都留空，间隔数是</p>
+<div class="diagram">· · · C · · · C · · · C · · ·      ← 3 件外套 C，间隔 4 = 3+1 个
 └┬┘     └┬┘     └┬┘     └┬┘
  每段都有相同数量 k 个空钩</div>
   <p>即 $c+1$ 个间隔（前 1 个 + 中间 $c-1$ 个 + 后 1 个）。</p>
-  <p><b>第 2 步：列方程。</b>总钩数 = 外套 + 空钩：</p>
-  <p>$$c + k(c+1) = 35$$</p>
-  <p><b>第 3 步：凑成乘积（Simon's Favorite Factoring Trick）。</b>展开后补 1：</p>
-  <p>$$c + kc + k = 35 \quad\Longrightarrow\quad kc + k + c + 1 = 36 \quad\Longrightarrow\quad (k+1)(c+1) = 36$$</p>
-  <p><b>第 4 步：数因子对，再砍边界。</b>$36 = 2^2\times 3^2$，因子个数 $= (2+1)(2+1) = 9$。<br>
-  有序因子对共 9 个。约束：$c\ge 1 \Rightarrow c+1 \ge 2$；$k\ge 1 \Rightarrow k+1 \ge 2$。因此 $(1,36)$ 与 $(36,1)$ 不合法，各砍一个：</p>
-  <table>
+  <p><strong>第 2 步：列方程。</strong>总钩数 = 外套 + 空钩：</p>
+$$c + k(c+1) = 35$$
+  <p><strong>第 3 步：凑成乘积（Simon's Favorite Factoring Trick）。</strong>展开后补 1：</p>
+$$c + kc + k = 35 \quad\Longrightarrow\quad kc + k + c + 1 = 36 \quad\Longrightarrow\quad (k+1)(c+1) = 36$$
+  <p><strong>第 4 步：数因子对，再砍边界。</strong>$36 = 2^2\times 3^2$，因子个数 $= (2+1)(2+1) = 9$。 <br> 有序因子对共 9 个。约束：$c\ge 1 \Rightarrow c+1 \ge 2$；$k\ge 1 \Rightarrow k+1 \ge 2$。因此 $(1,36)$ 与 $(36,1)$ 不合法，各砍一个：</p>
+<table>
     <tr><th>$c+1$</th><th>$k+1$</th><th>外套数 $c$</th><th>每间隔空钩 $k$</th><th>校验 $c+k(c+1)$</th></tr>
     <tr><td>2</td><td>18</td><td>1</td><td>17</td><td>$1+17\times2=35$ ✓</td></tr>
     <tr><td>3</td><td>12</td><td>2</td><td>11</td><td>$2+11\times3=35$ ✓</td></tr>
@@ -205,37 +211,30 @@ window.MathJax = {
     <tr><td>12</td><td>3</td><td>11</td><td>2</td><td>$11+2\times12=35$ ✓</td></tr>
     <tr><td>18</td><td>2</td><td>17</td><td>1</td><td>$17+1\times18=35$ ✓</td></tr>
   </table>
-  <p>共 <b>7</b> 种不同的外套数：$\{1,2,3,5,8,11,17\}$。</p>
-
+  <p>共 <strong>7</strong> 种不同的外套数：$\{1,2,3,5,8,11,17\}$。</p>
   <p><strong>为什么这套「因子对 ↔ 排列」是一一对应</strong>（官网 concepts 里 <code>bijection</code> 指的就是这件事）：给定一个合法因子对 $(b,d)$，就能唯一确定 $k=b-1$ 与外套数 $c=d-1$，进而唯一确定那一种排布；反之每种合法排布补完后也归约到唯一的有序因子对。<strong>所以数因子对的个数就等于数外套数的种数</strong>，不需要额外排除重复。</p>
   <p><strong>与官网原解的逐句对照</strong>：官网写的是「$36 = 2^2\times3^2$ 的因子个数为 $9$，其中恰有两个不合格：$1\times36$ 与 $36\times1$，所以答案是 $9-2=7$，即选项 D」——与本站第 4 步完全一致。本站额外补出的是：① 第 2 步的「为什么补完之后就能分块」；② 两条约束 $b\ge2$、$d\ge2$ 各自排除的是哪个具体情形；③ 一一对应关系的完整论证（对应官网 concepts 中的 bijection）。</p>
-
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：把 7 个 $c$ 值代回原式 $c+k(c+1)$ 逐条验算（见上表最后一列），全部等于 35。反过来说，只要 $(c+1)(k+1)=36$ 且 $c,k\ge 1$，就<b>唯一确定</b>一种排列——所以「因子对数」就等于「外套数的种数」，不需要再检查重复。
-  </blockquote>
-
+  <blockquote class="ok"><strong>验证技巧</strong>：把 7 个 $c$ 值代回原式 $c+k(c+1)$ 逐条验算（见上表最后一列），全部等于 35。反过来说，只要 $(c+1)(k+1)=36$ 且 $c,k\ge 1$，就<strong>唯一确定</strong>一种排列——所以「因子对数」就等于「外套数的种数」，不需要再检查重复。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
   <blockquote>
-    <strong>核心知识点</strong>：<b>Factor counting（因子计数）</b> + <b>等距排列的间隔建模</b>。官方对该题标注的两个概念正是 factor counting 与 bijection（因子对 ↔ 排列方案的一一对应）。
+    <strong>核心知识点</strong>：<strong>Factor counting（因子计数）</strong> + <strong>等距排列的间隔建模</strong>。官方对该题标注的两个概念正是 factor counting 与 bijection（因子对 ↔ 排列方案的一一对应）。
   </blockquote>
   <p>必须掌握的要点：</p>
   <ol>
-    <li><b>间隔数公式</b>：$n$ 个物体排成一排，两端都留空 → $n+1$ 个间隔；只在相邻之间留空 → $n-1$ 个；排成环 → $n$ 个。<b>先数对间隔数，再列方程。</b></li>
-    <li><b>Simon's Favorite Factoring Trick</b>：见到 $ab+a+b$（或 $ab+a-b$）形式，立刻补常数凑成 $(a\pm1)(b\pm1)$。本题 $kc+k+c$ 补 1 得 $(k+1)(c+1)$。</li>
-    <li><b>因子个数公式</b>：$N=p_1^{e_1}p_2^{e_2}\cdots$，正因子个数 $=(e_1+1)(e_2+1)\cdots$。有序因子对个数 = 因子个数；无序因子对 = $\lceil$因子个数$/2\rceil$。</li>
-    <li><b>有序 vs 无序要分清</b>：两个因子<b>角色相同</b>（如矩形长宽）时合并，用无序；<b>角色不同</b>（如外套数 vs 空钩数）时交换是不同解，用有序。本题是有序。</li>
-    <li><b>边界条件逐个砍</b>：每出现一个「至少 1」类约束，就回头检查它排除掉哪一个因子对。本题两条约束各砍一个，所以是 $9-2$。</li>
+    <li><strong>间隔数公式</strong>：$n$ 个物体排成一排，两端都留空 → $n+1$ 个间隔；只在相邻之间留空 → $n-1$ 个；排成环 → $n$ 个。<strong>先数对间隔数，再列方程。</strong></li>
+    <li><strong>Simon's Favorite Factoring Trick</strong>：见到 $ab+a+b$（或 $ab+a-b$）形式，立刻补常数凑成 $(a\pm1)(b\pm1)$。本题 $kc+k+c$ 补 1 得 $(k+1)(c+1)$。</li>
+    <li><strong>因子个数公式</strong>：$N=p_1^{e_1}p_2^{e_2}\cdots$，正因子个数 $=(e_1+1)(e_2+1)\cdots$。有序因子对个数 = 因子个数；无序因子对 = $\lceil$因子个数$/2\rceil$。</li>
+    <li><strong>有序 vs 无序要分清</strong>：两个因子<strong>角色相同</strong>（如矩形长宽）时合并，用无序；<strong>角色不同</strong>（如外套数 vs 空钩数）时交换是不同解，用有序。本题是有序。</li>
+    <li><strong>边界条件逐个砍</strong>：每出现一个「至少 1」类约束，就回头检查它排除掉哪一个因子对。本题两条约束各砍一个，所以是 $9-2$。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难）</h2>
-
   <div class="prob">
-    <span class="tag">第 1 题 · 有序与无序</span> <span class="stars">★</span>
-    <p>一个长方形的面积是 36，长和宽都是正整数。问可以组成多少种<b>不同</b>的长方形？（长宽交换算同一种）</p>
+    <span class="tag">第 1 题 · 有序与无序</span> <span class="stars">★</span> <span class="form">形式｜完整列举（写出全部无序因子对）</span>
+    <p>一个长方形的面积是 36，长和宽都是正整数。问可以组成多少种<strong>不同</strong>的长方形？（长宽交换算同一种）</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>5 种</strong></div>
@@ -245,8 +244,8 @@ window.MathJax = {
   </div>
 
   <div class="prob">
-    <span class="tag t2">第 2 题 · 配方法的裸用</span> <span class="stars">★★</span>
-    <p>有多少个<b>有序</b>正整数对 $(a,b)$ 满足 $ab+a+b=35$？</p>
+    <span class="tag t2">第 2 题 · 配方法的裸用</span> <span class="stars">★★</span> <span class="form">形式｜补集排除（有序因子对剔除两端）</span>
+    <p>有多少个<strong>有序</strong>正整数对 $(a,b)$ 满足 $ab+a+b=35$？</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>7 个</strong></div>
@@ -256,59 +255,57 @@ window.MathJax = {
   </div>
 
   <div class="prob">
-    <span class="tag t3">第 3 题 · 换数不换法</span> <span class="stars">★★★</span>
-    <p>把原题的 35 个挂衣钩改成 <b>47</b> 个，其余规则不变（两端与相邻之间空钩数相同，至少 1 件外套、至少 1 个空钩）。有多少种不同的外套数？</p>
+    <span class="tag t3">第 3 题 · 换数不换法</span> <span class="stars">★★★</span> <span class="form">形式｜换约束参数（35 → 47 换数不换法）</span>
+    <p>把原题的 35 个挂衣钩改成 <strong>47</strong> 个，其余规则不变（两端与相邻之间空钩数相同，至少 1 件外套、至少 1 个空钩）。有多少种不同的外套数？</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>8 种</strong></div>
       <p>仍是 $(k+1)(c+1)=47+1=48$。$48=2^4\times3$，因子个数 $=(4+1)(1+1)=10$，剔除 $(1,48)$、$(48,1)$ 两个边界对，得 $10-2=8$。对应 $c\in\{1,2,3,5,7,11,15,23\}$。</p>
-      <p class="hint">要点：<b>钩子总数 $H$ 一律先加 1 变成 $H+1$，再分解</b>。记住 $H=35\to36$、$H=47\to48$ 这类「+1」的手感，别每次重新推导。</p>
+      <p class="hint">要点：<strong>钩子总数 $H$ 一律先加 1 变成 $H+1$，再分解</strong>。记住 $H=35\to36$、$H=47\to48$ 这类「+1」的手感，别每次重新推导。</p>
     </details>
   </div>
 
   <div class="prob">
-    <span class="tag t4">第 4 题 · 改条件：两端不留空</span> <span class="stars">★★★★</span>
-    <p>仍是 35 个挂衣钩，但规则改为：<b>两端不留空钩</b>，只在相邻两件外套之间留相同数量的空钩。至少 1 件外套、至少 1 个空钩。有多少种不同的外套数？</p>
+    <span class="tag t4">第 4 题 · 改条件：两端不留空</span> <span class="stars">★★★★</span> <span class="form">形式｜附加约束子计数（加『两端不留空』后重数）</span>
+    <p>仍是 35 个挂衣钩，但规则改为：<strong>两端不留空钩</strong>，只在相邻两件外套之间留相同数量的空钩。至少 1 件外套、至少 1 个空钩。有多少种不同的外套数？</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>3 种</strong></div>
-      <p>两端不留空 → 间隔数变成 $c-1$（只在中间），且需 $c\ge 2$。方程为 $c+k(c-1)=35$。令 $m=c-1\ge 1$，则 $(m+1)+km=35\Rightarrow m(k+1)=34$。</p>
-      <p>$34=2\times17$，因子 4 个，有序因子对 4 个：$(m,k+1)=(1,34),(2,17),(17,2),(34,1)$。约束 $k\ge 1$ 即 $k+1\ge 2$，剔除 $(34,1)$；而 $m\ge 1$ 对剩下三个都成立。故 3 种，对应 $(c,k)=(2,33),(3,16),(18,1)$。</p>
-      <p class="hint">要点：<b>改条件先改间隔数</b>（$c+1\to c-1$），再重新配方。这次只有一条边界生效，别惯性砍两个。</p>
+        <p>两端不留空 → 间隔数变成 $c-1$（只在中间），且需 $c\ge 2$。方程为 $c+k(c-1)=35$。令 $m=c-1\ge 1$，则 $(m+1)+km=35\Rightarrow m(k+1)=34$。</p>
+  <p>$34=2\times17$，因子 4 个，有序因子对 4 个：$(m,k+1)=(1,34),(2,17),(17,2),(34,1)$。约束 $k\ge 1$ 即 $k+1\ge 2$，剔除 $(34,1)$；而 $m\ge 1$ 对剩下三个都成立。故 3 种，对应 $(c,k)=(2,33),(3,16),(18,1)$。</p>
+      <p class="hint">要点：<strong>改条件先改间隔数</strong>（$c+1\to c-1$），再重新配方。这次只有一条边界生效，别惯性砍两个。</p>
     </details>
   </div>
 
   <div class="prob">
-    <span class="tag t5">第 5 题 · 附加不等式筛选</span> <span class="stars">★★★★★</span>
-    <p>一排 <b>71</b> 个挂衣钩，规则同原题（两端与相邻之间空钩数都相同），但额外要求：<b>外套件数严格大于</b>每个间隔的空钩数。有多少种不同的外套数？</p>
+    <span class="tag t5">第 5 题 · 附加不等式筛选</span> <span class="stars">★★★★★</span> <span class="form">形式｜附加不等式筛选（外套件数 > 空钩数）</span>
+    <p>一排 <strong>71</strong> 个挂衣钩，规则同原题（两端与相邻之间空钩数都相同），但额外要求：<strong>外套件数严格大于</strong>每个间隔的空钩数。有多少种不同的外套数？</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>5 种</strong></div>
-      <p>先走标准流程：$(c+1)(k+1)=71+1=72$。$72=2^3\times3^2$，因子个数 $=(3+1)(2+1)=12$，剔除 $(1,72)$、$(72,1)$ 后剩 10 个候选。</p>
-      <p>枚举 $(c,k)$：$(1,35),(2,23),(3,17),(5,11),(7,8),(8,7),(11,5),(17,3),(23,2),(35,1)$。筛选 $c>k$：只有 $(8,7),(11,5),(17,3),(23,2),(35,1)$ 满足，共 5 种。</p>
-      <p>省事技巧：$c>k \Leftrightarrow c+1>k+1$（同减 1 保序），所以直接在因子对表里比对即可，不用逐个换算。10 个候选按 $c+1$ 从小到大排，恰好前 5 个不满足、后 5 个满足。</p>
-      <p class="hint">要点：<b>先拿全候选，再用附加条件筛</b>。切忌一开始就被附加条件带偏，跳过标准流程直接乱试。</p>
+        <p>先走标准流程：$(c+1)(k+1)=71+1=72$。$72=2^3\times3^2$，因子个数 $=(3+1)(2+1)=12$，剔除 $(1,72)$、$(72,1)$ 后剩 10 个候选。</p>
+  <p>枚举 $(c,k)$：$(1,35),(2,23),(3,17),(5,11),(7,8),(8,7),(11,5),(17,3),(23,2),(35,1)$。筛选 $c>k$：只有 $(8,7),(11,5),(17,3),(23,2),(35,1)$ 满足，共 5 种。</p>
+  <p>省事技巧：$c>k \Leftrightarrow c+1>k+1$（同减 1 保序），所以直接在因子对表里比对即可，不用逐个换算。10 个候选按 $c+1$ 从小到大排，恰好前 5 个不满足、后 5 个满足。</p>
+      <p class="hint">要点：<strong>先拿全候选，再用附加条件筛</strong>。切忌一开始就被附加条件带偏，跳过标准流程直接乱试。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
   <div class="card">
     <h3>等距排列 + 因子计数 · 三步通法</h3>
     <ol>
-      <li><b>数间隔</b>：$n$ 个物体，两端留空 → $n+1$ 个间隔；只中间留空 → $n-1$ 个；环形 → $n$ 个。</li>
-      <li><b>配乘积</b>：列出「物体数 + 间隔数 × 每间隔空位 = 总数」，再补常数凑成两个因子的乘积（$ab+a+b$ 补 1 → $(a+1)(b+1)$）。</li>
-      <li><b>数并砍</b>：用因子个数公式数出有序因子对总数，再逐条检查每个「至少 / 至多」约束砍掉哪几个因子对。</li>
+      <li><strong>数间隔</strong>：$n$ 个物体，两端留空 → $n+1$ 个间隔；只中间留空 → $n-1$ 个；环形 → $n$ 个。</li>
+      <li><strong>配乘积</strong>：列出「物体数 + 间隔数 × 每间隔空位 = 总数」，再补常数凑成两个因子的乘积（$ab+a+b$ 补 1 → $(a+1)(b+1)$）。</li>
+      <li><strong>数并砍</strong>：用因子个数公式数出有序因子对总数，再逐条检查每个「至少 / 至多」约束砍掉哪几个因子对。</li>
     </ol>
     <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
       口诀：数清间隔列方程，加一凑成乘积形；因子公式算总数，边界条件逐个砍。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 8 错题精讲 · 因子计数 &nbsp;|&nbsp; 生成于 2026-10-11</div>
+    <div>AMC 8 错题精讲 · 因子计数 &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
