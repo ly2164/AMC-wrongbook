@@ -139,7 +139,7 @@ window.MathJax = {
   <h2>一、错题原题</h2>
   <blockquote>
     Makayla finds all the possible ways to draw a path in a $5\times5$ diamond-shaped grid. Each path starts at the bottom of the grid and ends at the top, always moving one unit northeast or northwest. She computes the area of the region between each path and the right side of the grid. Two examples are shown in the figures below. What is the sum of the areas determined by all possible paths?
-<img src="https://live.poshenloh.com/images/past-contests/amc8/2025/25.svg" style="max-height:19rem; margin-top:10px;">
+<img src="https://live.poshenloh.com/images/past-contests/amc8/2025/25.svg" alt="2025AMC8(25) 配图" style="max-height:19rem; margin-top:10px;">
   </blockquote>
   <p><strong>中文翻译</strong>：Makayla 找出了一个 $5\times5$ 菱形网格中所有可能的画法。每条路径都从网格底部出发、在顶部结束，每一步恰好向东北或向西北走一格。她算出每条路径与网格<strong>右侧</strong>围成的那块区域的面积。图中给出了两个例子。请问<strong>所有可能路径所确定的面积之和</strong>是多少？</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
@@ -166,27 +166,25 @@ window.MathJax = {
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2025/problem/25" target="_blank" rel="noopener">2025AMC8(25)</a> 的书面解答一致——左右对称给同一答案 $X$，逐条路径左右面积之和恒为 25，路径数 $\binom{10}{5}=252$，故 $2X=25\times252$。
-    <br><strong>表述差异</strong>：官网令左右两侧面积和同为 $X$，逐条路径左右互补得 $2X=25\binom{10}{5}$；本站改用斜坐标下的对合 $P\mapsto P^{*}$ 表述同一互补关系——不变量完全相同。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2025/problem/25" target="_blank" rel="noopener">2025AMC8(25)</a> 的书面解答一致——左右对称给同一答案 $X$，逐条路径左右面积之和恒为 25，路径数 $\binom{10}{5}=252$，故 $2X=25\times252$。 <br> <strong>表述差异</strong>：官网令左右两侧面积和同为 $X$，逐条路径左右互补得 $2X=25\binom{10}{5}$；本站改用斜坐标下的对合 $P\mapsto P^{*}$ 表述同一互补关系——不变量完全相同。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：镜像对合 + 配对求和（推荐，一分钟版）</h3>
   <p><strong>第 1 步 · 建立斜坐标系。</strong>用 $(i, j)$ 表示"已经向东北走了 $i$ 步、向西北走了 $j$ 步"。这样 5×5 菱形就是斜着放的正方形 $0 \le i, j \le 5$：底部角点 $B = (0,0)$，顶部角点 $T = (5,5)$，右角点 $R = (5,0)$。</p>
-    <p><strong>第 2 步 · 数路径。</strong>从 $(0,0)$ 到 $(5,5)$ 共走 $10$ 步，其中东北、西北各 $5$ 步，故路径总数</p>
-    $$N = \binom{10}{5} = 252 .$$
-    <p><strong>第 3 步 · 说清"右侧"与"面积"。</strong>右侧边界就是"先连续 5 步东北、再连续 5 步西北"这条路径。面积以一个单位菱形格为 $1$ 计，整块 $5\times5$ 菱形面积 $= 25$。记 $A(P)$ 为路径 $P$ 与右侧围出的面积，则 $0 \le A(P) \le 25$。</p>
-    <p><strong>第 4 步 · 关键：对合。</strong>把路径上每一步的"东北"与"西北"互换，得到 $P^{*}$（关于竖直轴的镜像）。这是路径集合上的一个<strong>对合</strong>（自己作用两次回到原点，且不漏不多）。</p>
-    <p>镜像把"路径与<strong>右</strong>侧围出的区域"映成"$P^{*}$ 与<strong>左</strong>侧围出的区域"。而路径 $P$ 与右侧围的区域、$P^{*}$ 与左侧围的区域，恰好拼成<strong>整个菱形</strong>（被 $P$ 与 $P^{*}$ 两条路从中间切开）。因此</p>
-    $$A(P) + A(P^{*}) = 25 \qquad (\forall P).$$
-    <p><strong>第 5 步 · 求和。</strong>记 $S = \sum_P A(P)$。把上式对所有 $P$ 求和：</p>
-    $$\sum_P A(P) + \sum_P A(P^{*}) = 252 \times 25 = 6300 .$$
-    <p>由于 $P \mapsto P^{*}$ 是双射，$\sum_P A(P^{*}) = S$，故</p>
-    $$2S = 6300 \;\Longrightarrow\; S = 3150 .$$
-    <p>等价地说：<strong>平均面积恰好是整块菱形的一半</strong>，$\dfrac{25}{2} = 12.5$，所以 $S = 252 \times 12.5 = 3150$。</p>
-    <blockquote class="ok"><strong>答案：3150</strong>，对应选项 (B)。</blockquote>
+  <p><strong>第 2 步 · 数路径。</strong>从 $(0,0)$ 到 $(5,5)$ 共走 $10$ 步，其中东北、西北各 $5$ 步，故路径总数</p>
+$$N = \binom{10}{5} = 252 .$$
+  <p><strong>第 3 步 · 说清"右侧"与"面积"。</strong>右侧边界就是"先连续 5 步东北、再连续 5 步西北"这条路径。面积以一个单位菱形格为 $1$ 计，整块 $5\times5$ 菱形面积 $= 25$。记 $A(P)$ 为路径 $P$ 与右侧围出的面积，则 $0 \le A(P) \le 25$。</p>
+  <p><strong>第 4 步 · 关键：对合。</strong>把路径上每一步的"东北"与"西北"互换，得到 $P^{*}$（关于竖直轴的镜像）。这是路径集合上的一个<strong>对合</strong>（自己作用两次回到原点，且不漏不多）。</p>
+  <p>镜像把"路径与<strong>右</strong>侧围出的区域"映成"$P^{*}$ 与<strong>左</strong>侧围出的区域"。而路径 $P$ 与右侧围的区域、$P^{*}$ 与左侧围的区域，恰好拼成<strong>整个菱形</strong>（被 $P$ 与 $P^{*}$ 两条路从中间切开）。因此</p>
+$$A(P) + A(P^{*}) = 25 \qquad (\forall P).$$
+  <p><strong>第 5 步 · 求和。</strong>记 $S = \sum_P A(P)$。把上式对所有 $P$ 求和：</p>
+$$\sum_P A(P) + \sum_P A(P^{*}) = 252 \times 25 = 6300 .$$
+  <p>由于 $P \mapsto P^{*}$ 是双射，$\sum_P A(P^{*}) = S$，故</p>
+$$2S = 6300 \;\Longrightarrow\; S = 3150 .$$
+  <p>等价地说：<strong>平均面积恰好是整块菱形的一半</strong>，$\dfrac{25}{2} = 12.5$，所以 $S = 252 \times 12.5 = 3150$。</p>
+  <blockquote class="ok"><strong>答案：3150</strong>，对应选项 (B)。</blockquote>
   <h3>方法二：小规模手算找规律，再验证通式</h3>
   <p>252 条不可能手算，那就<strong>先算最小的非平凡情形 $n = 2$</strong>。2×2 菱形只有 $\binom{4}{2} = 6$ 条路径，把"每条路径进入每个水平条带时所处的 $i$ 坐标"列出来，面积就是 $\sum_{j}(n - p_j)$：</p>
-    <table>
+<table>
       <tr><th>路径（东北记 N，西北记 W）</th><th>各条带的 $p_j$</th><th>$A(P)$</th></tr>
       <tr><td>NNWW</td><td>$2,2,2$</td><td>0</td></tr>
       <tr><td>NWNW</td><td>$1,1,2$</td><td>1</td></tr>
@@ -195,10 +193,10 @@ window.MathJax = {
       <tr><td>WNWN</td><td>$0,0,1$</td><td>3</td></tr>
       <tr><td>WWNN</td><td>$0,0,0$</td><td>4</td></tr>
     </table>
-    <p>和为 $0+1+2+2+3+4 = 12$。而 $n^2 \cdot \binom{2n}{n} / 2 = 4 \times 6 / 2 = 12$ —— 吻合。</p>
-    <p><strong>猜出通式</strong>：$n\times n$ 菱形的面积总和 $= \dfrac{n^2 \binom{2n}{n}}{2}$。代 $n = 5$：$\dfrac{25 \times 252}{2} = 3150$ ✓。</p>
-    <p><strong>用程序在四个规模上验证通式</strong>（逐条枚举 $\binom{2n}{n}$ 条路径，不依赖任何对称性推理）：</p>
-    <table>
+  <p>和为 $0+1+2+2+3+4 = 12$。而 $n^2 \cdot \binom{2n}{n} / 2 = 4 \times 6 / 2 = 12$ —— 吻合。</p>
+  <p><strong>猜出通式</strong>：$n\times n$ 菱形的面积总和 $= \dfrac{n^2 \binom{2n}{n}}{2}$。代 $n = 5$：$\dfrac{25 \times 252}{2} = 3150$ ✓。</p>
+  <p><strong>用程序在四个规模上验证通式</strong>（逐条枚举 $\binom{2n}{n}$ 条路径，不依赖任何对称性推理）：</p>
+<table>
       <tr><th>$n$</th><th>路径数 $\binom{2n}{n}$</th><th>暴力求和</th><th>$\dfrac{n^2\binom{2n}{n}}{2}$</th><th>平均面积</th></tr>
       <tr><td>2</td><td>6</td><td>12</td><td>12</td><td>2.00</td></tr>
       <tr><td>3</td><td>20</td><td>90</td><td>90</td><td>4.50</td></tr>
@@ -206,11 +204,8 @@ window.MathJax = {
       <tr><td>5</td><td>252</td><td>3150</td><td>3150</td><td>12.50</td></tr>
       <tr><td>6</td><td>924</td><td>16632</td><td>16632</td><td>18.00</td></tr>
     </table>
-    <p>平均值一栏始终等于 $\dfrac{n^2}{2}$，这正是方法一的结论：<strong>平均面积 = 整块面积的一半，与路径条数无关</strong>。</p>
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：三重验证。① <strong>端点自检</strong>：最靠右的路径 $N^5W^5$ 围出面积 $0$，最靠左的 $W^5N^5$ 围出整块 $25$，两者互补成 $25$，与 $A + A^\* = 25$ 一致。② <strong>镜像程序核对</strong>：对全部 252 条路径逐条检查 $A(P) + A(P^{*}) = 25$，违例 $0$ 条。③ <strong>独立暴力</strong>：完全抛开对称性，逐条枚举路径累加面积，得 $3150$，与方法一结果相同。注意 $n^2/2$ 可能是半整数（$n=3$ 时 $4.5$），这不影响总和为整数——因为 $\binom{2n}{n}$ 必为偶数。
-  </blockquote>
-
+  <p>平均值一栏始终等于 $\dfrac{n^2}{2}$，这正是方法一的结论：<strong>平均面积 = 整块面积的一半，与路径条数无关</strong>。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：三重验证。① <strong>端点自检</strong>：最靠右的路径 $N^5W^5$ 围出面积 $0$，最靠左的 $W^5N^5$ 围出整块 $25$，两者互补成 $25$，与 $A + A^\* = 25$ 一致。② <strong>镜像程序核对</strong>：对全部 252 条路径逐条检查 $A(P) + A(P^{*}) = 25$，违例 $0$ 条。③ <strong>独立暴力</strong>：完全抛开对称性，逐条枚举路径累加面积，得 $3150$，与方法一结果相同。注意 $n^2/2$ 可能是半整数（$n=3$ 时 $4.5$），这不影响总和为整数——因为 $\binom{2n}{n}$ 必为偶数。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
@@ -224,19 +219,17 @@ window.MathJax = {
     <li>镜像（交换东北 / 西北）是对合：它把路径两两配对（可能有自配对），并把 $A(P)$ 映成 $25 - A(P)$。"<strong>每对之和是常数</strong>"是解题的全部杠杆。</li>
     <li>平均面积恒为 $\dfrac{n^2}{2}$，与路径条数无关。这条结论可迁移：任何"菱形 / 三角形网格中所有单调路径某量的总和"型题目，先找对合、再写"路数 × 半"即可。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
   <div class="prob">
     <span class="tag">第 1 题 · 2×2 最小情形全枚举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
     <p>先做最小的非平凡情形：一个 <strong>$2\times2$ 菱形网格</strong>，路径从底部到顶部，每步向东北或向西北。共有多少条路径？把每条路径与右侧围成的面积逐条算出，并求面积之和。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>6 条路径，面积依次为 $0,1,2,2,3,4$，总和 $=12$</strong></div>
-      <p>路径数 $=\binom{4}{2} = 6$。面积按条带算：路径在第 $j$ 个水平条带里进入时的 $i$ 坐标记作 $p_j$，则 $A = \sum_{j}(n - p_j)$，这里 $n = 2$。</p>
-    <table>
+        <p>路径数 $=\binom{4}{2} = 6$。面积按条带算：路径在第 $j$ 个水平条带里进入时的 $i$ 坐标记作 $p_j$，则 $A = \sum_{j}(n - p_j)$，这里 $n = 2$。</p>
+<table>
       <tr><th>路径（N=东北，W=西北）</th><th>$A(P)$</th><th>说明</th></tr>
       <tr><td>$NNWW$</td><td>0</td><td>贴着右边界</td></tr>
       <tr><td>$NWNW$</td><td>1</td><td>与 $WNWN$ 镜像配对</td></tr>
@@ -245,7 +238,7 @@ window.MathJax = {
       <tr><td>$WNWN$</td><td>3</td><td>与 $NWNW$ 镜像配对</td></tr>
       <tr><td>$WWNN$</td><td>4</td><td>贴着左边界，围出整块</td></tr>
     </table>
-    <p>和 $= 0 + 1 + 2 + 2 + 3 + 4 = 12$。用通式核对：$\dfrac{n^2\binom{2n}{n}}{2} = \dfrac{4 \times 6}{2} = 12$ ✓，平均面积 $= 2 = \dfrac{n^2}{2}$ ✓。</p>
+  <p>和 $= 0 + 1 + 2 + 2 + 3 + 4 = 12$。用通式核对：$\dfrac{n^2\binom{2n}{n}}{2} = \dfrac{4 \times 6}{2} = 12$ ✓，平均面积 $= 2 = \dfrac{n^2}{2}$ ✓。</p>
       <p class="hint">要点：最小情形就能看出<strong>平均面积 = 整块的一半</strong>：$12 / 6 = 2 = 4/2$。考场上手算 6 条路径验证一次，比死记通式踏实得多。</p>
     </details>
   </div>
@@ -256,10 +249,10 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$\binom{6}{3} = 20$ 条，面积之和 $= 90$</strong></div>
-      <p>用对合法：路径数 $N = \binom{6}{3} = 20$，整块面积 $n^2 = 9$。镜像配对使每对之和为 $9$，故平均面积 $9/2 = 4.5$，总面积和</p>
-    $$S = 20 \times \frac{9}{2} = 90 .$$
-    <p>程序逐条枚举 20 条路径（不依赖对称性）验证得 $90$，且平均 $4.50$，吻合。</p>
-    <p><strong>注意</strong>：平均面积 $4.5$ 是半整数，但总和仍是整数 $90$，因为 $\binom{6}{3} = 20$ 是偶数。这消除了"半整数怎么乘"的疑虑。</p>
+        <p>用对合法：路径数 $N = \binom{6}{3} = 20$，整块面积 $n^2 = 9$。镜像配对使每对之和为 $9$，故平均面积 $9/2 = 4.5$，总面积和</p>
+$$S = 20 \times \frac{9}{2} = 90 .$$
+  <p>程序逐条枚举 20 条路径（不依赖对称性）验证得 $90$，且平均 $4.50$，吻合。</p>
+  <p><strong>注意</strong>：平均面积 $4.5$ 是半整数，但总和仍是整数 $90$，因为 $\binom{6}{3} = 20$ 是偶数。这消除了"半整数怎么乘"的疑虑。</p>
       <p class="hint">要点：$\binom{2n}{n}$ <strong>恒为偶数</strong>（$n \ge 1$），所以 $n^2\binom{2n}{n}/2$ 永远是整数。看到 $n^2$ 是奇数导致平均面积带 $0.5$ 时，不必担心总和对不上。</p>
     </details>
   </div>
@@ -270,13 +263,13 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>39 条（其中面积恰为 8 的有 8 条）</strong></div>
-      <p>镜像配对给出 $A(P) + A(P^{*}) = 16$。把 70 条路径按"面积是否恰为 8"分成两类：</p>
-    <ul>
-      <li><strong>面积恰为 8（落在中线）</strong>：程序枚举得 <strong>8 条</strong>。它们各自满足 $A = 16 - A$，是"自配对"的；</li>
-      <li><strong>其余 $70 - 8 = 62$ 条</strong>：两两配对，每对一小一大，恰好各有一条 $\ge 8$，贡献 $31$ 条。</li>
-    </ul>
-    <p>于是面积 $\ge 8$ 的路径数 $= 31 + 8 = \boxed{39}$。</p>
-    <p><strong>易错点</strong>：直接写"一半"会得到 $70/2 = 35$，<strong>漏掉了中间那 8 条</strong>。只有当 $n^2$ 为<strong>奇数</strong>（如 $n = 5$，$n^2 = 25$）时，面积才永远取不到整数中点，两半才真的各占一半。程序核对：$n=5$ 时面积 $>12.5$ 的 126 条、$<12.5$ 的 126 条，无平局。</p>
+        <p>镜像配对给出 $A(P) + A(P^{*}) = 16$。把 70 条路径按"面积是否恰为 8"分成两类：</p>
+  <ul>
+    <li><strong>面积恰为 8（落在中线）</strong>：程序枚举得 <strong>8 条</strong>。它们各自满足 $A = 16 - A$，是"自配对"的；</li>
+    <li><strong>其余 $70 - 8 = 62$ 条</strong>：两两配对，每对一小一大，恰好各有一条 $\ge 8$，贡献 $31$ 条。</li>
+  </ul>
+  <p>于是面积 $\ge 8$ 的路径数 $= 31 + 8 = \boxed{39}$。</p>
+  <p><strong>易错点</strong>：直接写"一半"会得到 $70/2 = 35$，<strong>漏掉了中间那 8 条</strong>。只有当 $n^2$ 为<strong>奇数</strong>（如 $n = 5$，$n^2 = 25$）时，面积才永远取不到整数中点，两半才真的各占一半。程序核对：$n=5$ 时面积 $>12.5$ 的 126 条、$\lt 12.5$ 的 126 条，无平局。</p>
       <p class="hint">要点：配对计数时<strong>务必先扣出自配对的"平局"路径</strong>：$n^2$ 偶数时中线上有解，奇数时没有。这是"对合计数"最常见的漏项。</p>
     </details>
   </div>
@@ -287,11 +280,11 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$\dfrac{n^2\binom{2n}{n}}{2}$；$n=6$ 时为 $16632$</strong></div>
-      <p><strong>证明</strong>。斜坐标下 $n\times n$ 菱形为 $0\le i,j\le n$，路径从 $(0,0)$ 到 $(n,n)$，共 $\binom{2n}{n}$ 条。对任意路径 $P$，令 $P^{*}$ 为逐步交换东北 / 西北得到的镜像。$P$ 与右侧围的区域、$P^{*}$ 与左侧围的区域恰好拼成整个菱形，故 $A(P) + A(P^{*}) = n^2$。又 $P \mapsto P^{*}$ 是双射，故</p>
-    $$2\sum_P A(P) = \binom{2n}{n} n^2 \;\Longrightarrow\; \boxed{\sum_P A(P) = \tfrac{n^2}{2}\binom{2n}{n}} .$$
-    <p><strong>数值验证</strong>（程序逐条枚举，不用对称性）：$n=2,3,4,5,6$ 分别得 $12, 90, 560, 3150, 16632$，与公式逐一吻合。</p>
-    <p><strong>代入 $n = 6$</strong>：$\binom{12}{6} = 924$，故</p>
-    $$S = \frac{36 \times 924}{2} = 36 \times 462 = 16632 .$$
+        <p><strong>证明</strong>。斜坐标下 $n\times n$ 菱形为 $0\le i,j\le n$，路径从 $(0,0)$ 到 $(n,n)$，共 $\binom{2n}{n}$ 条。对任意路径 $P$，令 $P^{*}$ 为逐步交换东北 / 西北得到的镜像。$P$ 与右侧围的区域、$P^{*}$ 与左侧围的区域恰好拼成整个菱形，故 $A(P) + A(P^{*}) = n^2$。又 $P \mapsto P^{*}$ 是双射，故</p>
+$$2\sum_P A(P) = \binom{2n}{n} n^2 \;\Longrightarrow\; \boxed{\sum_P A(P) = \tfrac{n^2}{2}\binom{2n}{n}} .$$
+  <p><strong>数值验证</strong>（程序逐条枚举，不用对称性）：$n=2,3,4,5,6$ 分别得 $12, 90, 560, 3150, 16632$，与公式逐一吻合。</p>
+  <p><strong>代入 $n = 6$</strong>：$\binom{12}{6} = 924$，故</p>
+$$S = \frac{36 \times 924}{2} = 36 \times 462 = 16632 .$$
       <p class="hint">要点：通式的结构值得背下来：<strong>路数 $\binom{2n}{n}$ × 整块面积 $n^2$ ÷ 2</strong>。它对任意 $n$、任意"关于中线对称"的路径量都成立（不限于面积）——例如"所有路径上方格子数之和"也是同一个值。</p>
     </details>
   </div>
@@ -302,15 +295,14 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>不可能等于 12.5；面积 $\ge 13$ 的路径恰有 $126$ 条</strong></div>
-      <p><strong>第一问（不可能）</strong>：面积是单位菱形格的<strong>整数</strong>个数，必为整数；而 $\dfrac{25}{2} = 12.5$ 不是整数。所以中线 $A = 12.5$ 上<strong>一条路径都没有</strong>。</p>
-    <p><strong>第二问（正好一半）</strong>：把 $252$ 条路径按镜像配成 $126$ 对。每对满足 $A(P) + A(P^{*}) = 25$，且 $A$ 都是整数，故<strong>每对中恰有一条 $\ge 13$</strong>、恰有一条 $\le 12$（不存在平局，因为 25 是奇数，$12.5$ 取不到）。于是</p>
-    $$ \#\{P : A(P) \ge 13\} = 126 = \frac{252}{2} = \frac{\binom{10}{5}}{2} .$$
-    <p>程序核对：面积 $\ge 13$ 的 126 条、$\le 12$ 的 126 条，合计 $252$，无一遗漏、无一重复。</p>
-    <p><strong>补充事实</strong>：面积恰好为 $13$（最小的大侧面积）的路径有 <strong>20 条</strong>（程序统计），它们正好是"从最左路径出发做 5 次相邻交换"能覆盖的那一档；对称地面积恰好为 $12$ 的也有 20 条。</p>
+        <p><strong>第一问（不可能）</strong>：面积是单位菱形格的<strong>整数</strong>个数，必为整数；而 $\dfrac{25}{2} = 12.5$ 不是整数。所以中线 $A = 12.5$ 上<strong>一条路径都没有</strong>。</p>
+  <p><strong>第二问（正好一半）</strong>：把 $252$ 条路径按镜像配成 $126$ 对。每对满足 $A(P) + A(P^{*}) = 25$，且 $A$ 都是整数，故<strong>每对中恰有一条 $\ge 13$</strong>、恰有一条 $\le 12$（不存在平局，因为 25 是奇数，$12.5$ 取不到）。于是</p>
+$$ \#\{P : A(P) \ge 13\} = 126 = \frac{252}{2} = \frac{\binom{10}{5}}{2} .$$
+  <p>程序核对：面积 $\ge 13$ 的 126 条、$\le 12$ 的 126 条，合计 $252$，无一遗漏、无一重复。</p>
+  <p><strong>补充事实</strong>：面积恰好为 $13$（最小的大侧面积）的路径有 <strong>20 条</strong>（程序统计），它们正好是"从最左路径出发做 5 次相邻交换"能覆盖的那一档；对称地面积恰好为 $12$ 的也有 20 条。</p>
       <p class="hint">要点：<strong>奇数面积时对合必无平局</strong>，于是"一大一小"严格成立、两半条数完全相等；<strong>偶数面积时中线上可能站着若干路径</strong>，必须先扣掉它们（见 EX3）。判断题里先问一句「$n^2$ 是奇是偶」能省掉一半错误。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -325,10 +317,9 @@ window.MathJax = {
       口诀：求和先找对称；交换方向成对影，每对相加是整块；总和＝路数乘半面积。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 8 错题精讲 · 格路径（菱形格中的单调路径与镜像对合） &nbsp;|&nbsp; 生成于 2026-10-11</div>
+    <div>AMC 8 错题精讲 · 格路径（菱形格中的单调路径与镜像对合） &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
