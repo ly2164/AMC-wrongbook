@@ -47,6 +47,19 @@ window.MathJax = {
   .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
   .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
   .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
   details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
   summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
   details[open] summary{margin-bottom:8px;}
@@ -128,6 +141,12 @@ window.MathJax = {
     In some countries, automobile fuel efficiency is measured in <strong>liters per 100 kilometers</strong> while other countries use <strong>miles per gallon</strong>. Suppose that 1 kilometer equals <strong>m</strong> miles, and 1 gallon equals <strong>l</strong> liters. Which of the following gives the fuel efficiency in liters per 100 kilometers for a car that gets <strong>x</strong> miles per gallon?
   </blockquote>
   <p><strong>中文翻译</strong>：某些国家用「升/100公里」衡量汽车燃油效率，另一些国家用「英里/加仑」。设 1 公里 = m 英里，1 加仑 = l 升。一辆车油耗为 x 英里/加仑，则它的燃油效率为多少升/100公里？</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022A/problem/4" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022A/problem/4</a><br>
+    官方给出的正确选项为 <strong>(E)</strong>，本站解析与之一致。
+  </p>
 
   <hr>
 
@@ -137,7 +156,8 @@ window.MathJax = {
     <tr><td><code>100x/(ml)</code></td><td>把 m 和 l 的方向用反了 —— m 是「1公里＝m英里」，不是「1英里＝m公里」</td></tr>
     <tr><td><code>lx/(100m)</code></td><td>除以 100 的方向搞反，且 m/l 位置颠倒</td></tr>
     <tr><td><code>100m/(xl)</code></td><td>分不清哪个量在分子、哪个在分母</td></tr>
-    <tr><td>忘乘 100</td><td>忘了题目问的是「每 <strong>100</strong> 公里」</td></tr>
+    <tr><td><code>忘乘 100</code></td><td>忘了题目问的是「每 <strong>100</strong> 公里」</td></tr>
+    <!-- 按需增删行 -->
   </table>
   <blockquote class="warn">
     <strong>根本问题</strong>：没有用「搭桥法」把单位一层层消掉，而是凭感觉摆 m、l 的位置。
@@ -147,33 +167,23 @@ window.MathJax = {
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022A/problem/4" target="_blank" rel="noopener">2022AMC10A(4)</a> 的书面解答一致——由「$x$ 英里/加仑」逐级换成「升/公里」：$1/x$ 加仑每英里 $\to$ $m/x$ 加仑每公里 $\to$ $lm/x$ 升每公里，答案 $100lm/x$。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022A/problem/4" target="_blank" rel="noopener">2022AMC10A(4)</a> 的书面解答一致——由「$x$ 英里/加仑」逐级换成「升/公里」：$1/x$ 加仑每英里 $\to$ $m/x$ 加仑每公里 $\to$ $lm/x$ 升每公里，答案 $100lm/x$。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：先求「1 升能跑多少公里」</h3>
   <p>已知车 <strong>x 英里/加仑</strong>，含义是：<strong>消耗 1 加仑油，能跑 x 英里。</strong></p>
-
   <p><strong>第 1 步：把「英里」换成「公里」。</strong> 题目给的是 $1\ \text{公里} = m\ \text{英里}$，所以 $1\ \text{英里} = \frac{1}{m}\ \text{公里}$。</p>
-  $$x\ \text{英里} = x \times \frac{1}{m}\ \text{公里} = \frac{x}{m}\ \text{公里}$$
-
+$$x\ \text{英里} = x \times \frac{1}{m}\ \text{公里} = \frac{x}{m}\ \text{公里}$$
   <p><strong>第 2 步：把「加仑」换成「升」。</strong> 题目给的是 $1\ \text{加仑} = l\ \text{升}$，直接代入。</p>
-
   <p><strong>第 3 步：组合。</strong> 即 <strong>l 升油 → 跑 x/m 公里</strong>，所以每公里耗油：</p>
-  $$\frac{l}{x/m} = \frac{lm}{x}\ \text{升}$$
-
+$$\frac{l}{x/m} = \frac{lm}{x}\ \text{升}$$
   <p><strong>第 4 步：换算到 100 公里。</strong></p>
-  $$100 \times \frac{lm}{x} = \boxed{\dfrac{100lm}{x}}$$
-
+$$100 \times \frac{lm}{x} = \boxed{\dfrac{100lm}{x}}$$
   <h3>方法二：单位链式相消（推荐养成习惯）</h3>
   <p>目标单位是「升/100公里」，与「每加仑跑多远」互为倒数。写成链式：</p>
-  $$\frac{\text{加仑}}{\text{英里}} \cdot \frac{l\ \text{升}}{1\ \text{加仑}} \cdot \frac{m\ \text{英里}}{1\ \text{公里}} = \frac{lm\ \text{升}}{\text{公里}}$$
+$$\frac{\text{加仑}}{\text{英里}} \cdot \frac{l\ \text{升}}{1\ \text{加仑}} \cdot \frac{m\ \text{英里}}{1\ \text{公里}} = \frac{lm\ \text{升}}{\text{公里}}$$
   <p>再 ×100：</p>
-  $$\boxed{\dfrac{100lm}{x}\ \text{升/100公里}}$$
-
-  <blockquote class="ok">
-    <strong>验证技巧（代入法）</strong>：取 $m=1$（1公里=1英里）、$l \approx 3.8$（1加仑≈3.8升）做量级检验。若 $x = 30$（省油车），则油耗 $= \frac{100\times1\times3.8}{30} \approx 12.7$ 升/100公里 —— 符合真实汽车油耗（约 7~13 L/100km），<strong>说明方向对了</strong>。
-  </blockquote>
-
+$$\boxed{\dfrac{100lm}{x}\ \text{升/100公里}}$$
+  <blockquote class="ok"><strong>验证技巧（代入法）</strong>：取 $m=1$（1公里=1英里）、$l \approx 3.8$（1加仑≈3.8升）做量级检验。若 $x = 30$（省油车），则油耗 $= \frac{100\times1\times3.8}{30} \approx 12.7$ 升/100公里 —— 符合真实汽车油耗（约 7~13 L/100km），<strong>说明方向对了</strong>。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
@@ -187,14 +197,11 @@ window.MathJax = {
     <li><strong>「每100公里」是特殊的 per</strong>：先算成「每公里」，再乘 100。</li>
     <li><strong>不要凭感觉摆字母</strong>：写完分式后，检查「目标单位的分子字母是否只剩在分子、分母字母是否只剩在分母」。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难）</h2>
-
-  <!-- 第1题 -->
   <div class="prob">
-    <span class="tag">第 1 题 · 基础</span> <span class="stars">★</span>
+    <span class="tag">第 1 题 · 基础</span> <span class="stars">★</span> <span class="form">形式｜单因子直接换算（乘换算因子）</span>
     <p>一个物体重 <strong>k</strong> 千克，已知 <strong>1 千克 = p 磅</strong>，则这个物体的重量用磅表示是多少？</p>
     <details>
       <summary>👉 点击查看解析</summary>
@@ -204,70 +211,63 @@ window.MathJax = {
     </details>
   </div>
 
-  <!-- 第2题 -->
   <div class="prob">
-    <span class="tag t2">第 2 题 · 方向反转</span> <span class="stars">★★</span>
+    <span class="tag t2">第 2 题 · 方向反转</span> <span class="stars">★★</span> <span class="form">形式｜方向反转（换算因子取倒数）</span>
     <p>已知 <strong>1 米 = q 英尺</strong>。一个物体长 <strong>y</strong> 英尺，则它的长度用米表示是多少？</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>y/q 米</strong></div>
-      <p>$1\ \text{米} = q\ \text{英尺} \Rightarrow 1\ \text{英尺} = \frac{1}{q}\ \text{米}$，所以 $y\ \text{英尺} = y \cdot \frac{1}{q} = \dfrac{y}{q}$ 米。</p>
-      <blockquote class="warn"><strong>这和你原题踩的是同一个坑</strong>：换算因子给的是「1米=q英尺」，但要求的是「英尺→米」，必须<strong>取倒数</strong>。换算是可逆的分数，方向反了要翻过来。</blockquote>
+        <p>$1\ \text{米} = q\ \text{英尺} \Rightarrow 1\ \text{英尺} = \frac{1}{q}\ \text{米}$，所以 $y\ \text{英尺} = y \cdot \frac{1}{q} = \dfrac{y}{q}$ 米。</p>
+  <blockquote class="warn"><strong>这和你原题踩的是同一个坑</strong>：换算因子给的是「1米=q英尺」，但要求的是「英尺→米」，必须<strong>取倒数</strong>。换算是可逆的分数，方向反了要翻过来。</blockquote>
     </details>
   </div>
 
-  <!-- 第3题 -->
   <div class="prob">
-    <span class="tag t3">第 3 题 · 复合单位相除</span> <span class="stars">★★★</span>
+    <span class="tag t3">第 3 题 · 复合单位相除</span> <span class="stars">★★★</span> <span class="form">形式｜复合单位相除（路程 ÷ 速度）</span>
     <p>汽车以 <strong>v</strong> 英里/小时 行驶，所行路程为 <strong>s</strong> 英里，则行驶时间用小时表示是多少？若已知 <strong>1 小时 = 60 分钟</strong>，则用分钟表示又是多少？</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>s/v 小时</strong> = <strong>60s/v 分钟</strong></div>
-      <p>时间 = 路程 ÷ 速度 $= \dfrac{s\ \text{英里}}{v\ \text{英里/小时}} = \dfrac{s}{v}$ 小时。</p>
-      <p>换算成分钟：$\dfrac{s}{v} \times \dfrac{60\ \text{分钟}}{1\ \text{小时}} = \dfrac{60s}{v}$ 分钟。</p>
+        <p>时间 = 路程 ÷ 速度 $= \dfrac{s\ \text{英里}}{v\ \text{英里/小时}} = \dfrac{s}{v}$ 小时。</p>
+  <p>换算成分钟：$\dfrac{s}{v} \times \dfrac{60\ \text{分钟}}{1\ \text{小时}} = \dfrac{60s}{v}$ 分钟。</p>
       <p class="hint">要点：复合单位（英里/小时）在除法中会「翻转」到分母。$\frac{s}{v/1}=\frac{s}{v}$，即「除以一个分数等于乘以它的倒数」。</p>
     </details>
   </div>
 
-  <!-- 第4题 -->
   <div class="prob">
-    <span class="tag t4">第 4 题 · 原题镜像变式</span> <span class="stars">★★★★</span>
+    <span class="tag t4">第 4 题 · 原题镜像变式</span> <span class="stars">★★★★</span> <span class="form">形式｜跨单位制换算（升/100公里 ↔ 英里/加仑）</span>
     <p>某国用「英里/加仑」，另一国用「升/100公里」。已知 <strong>1 公里 = m 英里</strong>，<strong>1 加仑 = l 升</strong>。一辆车油耗为 <strong>x 升/100公里</strong>，用「英里/加仑」表示为多少？</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$\dfrac{100lm}{x}$ 英里/加仑</strong></div>
-      <p><strong>第 1 步：求每公里耗油（加仑）。</strong></p>
-      $$\frac{x\ \text{升}}{100\ \text{公里}} \times \frac{1\ \text{加仑}}{l\ \text{升}} = \frac{x}{100l}\ \frac{\text{加仑}}{\text{公里}}$$
-      <p><strong>第 2 步：求每加仑跑多少公里（取倒数）。</strong></p>
-      $$\frac{100l}{x}\ \frac{\text{公里}}{\text{加仑}}$$
-      <p><strong>第 3 步：公里 → 英里（1 公里 = m 英里）。</strong></p>
-      $$\frac{100l}{x} \times \frac{m\ \text{英里}}{1\ \text{公里}} = \frac{100lm}{x}\ \frac{\text{英里}}{\text{加仑}}$$
-      <blockquote class="warn">
-        <strong>重要提醒</strong>：本题答案与原题答案 <strong>形式上恰好相同</strong>（都是 $\frac{100lm}{x}$），但<strong>单位含义完全相反</strong>：原题是「升/100公里」（越大越费油），本题是「英里/加仑」（越大越省油）。因为两套体系互为倒数量纲，m、l 的引入让表达式形式对称。<strong>做题时务必标注单位，不要只看字母形式</strong> —— 这也是 AMC 常见的迷惑点，选项里往往同时出现 $\frac{100lm}{x}$ 和 $\frac{x}{100lm}$，必须靠单位判断。
-      </blockquote>
+        <p><strong>第 1 步：求每公里耗油（加仑）。</strong></p>
+$$\frac{x\ \text{升}}{100\ \text{公里}} \times \frac{1\ \text{加仑}}{l\ \text{升}} = \frac{x}{100l}\ \frac{\text{加仑}}{\text{公里}}$$
+  <p><strong>第 2 步：求每加仑跑多少公里（取倒数）。</strong></p>
+$$\frac{100l}{x}\ \frac{\text{公里}}{\text{加仑}}$$
+  <p><strong>第 3 步：公里 → 英里（1 公里 = m 英里）。</strong></p>
+$$\frac{100l}{x} \times \frac{m\ \text{英里}}{1\ \text{公里}} = \frac{100lm}{x}\ \frac{\text{英里}}{\text{加仑}}$$
+  <blockquote class="warn"><strong>重要提醒</strong>：本题答案与原题答案 <strong>形式上恰好相同</strong>（都是 $\frac{100lm}{x}$），但<strong>单位含义完全相反</strong>：原题是「升/100公里」（越大越费油），本题是「英里/加仑」（越大越省油）。因为两套体系互为倒数量纲，m、l 的引入让表达式形式对称。<strong>做题时务必标注单位，不要只看字母形式</strong> —— 这也是 AMC 常见的迷惑点，选项里往往同时出现 $\frac{100lm}{x}$ 和 $\frac{x}{100lm}$，必须靠单位判断。</blockquote>
       <p class="hint">验证：取 m=1, l=3.8, x=12.7，则 $\frac{100\times1\times3.8}{12.7}=30$ 英里/加仑 ✓ 与题意自洽。</p>
     </details>
   </div>
 
-  <!-- 第5题 -->
   <div class="prob">
-    <span class="tag t5">第 5 题 · 三重复合换算</span> <span class="stars">★★★★★</span>
+    <span class="tag t5">第 5 题 · 三重复合换算</span> <span class="stars">★★★★★</span> <span class="form">形式｜多重链式换算（三级单位串联）</span>
     <p>一个水库的注水速度是 <strong>r</strong> 立方米/分钟。已知 <strong>1 立方米 = 1000 升</strong>，<strong>1 分钟 = 60 秒</strong>，<strong>1 加仑 = l 升</strong>。则注水速度用「加仑/小时」表示是多少？</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$\dfrac{60000r}{l}$ 加仑/小时</strong></div>
-      <p><strong>链式单位相消：</strong></p>
-      $$\frac{r\ \text{立方米}}{\text{分钟}} \times \frac{1000\ \text{升}}{1\ \text{立方米}} \times \frac{1\ \text{加仑}}{l\ \text{升}} \times \frac{60\ \text{分钟}}{1\ \text{小时}}$$
-      <p>逐项消去单位：</p>
-      <ul>
-        <li>系数：$r \times 1000 \times \frac{1}{l} \times 60 = \dfrac{60000r}{l}$</li>
-        <li>单位：$\frac{\text{立方米}}{\text{分钟}} \cdot \frac{\text{升}}{\text{立方米}} \cdot \frac{\text{加仑}}{\text{升}} \cdot \frac{\text{分钟}}{\text{小时}} = \frac{\text{加仑}}{\text{小时}}$ ✓</li>
-      </ul>
-      $$\boxed{\dfrac{60000r}{l}\ \text{加仑/小时}}$$
+        <p><strong>链式单位相消：</strong></p>
+$$\frac{r\ \text{立方米}}{\text{分钟}} \times \frac{1000\ \text{升}}{1\ \text{立方米}} \times \frac{1\ \text{加仑}}{l\ \text{升}} \times \frac{60\ \text{分钟}}{1\ \text{小时}}$$
+  <p>逐项消去单位：</p>
+  <ul>
+    <li>系数：$r \times 1000 \times \frac{1}{l} \times 60 = \dfrac{60000r}{l}$</li>
+    <li>单位：$\frac{\text{立方米}}{\text{分钟}} \cdot \frac{\text{升}}{\text{立方米}} \cdot \frac{\text{加仑}}{\text{升}} \cdot \frac{\text{分钟}}{\text{小时}} = \frac{\text{加仑}}{\text{小时}}$ ✓</li>
+  </ul>
+$$\boxed{\dfrac{60000r}{l}\ \text{加仑/小时}}$$
       <p class="hint">要点：多个换算因子串成链子，每个都写成「分数」，让相邻单位一上一下地消掉，最后剩下的就是目标单位。这是最高效、最不易错的方法。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -282,10 +282,9 @@ window.MathJax = {
       口诀：单位要相消，分数上下搭；方向若相反，记得取倒数。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 10 错题精讲 · 复合单位换算 &nbsp;|&nbsp; 生成于 2026-10-08</div>
+    <div>AMC 10 错题精讲 · 复合单位换算 &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
