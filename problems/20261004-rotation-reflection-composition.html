@@ -132,31 +132,18 @@ window.MathJax = {
     <div class="item"><span class="k">题目：</span><span class="v">2022AMC10A(18)</span></div>
     <div class="item"><span class="k">知识点：</span><span class="v">Transformation</span></div>
   </div>
-  <p class="lede">
-每一步都是「先逆时针旋转 $k$ 度、再关于 $y$ 轴反射」。这种<b>旋转 + 反射</b>的复合是「反向」变换，
+  <p class="lede">每一步都是「先逆时针旋转 $k$ 度、再关于 $y$ 轴反射」。这种<strong>旋转 + 反射</strong>的复合是「反向」变换，
 转了两次也不会累加角度——它把极角 $\phi$ 变成 $180^\circ-\phi-k$。
-抓住这个<b>一步递推式</b>，整个数列在第 4 步就现出原形；真正的陷阱是想当然地认为
-「反射要成对做，答案必然是偶数」，从而掉进选项 (D) 720。
-</p>
+抓住这个<strong>一步递推式</strong>，整个数列在第 4 步就现出原形；真正的陷阱是想当然地认为
+「反射要成对做，答案必然是偶数」，从而掉进选项 (D) 720。</p>
 
   <hr>
 
   <h2>一、错题原题</h2>
   <blockquote>
-    
-Let $T_k$ be the transformation of the coordinate plane that first rotates the plane $k$ degrees
-counterclockwise around the origin and then reflects the plane across the $y$-axis. What is the
-least positive integer $n$ such that performing the sequence of transformations
-$T_1, T_2, T_3, \cdots, T_n$ returns the point $(1,0)$ back to itself?
-<br><br>
-$\textbf{(A) }359\qquad \textbf{(B) }360\qquad \textbf{(C) }719\qquad \textbf{(D) }720\qquad
-\textbf{(E) }721$
-
+    Let $T_k$ be the transformation of the coordinate plane that first rotates the plane $k$ degrees counterclockwise around the origin and then reflects the plane across the $y$-axis. What is the least positive integer $n$ such that performing the sequence of transformations $T_1, T_2, T_3, \cdots, T_n$ returns the point $(1,0)$ back to itself?<br><br>$\textbf{(A) }359\qquad \textbf{(B) }360\qquad \textbf{(C) }719\qquad \textbf{(D) }720\qquad \textbf{(E) }721$
   </blockquote>
-  <p><strong>中文翻译</strong>：
-定义变换 $T_k$：先把坐标平面绕原点<b>逆时针旋转 $k$ 度</b>，再把平面<b>关于 $y$ 轴作反射</b>。
-问最小的正整数 $n$ 是多少，使得依次执行 $T_1,T_2,T_3,\cdots,T_n$ 之后，点 $(1,0)$ 回到它自身的位置？
-</p>
+  <p><strong>中文翻译</strong>：定义变换 $T_k$：先把坐标平面绕原点<strong>逆时针旋转 $k$ 度</strong>，再把平面<strong>关于 $y$ 轴作反射</strong>。 问最小的正整数 $n$ 是多少，使得依次执行 $T_1,T_2,T_3,\cdots,T_n$ 之后，点 $(1,0)$ 回到它自身的位置？</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
   <p class="official">
     📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
@@ -169,319 +156,151 @@ $\textbf{(A) }359\qquad \textbf{(B) }360\qquad \textbf{(C) }719\qquad \textbf{(D
   <h2>二、错误原因诊断</h2>
   <table>
     <tr><th>常见错误</th><th>错在哪</th></tr>
-    <tr><td><code>选 (D) 720</code></td><td>
-只对了一半。偶数次复合确实是纯旋转，需要 $t\equiv0\pmod{360}$，最小 $n=720$；
-<b>但奇数次复合是反射，同样有可能把点送回原位</b>——只要该点恰好落在反射轴上。
-$(1,0)$ 就在 $x$ 轴上，所以它「提前」在第 359 步就回来了。
-</td></tr>
-    <tr><td><code>选 (B) 360</code></td><td>
-直觉型错误：「要转一整圈嘛，360 步」。实际上每一步的贡献不是累加 $k$ 度，
-而是由于中间夹了反射，角度会<b>反向</b>递推。把「$n$ 步」和「$n$ 度」画等号是最大的误区。
-</td></tr>
+    <tr><td><code>选 (D) 720</code></td><td>只对了一半。偶数次复合确实是纯旋转，需要 $t\equiv0\pmod{360}$，最小 $n=720$； <strong>但奇数次复合是反射，同样有可能把点送回原位</strong>——只要该点恰好落在反射轴上。 $(1,0)$ 就在 $x$ 轴上，所以它「提前」在第 359 步就回来了。</td></tr>
+    <tr><td><code>选 (B) 360</code></td><td>直觉型错误：「要转一整圈嘛，360 步」。实际上每一步的贡献不是累加 $k$ 度， 而是由于中间夹了反射，角度会<strong>反向</strong>递推。把「$n$ 步」和「$n$ 度」画等号是最大的误区。</td></tr>
     <!-- 按需增删行 -->
   </table>
   <blockquote class="warn">
-    <strong>根本问题</strong>：
-<b>没有把「一步做了什么」写成可迭代的代数式。</b>变换序列题的正确起手式永远是：
-取一个能刻画点位置的量（这里是极角 $\phi$），导出 $\phi_{n}$ 与 $\phi_{n-1}$ 的递推关系，
-再解出闭式。靠脑内做几何想象去猜第 $n$ 步的样子，到第 3 步就崩了。
-另一个隐蔽的坑：<b>「要偶数次才可能复原」是错觉</b>——反射可以固定它轴上的点。
-
+    <strong>根本问题</strong>：<strong>没有把「一步做了什么」写成可迭代的代数式。</strong>变换序列题的正确起手式永远是： 取一个能刻画点位置的量（这里是极角 $\phi$），导出 $\phi_{n}$ 与 $\phi_{n-1}$ 的递推关系， 再解出闭式。靠脑内做几何想象去猜第 $n$ 步的样子，到第 3 步就崩了。 另一个隐蔽的坑：<strong>「要偶数次才可能复原」是错觉</strong>——反射可以固定它轴上的点。
   </blockquote>
 
   <hr>
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022A/problem/18" target="_blank" rel="noopener">2022AMC10A(18)</a> 的书面解答一致——极坐标下 $T_k(r,\theta)=(r,180^\circ-\theta-k^\circ)$，两次复合即 $1^\circ$ 旋转；跟踪 $(1,0^\circ)$ 得首次归零于 $T_{359}$。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022A/problem/18" target="_blank" rel="noopener">2022AMC10A(18)</a> 的书面解答一致——极坐标下 $T_k(r,\theta)=(r,180^\circ-\theta-k^\circ)$，两次复合即 $1^\circ$ 旋转；跟踪 $(1,0^\circ)$ 得首次归零于 $T_{359}$。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一｜极角递推求闭式（推荐，AMC 主流通法）</h3>
-  
-<p><b>第 1 步：把「一步」翻译成角度公式</b></p>
-<p>设当前点的极角为 $\phi$（从 $x$ 轴正向逆时针量）。</p>
-<ul>
-<li><b>逆时针旋转 $k^\circ$</b>：极角变成 $\phi+k$；</li>
-<li><b>关于 $y$ 轴反射</b>：极角 $\theta$ 变成 $180^\circ-\theta$（关于 $y$ 轴镜像，相当于先翻到 $-\theta$ 再加 $180^\circ$）。</li>
-</ul>
-<p>合起来，一步之后：</p>
+  <p><strong>第 1 步：把「一步」翻译成角度公式</strong></p>
+  <p>设当前点的极角为 $\phi$（从 $x$ 轴正向逆时针量）。</p>
+  <ul>
+    <li><strong>逆时针旋转 $k^\circ$</strong>：极角变成 $\phi+k$；</li>
+    <li><strong>关于 $y$ 轴反射</strong>：极角 $\theta$ 变成 $180^\circ-\theta$（关于 $y$ 轴镜像，相当于先翻到 $-\theta$ 再加 $180^\circ$）。</li>
+  </ul>
+  <p>合起来，一步之后：</p>
 $$\boxed{\phi\ \longmapsto\ 180^\circ-\phi-k}$$
-<p>注意这里的<b>负号</b>：这正是「反向变换」的标志，也是本题的灵魂。</p>
-
-<p><b>第 2 步：迭代几步，看规律</b></p>
-<p>起点是 $(1,0)$，即 $\phi_0=0$：</p>
+  <p>注意这里的<strong>负号</strong>：这正是「反向变换」的标志，也是本题的灵魂。</p>
+  <p><strong>第 2 步：迭代几步，看规律</strong></p>
+  <p>起点是 $(1,0)$，即 $\phi_0=0$：</p>
 <table>
 <tr><th>$n$</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
 <tr><td>$\phi_n$</td><td>$179^\circ$</td><td>$-1^\circ$</td><td>$178^\circ$</td><td>$-2^\circ$</td><td>$177^\circ$</td><td>$-3^\circ$</td></tr>
 </table>
-<p>规律一目了然（用「走了几对步」$t$ 来编号最干净）：</p>
+  <p>规律一目了然（用「走了几对步」$t$ 来编号最干净）：</p>
 $$\phi_{2t}=-\,t\quad(t\geq0),\qquad \phi_{2t+1}=180^\circ-(t+1)\quad(t\geq0)$$
-<p><b>归纳证明</b>：奠基 $t=0$，$\phi_0=0$ ✓、$\phi_1=180-1=179$ ✓。
-若 $\phi_{2t}=-t$，则 $\phi_{2t+1}=180-(-t)-(2t+1)=180+t-2t-1=179-t=180-(t+1)$ ✓；
-进而 $\phi_{2t+2}=180-\bigl(179-t\bigr)-(2t+2)=1+t-2t-2=-(t+1)$ ✓，归纳闭圈。∎</p>
-
-<p><b>第 3 步：解「回到出发点」的条件</b></p>
-<p>要求 $\phi_n\equiv 0\pmod{360}$，分奇偶讨论：</p>
-<ul>
-<li><b>$n=2t$（偶数）</b>：$-t\equiv0\pmod{360}$ ⟹ $t\equiv0\pmod{360}$ ⟹ 最小正 $t=360$ ⟹ $n=720$；</li>
-<li><b>$n=2t+1$（奇数）</b>：$180-(t+1)\equiv0\pmod{360}$ ⟹ $t+1\equiv180\pmod{360}$
-⟹ 最小 $t+1=180$ ⟹ $t=179$ ⟹ $n=2\times179+1=\mathbf{359}$。</li>
-</ul>
-<p>取两者较小值：$\boxed{359}$，对应选项 <b>(A)</b>。</p>
-
-<blockquote class="ok">
-<strong>为什么奇数步能行？</strong>奇数次复合是<b>一个反射</b>（其对称轴恰好是 $x$ 轴），
-而 $(1,0)$ 就在这条轴上，所以被一动不动地固定住。偶数次复合才是纯旋转。
-</blockquote>
-
+  <p><strong>归纳证明</strong>：奠基 $t=0$，$\phi_0=0$ ✓、$\phi_1=180-1=179$ ✓。 若 $\phi_{2t}=-t$，则 $\phi_{2t+1}=180-(-t)-(2t+1)=180+t-2t-1=179-t=180-(t+1)$ ✓； 进而 $\phi_{2t+2}=180-\bigl(179-t\bigr)-(2t+2)=1+t-2t-2=-(t+1)$ ✓，归纳闭圈。∎</p>
+  <p><strong>第 3 步：解「回到出发点」的条件</strong></p>
+  <p>要求 $\phi_n\equiv 0\pmod{360}$，分奇偶讨论：</p>
+  <ul>
+    <li><strong>$n=2t$（偶数）</strong>：$-t\equiv0\pmod{360}$ ⟹ $t\equiv0\pmod{360}$ ⟹ 最小正 $t=360$ ⟹ $n=720$；</li>
+    <li><strong>$n=2t+1$（奇数）</strong>：$180-(t+1)\equiv0\pmod{360}$ ⟹ $t+1\equiv180\pmod{360}$ ⟹ 最小 $t+1=180$ ⟹ $t=179$ ⟹ $n=2\times179+1=\mathbf{359}$。</li>
+  </ul>
+  <p>取两者较小值：$\boxed{359}$，对应选项 <strong>(A)</strong>。</p>
+  <blockquote class="ok"><strong>为什么奇数步能行？</strong>奇数次复合是<strong>一个反射</strong>（其对称轴恰好是 $x$ 轴）， 而 $(1,0)$ 就在这条轴上，所以被一动不动地固定住。偶数次复合才是纯旋转。</blockquote>
   <h3>方法二｜复数法（一行式子给出闭式，适合复核）</h3>
-  
-<p>把平面看成复平面：点 $(x,y)$ 对应 $z=x+iy$。</p>
-<ul>
-<li>逆时针旋转 $k^\circ$：$z\mapsto e^{ik\theta}z$，其中 $\theta=1^\circ=\dfrac{\pi}{180}$；</li>
-<li>关于 $y$ 轴反射：$(x,y)\mapsto(-x,y)$，即 $z\mapsto -\bar z$。</li>
-</ul>
-<p>于是 $T_k(z)=-\overline{e^{ik\theta}z}=-e^{-ik\theta}\bar z$。记 $F_n=T_n\circ\cdots\circ T_1$，直接算前几步：</p>
+  <p>把平面看成复平面：点 $(x,y)$ 对应 $z=x+iy$。</p>
+  <ul>
+    <li>逆时针旋转 $k^\circ$：$z\mapsto e^{ik\theta}z$，其中 $\theta=1^\circ=\dfrac{\pi}{180}$；</li>
+    <li>关于 $y$ 轴反射：$(x,y)\mapsto(-x,y)$，即 $z\mapsto -\bar z$。</li>
+  </ul>
+  <p>于是 $T_k(z)=-\overline{e^{ik\theta}z}=-e^{-ik\theta}\bar z$。记 $F_n=T_n\circ\cdots\circ T_1$，直接算前几步：</p>
 $$F_1(z)=-e^{-i\theta}\bar z,\qquad F_2(z)=-e^{-2i\theta}\overline{\left(-e^{-i\theta}\bar z\right)}=e^{-i\theta}z$$
-<p>继续可归纳出统一的闭式：</p>
+  <p>继续可归纳出统一的闭式：</p>
 $$F_{2t}(z)=e^{-it\theta}z\ (\text{纯旋转}),\qquad F_{2t+1}(z)=-e^{-i(t+1)\theta}\bar z\ (\text{反射})$$
-<p>代入起点 $z_0=1$：</p>
-<ul>
-<li>$n=2t$：$F_n(1)=e^{-it\theta}$，要等于 $1$ ⟺ $t\theta\equiv0\pmod{360^\circ}$ ⟺ $t\equiv0\pmod{360}$ ⟺ $n=720$；</li>
-<li>$n=2t+1$：$F_n(1)=-e^{-i(t+1)\theta}$，要等于 $1$ ⟺ $e^{-i(t+1)\theta}=-1$
-⟺ $(t+1)\theta\equiv180^\circ\pmod{360^\circ}$ ⟺ $t+1=180$ ⟹ $n=359$。</li>
-</ul>
-<p>结果同样是 $\boxed{359}$ ✓，与方法一完全一致。复数法的优势是<b>顺手给出了「整个平面上每一点」的信息</b>
-（见练习第 4 题），极角法更直观、更适合考场。两法并用互为校验。</p>
-
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：
-<b>数值快验</b>：用极角递推在前几百步跑一遍，可直接列出所有「命中」的 $n$：
-$359,\ 720,\ 1079,\ 1440,\ 1799,\ 2160,\ldots$——最小正是 $359$。
-注意这个数列的模式：奇数解每隔 $720$ 出现一次，偶数解也每隔 $720$ 出现一次，两者交错。
-另外务必做一次「排除 (D)」的自问：<b>为什么比我先想到的 720 还小？</b>
-答案是「奇数次复合是反射，而起点恰在反射轴上」——如果起点不在轴上（比如 $(0,1)$），答案就是 $719$ 了。
-
-  </blockquote>
-
+  <p>代入起点 $z_0=1$：</p>
+  <ul>
+    <li>$n=2t$：$F_n(1)=e^{-it\theta}$，要等于 $1$ ⟺ $t\theta\equiv0\pmod{360^\circ}$ ⟺ $t\equiv0\pmod{360}$ ⟺ $n=720$；</li>
+    <li>$n=2t+1$：$F_n(1)=-e^{-i(t+1)\theta}$，要等于 $1$ ⟺ $e^{-i(t+1)\theta}=-1$ ⟺ $(t+1)\theta\equiv180^\circ\pmod{360^\circ}$ ⟺ $t+1=180$ ⟹ $n=359$。</li>
+  </ul>
+  <p>结果同样是 $\boxed{359}$ ✓，与方法一完全一致。复数法的优势是<strong>顺手给出了「整个平面上每一点」的信息</strong> （见练习第 4 题），极角法更直观、更适合考场。两法并用互为校验。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>： <strong>数值快验</strong>：用极角递推在前几百步跑一遍，可直接列出所有「命中」的 $n$： $359,\ 720,\ 1079,\ 1440,\ 1799,\ 2160,\ldots$——最小正是 $359$。 注意这个数列的模式：奇数解每隔 $720$ 出现一次，偶数解也每隔 $720$ 出现一次，两者交错。 另外务必做一次「排除 (D)」的自问：<strong>为什么比我先想到的 720 还小？</strong> 答案是「奇数次复合是反射，而起点恰在反射轴上」——如果起点不在轴上（比如 $(0,1)$），答案就是 $719$ 了。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
   <blockquote>
-    <strong>核心知识点</strong>：
-<b>变换的「定型」与极角递推。</b>
-（1）旋转是<b>保定向</b>变换，反射是<b>反定向</b>变换；「旋转 + 反射」的复合是反射——
-这是判断复合后形态的总开关。
-（2）关于过原点、倾角为 $\alpha$ 的直线反射，把极角 $\phi$ 变成 $2\alpha-\phi$。
-（3）于是含反射的一步总写成 $\phi\mapsto 2\alpha-\phi-k$，解这个递推就能得到闭式。
-
+    <strong>核心知识点</strong>：<strong>变换的「定型」与极角递推。</strong> （1）旋转是<strong>保定向</strong>变换，反射是<strong>反定向</strong>变换；「旋转 + 反射」的复合是反射—— 这是判断复合后形态的总开关。 （2）关于过原点、倾角为 $\alpha$ 的直线反射，把极角 $\phi$ 变成 $2\alpha-\phi$。 （3）于是含反射的一步总写成 $\phi\mapsto 2\alpha-\phi-k$，解这个递推就能得到闭式。
   </blockquote>
   <p>必须掌握的要点：</p>
   <ol>
-    <li>
-<b>$T_k$ 不是旋转，是反射。</b>「旋转 + 反射 = 反射」，它会改变定向（把逆时针三角形变成顺时针）。
-从一开始就看准这一点，就不会走上「累加 $1+2+\cdots+n$」的错路。
-</li>
-    <li>
-<b>极角是处理绕原点旋转 + 过原点直线反射的最优坐标。</b>旋转 → $\phi+k$，
-反射（轴倾角 $\alpha$）→ $2\alpha-\phi$，$y$ 轴即 $\alpha=90^\circ$，故 $2\alpha=180^\circ$。
-</li>
-    <li>
-<b>递推一定要写显式并归纳证明。</b>$\phi_{2t}=-t$、$\phi_{2t+1}=180-(t+1)$ 这两个闭式一旦到手，
-$n$ 的搜索空间就从「无穷」压缩到「解两个同余式」。
-</li>
-    <li>
-<b>偶数次才复原是错觉。</b>反射固定它轴上的所有点。本题第 359 步的复合恰好是关于 $x$ 轴的反射，
-而起点 $(1,0)$ 在 $x$ 轴上——所以「点」回来了，但「平面」没回来。这是本题最精妙的一层考查。
-</li>
+    <li><strong>$T_k$ 不是旋转，是反射。</strong>「旋转 + 反射 = 反射」，它会改变定向（把逆时针三角形变成顺时针）。 从一开始就看准这一点，就不会走上「累加 $1+2+\cdots+n$」的错路。</li>
+    <li><strong>极角是处理绕原点旋转 + 过原点直线反射的最优坐标。</strong>旋转 → $\phi+k$， 反射（轴倾角 $\alpha$）→ $2\alpha-\phi$，$y$ 轴即 $\alpha=90^\circ$，故 $2\alpha=180^\circ$。</li>
+    <li><strong>递推一定要写显式并归纳证明。</strong>$\phi_{2t}=-t$、$\phi_{2t+1}=180-(t+1)$ 这两个闭式一旦到手， $n$ 的搜索空间就从「无穷」压缩到「解两个同余式」。</li>
+    <li><strong>偶数次才复原是错觉。</strong>反射固定它轴上的所有点。本题第 359 步的复合恰好是关于 $x$ 轴的反射， 而起点 $(1,0)$ 在 $x$ 轴上——所以「点」回来了，但「平面」没回来。这是本题最精妙的一层考查。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
-
   <div class="prob">
     <span class="tag">第 1 题 · 先把手算流程走一遍</span> <span class="stars">★</span> <span class="form">形式｜基础代入 · 逐步追踪前几步</span>
-    <p>
-沿用原题的 $T_k$（先逆时针转 $k$ 度、再关于 $y$ 轴反射），从点 $(1,0)$ 出发。
-求依次执行 $T_1,T_2,T_3$ 之后，点的极角是多少？这个点在哪个象限？
-</p>
+    <p>沿用原题的 $T_k$（先逆时针转 $k$ 度、再关于 $y$ 轴反射），从点 $(1,0)$ 出发。 求依次执行 $T_1,T_2,T_3$ 之后，点的极角是多少？这个点在哪个象限？</p>
     <details>
       <summary>👉 点击查看解析</summary>
-      <div class="ans">答：<strong>
-极角 178°，在第二象限（坐标为 $(\cos178^\circ,\ \sin178^\circ)$，约 $(-0.9994,\ 0.0349)$）
-</strong></div>
-      <p>
-用递推 $\phi\mapsto 180-\phi-k$：
-$$\phi_0=0 \to \phi_1=180-0-1=179 \to \phi_2=180-179-2=-1 \to \phi_3=180-(-1)-3=178$$
-所以最终极角为 $178^\circ$。它落在第二象限。
-</p>
-      <p class="hint">要点：
-练的是「把一步写成 $180-\phi-k$」这个翻译动作本身。
-注意每做一步都要<b>先把上一步的结果减掉</b>（那个负号），很多人在这里会不自觉地写成加法。
-</p>
+      <div class="ans">答：<strong> 极角 178°，在第二象限（坐标为 $(\cos178^\circ,\ \sin178^\circ)$，约 $(-0.9994,\ 0.0349)$） </strong></div>
+        <p>用递推 $\phi\mapsto 180-\phi-k$： $$\phi_0=0 \to \phi_1=180-0-1=179 \to \phi_2=180-179-2=-1 \to \phi_3=180-(-1)-3=178$$ 所以最终极角为 $178^\circ$。它落在第二象限。</p>
+      <p class="hint">要点：练的是「把一步写成 $180-\phi-k$」这个翻译动作本身。 注意每做一步都要<strong>先把上一步的结果减掉</strong>（那个负号），很多人在这里会不自觉地写成加法。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t2">第 2 题 · 把反射轴从 y 轴换成 x 轴</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数 · 改变反射轴后重求最小步数</span>
-    <p>
-把 $T_k$ 改成：先逆时针旋转 $k$ 度，再关于 <b>$x$ 轴</b>作反射（其余不变）。
-仍从点 $(1,0)$ 出发，求最小的正整数 $n$ 使点回到自身。
-</p>
+    <p>把 $T_k$ 改成：先逆时针旋转 $k$ 度，再关于 <strong>$x$ 轴</strong>作反射（其余不变）。 仍从点 $(1,0)$ 出发，求最小的正整数 $n$ 使点回到自身。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>n = 719</strong></div>
-      <p>
-关于 $x$ 轴反射把极角 $\phi$ 变成 $-\phi$（对应通式中的 $2\alpha=0$），所以一步是
-$$\phi\ \longmapsto\ -\phi-k$$
-迭代：
-$$\phi_0=0,\ \phi_1=-1,\ \phi_2=1-2=-1,\ \phi_3=1-3=-2,\ \phi_4=2-4=-2,\ \phi_5=2-5=-3,\ldots$$
-规律（可归纳证明）：
-$$\phi_{2t}=-t,\qquad \phi_{2t-1}=-t\ (t\geq1)$$
-即步数为 $2t-1$ 与 $2t$ 时结果相同，都是 $-t$。要 $-t\equiv0\pmod{360}$，最小正 $t=360$，
-对应步数 $2t-1=719$ 与 $2t=720$，取较小者 $\boxed{719}$。
-<br>对比原题：原题奇数解是 $359$，这里却是 $719$。差别在于原题的反射轴（第 359 步时是 $x$ 轴）
-恰好「兜住」了起点，而这里奇数步的反射轴是别的方向。
-</p>
-      <p class="hint">要点：
-只改一个参数（$2\alpha$ 从 $180^\circ$ 变成 $0$），答案从 $359$ 跳到 $719$。
-这类<b>受控对照</b>最能检验你是否真的理解了机制，而不是背下了原题答案。
-</p>
+        <p>关于 $x$ 轴反射把极角 $\phi$ 变成 $-\phi$（对应通式中的 $2\alpha=0$），所以一步是 $$\phi\ \longmapsto\ -\phi-k$$ 迭代： $$\phi_0=0,\ \phi_1=-1,\ \phi_2=1-2=-1,\ \phi_3=1-3=-2,\ \phi_4=2-4=-2,\ \phi_5=2-5=-3,\ldots$$ 规律（可归纳证明）： $$\phi_{2t}=-t,\qquad \phi_{2t-1}=-t\ (t\geq1)$$ 即步数为 $2t-1$ 与 $2t$ 时结果相同，都是 $-t$。要 $-t\equiv0\pmod{360}$，最小正 $t=360$， 对应步数 $2t-1=719$ 与 $2t=720$，取较小者 $\boxed{719}$。 <br> 对比原题：原题奇数解是 $359$，这里却是 $719$。差别在于原题的反射轴（第 359 步时是 $x$ 轴） 恰好「兜住」了起点，而这里奇数步的反射轴是别的方向。</p>
+      <p class="hint">要点：只改一个参数（$2\alpha$ 从 $180^\circ$ 变成 $0$），答案从 $359$ 跳到 $719$。 这类<strong>受控对照</strong>最能检验你是否真的理解了机制，而不是背下了原题答案。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t3">第 3 题 · 把「最小」换成「全部」</span> <span class="stars">★★★</span> <span class="form">形式｜通解刻画 · 解集的完整结构</span>
-    <p>
-原题中，使点 $(1,0)$ 回到自身的正整数 $n$ <b>不止一个</b>。
-求出<b>全部</b>这样的 $n$，并写成简洁的表达式。
-</p>
+    <p>原题中，使点 $(1,0)$ 回到自身的正整数 $n$ <strong>不止一个</strong>。 求出<strong>全部</strong>这样的 $n$，并写成简洁的表达式。</p>
     <details>
       <summary>👉 点击查看解析</summary>
-      <div class="ans">答：<strong>
-n ≡ 359 (mod 720) 或 n ≡ 0 (mod 720)，即 {359, 720, 1079, 1440, 1799, 2160, …}
-</strong></div>
-      <p>
-沿用方法一的两个闭式：
-<br>· <b>偶数 $n=2t$</b>：$\phi_{2t}=-t\equiv0\pmod{360}\iff t\equiv0\pmod{360}\iff t=360m$，故
-$$n=720m\quad(m=1,2,3,\ldots)$$
-<br>· <b>奇数 $n=2t+1$</b>：$\phi_{2t+1}=180-(t+1)\equiv0\pmod{360}\iff t+1\equiv180\pmod{360}
-\iff t+1=180+360j$，故
-$$n=2(179+360j)+1=359+720j\quad(j=0,1,2,\ldots)$$
-<br>合并即得解集 $=\{359+720j\}\cup\{720m\}$。
-<br><b>程序验证</b>：按递推式逐项跑，前几个命中为 $359,720,1079,1440,1799,2160$，与公式完全一致 ✓
-</p>
-      <p class="hint">要点：
-<b>两个同余类，模数都是 720</b>（不是 360）——因为每两步才让 $t$ 前进 1，
-而 $t$ 要走满 360 才回到起点。把闭式<b>推广到全部解</b>时，
-务必记得把「$t$ 的模 360」换算回「$n$ 的模 720」，这一步最容易差一个因子 2。
-</p>
+      <div class="ans">答：<strong> n ≡ 359 (mod 720) 或 n ≡ 0 (mod 720)，即 {359, 720, 1079, 1440, 1799, 2160, …} </strong></div>
+        <p>沿用方法一的两个闭式： <br> · <strong>偶数 $n=2t$</strong>：$\phi_{2t}=-t\equiv0\pmod{360}\iff t\equiv0\pmod{360}\iff t=360m$，故 $$n=720m\quad(m=1,2,3,\ldots)$$ <br> · <strong>奇数 $n=2t+1$</strong>：$\phi_{2t+1}=180-(t+1)\equiv0\pmod{360}\iff t+1\equiv180\pmod{360} \iff t+1=180+360j$，故 $$n=2(179+360j)+1=359+720j\quad(j=0,1,2,\ldots)$$ <br> 合并即得解集 $=\{359+720j\}\cup\{720m\}$。 <br> <strong>程序验证</strong>：按递推式逐项跑，前几个命中为 $359,720,1079,1440,1799,2160$，与公式完全一致 ✓</p>
+      <p class="hint">要点：<strong>两个同余类，模数都是 720</strong>（不是 360）——因为每两步才让 $t$ 前进 1， 而 $t$ 要走满 360 才回到起点。把闭式<strong>推广到全部解</strong>时， 务必记得把「$t$ 的模 360」换算回「$n$ 的模 720」，这一步最容易差一个因子 2。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t4">第 4 题 · 点回来了，整个平面回来了吗</span> <span class="stars">★★★★</span> <span class="form">形式｜结构判定 · 构造反例并给出真正答案</span>
-    <p>
-(a) 证明：原题中 $n=359$ 时的复合变换 $F_{359}=T_{359}\circ\cdots\circ T_1$ <b>不是</b>恒等变换，
-并给出一个具体点说明它在第 359 步没有回到原位；
-<br>(b) 求最小的正整数 $n$，使得<b>平面上每一个点</b>都回到原位（即 $F_n$ 为恒等变换）。
-</p>
+    <p>(a) 证明：原题中 $n=359$ 时的复合变换 $F_{359}=T_{359}\circ\cdots\circ T_1$ <strong>不是</strong>恒等变换， 并给出一个具体点说明它在第 359 步没有回到原位； <br> (b) 求最小的正整数 $n$，使得<strong>平面上每一个点</strong>都回到原位（即 $F_n$ 为恒等变换）。</p>
     <details>
       <summary>👉 点击查看解析</summary>
-      <div class="ans">答：<strong>
-(a) $F_{359}$ 是关于 $x$ 轴的反射，例如 $(0,1)\mapsto(0,-1)$；
-(b) $n=720$
-</strong></div>
-      <p>
-<b>(a)</b> 由方法二的闭式，$n=2t+1$ 时 $F_n(z)=-e^{-i(t+1)\theta}\bar z$。取 $t=179$：
-$$F_{359}(z)=-e^{-i\cdot180\cdot\theta}\bar z=-e^{-i\pi}\bar z=-(-1)\bar z=\bar z$$
-$z\mapsto\bar z$ 正是对 $x$ 轴的反射，不是恒等变换。取 $z=i$（即点 $(0,1)$）：
-$F_{359}(i)=\bar i=-i$，跑到了 $(0,-1)$，明显没回到原位。这就是反例。
-<br>（用极角也能看：$n=359=2t+1$ 对应 $t=179$，$\phi_{359}=180-(179+1)=0$ 只对起点成立；
-对一般的 $\phi_0$ 有 $\phi_{359}=180-\phi_0-180=-\phi_0$，只有 $\phi_0\in\{0,180\}$ 才不动。）
-<br><b>(b)</b> 偶数情形 $F_{2t}(z)=e^{-it\theta}z$，要它是恒等变换需 $e^{-it\theta}=1$，
-即 $t\theta\equiv0\pmod{360^\circ}$，最小正 $t=360$，故
-$$n=2t=720$$
-<br>这也是官方选项里的 <b>(D) 720</b> 所隐含的那条路径——它算的是「全平面复原」而非「指定点复原」。
-</p>
-      <p class="hint">要点：
-<b>题目问的是「点」还是「变换」，答案能差一倍。</b>$(1,0)$ 之所以在第 359 步就回来，
-纯粹是因为它<b>恰好躺在那面反射镜面上</b>。换任何一个不在 $x$ 轴上的点，答案就不再是 359。
-</p>
+      <div class="ans">答：<strong> (a) $F_{359}$ 是关于 $x$ 轴的反射，例如 $(0,1)\mapsto(0,-1)$； (b) $n=720$ </strong></div>
+        <p><strong>(a)</strong> 由方法二的闭式，$n=2t+1$ 时 $F_n(z)=-e^{-i(t+1)\theta}\bar z$。取 $t=179$： $$F_{359}(z)=-e^{-i\cdot180\cdot\theta}\bar z=-e^{-i\pi}\bar z=-(-1)\bar z=\bar z$$ $z\mapsto\bar z$ 正是对 $x$ 轴的反射，不是恒等变换。取 $z=i$（即点 $(0,1)$）： $F_{359}(i)=\bar i=-i$，跑到了 $(0,-1)$，明显没回到原位。这就是反例。 <br> （用极角也能看：$n=359=2t+1$ 对应 $t=179$，$\phi_{359}=180-(179+1)=0$ 只对起点成立； 对一般的 $\phi_0$ 有 $\phi_{359}=180-\phi_0-180=-\phi_0$，只有 $\phi_0\in\{0,180\}$ 才不动。） <br> <strong>(b)</strong> 偶数情形 $F_{2t}(z)=e^{-it\theta}z$，要它是恒等变换需 $e^{-it\theta}=1$， 即 $t\theta\equiv0\pmod{360^\circ}$，最小正 $t=360$，故 $$n=2t=720$$ <br> 这也是官方选项里的 <strong>(D) 720</strong> 所隐含的那条路径——它算的是「全平面复原」而非「指定点复原」。</p>
+      <p class="hint">要点：<strong>题目问的是「点」还是「变换」，答案能差一倍。</strong>$(1,0)$ 之所以在第 359 步就回来， 纯粹是因为它<strong>恰好躺在那面反射镜面上</strong>。换任何一个不在 $x$ 轴上的点，答案就不再是 359。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t5">第 5 题 · 把一切都变成参数</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化建模 + 通项证明 + 特例回代</span>
-    <p>
-推广：设 $T_k$ = 先逆时针旋转 $kd$ 度，再关于过原点、倾角为 $\alpha$ 的直线作反射。
-从极角为 $\phi_0$ 的点出发，依次做 $T_1,\ldots,T_n$。
-<br>(a) 导出递推式并解出闭式 $\phi_{2t}$ 与 $\phi_{2t+1}$（用 $\phi_0,\alpha,d,t$ 表示），并证明；
-<br>(b) 写出「点回到原位」时 $t$ 应满足的两个同余条件（分奇偶）；
-<br>(c) 用你的公式分别算出：原题 $(\alpha=90^\circ,d=1,\phi_0=0)$ 的最小 $n$；
-以及起点换成 $(0,1)$（即 $\phi_0=90^\circ$）后的最小 $n$。
-</p>
+    <p>推广：设 $T_k$ = 先逆时针旋转 $kd$ 度，再关于过原点、倾角为 $\alpha$ 的直线作反射。 从极角为 $\phi_0$ 的点出发，依次做 $T_1,\ldots,T_n$。 <br> (a) 导出递推式并解出闭式 $\phi_{2t}$ 与 $\phi_{2t+1}$（用 $\phi_0,\alpha,d,t$ 表示），并证明； <br> (b) 写出「点回到原位」时 $t$ 应满足的两个同余条件（分奇偶）； <br> (c) 用你的公式分别算出：原题 $(\alpha=90^\circ,d=1,\phi_0=0)$ 的最小 $n$； 以及起点换成 $(0,1)$（即 $\phi_0=90^\circ$）后的最小 $n$。</p>
     <details>
       <summary>👉 点击查看解析</summary>
-      <div class="ans">答：<strong>
-(a) $\phi_{2t}=\phi_0-td$，$\phi_{2t+1}=2\alpha-\phi_0-(t+1)d$；
-(b) 偶数：$td\equiv0\pmod{360}$；奇数：$2\phi_0\equiv2\alpha-(t+1)d\pmod{360}$；
-(c) 原题 $n=359$；起点为 $(0,1)$ 时 $n=719$
-</strong></div>
-      <p>
-<b>(a)</b> 关于倾角 $\alpha$ 的直线反射把极角 $\theta$ 变成 $2\alpha-\theta$，故一步为
-$$\phi_n=2\alpha-\phi_{n-1}-nd$$
-迭代并归纳：
-$$\phi_1=2\alpha-\phi_0-d,\quad \phi_2=2\alpha-\phi_1-2d=\phi_0-d,\quad
-\phi_3=2\alpha-\phi_2-3d=2\alpha-\phi_0-2d,\ldots$$
-即 $\phi_{2t}=\phi_0-td$，$\phi_{2t+1}=2\alpha-\phi_0-(t+1)d$ ✓（可由归纳严格证明）。
-<br><b>(b)</b> 回到原位要求 $\phi_n\equiv\phi_0\pmod{360}$：
-<br>· 偶数 $n=2t$：$\phi_0-td\equiv\phi_0$ ⟹ $\boxed{td\equiv0\pmod{360}}$
-<br>· 奇数 $n=2t+1$：$2\alpha-\phi_0-(t+1)d\equiv\phi_0$ ⟹ $\boxed{2\phi_0\equiv2\alpha-(t+1)d\pmod{360}}$
-<br><b>(c)</b>
-<br>· 原题 $\alpha=90^\circ$（$2\alpha=180$）、$d=1$、$\phi_0=0$：
-偶数要求 $t\equiv0\pmod{360}$ → $n=720$；奇数要求 $0\equiv180-(t+1)\pmod{360}$
-→ $t+1\equiv180$ → $t=179$ → $n=359$。取小者 $\mathbf{359}$ ✓
-<br>· 起点 $(0,1)$，$\phi_0=90^\circ$：
-偶数同上 → $n=720$；奇数要求 $180\equiv180-(t+1)\pmod{360}$ → $t+1\equiv0\pmod{360}$
-→ $t+1=360$ → $t=359$ → $n=2\cdot359+1=\mathbf{719}$ ✓（这也印证了 EX4 的结论）
-</p>
-      <p class="hint">要点：
-把 $\alpha,d,\phi_0$ 全部参数化后，原题只是 $(\alpha,d,\phi_0)=(90^\circ,1,0)$ 这一个点。
-最值得记住的是奇次情形的条件里有 $2\phi_0$——<b>起点一旦离开反射轴，$359$ 就不再是答案</b>。
-</p>
+      <div class="ans">答：<strong> (a) $\phi_{2t}=\phi_0-td$，$\phi_{2t+1}=2\alpha-\phi_0-(t+1)d$； (b) 偶数：$td\equiv0\pmod{360}$；奇数：$2\phi_0\equiv2\alpha-(t+1)d\pmod{360}$； (c) 原题 $n=359$；起点为 $(0,1)$ 时 $n=719$ </strong></div>
+        <p><strong>(a)</strong> 关于倾角 $\alpha$ 的直线反射把极角 $\theta$ 变成 $2\alpha-\theta$，故一步为 $$\phi_n=2\alpha-\phi_{n-1}-nd$$ 迭代并归纳： $$\phi_1=2\alpha-\phi_0-d,\quad \phi_2=2\alpha-\phi_1-2d=\phi_0-d,\quad \phi_3=2\alpha-\phi_2-3d=2\alpha-\phi_0-2d,\ldots$$ 即 $\phi_{2t}=\phi_0-td$，$\phi_{2t+1}=2\alpha-\phi_0-(t+1)d$ ✓（可由归纳严格证明）。 <br> <strong>(b)</strong> 回到原位要求 $\phi_n\equiv\phi_0\pmod{360}$： <br> · 偶数 $n=2t$：$\phi_0-td\equiv\phi_0$ ⟹ $\boxed{td\equiv0\pmod{360}}$ <br> · 奇数 $n=2t+1$：$2\alpha-\phi_0-(t+1)d\equiv\phi_0$ ⟹ $\boxed{2\phi_0\equiv2\alpha-(t+1)d\pmod{360}}$ <br> <strong>(c)</strong> <br> · 原题 $\alpha=90^\circ$（$2\alpha=180$）、$d=1$、$\phi_0=0$： 偶数要求 $t\equiv0\pmod{360}$ → $n=720$；奇数要求 $0\equiv180-(t+1)\pmod{360}$ → $t+1\equiv180$ → $t=179$ → $n=359$。取小者 $\mathbf{359}$ ✓ <br> · 起点 $(0,1)$，$\phi_0=90^\circ$： 偶数同上 → $n=720$；奇数要求 $180\equiv180-(t+1)\pmod{360}$ → $t+1\equiv0\pmod{360}$ → $t+1=360$ → $t=359$ → $n=2\cdot359+1=\mathbf{719}$ ✓（这也印证了 EX4 的结论）</p>
+      <p class="hint">要点：把 $\alpha,d,\phi_0$ 全部参数化后，原题只是 $(\alpha,d,\phi_0)=(90^\circ,1,0)$ 这一个点。 最值得记住的是奇次情形的条件里有 $2\phi_0$——<strong>起点一旦离开反射轴，$359$ 就不再是答案</strong>。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
   <div class="card">
     <h3>「旋转 + 反射」序列题通用三步</h3>
     <ol>
-      <li>
-<b>先定型</b>：旋转保定向，反射反定向；「旋转 + 反射」的复合是反射。
-据此预判：偶数次复合是旋转，奇数次复合是反射。
-</li>
-      <li>
-<b>写极角递推</b>：关于倾角 $\alpha$ 的直线反射 → $\theta\mapsto2\alpha-\theta$；旋转 $k$ 度 → $\theta+k$。
-合起来 $\phi\mapsto(2\alpha+k\text{ 的修正})-\phi$ 的形式，注意那个<b>负号</b>。
-</li>
-      <li>
-<b>解闭式 + 分奇偶解同余</b>：迭代三步就能猜出 $\phi_{2t}$、$\phi_{2t+1}$，归纳确认后解两个同余式，
-取较小者。最后自问一句：<b>题目问的是「这个点」还是「整个平面」？</b>
-</li>
+      <li><strong>先定型</strong>：旋转保定向，反射反定向；「旋转 + 反射」的复合是反射。 据此预判：偶数次复合是旋转，奇数次复合是反射。</li>
+      <li><strong>写极角递推</strong>：关于倾角 $\alpha$ 的直线反射 → $\theta\mapsto2\alpha-\theta$；旋转 $k$ 度 → $\theta+k$。 合起来 $\phi\mapsto(2\alpha+k\text{ 的修正})-\phi$ 的形式，注意那个<strong>负号</strong>。</li>
+      <li><strong>解闭式 + 分奇偶解同余</strong>：迭代三步就能猜出 $\phi_{2t}$、$\phi_{2t+1}$，归纳确认后解两个同余式， 取较小者。最后自问一句：<strong>题目问的是「这个点」还是「整个平面」？</strong></li>
     </ol>
     <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
       口诀：旋转不改向，反射改方向；先写递推，再谈第几步。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 10 错题精讲 · 几何变换 · 旋转与反射的复合 &nbsp;|&nbsp; 生成于 2026-10-11</div>
+    <div>AMC 10 错题精讲 · 几何变换 · 旋转与反射的复合 &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
