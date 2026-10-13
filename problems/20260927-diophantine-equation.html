@@ -52,6 +52,7 @@ window.MathJax = {
     background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
     padding:2px 9px; margin-left:4px;
   }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
   .official{
     margin:14px 0 0; padding:12px 16px; font-size:14px;
     background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
@@ -79,6 +80,7 @@ window.MathJax = {
   .meta .item{display:flex; gap:6px; align-items:baseline;}
   .meta .k{color:var(--sub);}
   .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
   .topbar{
     position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
     padding:12px 48px; background:rgba(255,255,255,.92);
@@ -139,6 +141,7 @@ window.MathJax = {
     How many ordered pairs of integers $(m, n)$ satisfy the equation $m^2+mn+n^2=m^2n^2$?
   </blockquote>
   <p><strong>中文翻译</strong>：满足方程 $m^2+mn+n^2=m^2n^2$ 的<strong>有序</strong>整数对 $(m,n)$ 有多少组？</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
   <p class="official">
     📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
     <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/14" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2023B/problem/14</a><br>
@@ -150,9 +153,10 @@ window.MathJax = {
   <h2>二、错误原因诊断</h2>
   <table>
     <tr><th>常见错误</th><th>错在哪</th></tr>
-    <tr><td><code>选 (A) 7 / (E) 5：试出 (0,0)、(1,1)、(-1,-1) 等若干组就以为找全</code><td>没有对解做<strong>完备性论证</strong>。找到一个解不等于找全所有解——丢番图方程的答卷必须证明「再无其他解」。</td></tr>
-    <tr><td><code>选 (B) 1：只找到 (0,0) 就收工</code><td>把 $mn=0$ 当成「平凡情形」随手扔掉，却没回头检查 $mn\neq 0$ 的分支。$(1,-1)$ 与 $(-1,1)$ 恰恰全藏在 $mn=-1$ 里。</td></tr>
-    <tr><td><code>选 (D) 6：忘了 (0,0) 与「有序」二字</code><td>两个陷阱叠加：① $(0,0)$ 忘记计入；② 把 $(1,-1)$、$(-1,1)$ 当成「同一组」只算一次。本题 <strong>有序对</strong> 下 $(1,-1)\ne(-1,1)$。</td></tr>
+    <tr><td><code>选 (A) 7 / (E) 5：试出 (0,0)、(1,1)、(-1,-1) 等若干组就以为找全</code></td><td>没有对解做<strong>完备性论证</strong>。找到一个解不等于找全所有解——丢番图方程的答卷必须证明「再无其他解」。</td></tr>
+    <tr><td><code>选 (B) 1：只找到 (0,0) 就收工</code></td><td>把 $mn=0$ 当成「平凡情形」随手扔掉，却没回头检查 $mn\neq 0$ 的分支。$(1,-1)$ 与 $(-1,1)$ 恰恰全藏在 $mn=-1$ 里。</td></tr>
+    <tr><td><code>选 (D) 6：忘了 (0,0) 与「有序」二字</code></td><td>两个陷阱叠加：① $(0,0)$ 忘记计入；② 把 $(1,-1)$、$(-1,1)$ 当成「同一组」只算一次。本题 <strong>有序对</strong> 下 $(1,-1)\ne(-1,1)$。</td></tr>
+    <!-- 按需增删行 -->
   </table>
   <blockquote class="warn">
     <strong>根本问题</strong>：把「枚举」当成了「求解」。丢番图方程必须做到两件事——<strong>(1) 构造</strong>出所有解；<strong>(2) 证明</strong>除此之外再无解。本题第 (2) 步才是分水岭：用一次「两边夹逼」把 $|m|,|n|$ 锁死成 $0$ 或 $1$，一切自动水落石出。
@@ -162,28 +166,22 @@ window.MathJax = {
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/14" target="_blank" rel="noopener">2023AMC10B(14)</a> 的书面解答一致——先用 $m=0$ 单独处理得 $(0,0)$；否则不妨设 $|m|\le|n|$，由 $m^2n^2=m^2+mn+n^2\le3n^2$ 得 $m^2\le3$，即 $m=\pm1$，逐一代入得 $(1,-1),(-1,1)$，共 3 组。
-    <br><strong>表述差异</strong>：官网用「不妨设 $|m|\le|n|$」与 $m^2n^2\le3n^2$ 直接压出 $m^2\le3$；本站改用「两边同除以 $m^2n^2$」得 $\frac1{n^2}+\frac1{mn}+\frac1{m^2}=1$，再证 $|m|,|n|$ 不能同时 $\ge2$——两者落到同一结论，属同一不变量（把变量压到 $\pm1$）的两种证法。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/14" target="_blank" rel="noopener">2023AMC10B(14)</a> 的书面解答一致——先用 $m=0$ 单独处理得 $(0,0)$；否则不妨设 $|m|\le|n|$，由 $m^2n^2=m^2+mn+n^2\le3n^2$ 得 $m^2\le3$，即 $m=\pm1$，逐一代入得 $(1,-1),(-1,1)$，共 3 组。 <br> <strong>表述差异</strong>：官网用「不妨设 $|m|\le|n|$」与 $m^2n^2\le3n^2$ 直接压出 $m^2\le3$；本站改用「两边同除以 $m^2n^2$」得 $\frac1{n^2}+\frac1{mn}+\frac1{m^2}=1$，再证 $|m|,|n|$ 不能同时 $\ge2$——两者落到同一结论，属同一不变量（把变量压到 $\pm1$）的两种证法。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：先分类（$mn=0$ / $mn\neq 0$），再用夹逼锁死变量</h3>
-  <p><strong>第一步 · 拆出 $mn=0$ 的分支。</strong>若 $mn=0$，不妨设 $n=0$，方程退化为 $m^2=0$，故 $m=0$；对称地 $m=0$ 也只给出 $n=0$。于是得到一组解
-  $$(\,m,n\,)=(0,0).$$
-  </p>
+  <p><strong>第一步 · 拆出 $mn=0$ 的分支。</strong>若 $mn=0$，不妨设 $n=0$，方程退化为 $m^2=0$，故 $m=0$；对称地 $m=0$ 也只给出 $n=0$。于是得到一组解 $$(\,m,n\,)=(0,0).$$</p>
   <p><strong>第二步 · 处理 $mn\neq 0$。</strong>此时 $m^2n^2\ge 1>0$，所以左边 $m^2+mn+n^2>0$。注意恒等式</p>
-  $$m^2+mn+n^2=\tfrac34\,(m+n)^2+\tfrac14\,(m-n)^2\ \ge\ 0,$$
+$$m^2+mn+n^2=\tfrac34\,(m+n)^2+\tfrac14\,(m-n)^2\ \ge\ 0,$$
   <p>关键是<strong>右边是 $m^2n^2$ 这个高次项</strong>。由 AM-GM 型不等式 $m^2+n^2\ge 2|mn|$，得</p>
-  $$\tfrac34(m+n)^2+\tfrac14(m-n)^2=m^2+mn+n^2=m^2n^2 .$$
+$$\tfrac34(m+n)^2+\tfrac14(m-n)^2=m^2+mn+n^2=m^2n^2 .$$
   <p>换个更狠的用法：假设 $|m|\ge 2$ 且 $|n|\ge 2$，则 $|mn|\ge 4$，于是</p>
-  $$m^2n^2=|mn|^2\ge 4|mn|^2\cdot\tfrac14 .$$
+$$m^2n^2=|mn|^2\ge 4|mn|^2\cdot\tfrac14 .$$
   <p>更直接地：把方程两边除以 $m^2n^2$（合法，因为 $mn\neq 0$），得</p>
-  $$\frac{1}{n^2}+\frac{1}{mn}+\frac{1}{m^2}=1 .$$
+$$\frac{1}{n^2}+\frac{1}{mn}+\frac{1}{m^2}=1 .$$
   <p>三项都是<strong>绝对值不超过 1</strong> 的量。若 $|m|\ge 2$ 且 $|n|\ge 2$，则 $\frac1{m^2},\frac1{n^2}\le\frac14$，于是</p>
-  $$\frac{1}{n^2}+\frac{1}{mn}+\frac{1}{m^2}\le \frac14+\frac14+\frac14=\frac34<1,$$
+$$\frac{1}{n^2}+\frac{1}{mn}+\frac{1}{m^2}\le \frac14+\frac14+\frac14=\frac34\lt 1,$$
   <p><strong>与左边等于 $1$ 矛盾！</strong>所以 $|m|\ge 2$ 与 $|n|\ge 2$ 不能同时成立，即 $m,n$ 中至少有一个是 $\pm 1$ 或 $0$。</p>
-  <blockquote class="ok">
-    <strong>这就是本题的核心一步</strong>：把方程两边<strong>同除以最高次项 $m^2n^2$</strong>，所有变量被压进 $(0,1]$ 的区间，立刻获得「$|m|,|n|$ 很小」的强约束。这一招叫<strong>齐次化归一</strong>，是所有「低次 = 高次」型丢番图方程的第一反应。
-  </blockquote>
+  <blockquote class="ok"><strong>这就是本题的核心一步</strong>：把方程两边<strong>同除以最高次项 $m^2n^2$</strong>，所有变量被压进 $(0,1]$ 的区间，立刻获得「$|m|,|n|$ 很小」的强约束。这一招叫<strong>齐次化归一</strong>，是所有「低次 = 高次」型丢番图方程的第一反应。</blockquote>
   <p><strong>第三步 · 逐一代入剩下的情形。</strong>已知至少一个变量为 $\pm1$（$0$ 的情形已在第一步处理）：</p>
   <ul>
     <li>取 $n=1$：$m^2+m+1=m^2\Rightarrow m=-1$，得 $(m,n)=(-1,1)$；</li>
@@ -191,24 +189,20 @@ window.MathJax = {
   </ul>
   <p>（由于方程对 $m,n$ 交换完全对称，两种取法给出的有序对互为对偶，不必重复 $m=1$ 与 $m=-1$ 的分支。）</p>
   <p><strong>第四步 · 汇总。</strong>全部解为</p>
-  $$(\,m,n\,)\in\{\,(-1,1),\ (0,0),\ (1,-1)\,\},\qquad \text{共 } \boxed{3}\ \text{组}.$$
-
+$$(\,m,n\,)\in\{\,(-1,1),\ (0,0),\ (1,-1)\,\},\qquad \text{共 } \boxed{3}\ \text{组}.$$
   <h3>方法二：换个视角——把方程改写成韦达/判别式的形状</h3>
   <p>把原方程当作关于 $m$ 的二次方程整理（$n\neq 0$ 时）：</p>
-  $$n^2m^2-nm-m^2=0 .$$
+$$n^2m^2-nm-m^2=0 .$$
   <p>它是 $m$ 的二次方程，判别式必须是非负完全平方：</p>
-  $$\Delta=n^2+4n^2(n^2-1)=n^2(4n^2-3).$$
+$$\Delta=n^2+4n^2(n^2-1)=n^2(4n^2-3).$$
   <p>要使 $\Delta$ 为完全平方，$4n^2-3$ 必须是完全平方（$n^2$ 本身已是平方）。令 $t=|2n|$（偶数），需判定 $t^2-3$ 是否为完全平方：</p>
   <ul>
-    <li>$t\ge 3$ 时有严格夹逼 $t^2-3<t^2$ 且 $t^2-3-(t-1)^2=2t-4>0$，即 $(t-1)^2<t^2-3<t^2$——<strong>落在相邻两个平方数之间，必非平方数</strong>；</li>
+    <li>$t\ge 3$ 时有严格夹逼 $t^2-3\lt t^2$ 且 $t^2-3-(t-1)^2=2t-4>0$，即 $(t-1)^2\lt t^2-3\lt t^2$——<strong>落在相邻两个平方数之间，必非平方数</strong>；</li>
     <li>$t=2$ 时 $t^2-3=1=1^2$，可平方；</li>
     <li>$t=0$ 即 $n=0$，属退化情形，单独处理。</li>
   </ul>
   <p>因此只剩 $n\in\{-2,-1,0,1,2\}$ 中真正可行的，<strong>逐一代入</strong>：$n=0\Rightarrow m^2=0\Rightarrow m=0$；$n=1\Rightarrow m^2+m+1=m^2\Rightarrow m=-1$；$n=-1\Rightarrow m^2-m+1=m^2\Rightarrow m=1$；$n=2\Rightarrow m^2+2m+4=4m^2\Rightarrow 3m^2-2m-4=0$，判别式 $4+48=52$ 非平方，无整数根；$n=-2$ 对称无解。三组解，与方法一一致。</p>
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：算「四元方程」的小规模整数解时，<strong>先暴力枚举一个足够大的范围</strong>（如 $-200\le m,n\le 200$），拿到候选解集，再用上面任一方法证明「这个集合已经完备」。本站已用程序枚举 $-200\sim 200$ 全部 160801 个格子，得解集 $\{(0,0),(-1,1),(1,-1)\}$，与解析结论一致。程序只用来<strong>验证与提示方向</strong>，写进答卷的必须是证明。
-  </blockquote>
-
+  <blockquote class="ok"><strong>验证技巧</strong>：算「四元方程」的小规模整数解时，<strong>先暴力枚举一个足够大的范围</strong>（如 $-200\le m,n\le 200$），拿到候选解集，再用上面任一方法证明「这个集合已经完备」。本站已用程序枚举 $-200\sim 200$ 全部 160801 个格子，得解集 $\{(0,0),(-1,1),(1,-1)\}$，与解析结论一致。程序只用来<strong>验证与提示方向</strong>，写进答卷的必须是证明。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
@@ -223,20 +217,18 @@ window.MathJax = {
     <li><strong>有序对意识</strong>：$(1,-1)$ 与 $(-1,1)$ 是<strong>两组</strong>；$(0,0)$ 是 $mn=0$ 分支唯一贡献的解。答案 3 = 1（零解）+ 2（非零解）。</li>
     <li><strong>完备性论证</strong>：找全解必须「构造 + 排除」两头都做。只会构造不会排除，就会在选择题里被 5、6、7 这类干扰项骗到。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
   <div class="prob">
     <span class="tag">第 1 题 · 换系数热身</span> <span class="stars">★</span> <span class="form">形式｜换约束参数</span>
     <p>把方程换成 $m^2+mn+n^2=3m^2n^2$，求它的<strong>全部</strong>整数有序对解，并写出完整解集。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：$\{(0,0),(1,1),(-1,-1)\}$，共 <strong>3</strong> 组（注意与原题符号不同）。</div>
-      <p>仍用齐次化归一：$mn=0$ 时给出 $(0,0)$。$mn\neq 0$ 时两边同除以 $3m^2n^2$：</p>
-      $$\frac{1}{3n^2}+\frac{1}{3mn}+\frac{1}{3m^2}=1 .$$
-      <p>三项绝对值都不超过 $\frac13$（因 $\frac1{m^2},\frac1{n^2}\le 1$，$\left|\frac1{mn}\right|\le 1$），要三项之和等于 1，<strong>每项都必须取到最大绝对值 1/3</strong>，即 $|m|=|n|=1$。代入 $n=1$：$m^2+m+1=3m^2\Rightarrow 2m^2-m-1=0\Rightarrow m=1$ 或 $m=-\tfrac12$，取 $m=1$；$n=-1$ 同理给 $m=-1$。合起来是 $(1,1),(-1,-1)$，加上 $(0,0)$ 共 3 组。</p>
+        <p>仍用齐次化归一：$mn=0$ 时给出 $(0,0)$。$mn\neq 0$ 时两边同除以 $3m^2n^2$：</p>
+$$\frac{1}{3n^2}+\frac{1}{3mn}+\frac{1}{3m^2}=1 .$$
+  <p>三项绝对值都不超过 $\frac13$（因 $\frac1{m^2},\frac1{n^2}\le 1$，$\left|\frac1{mn}\right|\le 1$），要三项之和等于 1，<strong>每项都必须取到最大绝对值 1/3</strong>，即 $|m|=|n|=1$。代入 $n=1$：$m^2+m+1=3m^2\Rightarrow 2m^2-m-1=0\Rightarrow m=1$ 或 $m=-\tfrac12$，取 $m=1$；$n=-1$ 同理给 $m=-1$。合起来是 $(1,1),(-1,-1)$，加上 $(0,0)$ 共 3 组。</p>
       <p class="hint">要点：系数 $3$ 让「每项必须取满」成为可能，所以这一族方程的解只能是 $0$ 与 $\pm1$；系数回到 $1$ 时三项和凑不出 $1$，只剩异号组合。</p>
     </details>
   </div>
@@ -247,9 +239,9 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>100</strong> 组，恰好是 $(1,1),(2,2),\dots,(100,100)$。</div>
-      <p>设 $d=\gcd(m,n)$，$m=da,\ n=db$，$\gcd(a,b)=1$。则 $mn\mid m^2+n^2$ 等价于 $d^2ab\mid d^2(a^2+b^2)$，即 $ab\mid a^2+b^2$。</p>
-      <p>由 $ab\mid a^2+b^2$ 可知 $a\mid b^2$ 且 $b\mid a^2$。由于 $\gcd(a,b)=1$，$a\mid b^2$ 迫使 $a=1$，同理 $b=1$。于是 $m=n=d$。</p>
-      <p>反之 $m=n$ 时 $mn=m^2$，$m^2+n^2=2m^2$，确实整除，成立。因此 $m=n=1,\dots,100$，共 <strong>100</strong> 组。（程序枚举验证：$1\le m,n\le100$ 共 10000 个格子，满足条件者恰为这 100 个对角线格子。）</p>
+        <p>设 $d=\gcd(m,n)$，$m=da,\ n=db$，$\gcd(a,b)=1$。则 $mn\mid m^2+n^2$ 等价于 $d^2ab\mid d^2(a^2+b^2)$，即 $ab\mid a^2+b^2$。</p>
+  <p>由 $ab\mid a^2+b^2$ 可知 $a\mid b^2$ 且 $b\mid a^2$。由于 $\gcd(a,b)=1$，$a\mid b^2$ 迫使 $a=1$，同理 $b=1$。于是 $m=n=d$。</p>
+  <p>反之 $m=n$ 时 $mn=m^2$，$m^2+n^2=2m^2$，确实整除，成立。因此 $m=n=1,\dots,100$，共 <strong>100</strong> 组。（程序枚举验证：$1\le m,n\le100$ 共 10000 个格子，满足条件者恰为这 100 个对角线格子。）</p>
       <p class="hint">要点：整除题的标配动作是「除以最大公因数 + 互素化简」，互素性是推出「某因子必须为 1」的钥匙。</p>
     </details>
   </div>
@@ -260,11 +252,11 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：令 $k=m-n\ge 0$，则 $m+n=-k^2$，全部解为 $m=\frac{-k^2+k}{2},\ n=\frac{-k^2-k}{2}$（$k\ge 0$，含 $k=0$ 时的 $(0,0)$），<strong>无穷多组</strong>。</div>
-      <p>原式移项：$m^2+n^2-2mn+(m+n)=0$，即</p>
-      $$(m-n)^2+(m+n)=0 .$$
-      <p>令 $u=m-n$，$v=m+n$，得 $u^2+v=0$，即 $v=-u^2$。回代 $m=\frac{v+u}{2}=\frac{-u^2+u}{2}$，$n=\frac{v-u}{2}=\frac{-u^2-u}{2}$。</p>
-      <p><strong>整数性自动满足</strong>：$u$ 与 $u^2$ 同奇偶（$u^2\equiv u \pmod 2$），故 $u^2\pm u$ 为偶数，两数都是整数；$m,n$ 同奇偶也保证了 $u,v$ 的一致性。对每个整数 $u$ 都得到一组解（如 $u=0\to(0,0)$；$u=1\to(0,-1)$；$u=2\to(-1,-3)$；$u=3\to(-3,-6)$；$u=4\to(-6,-10)$……），$u$ 取遍全体整数即无穷多组。</p>
-      <p>程序验证：在 $[-500,500]^2$ 内暴力枚举得 63 组，与公式生成的集合<strong>完全一致</strong>（$[{-2000},2000]$ 内 125 组、$[-5000,5000]$ 内 199 组，同样逐一吻合）。</p>
+        <p>原式移项：$m^2+n^2-2mn+(m+n)=0$，即</p>
+$$(m-n)^2+(m+n)=0 .$$
+  <p>令 $u=m-n$，$v=m+n$，得 $u^2+v=0$，即 $v=-u^2$。回代 $m=\frac{v+u}{2}=\frac{-u^2+u}{2}$，$n=\frac{v-u}{2}=\frac{-u^2-u}{2}$。</p>
+  <p><strong>整数性自动满足</strong>：$u$ 与 $u^2$ 同奇偶（$u^2\equiv u \pmod 2$），故 $u^2\pm u$ 为偶数，两数都是整数；$m,n$ 同奇偶也保证了 $u,v$ 的一致性。对每个整数 $u$ 都得到一组解（如 $u=0\to(0,0)$；$u=1\to(0,-1)$；$u=2\to(-1,-3)$；$u=3\to(-3,-6)$；$u=4\to(-6,-10)$……），$u$ 取遍全体整数即无穷多组。</p>
+  <p>程序验证：在 $[-500,500]^2$ 内暴力枚举得 63 组，与公式生成的集合<strong>完全一致</strong>（$[{-2000},2000]$ 内 125 组、$[-5000,5000]$ 内 199 组，同样逐一吻合）。</p>
       <p class="hint">要点：出现 $m^2+n^2-2mn=(m-n)^2$ 时立刻整体代换 $u=m-n,\ v=m+n$——线性项 $m+n$ 正好被吸收成 $v$，方程退化成 $u^2+v=0$。</p>
     </details>
   </div>
@@ -275,13 +267,12 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：存在无穷多组；前 4 组为 $(1,2),(1,3),(2,9),(3,14)$。</div>
-      <p><strong>第一步 · 找到种子解。</strong>试 $m=1$：$1+n^2+5=5n\Rightarrow n^2-5n+6=0\Rightarrow n=2$ 或 $3$。故 $(1,2)$、$(1,3)$ 都是正整数解。</p>
-      <p><strong>第二步 · 韦达跳跃（把解搬成新解）。</strong>把方程视为关于 $n$ 的二次方程 $n^2-5mn+(m^2+5)=0$。若 $n$ 是一个根，则由韦达定理另一个根为 $n'=5m-n$。</p>
-      <p>因此只要 $(m,n)$ 是解，$(m,\ 5m-n)$ 也是解；对称地 $(n,\ 5n-m)$ 也是解（互换两变量后同理）。</p>
-      <p><strong>第三步 · 迭代生成。</strong>从 $(1,2)$ 出发：$(2,\ 5\cdot2-1)=(2,9)$；再跳 $(9,\ 5\cdot9-2)=(9,43)$；继续 $(43,\ 5\cdot43-9)=(43,206)$……<br>
-      从 $(1,3)$ 出发：$(3,\ 5\cdot3-1)=(3,14)$；再跳 $(14,\ 5\cdot14-3)=(14,67)$……</p>
-      <p>于是正整数解有无穷多组，按 $m\le n$ 排序的前 4 组是 $(1,2),(1,3),(2,9),(3,14)$。</p>
-      <p>程序验证：$m\le100000,\ 1\le n\le 60$ 范围内搜到的最小 $m$ 依次为 $1,2,3,9,14,43,\dots$，与上述两条跳跃链吻合。</p>
+        <p><strong>第一步 · 找到种子解。</strong>试 $m=1$：$1+n^2+5=5n\Rightarrow n^2-5n+6=0\Rightarrow n=2$ 或 $3$。故 $(1,2)$、$(1,3)$ 都是正整数解。</p>
+  <p><strong>第二步 · 韦达跳跃（把解搬成新解）。</strong>把方程视为关于 $n$ 的二次方程 $n^2-5mn+(m^2+5)=0$。若 $n$ 是一个根，则由韦达定理另一个根为 $n'=5m-n$。</p>
+  <p>因此只要 $(m,n)$ 是解，$(m,\ 5m-n)$ 也是解；对称地 $(n,\ 5n-m)$ 也是解（互换两变量后同理）。</p>
+  <p><strong>第三步 · 迭代生成。</strong>从 $(1,2)$ 出发：$(2,\ 5\cdot2-1)=(2,9)$；再跳 $(9,\ 5\cdot9-2)=(9,43)$；继续 $(43,\ 5\cdot43-9)=(43,206)$…… <br> 从 $(1,3)$ 出发：$(3,\ 5\cdot3-1)=(3,14)$；再跳 $(14,\ 5\cdot14-3)=(14,67)$……</p>
+  <p>于是正整数解有无穷多组，按 $m\le n$ 排序的前 4 组是 $(1,2),(1,3),(2,9),(3,14)$。</p>
+  <p>程序验证：$m\le100000,\ 1\le n\le 60$ 范围内搜到的最小 $m$ 依次为 $1,2,3,9,14,43,\dots$，与上述两条跳跃链吻合。</p>
       <p class="hint">要点：<strong>韦达跳跃</strong>是「配对计数 / 递推 / 无穷解」三兄弟的共同引擎——只要方程对某个变量是二次的，另一个根就免费给你，且用整数加减乘出来必然还是整数。</p>
     </details>
   </div>
@@ -292,16 +283,15 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：$2026=2\times 1013$（$1013$ 为质数），$d(2026^2)=(2+1)(2+1)=\mathbf{9}$ 组。</div>
-      <p><strong>一般化证明。</strong>由 $\frac1x+\frac1y=\frac1n$ 得 $n(x+y)=xy$，即</p>
-      $$xy-nx-ny=0\ \Longrightarrow\ (x-n)(y-n)=n^2 .$$
-      <p>这一步是全题的枢纽：把倒数方程变成了<strong>因子分解</strong>。由于 $x,y>0$ 且 $\frac1x<\frac1n$，必有 $x>n$、$y>n$，故 $x-n$ 与 $y-n$ 均为<strong>正</strong>因子。于是解与 $n^2$ 的<strong>有序正因子对</strong> $(a,\ n^2/a)$ 一一对应（$a=x-n$），个数正是 $d(n^2)$。</p>
-      <p>更精细地：若 $n=\prod p_i^{a_i}$，则 $n^2=\prod p_i^{2a_i}$，故 $d(n^2)=\prod(2a_i+1)$——<strong>恒为奇数</strong>，且当 $n$ 为平方数时 $d(n^2)$ 恰为完全平方数。</p>
-      <p><strong>代入 $n=2026$。</strong>$2026=2\times1013$，$1013$ 是质数，故 $2026^2=2^2\cdot1013^2$，$d=3\times3=9$。</p>
-      <p>九组解（由 $x=2026+a,\ y=2026+2026^2/a$，$a\mid 2026^2$）依次为：$(2027,4106702),(2028,2054364),(2030,1028195),(3039,6078),(4052,4052),(6078,3039),(1028195,2030),(2054364,2028),(4106702,2027)$。程序枚举确认恰为 9 组，且中间那组 $a=n$ 给出对称解 $x=y=4052$。</p>
+        <p><strong>一般化证明。</strong>由 $\frac1x+\frac1y=\frac1n$ 得 $n(x+y)=xy$，即</p>
+$$xy-nx-ny=0\ \Longrightarrow\ (x-n)(y-n)=n^2 .$$
+  <p>这一步是全题的枢纽：把倒数方程变成了<strong>因子分解</strong>。由于 $x,y>0$ 且 $\frac1x\lt \frac1n$，必有 $x>n$、$y>n$，故 $x-n$ 与 $y-n$ 均为<strong>正</strong>因子。于是解与 $n^2$ 的<strong>有序正因子对</strong> $(a,\ n^2/a)$ 一一对应（$a=x-n$），个数正是 $d(n^2)$。</p>
+  <p>更精细地：若 $n=\prod p_i^{a_i}$，则 $n^2=\prod p_i^{2a_i}$，故 $d(n^2)=\prod(2a_i+1)$——<strong>恒为奇数</strong>，且当 $n$ 为平方数时 $d(n^2)$ 恰为完全平方数。</p>
+  <p><strong>代入 $n=2026$。</strong>$2026=2\times1013$，$1013$ 是质数，故 $2026^2=2^2\cdot1013^2$，$d=3\times3=9$。</p>
+  <p>九组解（由 $x=2026+a,\ y=2026+2026^2/a$，$a\mid 2026^2$）依次为：$(2027,4106702),(2028,2054364),(2030,1028195),(3039,6078),(4052,4052),(6078,3039),(1028195,2030),(2054364,2028),(4106702,2027)$。程序枚举确认恰为 9 组，且中间那组 $a=n$ 给出对称解 $x=y=4052$。</p>
       <p class="hint">要点：<strong>倒数型丢番图方程 $\frac1x+\frac1y=\frac1n$ 与「$uv=n^2$ 的因子对」是同一件事</strong>；把分式方程两边乘开配方，是这类题唯一需要记住的机械步骤。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -318,10 +308,9 @@ window.MathJax = {
       口诀：先分零后归一，判方夹逼证无理；构造必须列齐全，有序成对别合并。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 10 错题精讲 · 丢番图方程 &nbsp;|&nbsp; 生成于 2026-09-27</div>
+    <div>AMC 10 错题精讲 · 丢番图方程 &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
