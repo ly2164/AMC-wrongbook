@@ -139,10 +139,9 @@ window.MathJax = {
   <h2>一、错题原题</h2>
   <blockquote>
     The coordinates of $\bigtriangleup ABC$ are $A(5, 7),$ $B(11, 7),$ and $C(3, y),$ with $y > 7.$ The area of $\bigtriangleup ABC$ is $12.$ What is the value of $y?$
-<img src="../img/amc8/2024/11.svg" style="max-height:11rem; margin-top:10px;">
+<img src="../img/amc8/2024/11.svg" alt="2024AMC8(11) 配图" style="max-height:11rem; margin-top:10px;">
   </blockquote>
-  <p><strong>中文翻译</strong>：$\triangle ABC$ 的三个顶点坐标为 $A(5,7)$、$B(11,7)$、$C(3,y)$，其中 $y>7$。已知 $\triangle ABC$ 的面积为 $12$，求 $y$。
-(A) 8　(B) 9　(C) 10　(D) 11　(E) 12</p>
+  <p><strong>中文翻译</strong>：$\triangle ABC$ 的三个顶点坐标为 $A(5,7)$、$B(11,7)$、$C(3,y)$，其中 $y>7$。已知 $\triangle ABC$ 的面积为 $12$，求 $y$。 (A) 8　(B) 9　(C) 10　(D) 11　(E) 12</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
   <p class="official">
     📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
@@ -167,28 +166,20 @@ window.MathJax = {
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/11" target="_blank" rel="noopener">2024AMC8(11)</a> 的书面解答一致——取 $AB$ 为底得长度 $11-5=6$，由面积反解高 $h=\frac{2\cdot12}{6}=4$，再由 $y>7$ 定出 $y=7+4=11$。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/11" target="_blank" rel="noopener">2024AMC8(11)</a> 的书面解答一致——取 $AB$ 为底得长度 $11-5=6$，由面积反解高 $h=\frac{2\cdot12}{6}=4$，再由 $y>7$ 定出 $y=7+4=11$。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：水平底 + 面积公式反解高（官方思路，推荐）</h3>
-    <p><strong>第 1 步 · 选底。</strong>取 $\overline{AB}$ 为底。$A$、$B$ 纵坐标都是 7，底边在直线 $y=7$ 上，长度
-    $$|AB| = 11-5 = 6 .$$</p>
-    <p><strong>第 2 步 · 用面积解高。</strong>设 $C$ 到直线 $y=7$ 的（竖直）距离为 $h$。面积公式给出</p>
-    $$12 = \frac12\cdot 6\cdot h \quad\Longrightarrow\quad h = \frac{2\cdot12}{6} = 4 .$$
-    <p><strong>第 3 步 · 由高定 $y$。</strong>$C=(3,y)$ 到直线 $y=7$ 的竖直距离是 $|y-7|$。由 $y>7$ 知 $|y-7|=y-7=4$，所以</p>
-    $$y = 7+4 = 11 .$$
-    <blockquote class="ok"><strong>答案：(D) 11</strong>。</blockquote>
-    <p>注意全题<strong>没有用到 $C$ 的横坐标 3</strong>——水平底三角形的高只由 $C$ 的纵坐标决定，这是本条公式最重要的特征。</p>
+  <p><strong>第 1 步 · 选底。</strong>取 $\overline{AB}$ 为底。$A$、$B$ 纵坐标都是 7，底边在直线 $y=7$ 上，长度 $$|AB| = 11-5 = 6 .$$</p>
+  <p><strong>第 2 步 · 用面积解高。</strong>设 $C$ 到直线 $y=7$ 的（竖直）距离为 $h$。面积公式给出</p>
+$$12 = \frac12\cdot 6\cdot h \quad\Longrightarrow\quad h = \frac{2\cdot12}{6} = 4 .$$
+  <p><strong>第 3 步 · 由高定 $y$。</strong>$C=(3,y)$ 到直线 $y=7$ 的竖直距离是 $|y-7|$。由 $y>7$ 知 $|y-7|=y-7=4$，所以</p>
+$$y = 7+4 = 11 .$$
+  <blockquote class="ok"><strong>答案：(D) 11</strong>。</blockquote>
+  <p>注意全题<strong>没有用到 $C$ 的横坐标 3</strong>——水平底三角形的高只由 $C$ 的纵坐标决定，这是本条公式最重要的特征。</p>
   <h3>方法二：鞋带公式（用于验算或底不水平时）</h3>
-  鞋带公式：顶点按逆（顺）时针排列 $A(5,7),B(11,7),C(3,y)$ 时，
-    $$\text{面积} = \frac12\big|x_A(y_B-y_C)+x_B(y_C-y_A)+x_C(y_A-y_B)\big|
-      = \frac12\big|5(7-y)+11(y-7)+3(7-7)\big|.$$
-    化简：$\frac12\big|35-5y+11y-77\big|=\frac12\big|6y-42\big|=3|y-7|$。令其等于 12：$|y-7|=4$，$y=11$（取 $y>7$）或 $y=3$（舍去）。
-    <p>鞋带公式给出了同一个方程 $3|y-7|=12$——它比方法一多算了不少，但<strong>不依赖「底水平」的观察</strong>，是任意坐标三角形都适用的兜底工具。两法一致，答案可靠。</p>
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：① 把 $y=11$ 代回：底 6、高 $11-7=4$，面积 $\frac12\cdot6\cdot4=12$ ✓；② 极限自检：把 $C$ 的横坐标从 3 改成 100（纵坐标仍 11），底和高都不变，面积仍是 12——这正是「高与横坐标无关」的直接演示；③ Python 用鞋带公式数值计算 $(5,7),(11,7),(3,11)$ 的面积得 12.0，一致。
-  </blockquote>
-
+  <p>鞋带公式：顶点按逆（顺）时针排列 $A(5,7),B(11,7),C(3,y)$ 时， $$\text{面积} = \frac12\big|x_A(y_B-y_C)+x_B(y_C-y_A)+x_C(y_A-y_B)\big| = \frac12\big|5(7-y)+11(y-7)+3(7-7)\big|.$$ 化简：$\frac12\big|35-5y+11y-77\big|=\frac12\big|6y-42\big|=3|y-7|$。令其等于 12：$|y-7|=4$，$y=11$（取 $y>7$）或 $y=3$（舍去）。</p>
+  <p>鞋带公式给出了同一个方程 $3|y-7|=12$——它比方法一多算了不少，但<strong>不依赖「底水平」的观察</strong>，是任意坐标三角形都适用的兜底工具。两法一致，答案可靠。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 把 $y=11$ 代回：底 6、高 $11-7=4$，面积 $\frac12\cdot6\cdot4=12$ ✓；② 极限自检：把 $C$ 的横坐标从 3 改成 100（纵坐标仍 11），底和高都不变，面积仍是 12——这正是「高与横坐标无关」的直接演示；③ Python 用鞋带公式数值计算 $(5,7),(11,7),(3,11)$ 的面积得 12.0，一致。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
@@ -202,11 +193,9 @@ window.MathJax = {
     <li>「高」的严格含义是<strong>点到直线（底边所在直线）的垂线段长度</strong>。底水平时垂线恰好竖直，高 $=|y_C-k|$；由面积只能解出 $|y_C-k|$，还要靠 $y>7$ 这种条件<strong>定符号</strong>才能给出唯一的 $y$。</li>
     <li>第三点的横坐标是「烟雾弹」：本题的 3 在解法里一次也没用上。做坐标题时先问「哪些数其实不起作用」，能直接排除一批干扰项，也能防止自己硬把 3 塞进计算里。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
   <div class="prob">
     <span class="tag">第 1 题 · 直接应用</span> <span class="stars">★</span> <span class="form">形式｜直接计算</span>
     <p>$\triangle ABC$ 中 $A(0,0)$、$B(6,0)$、$C(2,8)$，求面积。</p>
@@ -246,8 +235,8 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$11$</strong></div>
-      <p>$$\text{面积}=\frac12\big|1(3-7)+5(7-1)+2(1-3)\big|=\frac12\big|{-4}+30-4\big|=\frac{22}2=11.$$
-    <strong>交叉验算</strong>（矩形减三小块）：三点的外接矩形是 $(1,1)\sim(5,7)$，面积 $4\times6=24$。矩形减去三个直角三角形：$AB$ 下方（底4高2）面积4、$BC$ 右上方（底3高4）面积6、$AC$ 左上方（底1高6）面积3。$24-4-6-3=11$ ✓ 两种方法一致。</p>
+      $$\text{面积}=\frac12\big|1(3-7)+5(7-1)+2(1-3)\big|=\frac12\big|{-4}+30-4\big|=\frac{22}2=11.$$
+  <p><strong>交叉验算</strong>（矩形减三小块）：三点的外接矩形是 $(1,1)\sim(5,7)$，面积 $4\times6=24$。矩形减去三个直角三角形：$AB$ 下方（底4高2）面积4、$BC$ 右上方（底3高4）面积6、$AC$ 左上方（底1高6）面积3。$24-4-6-3=11$ ✓ 两种方法一致。</p>
       <p class="hint">要点：底不水平时鞋带公式是唯一条大道；三个顶点必须按同一旋转方向排列。「外接矩形减直角三角形」是不依赖公式繁琐符号的天然验算工具。</p>
     </details>
   </div>
@@ -258,12 +247,10 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>面积 $=\frac12|x_2-x_1|\cdot|y-k|$，与 $x_3$ 无关</strong></div>
-      <p>证法一（鞋带公式）：面积 $=\frac12|x_1(k-y)+x_2(y-k)+x_3(k-k)|=\frac12\big|(y-k)(x_2-x_1)\big|$——$x_3$ 所在项系数为 $k-k=0$，直接消失。
-    证法二（同底等高）：把底取为水平线段 $\overline{AB}$，高是 $C$ 到直线 $y=k$ 的距离 $|y-k|$（水平底的垂线竖直，与 $x_3$ 无关）。面积 $=\frac12\times底\times高$ 即得。两条证法等价；「同底等高」原理说：只要第三点沿着一条平行于底的直线滑动，三角形面积不变——滑动正是改变 $x_3$。本题 $y>7$ 的作用是把 $|y-7|$ 解成 $y-7$，锁定唯一解。</p>
+      <p>证法一（鞋带公式）：面积 $=\frac12|x_1(k-y)+x_2(y-k)+x_3(k-k)|=\frac12\big|(y-k)(x_2-x_1)\big|$——$x_3$ 所在项系数为 $k-k=0$，直接消失。 证法二（同底等高）：把底取为水平线段 $\overline{AB}$，高是 $C$ 到直线 $y=k$ 的距离 $|y-k|$（水平底的垂线竖直，与 $x_3$ 无关）。面积 $=\frac12\times底\times高$ 即得。两条证法等价；「同底等高」原理说：只要第三点沿着一条平行于底的直线滑动，三角形面积不变——滑动正是改变 $x_3$。本题 $y>7$ 的作用是把 $|y-7|$ 解成 $y-7$，锁定唯一解。</p>
       <p class="hint">要点：「高与横坐标无关」就是同底等高原理在坐标纸上的样子；鞋带公式里 $x_3$ 的系数恰为 0 是它的代数身份证。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -278,10 +265,9 @@ window.MathJax = {
       口诀：「水平底、竖直高、横坐标白给」——看到水平底，就把二维压成一维。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 8 错题精讲 · 坐标几何（水平底三角形的高） &nbsp;|&nbsp; 生成于 2026-10-12</div>
+    <div>AMC 8 错题精讲 · 坐标几何（水平底三角形的高） &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
