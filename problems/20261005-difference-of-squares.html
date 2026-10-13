@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -139,10 +138,10 @@ window.MathJax = {
 
   <h2>一、错题原题</h2>
   <blockquote>
-    How many four-digit numbers have all three of the following properties?<br>
-    (I) The tens digit and ones digit are both 9.<br>
-    (II) The number is 1 less than a perfect square.<br>
-    (III) The number is the product of exactly two prime numbers.
+    How many four-digit numbers have all three of the following properties? <br>
+(I) The tens digit and ones digit are both 9. <br>
+(II) The number is 1 less than a perfect square. <br>
+(III) The number is the product of exactly two prime numbers.
   </blockquote>
   <p><strong>中文翻译</strong>：有多少个四位数同时满足下列三条性质？(I) 十位数字与个位数字都是 9；(II) 该数比某个完全平方数小 1；(III) 该数恰好是两个质数的乘积。</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
@@ -161,6 +160,7 @@ window.MathJax = {
     <tr><td><code>答 0</code></td><td>只试了 $m=40,50,70,80,90$ 就收手，漏掉 $m=60$ 这一对孪生质数 59 / 61；或对 59、61 的质数判定下不了手（其实只需试除 2、3、5、7）。</td></tr>
     <tr><td><code>答 3</code></td><td>把条件 (III) 读成"恰好两个大于 1 的因数"，于是把 2499 = 49 × 51、6399 = 79 × 81 这类也计入——49、51、81 全是合数。</td></tr>
     <tr><td><code>漏掉 m = 100</code></td><td>认为 $100^2$ 是五位数就排除它，但 $100^2-1=9999$ 仍是四位数，必须检查（99 是合数，出局但过程不能省）。</td></tr>
+    <!-- 按需增删行 -->
   </table>
   <blockquote class="warn">
     <strong>根本问题</strong>：没有把"比一个完全平方数小 1"翻译成平方差分解 $(m-1)(m+1)$，也没有用"末两位 99 ⇒ $m^2$ 末两位 00 ⇒ $m$ 是 10 的倍数"把 9000 个候选压缩到 7 个。只能逐个试除，既慢又容易把合数因子误判成质数。
@@ -170,22 +170,21 @@ window.MathJax = {
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2025/problem/23" target="_blank" rel="noopener">2025AMC8(23)</a> 的书面解答一致——由末两位 99 知 $m^2\equiv0\pmod{100}$ 故 $10\mid m$；再由 $(m-1)(m+1)$ 两因子皆质，锁定孪生质数 $59,61$。
-    本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2025/problem/23" target="_blank" rel="noopener">2025AMC8(23)</a> 的书面解答一致——由末两位 99 知 $m^2\equiv0\pmod{100}$ 故 $10\mid m$；再由 $(m-1)(m+1)$ 两因子皆质，锁定孪生质数 $59,61$。 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：平方差分解 + 末位同余锁定（推荐）</h3>
   <p>设这个四位数为 $N$，由 (II) 记 $N = m^2 - 1$。</p>
   <p><strong>第 1 步 · 用末两位锁住 $m$</strong>：由 (I)，$N$ 末两位是 99，于是</p>
-  $$m^2 = N + 1 \equiv 0 \pmod{100}.$$
+$$m^2 = N + 1 \equiv 0 \pmod{100}.$$
   <p>因为 $100 = 2^2 \cdot 5^2$，$m^2$ 同时被 $2^2$ 与 $5^2$ 整除，等价于 $m$ 同时被 2 与 5 整除，即 <strong>$10 \mid m$</strong>（$m$ 的个位是 0）。</p>
   <p><strong>第 2 步 · 定出 $m$ 的范围</strong>：$N$ 是四位数，</p>
-  $$1000 \le m^2 - 1 \le 9999 \implies 32 \le m \le 100 .$$
+$$1000 \le m^2 - 1 \le 9999 \implies 32 \le m \le 100 .$$
   <p>结合第 1 步：$m \in \{40, 50, 60, 70, 80, 90, 100\}$——只剩 7 个候选。注意 $m = 100$ 虽使 $m^2$ 变成五位数，但 $m^2-1 = 9999$ 仍是四位数，不能提前丢掉。</p>
   <p><strong>第 3 步 · 把条件 (III) 翻译成"孪生质数"</strong>：由平方差公式</p>
-  $$N = m^2 - 1 = (m-1)(m+1).$$
+$$N = m^2 - 1 = (m-1)(m+1).$$
   <p>这里 $m-1 \ge 39$ 且 $m+1 \ge 41$，两个因子都大于 1。$N$ 要"恰好是两个质数的乘积"，就必须 <strong>$m-1$ 与 $m+1$ 两个都是质数</strong>——只要其中一个是合数，光它自己就会贡献至少 2 个质因数，总数 $\ge 3$。也就是说，我们只在找形如 $(p,\,p+2)$ 的<strong>孪生质数</strong>，且中间那个 $m=p+1$ 是 10 的倍数。</p>
   <p><strong>第 4 步 · 逐个筛</strong>：</p>
-  <table>
+<table>
     <tr><th>$m$</th><th>$(m-1,\;m+1)$</th><th>判定</th><th>$N$</th></tr>
     <tr><td>40</td><td>39, 41</td><td>39 = 3 × 13 ✗</td><td>1599</td></tr>
     <tr><td>50</td><td>49, 51</td><td>49 = 7²，51 = 3 × 17 ✗</td><td>2499</td></tr>
@@ -196,18 +195,12 @@ window.MathJax = {
     <tr><td>100</td><td>99, 101</td><td>99 = 9 × 11 ✗</td><td>9999</td></tr>
   </table>
   <p>只有 $m = 60$ 通过：$N = 3599 = 59 \times 61$。</p>
-  <blockquote class="ok">
-    <strong>答案：1 个</strong>（3599）。
-  </blockquote>
-
+  <blockquote class="ok"><strong>答案：1 个</strong>（3599）。</blockquote>
   <h3>方法二：反向枚举交叉验证</h3>
   <p>先列出所有末两位为 99 的四位数：$1099, 1199, \dots, 9999$，共 90 个；逐个加 1 检验是否为完全平方数，通过的恰好是上面那 7 个（1599, 2499, 3599, 4899, 6399, 8099, 9999）。再对这 7 个做质因数分解：</p>
   <p>$1599 = 3\cdot13\cdot41$（3 个）｜ $2499 = 3\cdot7^2\cdot17$（4 个）｜ $3599 = 59\cdot61$（<strong>2 个 ✓</strong>）｜ $4899 = 3\cdot23\cdot71$（3 个）｜ $6399 = 3^4\cdot79$（5 个）｜ $8099 = 7\cdot13\cdot89$（3 个）｜ $9999 = 3^2\cdot11\cdot101$（4 个）。</p>
   <p>两条路线结论一致，说明方法一没有因"只信平方差分解"而漏解。</p>
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：判定 59、61 是不是质数，只需试除到 $\sqrt{61} < 8$，即检查 2、3、5、7 均不整除即可（61 ÷ 7 = 8 余 5）；回代验证 $3599 + 1 = 3600 = 60^2$，末两位 99 且是四位数，三条全部命中。
-  </blockquote>
-
+  <blockquote class="ok"><strong>验证技巧</strong>：判定 59、61 是不是质数，只需试除到 $\sqrt{61} \lt 8$，即检查 2、3、5、7 均不整除即可（61 ÷ 7 = 8 余 5）；回代验证 $3599 + 1 = 3600 = 60^2$，末两位 99 且是四位数，三条全部命中。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
@@ -218,14 +211,12 @@ window.MathJax = {
   <ol>
     <li><strong>$m^2-1 = (m-1)(m+1)$</strong>：两个因数相差 2，这是把"比平方数小 1"变成乘法结构的唯一抓手，别去硬算 $m^2$。</li>
     <li><strong>末位定根</strong>：末两位 99 ⇒ $m^2 \equiv 0 \pmod{100}$ ⇒ $10 \mid m$（因为 $100 = 2^2\cdot 5^2$，$m^2$ 含 $2^2$ 与 $5^2$ 等价于 $m$ 含 2 与 5）。同类结论：末两位 24 ⇒ $m^2$ 末两位 25 ⇒ $m$ 个位是 5。</li>
-    <li><strong>半素数的判定</strong>：在 $(m-1)(m+1)$ 这个分解下两个因子都 &gt; 1，必须<strong>两个都是质数</strong>（孪生质数），任一是合数即出局；注意 $p^2 = p\cdot p$ 也算"两个质数的乘积"（重复的质因数要计数）。</li>
+    <li><strong>半素数的判定</strong>：在 $(m-1)(m+1)$ 这个分解下两个因子都 > 1，必须<strong>两个都是质数</strong>（孪生质数），任一是合数即出局；注意 $p^2 = p\cdot p$ 也算"两个质数的乘积"（重复的质因数要计数）。</li>
     <li><strong>端点别丢</strong>：四位数 ⇒ $32 \le m \le 100$；$m=100$ 时 $m^2$ 已是五位数但 $m^2-1 = 9999$ 仍是四位数，必须检查。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难）</h2>
-
   <div class="prob">
     <span class="tag">第 1 题 · 三位数版</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
     <p>把满足"末两位是 99、且比某个完全平方数小 1"的<strong>三位数</strong>一个不漏地写出来，并求它们的和。</p>
@@ -243,8 +234,8 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>0 个</strong></div>
-      <p>$N$ 末两位 24 ⇒ $m^2 = N+1$ 末两位 25 ⇒ $m$ 个位是 5，即 <strong>$m$ 是奇数</strong>。于是 $m-1$ 与 $m+1$ 都是偶数；四位数要求 $m \ge 32$，故两者都 $\ge 34 > 2$，<strong>全都是合数</strong>。而 $N=(m-1)(m+1)$ 要成为"两个质数的乘积"必须两侧都是质数，矛盾——一个都没有。</p>
-      <p>逐个核对也一致：候选为 $m \in \{35,45,55,65,75,85,95\}$，对应因子对 $(34,36)\;(44,46)\;(54,56)\;(64,66)\;(74,76)\;(84,86)\;(94,96)$，每对都是两个偶数。</p>
+        <p>$N$ 末两位 24 ⇒ $m^2 = N+1$ 末两位 25 ⇒ $m$ 个位是 5，即 <strong>$m$ 是奇数</strong>。于是 $m-1$ 与 $m+1$ 都是偶数；四位数要求 $m \ge 32$，故两者都 $\ge 34 > 2$，<strong>全都是合数</strong>。而 $N=(m-1)(m+1)$ 要成为"两个质数的乘积"必须两侧都是质数，矛盾——一个都没有。</p>
+  <p>逐个核对也一致：候选为 $m \in \{35,45,55,65,75,85,95\}$，对应因子对 $(34,36)\;(44,46)\;(54,56)\;(64,66)\;(74,76)\;(84,86)\;(94,96)$，每对都是两个偶数。</p>
       <p class="hint">要点：换了参数别急着重算 7 遍——先看"<strong>$m$ 的奇偶性</strong>"这个结构性质，一句话就能判死；这正是"换约束参数"类题要练的眼力。</p>
     </details>
   </div>
@@ -256,7 +247,7 @@ window.MathJax = {
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$n = 2$</strong>（此时 $n^2-1 = 3$）</div>
       <p>$n^2-1 = (n-1)(n+1)$。若它是质数，两个正因子中必有一个等于 1。$n+1 \ge 2$，所以只能 $n-1 = 1$，即 $n = 2$，得 $3$ 是质数 ✓。$n = 1$ 时 $n^2-1 = 0$ 不是质数；$n \ge 3$ 时两个因子都 $\ge 2$，乘积必为合数。</p>
-      <p class="hint">要点：这是原题第 3 步"两个因子都必须 &gt; 1"的极限版——分解出的因子个数直接给出质因数个数的下限。</p>
+      <p class="hint">要点：这是原题第 3 步"两个因子都必须 > 1"的极限版——分解出的因子个数直接给出质因数个数的下限。</p>
     </details>
   </div>
 
@@ -266,8 +257,8 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>5 个</strong>：1599、2499、4899、6399、9999</div>
-      <p>逐个分解：$1599 = 3\cdot13\cdot41$ ✓；$2499 = 3\cdot7^2\cdot17$ ✓；$3599 = 59\cdot61$ ✗；$4899 = 3\cdot23\cdot71$ ✓；$6399 = 3^4\cdot79$ ✓；$8099 = 7\cdot13\cdot89$ ✗；$9999 = 3^2\cdot11\cdot101$ ✓。</p>
-      <p>提速技巧：先看数字和能否被 3 整除——24 ✓、24 ✓、26 ✗、30 ✓、27 ✓、26 ✗、36 ✓，与分解结果完全一致。</p>
+        <p>逐个分解：$1599 = 3\cdot13\cdot41$ ✓；$2499 = 3\cdot7^2\cdot17$ ✓；$3599 = 59\cdot61$ ✗；$4899 = 3\cdot23\cdot71$ ✓；$6399 = 3^4\cdot79$ ✓；$8099 = 7\cdot13\cdot89$ ✗；$9999 = 3^2\cdot11\cdot101$ ✓。</p>
+  <p>提速技巧：先看数字和能否被 3 整除——24 ✓、24 ✓、26 ✗、30 ✓、27 ✓、26 ✗、36 ✓，与分解结果完全一致。</p>
       <p class="hint">要点：候选集是<strong>可复用资产</strong>——换一个附加条件就能在同一张分解表上再练一遍，不必从头枚举。</p>
     </details>
   </div>
@@ -278,20 +269,19 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：① 见证明；② <strong>4 个</strong>：22499 = 149×151、32399 = 179×181、57599 = 239×241、72899 = 269×271</div>
-      <p><strong>证明</strong>：$N = (m-1)(m+1)$，当 $m \ge 4$ 时两个因子都 &gt; 1。若其中之一是合数，它至少贡献 2 个质因数，另一个因子 &gt; 1 又至少贡献 1 个，合计 $\ge 3$ 个质因数；由算术基本定理（分解唯一），这与"$N$ 恰好是两个质数的乘积"矛盾。故两个因子都是质数，又相差 2，即孪生质数。∎</p>
-      <p><strong>五位数</strong>：$10000 \le m^2-1 \le 99999 \Rightarrow 101 \le m \le 316$；末两位 99 ⇒ $10 \mid m$，故 $m \in \{110,120,\dots,310\}$，共 21 个候选。按证明的结论只需判定 $(m-1,m+1)$ 是否同为质数，命中 $m = 150,\,180,\,240,\,270$：</p>
-      <table>
+        <p><strong>证明</strong>：$N = (m-1)(m+1)$，当 $m \ge 4$ 时两个因子都 > 1。若其中之一是合数，它至少贡献 2 个质因数，另一个因子 > 1 又至少贡献 1 个，合计 $\ge 3$ 个质因数；由算术基本定理（分解唯一），这与"$N$ 恰好是两个质数的乘积"矛盾。故两个因子都是质数，又相差 2，即孪生质数。∎</p>
+  <p><strong>五位数</strong>：$10000 \le m^2-1 \le 99999 \Rightarrow 101 \le m \le 316$；末两位 99 ⇒ $10 \mid m$，故 $m \in \{110,120,\dots,310\}$，共 21 个候选。按证明的结论只需判定 $(m-1,m+1)$ 是否同为质数，命中 $m = 150,\,180,\,240,\,270$：</p>
+<table>
         <tr><th>$m$</th><th>$(m-1,m+1)$</th><th>$N = m^2-1$</th></tr>
         <tr><td>150</td><td>149, 151</td><td>22499</td></tr>
         <tr><td>180</td><td>179, 181</td><td>32399</td></tr>
         <tr><td>240</td><td>239, 241</td><td>57599</td></tr>
         <tr><td>270</td><td>269, 271</td><td>72899</td></tr>
       </table>
-      <p>其余 17 个候选至少一侧为合数，例如 $m=110$ 的 $111 = 3\cdot37$、$m=120$ 的 $119 = 7\cdot17$ 与 $121 = 11^2$、$m=290$ 的 $289 = 17^2$、$m=310$ 的 $309 = 3\cdot103$。</p>
+  <p>其余 17 个候选至少一侧为合数，例如 $m=110$ 的 $111 = 3\cdot37$、$m=120$ 的 $119 = 7\cdot17$ 与 $121 = 11^2$、$m=290$ 的 $289 = 17^2$、$m=310$ 的 $309 = 3\cdot103$。</p>
       <p class="hint">要点：先一般化成"判定孪生质数"，范围再大也只是同一件事重复 21 次——这就是把具体数字换成字母再代回大数的价值。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -306,10 +296,9 @@ window.MathJax = {
       口诀：见平方差，先拆 $(m-1)(m+1)$；末位定根，候选七个；两因子都质数，才算半素数。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 8 错题精讲 · 平方差分解 &nbsp;|&nbsp; 生成于 2026-10-11</div>
+    <div>AMC 8 错题精讲 · 平方差分解 &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
