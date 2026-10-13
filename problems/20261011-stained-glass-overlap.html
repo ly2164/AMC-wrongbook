@@ -139,10 +139,9 @@ window.MathJax = {
   <h2>一、错题原题</h2>
   <blockquote>
     Jean made a piece of stained glass art in the shape of two mountains, as shown in the figure below. One mountain peak is $8$ feet high and the other peak is $12$ feet high. Each peak forms a $90^\circ$ angle, and the straight sides of the mountains form $45^\circ$ angles with the ground. The artwork has an area of $183$ square feet. The sides of the mountains meet at an intersection point near the center of the artwork, $h$ feet above the ground. What is the value of $h?$
-<img src="../img/amc8/2024/24.svg" style="max-height:8rem; margin-top:10px;">
+<img src="../img/amc8/2024/24.svg" alt="2024AMC8(24) 配图" style="max-height:8rem; margin-top:10px;">
   </blockquote>
-  <p><strong>中文翻译</strong>：Jean 做了一件「双山」形状的彩色玻璃艺术品，如图。两座山峰分别高 $8$ 英尺与 $12$ 英尺，每个峰顶都是 $90^\circ$，山的两条直边与地面成 $45^\circ$。整件作品的面积为 $183$ 平方英尺。两座山的斜边在靠近中心处相交于一点，该点距地面 $h$ 英尺。求 $h$。
-(A) 4　(B) 5　(C) $4\sqrt2$　(D) 6　(E) $5\sqrt2$</p>
+  <p><strong>中文翻译</strong>：Jean 做了一件「双山」形状的彩色玻璃艺术品，如图。两座山峰分别高 $8$ 英尺与 $12$ 英尺，每个峰顶都是 $90^\circ$，山的两条直边与地面成 $45^\circ$。整件作品的面积为 $183$ 平方英尺。两座山的斜边在靠近中心处相交于一点，该点距地面 $h$ 英尺。求 $h$。 (A) 4　(B) 5　(C) $4\sqrt2$　(D) 6　(E) $5\sqrt2$</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
   <p class="official">
     📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
@@ -167,26 +166,18 @@ window.MathJax = {
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/24" target="_blank" rel="noopener">2024AMC8(24)</a> 的书面解答一致——高为 $x$ 的等腰直角三角形面积是 $x^2$，重叠部分同型；故 $8^2+12^2-h^2=183$，得 $h^2=25$、$h=5$。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/24" target="_blank" rel="noopener">2024AMC8(24)</a> 的书面解答一致——高为 $x$ 的等腰直角三角形面积是 $x^2$，重叠部分同型；故 $8^2+12^2-h^2=183$，得 $h^2=25$、$h=5$。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：面积 = 高² + 容斥（官方思路，推荐）</h3>
-    <p><strong>第 1 步 · 单座山的面积。</strong>山的高度为 $x$、两条直边各与地面成 $45^\circ$，峰顶因此是 $90^\circ$——这是等腰直角三角形。两条直角边（也就是两条斜边）的长度为 $x\sqrt2$（$45^\circ$ 直角三角形里，斜边 $=$ 直角边 $\cdot\sqrt2$，这里「直角边」指峰到山脚的水平+竖直平移合成的那条斜边）。更直接地算面积：底 $=2x$（两个 $45^\circ$ 底角各向左右平移 $x$），高 $=x$，故
-    $$S=\frac12\cdot(2x)\cdot x=x^2 .$$</p>
-
-    <p><strong>第 2 步 · 两座山。</strong>高 8 的山：$S_1=8^2=64$；高 12 的山：$S_2=12^2=144$。</p>
-    <p><strong>第 3 步 · 重叠区形状。</strong>重叠区的两条边界恰好是「左侧山的右边」与「右侧山的左边」，它们的斜率分别是 $-1$ 与 $+1$，<strong>互相垂直</strong>；底边是水平的地面。因此重叠区也是等腰直角三角形，其直角顶点就是两条斜边的交点，高度为 $h$，面积 $=h^2$。</p>
-    <p><strong>第 4 步 · 容斥，解出 $h$。</strong></p>
-    $$64+144-h^2=183\quad\Longrightarrow\quad h^2=25\quad\Longrightarrow\quad h=5 .$$
-    <blockquote class="ok"><strong>答案：(B) 5</strong>。</blockquote>
+  <p><strong>第 1 步 · 单座山的面积。</strong>山的高度为 $x$、两条直边各与地面成 $45^\circ$，峰顶因此是 $90^\circ$——这是等腰直角三角形。两条直角边（也就是两条斜边）的长度为 $x\sqrt2$（$45^\circ$ 直角三角形里，斜边 $=$ 直角边 $\cdot\sqrt2$，这里「直角边」指峰到山脚的水平+竖直平移合成的那条斜边）。更直接地算面积：底 $=2x$（两个 $45^\circ$ 底角各向左右平移 $x$），高 $=x$，故 $$S=\frac12\cdot(2x)\cdot x=x^2 .$$</p>
+  <p><strong>第 2 步 · 两座山。</strong>高 8 的山：$S_1=8^2=64$；高 12 的山：$S_2=12^2=144$。</p>
+  <p><strong>第 3 步 · 重叠区形状。</strong>重叠区的两条边界恰好是「左侧山的右边」与「右侧山的左边」，它们的斜率分别是 $-1$ 与 $+1$，<strong>互相垂直</strong>；底边是水平的地面。因此重叠区也是等腰直角三角形，其直角顶点就是两条斜边的交点，高度为 $h$，面积 $=h^2$。</p>
+  <p><strong>第 4 步 · 容斥，解出 $h$。</strong></p>
+$$64+144-h^2=183\quad\Longrightarrow\quad h^2=25\quad\Longrightarrow\quad h=5 .$$
+  <blockquote class="ok"><strong>答案：(B) 5</strong>。</blockquote>
   <h3>方法二：坐标积分（严格化第 3 步）</h3>
-  建立坐标：地面为 $y=0$，取左山峰 $(x_1,8)$、右山峰 $(x_2,12)$。左山的右边界：$y=8-(x-x_1)$；右山的左边界：$y=12+(x-x_2)$。两线交于
-    $$x=\frac{x_1+x_2-4}{2},\qquad h=8-\Bigl(\frac{x_1+x_2-4}{2}-x_1\Bigr)=\frac{x_1-x_2+20}{2}.$$
-    重叠区上界为两条边界的较小者，数值积分得面积 $=h^2$（等腰直角三角形的两条直角边各长 $h\sqrt2$，面积 $\frac12(h\sqrt2)^2=h^2$）。取与总条件相容的布局（$h=5$ 时 $x_2=x_1+10$，如 $x_1=-3,\ x_2=7$），积分值为 $25.000$，与 $h^2$ 完全吻合；总面积 $64+144-25=183$ ✓。
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：① 代入 $h=5$：$64+144-25=183$ ✓ 与题面面积一致；② 数值把 $h=5$ 时两个山峰的相对位置解出（$x_2-x_1=10$），精确积分重叠区得 $25.000000$，毫无误差；③ 选项反向扫描：$h=4\to193$、$h=6\to172$、$h=5\sqrt2\to158$、$h=4\sqrt2\to175$，只有 $h=5$ 给出 $183$。
-  </blockquote>
-
+  <p>建立坐标：地面为 $y=0$，取左山峰 $(x_1,8)$、右山峰 $(x_2,12)$。左山的右边界：$y=8-(x-x_1)$；右山的左边界：$y=12+(x-x_2)$。两线交于 $$x=\frac{x_1+x_2-4}{2},\qquad h=8-\Bigl(\frac{x_1+x_2-4}{2}-x_1\Bigr)=\frac{x_1-x_2+20}{2}.$$ 重叠区上界为两条边界的较小者，数值积分得面积 $=h^2$（等腰直角三角形的两条直角边各长 $h\sqrt2$，面积 $\frac12(h\sqrt2)^2=h^2$）。取与总条件相容的布局（$h=5$ 时 $x_2=x_1+10$，如 $x_1=-3,\ x_2=7$），积分值为 $25.000$，与 $h^2$ 完全吻合；总面积 $64+144-25=183$ ✓。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 代入 $h=5$：$64+144-25=183$ ✓ 与题面面积一致；② 数值把 $h=5$ 时两个山峰的相对位置解出（$x_2-x_1=10$），精确积分重叠区得 $25.000000$，毫无误差；③ 选项反向扫描：$h=4\to193$、$h=6\to172$、$h=5\sqrt2\to158$、$h=4\sqrt2\to175$，只有 $h=5$ 给出 $183$。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
@@ -200,11 +191,9 @@ window.MathJax = {
     <li><strong>容斥</strong>：总面积 $=S_1+S_2-S_{\text{重叠}}$。已知总面积反求重叠，再反求 $h$。见到「两个交叠图形 + 总面积」就自动写这行。</li>
     <li><strong>中间量是 $h^2$ 不是 $h$</strong>：方程解出 $h^2=25$，再进行开方。把 $25$ 当成 $h$ 或给 $h$ 配上 $\sqrt2$，都会落到干扰项 (C)(E) 上。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
   <div class="prob">
     <span class="tag">第 1 题 · 同构换数</span> <span class="stars">★</span> <span class="form">形式｜同构换参</span>
     <p>两座山分别高 $6$ 英尺与 $9$ 英尺（峰顶均 $90^\circ$、边与地面 $45^\circ$），若重叠部分的高度也是 $h$，且整件作品面积为 $81$ 平方英尺，求 $h$。</p>
@@ -245,7 +234,7 @@ window.MathJax = {
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>面积 $=x^2$，两条直角边长 $x\sqrt2$，斜边 $=2x$ 即底边</strong></div>
       <p>山是等腰直角三角形，直角顶点在峰处（题面说峰顶 $90^\circ$）。「高」$x$ 是直角顶点到斜边（水平底边）的垂距。两个底角各 $45^\circ$，从峰向底边作高，高把原三角形分成两个更小的等腰直角三角形，每个的小直角边为 $x$，故左半底与右半底各自长 $x$，整条底边 $=2x$。面积 $=\frac12\cdot(2x)\cdot x=x^2$ ✓。至于两条「斜边」（题面说的「straight sides」，实际是原三角形的两条直角边，即山的斜坡面）：它们各自的长度是 $\sqrt{x^2+x^2}=x\sqrt2$（水平、竖直位移都是 $x$）。<strong>术语厘清</strong>：直角顶点在山顶，所以山的两条斜坡是直角边（长 $x\sqrt2$），底边是真正的斜边（长 $2x$）——这个「角色反转」是这类题最容易绕晕的地方。</p>
-      <p class="hint">要点：先分清谁是直角<Pose,Artist>…直角在山顶上时，斜坡是直角边、地面是斜边；面积用「底×高÷2」永远安全。</p>
+      <p class="hint">要点：先分清谁是直角…直角在山顶上时，斜坡是直角边、地面是斜边；面积用「底×高÷2」永远安全。</p>
     </details>
   </div>
 
@@ -259,7 +248,6 @@ window.MathJax = {
       <p class="hint">要点：一般化的通项 $h=\sqrt{A^2+B^2-S}$ 顺带给出合法性判据：$h$ 必须不超过较矮的峰，否则构型不存在。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -274,10 +262,9 @@ window.MathJax = {
       口诀：「45° 山，面积是高方；重叠也同理，容斥一行完」。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 8 错题精讲 · 等腰直角三角形面积 + 容斥原理 &nbsp;|&nbsp; 生成于 2026-10-12</div>
+    <div>AMC 8 错题精讲 · 等腰直角三角形面积 + 容斥原理 &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
