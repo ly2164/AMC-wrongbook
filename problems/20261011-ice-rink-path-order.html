@@ -139,10 +139,9 @@ window.MathJax = {
   <h2>一、错题原题</h2>
   <blockquote>
     Sergei skated around an ice rink, gliding along different paths. The marked lines in the figures below show four of the paths labeled P, Q, R, and S. What is the sorted order of the four paths from shortest to longest?
-<img src="../img/amc8/2024/6.svg" style="max-height:11rem; margin-top:10px;">
+<img src="../img/amc8/2024/6.svg" alt="2024AMC8(6) 配图" style="max-height:11rem; margin-top:10px;">
   </blockquote>
-  <p><strong>中文翻译</strong>：Sergei 在一个冰场四周滑行，沿不同路径前进。下图中的标记线画出了四条路径 P、Q、R、S。把这四条路径按<strong>从短到长</strong>排序，正确的是？
-(A) P, Q, R, S　(B) P, R, S, Q　(C) Q, S, P, R　(D) R, P, S, Q　(E) R, S, P, Q</p>
+  <p><strong>中文翻译</strong>：Sergei 在一个冰场四周滑行，沿不同路径前进。下图中的标记线画出了四条路径 P、Q、R、S。把这四条路径按<strong>从短到长</strong>排序，正确的是？ (A) P, Q, R, S　(B) P, R, S, Q　(C) Q, S, P, R　(D) R, P, S, Q　(E) R, S, P, Q</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
   <p class="official">
     📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
@@ -156,41 +155,37 @@ window.MathJax = {
   <table>
     <tr><th>常见错误</th><th>错在哪</th></tr>
     <tr><td><code>答 (B) P, R, S, Q</code></td><td>把 P 和 R 的关系看反了。P 是贴着<strong>完整边界</strong>（含四个圆弧弯）走的，R 是把四个圆弧弯<strong>换成直线切角</strong>走的。两点之间线段最短，每个圆弧弯都被它所对的弦替换，所以 R 必然短于 P。看反的人多半被 R 图中「斜着走的线显得很长」的视觉印象骗了——斜线在纸上显得张扬，但它们包住的整体反而更紧凑。</td></tr>
-    <tr><td><code>答 (E) R, S, P, Q</code></td><td>P 与 S 的比较做错。S 的中部是一条<strong>横穿冰场的对角线</strong>加上下两端的圆弧弯；P 的中部是冰场的<strong>两条直边</strong>。把两者的差异隔离出来：它们共享圆弧端，差别只在「对角线 vs 直边」，而这条对角线和直边恰好构成一个直角三角形的斜边与直角边——<strong>斜边 &gt; 直角边</strong>，所以 S &gt; P。选 (E) 的人把这个直角三角形看丢了，凭「P 看起来绕得更远」的直觉排了序。</td></tr>
+    <tr><td><code>答 (E) R, S, P, Q</code></td><td>P 与 S 的比较做错。S 的中部是一条<strong>横穿冰场的对角线</strong>加上下两端的圆弧弯；P 的中部是冰场的<strong>两条直边</strong>。把两者的差异隔离出来：它们共享圆弧端，差别只在「对角线 vs 直边」，而这条对角线和直边恰好构成一个直角三角形的斜边与直角边——<strong>斜边 > 直角边</strong>，所以 S > P。选 (E) 的人把这个直角三角形看丢了，凭「P 看起来绕得更远」的直觉排了序。</td></tr>
     <!-- 按需增删行 -->
   </table>
   <blockquote class="warn">
-    <strong>根本问题</strong>：没有把四条路径的差异<strong>隔离成可比的局部</strong>。四条路径的端点圆弧段大部分相同，真正不同的只有「圆弧 vs 切线弦」（决定 R 最短）和「中部穿越方式」（决定 Q 最长、S &gt; P）。逐对隔离差异、把每对差异塞进一个「弦 vs 弧」或「斜边 vs 直角边」的标准比较里，就根本不需要精确计算任何长度。
+    <strong>根本问题</strong>：没有把四条路径的差异<strong>隔离成可比的局部</strong>。四条路径的端点圆弧段大部分相同，真正不同的只有「圆弧 vs 切线弦」（决定 R 最短）和「中部穿越方式」（决定 Q 最长、S > P）。逐对隔离差异、把每对差异塞进一个「弦 vs 弧」或「斜边 vs 直角边」的标准比较里，就根本不需要精确计算任何长度。
   </blockquote>
 
   <hr>
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/6" target="_blank" rel="noopener">2024AMC8(6)</a> 的书面解答一致——把弧形路段换成弦必然变短，故 R 最短；P 与 S 的比较落在同一直角三角形里「直角边 vs 斜边」上，故 S 比 P 长。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/6" target="_blank" rel="noopener">2024AMC8(6)</a> 的书面解答一致——把弧形路段换成弦必然变短，故 R 最短；P 与 S 的比较落在同一直角三角形里「直角边 vs 斜边」上，故 S 比 P 长。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：逐对隔离差异 + 标准不等式（官方思路，推荐）</h3>
-    <p><strong>第 1 步 · R 为什么最短。</strong>R 在四个圆角处用<strong>直线切角</strong>（弦）代替了圆弧弯。连接两点的所有曲线中<strong>线段最短</strong>，所以每个角上「弦 &lt; 弧」。其余部分 R 与边界路径相同或更短，因此 R 短于所有走边界的路径。</p>
-    <p><strong>第 2 步 · Q 为什么最长。</strong>Q 走完整边界，并且在中部来回穿插（两度横穿冰场）。每一段穿插都是「从边界出发又回到边界」的额外行程，且穿插线本身比被它替代的直边更长（同样含斜边成分），所以 Q 比 P 长出一大截，是四条中最长的。</p>
-    <p><strong>第 3 步 · P 与 S 之争：一个直角三角形定胜负。</strong>S 与 P 的圆弧端完全相同，差异只剩中部：S 的中部经过一条<strong>横穿的对角线</strong>，P 的中部对应的是冰场的<strong>直边</strong>。这条对角线与这条直边、以及冰场的短边一起，构成一个直角三角形——对角线是<strong>斜边</strong>，直边是<strong>直角边</strong>。直角三角形斜边大于任一直角边，故</p>
-    $$\text{S 的中部穿越段} > \text{P 的对应直边}\quad\Longrightarrow\quad S > P.$$
-    <p><strong>第 4 步 · 汇总。</strong></p>
-    $$R \;<\; P \;<\; S \;<\; Q.$$
-    <blockquote class="ok"><strong>答案：(D) R, P, S, Q</strong>。</blockquote>
+  <p><strong>第 1 步 · R 为什么最短。</strong>R 在四个圆角处用<strong>直线切角</strong>（弦）代替了圆弧弯。连接两点的所有曲线中<strong>线段最短</strong>，所以每个角上「弦 &lt; 弧」。其余部分 R 与边界路径相同或更短，因此 R 短于所有走边界的路径。</p>
+  <p><strong>第 2 步 · Q 为什么最长。</strong>Q 走完整边界，并且在中部来回穿插（两度横穿冰场）。每一段穿插都是「从边界出发又回到边界」的额外行程，且穿插线本身比被它替代的直边更长（同样含斜边成分），所以 Q 比 P 长出一大截，是四条中最长的。</p>
+  <p><strong>第 3 步 · P 与 S 之争：一个直角三角形定胜负。</strong>S 与 P 的圆弧端完全相同，差异只剩中部：S 的中部经过一条<strong>横穿的对角线</strong>，P 的中部对应的是冰场的<strong>直边</strong>。这条对角线与这条直边、以及冰场的短边一起，构成一个直角三角形——对角线是<strong>斜边</strong>，直边是<strong>直角边</strong>。直角三角形斜边大于任一直角边，故</p>
+$$\text{S 的中部穿越段} > \text{P 的对应直边}\quad\Longrightarrow\quad S > P.$$
+  <p><strong>第 4 步 · 汇总。</strong></p>
+$$R \;\lt \; P \;\lt \; S \;\lt \; Q.$$
+  <blockquote class="ok"><strong>答案：(D) R, P, S, Q</strong>。</blockquote>
   <h3>方法二：参数化数值验证</h3>
-  设冰场是宽 $2r$、直段长 $h$ 的圆角矩形（圆角半径 $r$）。取 $h=16,\ r=3$ 代入四条路径的组成：
-    <ul>
-      <li>$P = 2h + 2\pi r = 32 + 6\pi \approx 50.85$（两条直边 + 两个半圆弧）；</li>
-      <li>$R = 2h + 4\cdot r\sqrt2 \approx 32 + 16.97 = 48.97$（每角弦长 $r\sqrt2$ 替代 $\frac{\pi r}2$ 弧）；</li>
-      <li>$S = P - 2h + 2\sqrt{h^2+(2r)^2} \approx 50.85-32+2\cdot17=53.0$（直边换成两条对角线）；</li>
-      <li>$Q = P - 2h + 4\sqrt{h^2+(2r)^2} \approx 87.2$（换成四条对角线）。</li>
-    </ul>
-    数值上 $48.97 < 50.85 < 53.0 < 87.2$，与方法一的 $R<P<S<Q$ 完全一致。数值路只当<strong>验算</strong>用——考场上没有计算器，方法一的三句不等式才是正解。
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：① 用几何画板/Python 参数化按方法二的公式重算，排序不变；② 极限夹逼：把圆角半径 $r$ 压到 0（冰场退化为矩形），P 与 R 的差趋于 0 但恒有 $R\le P$；把 $r$ 放大，弧比弦长得更多，$R<P$ 始终成立。③ 自检第 3 步：对角线与直边、短边构成直角三角形这一步，可以直接在图上标出三点验证。
-  </blockquote>
-
+  <p>设冰场是宽 $2r$、直段长 $h$ 的圆角矩形（圆角半径 $r$）。取 $h=16,\ r=3$ 代入四条路径的组成：</p>
+  <ul>
+    <li>$P = 2h + 2\pi r = 32 + 6\pi \approx 50.85$（两条直边 + 两个半圆弧）；</li>
+    <li>$R = 2h + 4\cdot r\sqrt2 \approx 32 + 16.97 = 48.97$（每角弦长 $r\sqrt2$ 替代 $\frac{\pi r}2$ 弧）；</li>
+    <li>$S = P - 2h + 2\sqrt{h^2+(2r)^2} \approx 50.85-32+2\cdot17=53.0$（直边换成两条对角线）；</li>
+    <li>$Q = P - 2h + 4\sqrt{h^2+(2r)^2} \approx 87.2$（换成四条对角线）。</li>
+  </ul>
+  <p>数值上 $48.97 \lt 50.85 \lt 53.0 \lt 87.2$，与方法一的 $R\lt P\lt S\lt Q$ 完全一致。数值路只当<strong>验算</strong>用——考场上没有计算器，方法一的三句不等式才是正解。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 用几何画板/Python 参数化按方法二的公式重算，排序不变；② 极限夹逼：把圆角半径 $r$ 压到 0（冰场退化为矩形），P 与 R 的差趋于 0 但恒有 $R\le P$；把 $r$ 放大，弧比弦长得更多，$R\lt P$ 始终成立。③ 自检第 3 步：对角线与直边、短边构成直角三角形这一步，可以直接在图上标出三点验证。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
@@ -200,15 +195,13 @@ window.MathJax = {
   <p>必须掌握的要点：</p>
   <ol>
     <li><strong>弦 &lt; 弧</strong>：同一对端点，圆弧比所对的弦长。这是「两点之间线段最短」的特例。R 正是把四个弧弯换成弦，才拿下最短。</li>
-    <li><strong>斜边 &gt; 直角边</strong>：S 中部的对角线和 P 对应的直边恰好是同一个直角三角形的斜边与直角边——找到这个三角形，是全题唯一需要「看出来」的一步。</li>
+    <li><strong>斜边 > 直角边</strong>：S 中部的对角线和 P 对应的直边恰好是同一个直角三角形的斜边与直角边——找到这个三角形，是全题唯一需要「看出来」的一步。</li>
     <li><strong>逐对隔离差异</strong>：比较两条复杂路径时，找它们<strong>相同的部分</strong>并整体划掉，只比较不同的部分。本题四条路径共享圆弧端点，划掉之后只剩三个局部比较。</li>
     <li><strong>极限夹逼验证</strong>：拿不准时把参数推到极端（圆角半径 → 0 或 → 极大）看排序是否翻转。若极端情形下排序都不翻转，中段就更不会翻转——这是一种不依赖计算的可信检验。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
   <div class="prob">
     <span class="tag">第 1 题 · 弦与弧的定量比较</span> <span class="stars">★</span> <span class="form">形式｜数值计算 + 比较</span>
     <p>半径为 $2$ 的圆中，比较「$60^\circ$ 圆心角所对的弧长」与「该弧所对弦长的 $2$ 倍」哪个更长，精确到 0.01。</p>
@@ -237,7 +230,7 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>乙 &lt; 甲 &lt; 丙</strong></div>
-      <p>乙 = $2\cdot2\sin30^\circ=2$。甲 = $\frac{2\pi}3\approx2.094$。丙：内接正三角形边长 $=2\cdot2\sin60^\circ=2\sqrt3\approx3.464$。所以 $2<2.094<3.464$，乙 &lt; 甲 &lt; 丙。乙与甲的关系就是「弦 &lt; 弧」；丙比甲大是因为正三角形的边对着的圆心角是 $120^\circ$，弧更弯、弦更长。</p>
+      <p>乙 = $2\cdot2\sin30^\circ=2$。甲 = $\frac{2\pi}3\approx2.094$。丙：内接正三角形边长 $=2\cdot2\sin60^\circ=2\sqrt3\approx3.464$。所以 $2\lt 2.094\lt 3.464$，乙 &lt; 甲 &lt; 丙。乙与甲的关系就是「弦 &lt; 弧」；丙比甲大是因为正三角形的边对着的圆心角是 $120^\circ$，弧更弯、弦更长。</p>
       <p class="hint">要点：圆中「圆心角 → 弦长」由 $2R\sin\frac\theta2$ 一手包办：$\theta$ 越大弦越长，而弧长按 $\theta$ 线性增长，两者只在 $\theta$ 小时接近。</p>
     </details>
   </div>
@@ -259,13 +252,10 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>曲线长 ≥ 直线距离；弧 ≥ 弦，等号仅当曲线（弧）退化为线段本身</strong></div>
-      <p>把曲线看成由足够多的小段直线首尾相接的折线逼近（这正是「曲线长度」的定义方式）。折线总长等于各小段之和；而对每一小段，其两端点间的直线距离不超过这一小段本身（三角形不等式），于是
-    $$\text{曲线长}=\sum\text{小段长}\;\ge\;\sum\text{各段端点直线距}\;\ge\;\text{首端到末端的直线距离}.$$
-    最后一步是把中间点逐个用三角形不等式「抄近路」缩掉。取该曲线为圆上的一段弧：用弦把弧切成小段，同样的论证给出弧长 ≥ 弦长。等号要求每一步「抄近路」都没损失，即所有小段都在同一条直线上——也就是曲线本身就是那条线段。因此<strong>等号仅当弧退化为弦</strong>（圆退化时），正常圆弧永远严格更长。</p>
+        <p>把曲线看成由足够多的小段直线首尾相接的折线逼近（这正是「曲线长度」的定义方式）。折线总长等于各小段之和；而对每一小段，其两端点间的直线距离不超过这一小段本身（三角形不等式），于是 $$\text{曲线长}=\sum\text{小段长}\;\ge\;\sum\text{各段端点直线距}\;\ge\;\text{首端到末端的直线距离}.$$ 最后一步是把中间点逐个用三角形不等式「抄近路」缩掉。取该曲线为圆上的一段弧：用弦把弧切成小段，同样的论证给出弧长 ≥ 弦长。等号要求每一步「抄近路」都没损失，即所有小段都在同一条直线上——也就是曲线本身就是那条线段。因此<strong>等号仅当弧退化为弦</strong>（圆退化时），正常圆弧永远严格更长。</p>
       <p class="hint">要点：「线段最短」不是经验，是三角形不等式的逐段累加；这一条原理吃透，「弦代弧变短」「切角变短」全部免费到手。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -273,17 +263,16 @@ window.MathJax = {
     <h3>考场 30 秒决策卡</h3>
     <ol>
       <li>先扫四条路径找「全同段」：圆弧端点全一样 → 划掉，只比差异段。</li>
-      <li>三个差异各配一条标准不等式：弧换弦 → 变短（R）；来回穿插 → 变长（Q）；斜边 vs 直角边 → S &gt; P。</li>
+      <li>三个差异各配一条标准不等式：弧换弦 → 变短（R）；来回穿插 → 变长（Q）；斜边 vs 直角边 → S > P。</li>
       <li>拼出 R &lt; P &lt; S &lt; Q，对照选项 (D)。不必算任何具体长度。</li>
     </ol>
     <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
       口诀：「切角变短、穿插变长、斜边压直边」——三句话排完四条路。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 8 错题精讲 · 弧与弦的长短比较（放缩论证） &nbsp;|&nbsp; 生成于 2026-10-12</div>
+    <div>AMC 8 错题精讲 · 弧与弦的长短比较（放缩论证） &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
