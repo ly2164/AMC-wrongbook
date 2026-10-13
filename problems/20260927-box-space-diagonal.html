@@ -139,17 +139,9 @@ window.MathJax = {
 
   <h2>一、错题原题</h2>
   <blockquote>
-    A rectangular box $\mathcal P$ has distinct edge lengths $a$, $b$, and $c$.
-      The sum of the lengths of all $12$ edges of $\mathcal P$ is $13$, the sum of the areas of all
-      $6$ faces of $\mathcal P$ is $\dfrac{11}{2}$, and the volume of $\mathcal P$ is $\dfrac{1}{2}$.
-      What is the length of the longest interior diagonal connecting two vertices of $\mathcal P$?
-      <br><br>
-      $\textbf{(A)}\ 2 \qquad \textbf{(B)}\ \dfrac38 \qquad \textbf{(C)}\ \dfrac98 \qquad
-      \textbf{(D)}\ \dfrac94 \qquad \textbf{(E)}\ \dfrac32$
+    A rectangular box $\mathcal P$ has distinct edge lengths $a$, $b$, and $c$. The sum of the lengths of all $12$ edges of $\mathcal P$ is $13$, the sum of the areas of all $6$ faces of $\mathcal P$ is $\dfrac{11}{2}$, and the volume of $\mathcal P$ is $\dfrac{1}{2}$. What is the length of the longest interior diagonal connecting two vertices of $\mathcal P$?<br><br>$\textbf{(A)}\ 2 \qquad \textbf{(B)}\ \dfrac38 \qquad \textbf{(C)}\ \dfrac98 \qquad \textbf{(D)}\ \dfrac94 \qquad \textbf{(E)}\ \dfrac32$
   </blockquote>
-  <p><strong>中文翻译</strong>：一个长方体 $\mathcal P$ 的三条棱长互不相同，分别为 $a,b,c$。它的 <strong>12 条棱</strong>长度总和为 $13$，
-      <strong>6 个面</strong>的面积总和为 $\dfrac{11}{2}$，体积为 $\dfrac{1}{2}$。
-      求连接两个顶点的最长内部对角线（即体对角线）的长度。</p>
+  <p><strong>中文翻译</strong>：一个长方体 $\mathcal P$ 的三条棱长互不相同，分别为 $a,b,c$。它的 <strong>12 条棱</strong>长度总和为 $13$， <strong>6 个面</strong>的面积总和为 $\dfrac{11}{2}$，体积为 $\dfrac{1}{2}$。 求连接两个顶点的最长内部对角线（即体对角线）的长度。</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
   <p class="official">
     📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
@@ -162,173 +154,112 @@ window.MathJax = {
   <h2>二、错误原因诊断</h2>
   <table>
     <tr><th>常见错误</th><th>错在哪</th></tr>
-    <tr><td><code>死磕体积：设 $abc=\tfrac12$ 后试图解出 $a,b,c$，卡在三次方程上</code></td><td>这是最典型的<strong>被多余条件牵着走</strong>。体对角线 $d=\sqrt{a^2+b^2+c^2}$，
-      而 $a^2+b^2+c^2=(a+b+c)^2-2(ab+bc+ca)$，<strong>压根不含 $abc$</strong>。
-      题目确实是可以解出三边的（$\tfrac14,1,2$），但那是绕远路，考场上时间不够。</td></tr>
-    <tr><td><code>选 (E) $\tfrac32$ 或 (C) $\tfrac98$：忘记「12 条棱 → 除以 4」「6 个面 → 除以 2」</code></td><td>两个换算务必写在草稿第一行：<strong>12 条棱 $=4(a+b+c)$</strong>，所以
-      $a+b+c=\dfrac{13}{4}$ 而不是 $13$；<strong>6 个面 $=2(ab+bc+ca)$</strong>，所以
-      $ab+bc+ca=\dfrac{11}{4}$ 而不是 $\dfrac{11}{2}$。用错这两个除数，后面算出什么都会在选项里撞上——
-      这正是干扰项被设计出来的方式。</td></tr>
+    <tr><td><code>死磕体积：设 $abc=\tfrac12$ 后试图解出 $a,b,c$，卡在三次方程上</code></td><td>这是最典型的<strong>被多余条件牵着走</strong>。体对角线 $d=\sqrt{a^2+b^2+c^2}$， 而 $a^2+b^2+c^2=(a+b+c)^2-2(ab+bc+ca)$，<strong>压根不含 $abc$</strong>。 题目确实是可以解出三边的（$\tfrac14,1,2$），但那是绕远路，考场上时间不够。</td></tr>
+    <tr><td><code>选 (E) $\tfrac32$ 或 (C) $\tfrac98$：忘记「12 条棱 → 除以 4」「6 个面 → 除以 2」</code></td><td>两个换算务必写在草稿第一行：<strong>12 条棱 $=4(a+b+c)$</strong>，所以 $a+b+c=\dfrac{13}{4}$ 而不是 $13$；<strong>6 个面 $=2(ab+bc+ca)$</strong>，所以 $ab+bc+ca=\dfrac{11}{4}$ 而不是 $\dfrac{11}{2}$。用错这两个除数，后面算出什么都会在选项里撞上—— 这正是干扰项被设计出来的方式。</td></tr>
     <!-- 按需增删行 -->
   </table>
   <blockquote class="warn">
-    <strong>根本问题</strong>：没有把「<strong>几何量 → 对称多项式</strong>」这一步走完。长方体的三个要素
-      $a+b+c$（棱）、$ab+bc+ca$（面）、$abc$（体）是三个基本对称多项式，而体对角线落在
-      <strong>平方和</strong> $a^2+b^2+c^2$ 上。认出目标是平方和之后，只要展开一次完全平方公式，
-      就会立刻发现体积是<strong>多余条件</strong>，三十秒收工。
+    <strong>根本问题</strong>：没有把「<strong>几何量 → 对称多项式</strong>」这一步走完。长方体的三个要素 $a+b+c$（棱）、$ab+bc+ca$（面）、$abc$（体）是三个基本对称多项式，而体对角线落在 <strong>平方和</strong> $a^2+b^2+c^2$ 上。认出目标是平方和之后，只要展开一次完全平方公式， 就会立刻发现体积是<strong>多余条件</strong>，三十秒收工。
   </blockquote>
 
   <hr>
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/17" target="_blank" rel="noopener">2023AMC10B(17)</a> 的书面解答一致——棱长和给 $a+b+c=13/4$、面积和给 $ab+bc+ca=11/4$，再由 $(a+b+c)^2$ 拆出平方和即体对角线。
-    本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/17" target="_blank" rel="noopener">2023AMC10B(17)</a> 的书面解答一致——棱长和给 $a+b+c=13/4$、面积和给 $ab+bc+ca=11/4$，再由 $(a+b+c)^2$ 拆出平方和即体对角线。 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：认出目标是「平方和」（推荐 · 30 秒）</h3>
-  <p><strong>第 1 步 · 把条件翻译成对称多项式。</strong>长方体有 4 条长为 $a$ 的棱、4 条 $b$、4 条 $c$，
-      也有 2 个 $a\times b$ 的面、2 个 $b\times c$、2 个 $c\times a$。因此</p>
-      $$4(a+b+c)=13\ \Rightarrow\ a+b+c=\frac{13}{4},\qquad
-        2(ab+bc+ca)=\frac{11}{2}\ \Rightarrow\ ab+bc+ca=\frac{11}{4}.$$
-      <p><strong>第 2 步 · 展开完全平方。</strong>由 $(a+b+c)^2=a^2+b^2+c^2+2(ab+bc+ca)$ 得</p>
-      $$a^2+b^2+c^2=\left(\frac{13}{4}\right)^2-2\cdot\frac{11}{4}
-        =\frac{169}{16}-\frac{88}{16}=\frac{81}{16}.$$
-      <p><strong>第 3 步 · 开方。</strong>体对角线 $d=\sqrt{a^2+b^2+c^2}=\sqrt{\dfrac{81}{16}}=\boxed{\dfrac94}$，
-      选 <strong>(D)</strong>。</p>
-      <blockquote><strong>注意</strong>：整个推导里 $abc=\dfrac12$ 一次都没出现，也没有用到「三边互不相同」。
-      题目的这两个条件负责<strong>保证这个长方体确实存在</strong>（见方法二的验证），而不是用来算答案。</blockquote>
+  <p><strong>第 1 步 · 把条件翻译成对称多项式。</strong>长方体有 4 条长为 $a$ 的棱、4 条 $b$、4 条 $c$， 也有 2 个 $a\times b$ 的面、2 个 $b\times c$、2 个 $c\times a$。因此</p>
+$$4(a+b+c)=13\ \Rightarrow\ a+b+c=\frac{13}{4},\qquad 2(ab+bc+ca)=\frac{11}{2}\ \Rightarrow\ ab+bc+ca=\frac{11}{4}.$$
+  <p><strong>第 2 步 · 展开完全平方。</strong>由 $(a+b+c)^2=a^2+b^2+c^2+2(ab+bc+ca)$ 得</p>
+$$a^2+b^2+c^2=\left(\frac{13}{4}\right)^2-2\cdot\frac{11}{4} =\frac{169}{16}-\frac{88}{16}=\frac{81}{16}.$$
+  <p><strong>第 3 步 · 开方。</strong>体对角线 $d=\sqrt{a^2+b^2+c^2}=\sqrt{\dfrac{81}{16}}=\boxed{\dfrac94}$， 选 <strong>(D)</strong>。</p>
+  <blockquote><strong>注意</strong>：整个推导里 $abc=\dfrac12$ 一次都没出现，也没有用到「三边互不相同」。 题目的这两个条件负责<strong>保证这个长方体确实存在</strong>（见方法二的验证），而不是用来算答案。</blockquote>
   <h3>方法二：解出三条棱（顺带验证「确实存在」）</h3>
   <p>由韦达定理，$a,b,c$ 是三次方程</p>
-      $$t^3-(a+b+c)t^2+(ab+bc+ca)t-abc=0\quad\Longrightarrow\quad
-        t^3-\frac{13}{4}t^2+\frac{11}{4}t-\frac12=0$$
-      <p>的三个根。两边乘 $4$：$4t^3-13t^2+11t-2=0$。试根 $t=2$：$32-52+22-2=0$，成立，故 $(t-2)$ 是因式：</p>
-      $$4t^3-13t^2+11t-2=(t-2)(4t^2-5t+1)=(t-2)(4t-1)(t-1).$$
-      <p>于是三条棱为 $\left\{\dfrac14,\ 1,\ 2\right\}$，两两互不相同 ✓。代回检验：</p>
-      <table>
+$$t^3-(a+b+c)t^2+(ab+bc+ca)t-abc=0\quad\Longrightarrow\quad t^3-\frac{13}{4}t^2+\frac{11}{4}t-\frac12=0$$
+  <p>的三个根。两边乘 $4$：$4t^3-13t^2+11t-2=0$。试根 $t=2$：$32-52+22-2=0$，成立，故 $(t-2)$ 是因式：</p>
+$$4t^3-13t^2+11t-2=(t-2)(4t^2-5t+1)=(t-2)(4t-1)(t-1).$$
+  <p>于是三条棱为 $\left\{\dfrac14,\ 1,\ 2\right\}$，两两互不相同 ✓。代回检验：</p>
+<table>
         <tr><th>条件</th><th>计算</th><th>结果</th></tr>
         <tr><td>12 条棱之和</td><td>$4\left(\tfrac14+1+2\right)=4\cdot\tfrac{13}{4}$</td><td>$13$ ✓</td></tr>
         <tr><td>6 个面面积之和</td><td>$2\left(\tfrac14\cdot1+1\cdot2+2\cdot\tfrac14\right)=2\cdot\tfrac{11}{4}$</td><td>$\tfrac{11}{2}$ ✓</td></tr>
         <tr><td>体积</td><td>$\tfrac14\cdot1\cdot2$</td><td>$\tfrac12$ ✓</td></tr>
         <tr><td>体对角线</td><td>$\sqrt{\tfrac1{16}+1+4}=\sqrt{\tfrac{81}{16}}$</td><td>$\tfrac94$ ✓</td></tr>
       </table>
-      <p>三条棱全部<strong>为正且互异</strong>，说明题设自洽，长方体真实存在。</p>
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：两条路必须对上同一个数：恒等式给出 $\sqrt{81/16}=9/4=2.25$；
-      解出三边后逐项算得 $\sqrt{1/16+1+4}=\sqrt{81/16}$，且三个原始条件全部吻合。
-      额外的一个交叉检验：所有三条空间对角线的长度都相等（长方体任意一个顶点到最远顶点的距离都是 $d$），
-      所以题目说「最长的」只是措辞严谨，无需比较。
-  </blockquote>
-
+  <p>三条棱全部<strong>为正且互异</strong>，说明题设自洽，长方体真实存在。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：两条路必须对上同一个数：恒等式给出 $\sqrt{81/16}=9/4=2.25$； 解出三边后逐项算得 $\sqrt{1/16+1+4}=\sqrt{81/16}$，且三个原始条件全部吻合。 额外的一个交叉检验：所有三条空间对角线的长度都相等（长方体任意一个顶点到最远顶点的距离都是 $d$）， 所以题目说「最长的」只是措辞严谨，无需比较。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
   <blockquote>
-    <strong>核心知识点</strong>：<strong>三个基本对称多项式</strong>：$s_1=a+b+c$（棱）、$s_2=ab+bc+ca$（面）、$s_3=abc$（体）。
-      体对角线落在<strong>平方和</strong>上，而 $a^2+b^2+c^2=s_1^2-2s_2$——只与前两个有关，
-      与 $s_3$ 无关。
+    <strong>核心知识点</strong>：<strong>三个基本对称多项式</strong>：$s_1=a+b+c$（棱）、$s_2=ab+bc+ca$（面）、$s_3=abc$（体）。 体对角线落在<strong>平方和</strong>上，而 $a^2+b^2+c^2=s_1^2-2s_2$——只与前两个有关， 与 $s_3$ 无关。
   </blockquote>
   <p>必须掌握的要点：</p>
   <ol>
-    <li><strong>先换算，再动笔</strong>：12 条棱 $\to$ 除以 4，6 个面 $\to$ 除以 2。
-      这两个除数写错，答案必定落在某个干扰项上。</li>
-    <li>拿到三个条件先问一句「<strong>我要求的东西到底依赖哪几个</strong>」。
-      本题 $d^2=s_1^2-2s_2$，体积是干扰信息；识别出多余条件等于省下三分钟。</li>
-    <li>见到「总和、两两积和、积」三者齐全，就想到<strong>三次方程的韦达定理</strong>
-      $t^3-s_1t^2+s_2t-s_3=0$，这是把三个条件打包成一条方程的标准手法。</li>
-    <li>题目写的「distinct edge lengths（三边互异）」不是废话：它是<strong>存在性声明</strong>，
-      告诉你不用担心退化。真正需要你担心的，是算出根之后回头确认三根是否全为正。</li>
+    <li><strong>先换算，再动笔</strong>：12 条棱 $\to$ 除以 4，6 个面 $\to$ 除以 2。 这两个除数写错，答案必定落在某个干扰项上。</li>
+    <li>拿到三个条件先问一句「<strong>我要求的东西到底依赖哪几个</strong>」。 本题 $d^2=s_1^2-2s_2$，体积是干扰信息；识别出多余条件等于省下三分钟。</li>
+    <li>见到「总和、两两积和、积」三者齐全，就想到<strong>三次方程的韦达定理</strong> $t^3-s_1t^2+s_2t-s_3=0$，这是把三个条件打包成一条方程的标准手法。</li>
+    <li>题目写的「distinct edge lengths（三边互异）」不是废话：它是<strong>存在性声明</strong>， 告诉你不用担心退化。真正需要你担心的，是算出根之后回头确认三根是否全为正。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
   <div class="prob">
     <span class="tag">第 1 题 · 换一组小参数</span> <span class="stars">★</span> <span class="form">形式｜换约束参数</span>
-    <p>把原题的两个条件都改小：某长方体 12 条棱长之和为 $12$，6 个面的面积之和为 $\dfrac{11}{2}$。
-      求它的体对角线。<br>（提示：这样的长方体确实存在，三边恰为 $\dfrac12,1,\dfrac32$。）</p>
+    <p>把原题的两个条件都改小：某长方体 12 条棱长之和为 $12$，6 个面的面积之和为 $\dfrac{11}{2}$。 求它的体对角线。 <br> （提示：这样的长方体确实存在，三边恰为 $\dfrac12,1,\dfrac32$。）</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$\dfrac{\sqrt{14}}{2}$（即 $\sqrt{\dfrac72}$，约 $1.8708$）</strong></div>
-      <p>$a+b+c=\dfrac{12}{4}=3$，$ab+bc+ca=\dfrac{11/2}{2}=\dfrac{11}{4}$，于是
-      $$d^2=(a+b+c)^2-2(ab+bc+ca)=9-\frac{11}{2}=\frac72,\qquad d=\sqrt{\frac72}=\frac{\sqrt{14}}{2}.$$
-      用提示的三边验算：$\dfrac12+1+\dfrac32=3$ ✓，$\dfrac12\cdot1+1\cdot\dfrac32+\dfrac32\cdot\dfrac12
-      =\dfrac12+\dfrac32+\dfrac34=\dfrac{11}{4}$ ✓，一致。</p>
-      <p class="hint">要点：数字换了、算法一步没变——这正是「换参数」练习的意义：确认你掌握的是<strong>结构</strong>，
-      而不是某一组数的算术过程。</p>
+        <p>$a+b+c=\dfrac{12}{4}=3$，$ab+bc+ca=\dfrac{11/2}{2}=\dfrac{11}{4}$，于是 $$d^2=(a+b+c)^2-2(ab+bc+ca)=9-\frac{11}{2}=\frac72,\qquad d=\sqrt{\frac72}=\frac{\sqrt{14}}{2}.$$ 用提示的三边验算：$\dfrac12+1+\dfrac32=3$ ✓，$\dfrac12\cdot1+1\cdot\dfrac32+\dfrac32\cdot\dfrac12 =\dfrac12+\dfrac32+\dfrac34=\dfrac{11}{4}$ ✓，一致。</p>
+      <p class="hint">要点：数字换了、算法一步没变——这正是「换参数」练习的意义：确认你掌握的是<strong>结构</strong>， 而不是某一组数的算术过程。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t2">第 2 题 · 整数棱长求解</span> <span class="stars">★★</span> <span class="form">形式｜完整列举</span>
-    <p>若三条棱长都是<strong>正整数</strong>，且 12 条棱长之和为 $24$、体积为 $6$。
-      求所有可能的三边长（不计顺序），并求对应的体对角线。</p>
+    <p>若三条棱长都是<strong>正整数</strong>，且 12 条棱长之和为 $24$、体积为 $6$。 求所有可能的三边长（不计顺序），并求对应的体对角线。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>唯一解 $\{1,2,3\}$，体对角线 $=\sqrt{14}$</strong></div>
-      <p>$a+b+c=\dfrac{24}{4}=6$，$abc=6$。枚举和为 6 的无序正整数组：
-      $(1,1,4)$ 积 $4$、$(1,2,3)$ 积 $6$、$(2,2,2)$ 积 $8$，只有 $(1,2,3)$ 满足。
-      此时 $ab+bc+ca=2+3+6=11$，故 $d^2=36-22=14$，$d=\sqrt{14}$。
-      注意这里<strong>没有</strong>给出面积和，是用「和 + 积 + 整数性」把三边唯一确定的。</p>
-      <p class="hint">要点：三个对称多项式里只要知道<strong>任意两个</strong>再加上「整数/互异」这类离散约束，
-      往往就能锁定三边；整数性是比第三个方程更强的条件。</p>
+      <p>$a+b+c=\dfrac{24}{4}=6$，$abc=6$。枚举和为 6 的无序正整数组： $(1,1,4)$ 积 $4$、$(1,2,3)$ 积 $6$、$(2,2,2)$ 积 $8$，只有 $(1,2,3)$ 满足。 此时 $ab+bc+ca=2+3+6=11$，故 $d^2=36-22=14$，$d=\sqrt{14}$。 注意这里<strong>没有</strong>给出面积和，是用「和 + 积 + 整数性」把三边唯一确定的。</p>
+      <p class="hint">要点：三个对称多项式里只要知道<strong>任意两个</strong>再加上「整数/互异」这类离散约束， 往往就能锁定三边；整数性是比第三个方程更强的条件。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t3">第 3 题 · 两个条件够不够？</span> <span class="stars">★★★</span> <span class="form">形式｜反向 / 存在性</span>
-    <p>现在<strong>把「面积和」这个条件删掉</strong>，只保留原题的另外两条：
-      12 条棱长之和为 $13$、体积为 $\dfrac12$。此时体对角线是否唯一确定？若不唯一，请给出两组棱长，
-      使它们既满足这两个条件、体对角线又彼此不同。</p>
+    <p>现在<strong>把「面积和」这个条件删掉</strong>，只保留原题的另外两条： 12 条棱长之和为 $13$、体积为 $\dfrac12$。此时体对角线是否唯一确定？若不唯一，请给出两组棱长， 使它们既满足这两个条件、体对角线又彼此不同。</p>
     <details>
       <summary>👉 点击查看解析</summary>
-      <div class="ans">答：<strong>不唯一确定。例：$(\tfrac14,1,2)\to d=\tfrac94=2.25$；
-      $(\tfrac12,\tfrac{11+\sqrt{57}}8,\tfrac{11-\sqrt{57}}8)\to d=\dfrac{\sqrt{93}}4\approx2.4109$</strong></div>
-      <p>取 $a=\dfrac12$，则 $b+c=\dfrac{13}{4}-\dfrac12=\dfrac{11}{4}$，且 $bc=\dfrac{1/2}{1/2}=1$。
-      由韦达，$b,c$ 是 $t^2-\dfrac{11}{4}t+1=0$ 的两根，即 $t=\dfrac{11\pm\sqrt{57}}8$（均为正 ✓）。
-      于是 $d^2=\dfrac14+\left(\dfrac{11+\sqrt{57}}8\right)^2+\left(\dfrac{11-\sqrt{57}}8\right)^2
-      =\dfrac14+\dfrac{2\cdot121+2\cdot57}{64}=\dfrac{16+356}{64}=\dfrac{93}{16}$，$d=\dfrac{\sqrt{93}}4\approx2.4109$。
-      与原题那组 $(\tfrac14,1,2)$ 的 $d=\tfrac94=2.25$ 不同，故不唯一。</p>
-      <p class="hint">要点：丢失 $s_2$ 之后，$q=ab+bc+ca$ 就自由了，而 $d^2=s_1^2-2q$ 随 $q$ 变化——
-      这从反面证明了<strong>「面积和」才是决定体对角线的那个条件</strong>，体积不是。</p>
+      <div class="ans">答：<strong>不唯一确定。例：$(\tfrac14,1,2)\to d=\tfrac94=2.25$； $(\tfrac12,\tfrac{11+\sqrt{57}}8,\tfrac{11-\sqrt{57}}8)\to d=\dfrac{\sqrt{93}}4\approx2.4109$</strong></div>
+      <p>取 $a=\dfrac12$，则 $b+c=\dfrac{13}{4}-\dfrac12=\dfrac{11}{4}$，且 $bc=\dfrac{1/2}{1/2}=1$。 由韦达，$b,c$ 是 $t^2-\dfrac{11}{4}t+1=0$ 的两根，即 $t=\dfrac{11\pm\sqrt{57}}8$（均为正 ✓）。 于是 $d^2=\dfrac14+\left(\dfrac{11+\sqrt{57}}8\right)^2+\left(\dfrac{11-\sqrt{57}}8\right)^2 =\dfrac14+\dfrac{2\cdot121+2\cdot57}{64}=\dfrac{16+356}{64}=\dfrac{93}{16}$，$d=\dfrac{\sqrt{93}}4\approx2.4109$。 与原题那组 $(\tfrac14,1,2)$ 的 $d=\tfrac94=2.25$ 不同，故不唯一。</p>
+      <p class="hint">要点：丢失 $s_2$ 之后，$q=ab+bc+ca$ 就自由了，而 $d^2=s_1^2-2q$ 随 $q$ 变化—— 这从反面证明了<strong>「面积和」才是决定体对角线的那个条件</strong>，体积不是。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t4">第 4 题 · 通项与下界</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
-    <p>证明一般公式：<strong>$d^2=s_1^2-2s_2$</strong>（因而体积不参与决定对角线）；
-      再证明在 $a+b+c$ 固定时恒有 <strong>$d\ \ge\ \dfrac{s_1}{\sqrt3}$</strong>，并算出原题的这个下界。
-      （提示：$(a-b)^2+(b-c)^2+(c-a)^2\ge0$。）</p>
+    <p>证明一般公式：<strong>$d^2=s_1^2-2s_2$</strong>（因而体积不参与决定对角线）； 再证明在 $a+b+c$ 固定时恒有 <strong>$d\ \ge\ \dfrac{s_1}{\sqrt3}$</strong>，并算出原题的这个下界。 （提示：$(a-b)^2+(b-c)^2+(c-a)^2\ge0$。）</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$d^2=s_1^2-2s_2$；下界为 $\dfrac{13\sqrt3}{12}\approx1.8764$，原题 $d=2.25$ 确实大于它</strong></div>
-      <p>① 直接展开 $(a+b+c)^2=a^2+b^2+c^2+2(ab+bc+ca)$ 即得 $d^2=s_1^2-2s_2$，式中没有 $s_3=abc$。
-      ② 由 $(a-b)^2+(b-c)^2+(c-a)^2\ge0$ 展开得 $2(a^2+b^2+c^2)-2(ab+bc+ca)\ge0$，即 $d^2\ge s_2$；
-      再配合 $d^2=s_1^2-2s_2$ 消去 $s_2$：$d^2\ge\dfrac{s_1^2-d^2}{2}$，整理得 $3d^2\ge s_1^2$，即 $d\ge\dfrac{s_1}{\sqrt3}$，
-      等号当且仅当 $a=b=c$（立方体）。原题 $s_1=\dfrac{13}{4}$，下界 $=\dfrac{13}{4\sqrt3}=\dfrac{13\sqrt3}{12}\approx1.8764<2.25$ ✓。</p>
-      <p class="hint">要点：这条不等式是个免费的<strong>合理性检查器</strong>：算出的 $d$ 若小于 $s_1/\sqrt3$，
-      不用对答案就知道算错了。立方体取等也解释了为什么它是最「紧凑」的长方体。</p>
+      <p>① 直接展开 $(a+b+c)^2=a^2+b^2+c^2+2(ab+bc+ca)$ 即得 $d^2=s_1^2-2s_2$，式中没有 $s_3=abc$。 ② 由 $(a-b)^2+(b-c)^2+(c-a)^2\ge0$ 展开得 $2(a^2+b^2+c^2)-2(ab+bc+ca)\ge0$，即 $d^2\ge s_2$； 再配合 $d^2=s_1^2-2s_2$ 消去 $s_2$：$d^2\ge\dfrac{s_1^2-d^2}{2}$，整理得 $3d^2\ge s_1^2$，即 $d\ge\dfrac{s_1}{\sqrt3}$， 等号当且仅当 $a=b=c$（立方体）。原题 $s_1=\dfrac{13}{4}$，下界 $=\dfrac{13}{4\sqrt3}=\dfrac{13\sqrt3}{12}\approx1.8764\lt 2.25$ ✓。</p>
+      <p class="hint">要点：这条不等式是个免费的<strong>合理性检查器</strong>：算出的 $d$ 若小于 $s_1/\sqrt3$， 不用对答案就知道算错了。立方体取等也解释了为什么它是最「紧凑」的长方体。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t5">第 5 题 · 体积固定时的最优形状</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值 / 结构证明</span>
-    <p>反过来固定体积：在所有<strong>体积为 $V$</strong> 的长方体中，体对角线的最小可能值是多少？
-      取 $V=\dfrac12$ 算出数值，并说明等号何时取到。</p>
+    <p>反过来固定体积：在所有<strong>体积为 $V$</strong> 的长方体中，体对角线的最小可能值是多少？ 取 $V=\dfrac12$ 算出数值，并说明等号何时取到。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>$d_{\min}=\sqrt3\,V^{1/3}$；$V=\dfrac12$ 时 $=\sqrt3\cdot2^{-1/3}\approx1.3747$，当且仅当是立方体时取到</strong></div>
-      <p>对 $a^2,b^2,c^2$ 用 AM–GM：
-      $$\frac{a^2+b^2+c^2}{3}\ \ge\ \sqrt[3]{a^2b^2c^2}=(abc)^{2/3}=V^{2/3},$$
-      故 $d^2=a^2+b^2+c^2\ge3V^{2/3}$，即 $d\ge\sqrt3\,V^{1/3}$，等号当且仅当 $a^2=b^2=c^2$，即 $a=b=c=V^{1/3}$（立方体）。
-      代入 $V=\dfrac12$：$d_{\min}=\sqrt3\left(\dfrac12\right)^{1/3}=\sqrt3\cdot2^{-1/3}\approx1.3747$。
-      对照一下：原题的棱长和是 $\dfrac{13}{4}$，若为立方体则边长 $\dfrac{13}{12}$、体积 $\left(\dfrac{13}{12}\right)^3\approx1.271\neq\dfrac12$，
-      所以原题那个长方体离立方体很远，$d=2.25$ 远大于这个下界，完全合理。</p>
-      <p class="hint">要点：固定 $s_1$ 时下界是 $s_1/\sqrt3$，固定 $s_3$ 时下界是 $\sqrt3\,s_3^{1/3}$，两者都在立方体取等。
-      「<strong>极端形状＝最对称的形状</strong>」是这类极值题的通解方向。</p>
+        <p>对 $a^2,b^2,c^2$ 用 AM–GM： $$\frac{a^2+b^2+c^2}{3}\ \ge\ \sqrt[3]{a^2b^2c^2}=(abc)^{2/3}=V^{2/3},$$ 故 $d^2=a^2+b^2+c^2\ge3V^{2/3}$，即 $d\ge\sqrt3\,V^{1/3}$，等号当且仅当 $a^2=b^2=c^2$，即 $a=b=c=V^{1/3}$（立方体）。 代入 $V=\dfrac12$：$d_{\min}=\sqrt3\left(\dfrac12\right)^{1/3}=\sqrt3\cdot2^{-1/3}\approx1.3747$。 对照一下：原题的棱长和是 $\dfrac{13}{4}$，若为立方体则边长 $\dfrac{13}{12}$、体积 $\left(\dfrac{13}{12}\right)^3\approx1.271\neq\dfrac12$， 所以原题那个长方体离立方体很远，$d=2.25$ 远大于这个下界，完全合理。</p>
+      <p class="hint">要点：固定 $s_1$ 时下界是 $s_1/\sqrt3$，固定 $s_3$ 时下界是 $\sqrt3\,s_3^{1/3}$，两者都在立方体取等。 「<strong>极端形状＝最对称的形状</strong>」是这类极值题的通解方向。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -343,10 +274,9 @@ window.MathJax = {
       口诀：棱和除以四、面和除以二，平方和等于「和的平方减两倍积和」——体积只是个观众。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 10 错题精讲 · 长方体 · 体对角线与对称多项式 &nbsp;|&nbsp; 生成于 2026-09-27</div>
+    <div>AMC 10 错题精讲 · 长方体 · 体对角线与对称多项式 &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
