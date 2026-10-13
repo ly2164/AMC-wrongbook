@@ -140,17 +140,9 @@ window.MathJax = {
 
   <h2>一、错题原题</h2>
   <blockquote>
-    Define an <em>upno</em> to be a positive integer of 2 or more digits where the digits are
-      strictly increasing moving left to right. Similarly, define a <em>downno</em> to be a positive
-      integer of 2 or more digits where the digits are strictly decreasing moving left to right.
-      For instance, the number $258$ is an upno and $8620$ is a downno. Let $U$ equal the total number
-      of upnos and let $D$ equal the total number of downnos. What is $|U-D|$?
-      <br><br>
-      $\textbf{(A)}\ 512 \qquad \textbf{(B)}\ 10 \qquad \textbf{(C)}\ 0 \qquad \textbf{(D)}\ 9 \qquad \textbf{(E)}\ 511$
+    Define an <em>upno</em> to be a positive integer of 2 or more digits where the digits are strictly increasing moving left to right. Similarly, define a <em>downno</em> to be a positive integer of 2 or more digits where the digits are strictly decreasing moving left to right. For instance, the number $258$ is an upno and $8620$ is a downno. Let $U$ equal the total number of upnos and let $D$ equal the total number of downnos. What is $|U-D|$?<br><br>$\textbf{(A)}\ 512 \qquad \textbf{(B)}\ 10 \qquad \textbf{(C)}\ 0 \qquad \textbf{(D)}\ 9 \qquad \textbf{(E)}\ 511$
   </blockquote>
-  <p><strong>中文翻译</strong>：称一个至少两位、且各位数字<strong>从左到右严格递增</strong>的正整数为 <em>upno</em>；
-      类似地，称一个至少两位、且各位数字<strong>从左到右严格递减</strong>的正整数为 <em>downno</em>。
-      例如 $258$ 是 upno，$8620$ 是 downno。设 $U$ 为 upno 的总数，$D$ 为 downno 的总数，求 $|U-D|$。</p>
+  <p><strong>中文翻译</strong>：称一个至少两位、且各位数字<strong>从左到右严格递增</strong>的正整数为 <em>upno</em>； 类似地，称一个至少两位、且各位数字<strong>从左到右严格递减</strong>的正整数为 <em>downno</em>。 例如 $258$ 是 upno，$8620$ 是 downno。设 $U$ 为 upno 的总数，$D$ 为 downno 的总数，求 $|U-D|$。</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
   <p class="official">
     📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
@@ -163,57 +155,31 @@ window.MathJax = {
   <h2>二、错误原因诊断</h2>
   <table>
     <tr><th>常见错误</th><th>错在哪</th></tr>
-    <tr><td><code>选 (C) 0：以为「递增和递减对称，把数倒过来就配对」</code></td><td>配对思路是对的，但漏了一个断点：$258 \leftrightarrow 852$ 确实配对，
-      可 $8620$ 倒过来是 $0268$，<strong>首位是 0，根本不是一个四位数</strong>（它其实是三位数 $268$）。
-      凡是<strong>含 0</strong> 的 downno 都在配对中落单，绝不是零差。</td></tr>
-    <tr><td><code>选 (B) 10 / (D) 9：只看到「downno 多了一个数字 0」就报 10，或只数了两位数的情形报 9</code></td><td>「多一个数字」的说法太粗糙。含 0 的 downno 不是 10 个，而是
-      <strong>任选一个 $\{1,\dots,9\}$ 的非空子集再配上 0</strong>，共 $2^9-1=511$ 个。
-      这里把「一个元素」当成了「一个子集」，是典型的<strong>线性思维替代指数思维</strong>。</td></tr>
+    <tr><td><code>选 (C) 0：以为「递增和递减对称，把数倒过来就配对」</code></td><td>配对思路是对的，但漏了一个断点：$258 \leftrightarrow 852$ 确实配对， 可 $8620$ 倒过来是 $0268$，<strong>首位是 0，根本不是一个四位数</strong>（它其实是三位数 $268$）。 凡是<strong>含 0</strong> 的 downno 都在配对中落单，绝不是零差。</td></tr>
+    <tr><td><code>选 (B) 10 / (D) 9：只看到「downno 多了一个数字 0」就报 10，或只数了两位数的情形报 9</code></td><td>「多一个数字」的说法太粗糙。含 0 的 downno 不是 10 个，而是 <strong>任选一个 $\{1,\dots,9\}$ 的非空子集再配上 0</strong>，共 $2^9-1=511$ 个。 这里把「一个元素」当成了「一个子集」，是典型的<strong>线性思维替代指数思维</strong>。</td></tr>
     <!-- 按需增删行 -->
   </table>
   <blockquote class="warn">
-    <strong>根本问题</strong>：没有建立「<strong>严格单调 ⟺ 子集</strong>」这个双射，只能逐位列组合数再求和，
-      于是一方面容易在 $\{0,\dots,9\}$ 与 $\{1,\dots,9\}$ 之间搞混取值范围，
-      另一方面算完得到一个「干巴巴的数字」却毫无校验手段。真正的抓手是：
-      <strong>一个数字集合一旦选定，单调排列方式唯一</strong>，所以计数对象从「数」降维成「集合」。
+    <strong>根本问题</strong>：没有建立「<strong>严格单调 ⟺ 子集</strong>」这个双射，只能逐位列组合数再求和， 于是一方面容易在 $\{0,\dots,9\}$ 与 $\{1,\dots,9\}$ 之间搞混取值范围， 另一方面算完得到一个「干巴巴的数字」却毫无校验手段。真正的抓手是： <strong>一个数字集合一旦选定，单调排列方式唯一</strong>，所以计数对象从「数」降维成「集合」。
   </blockquote>
 
   <hr>
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/16" target="_blank" rel="noopener">2023AMC10B(16)</a> 的书面解答一致——upno 的数字只能取自 $\{1..9\}$ 且至少 2 个，downno 可含末尾 0；$U=2^9-10$、$D=2^{10}-11$，差 511。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2023B/problem/16" target="_blank" rel="noopener">2023AMC10B(16)</a> 的书面解答一致——upno 的数字只能取自 $\{1..9\}$ 且至少 2 个，downno 可含末尾 0；$U=2^9-10$、$D=2^{10}-11$，差 511。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：子集双射（推荐 · 三步出答案）</h3>
-  <p><strong>第 0 步 · 建立双射。</strong>严格单调的数字一旦集合确定，排法就<strong>唯一</strong>：
-      $\{2,5,8\}$ 只能排成 $258$（增）或 $852$（减）。所以「数 upno / downno 的个数」等于「数允许的数字子集个数」。</p>
-
-      <p><strong>第 1 步 · 数 upno。</strong>严格递增时，若集合含 $0$，则 $0$ 必然落在<strong>首位</strong>，
-      那就不是合法的正整数写法了（例如 $\{0,2,5\}$ 只能写成 $025$，实际是两位数 $25$）。
-      因此 <strong>upno 的数字只能从 $\{1,2,\dots,9\}$ 里选</strong>，且至少选 $2$ 个：
-      $$U=\sum_{k=2}^{9}\binom9k=2^9-\binom90-\binom91=512-1-9=502.$$</p>
-
-      <p><strong>第 2 步 · 数 downno。</strong>严格递减时，$0$ 只会落到<strong>末位</strong>，
-      完全合法（$8620$ 就是例子）。因此 downno 的数字可从 $\{0,1,\dots,9\}$ 全集中选，至少选 $2$ 个：
-      $$D=\sum_{k=2}^{10}\binom{10}k=2^{10}-\binom{10}0-\binom{10}1=1024-1-10=1013.$$</p>
-
-      <p><strong>第 3 步 · 相减。</strong>$|U-D|=1013-502=\boxed{511}$，选 <strong>(E)</strong>。</p>
-
-      <blockquote><strong>更狠的一步到位</strong>：把每个数「倒过来写」，不含 $0$ 的 downno 与全体 upno
-      <strong>一一对应</strong>；落单的只有<strong>含 0 的 downno</strong>。这类数的集合形如
-      $\{0\}\cup T$，其中 $T$ 是 $\{1,\dots,9\}$ 的<strong>非空</strong>子集（非空是因为至少要两位）。
-      于是直接得到
-      $$D-U=\#\{T\subseteq\{1,\dots,9\}:T\neq\varnothing\}=2^9-1=511,$$
-      连 $U$、$D$ 都不必分别算出来。</blockquote>
+  <p><strong>第 0 步 · 建立双射。</strong>严格单调的数字一旦集合确定，排法就<strong>唯一</strong>： $\{2,5,8\}$ 只能排成 $258$（增）或 $852$（减）。所以「数 upno / downno 的个数」等于「数允许的数字子集个数」。</p>
+  <p><strong>第 1 步 · 数 upno。</strong>严格递增时，若集合含 $0$，则 $0$ 必然落在<strong>首位</strong>， 那就不是合法的正整数写法了（例如 $\{0,2,5\}$ 只能写成 $025$，实际是两位数 $25$）。 因此 <strong>upno 的数字只能从 $\{1,2,\dots,9\}$ 里选</strong>，且至少选 $2$ 个： $$U=\sum_{k=2}^{9}\binom9k=2^9-\binom90-\binom91=512-1-9=502.$$</p>
+  <p><strong>第 2 步 · 数 downno。</strong>严格递减时，$0$ 只会落到<strong>末位</strong>， 完全合法（$8620$ 就是例子）。因此 downno 的数字可从 $\{0,1,\dots,9\}$ 全集中选，至少选 $2$ 个： $$D=\sum_{k=2}^{10}\binom{10}k=2^{10}-\binom{10}0-\binom{10}1=1024-1-10=1013.$$</p>
+  <p><strong>第 3 步 · 相减。</strong>$|U-D|=1013-502=\boxed{511}$，选 <strong>(E)</strong>。</p>
+  <blockquote><strong>更狠的一步到位</strong>：把每个数「倒过来写」，不含 $0$ 的 downno 与全体 upno <strong>一一对应</strong>；落单的只有<strong>含 0 的 downno</strong>。这类数的集合形如 $\{0\}\cup T$，其中 $T$ 是 $\{1,\dots,9\}$ 的<strong>非空</strong>子集（非空是因为至少要两位）。 于是直接得到 $$D-U=\#\{T\subseteq\{1,\dots,9\}:T\neq\varnothing\}=2^9-1=511,$$ 连 $U$、$D$ 都不必分别算出来。</blockquote>
   <h3>方法二：按位数逐项对账（帕斯卡恒等式）</h3>
-  <p>设 $U_k$、$D_k$ 分别为 $k$ 位的 upno、downno 个数。由上面的取值范围：
-      $U_k=\binom9k$（$k\le 9$，$k\ge 10$ 时为 $0$），$D_k=\binom{10}k$（$k\le 10$）。</p>
-      <p>对 $2\le k\le 10$，用帕斯卡恒等式 $\binom{10}k=\binom9k+\binom9{k-1}$ 逐项相减：
-      $$D_k-U_k=\binom{10}k-\binom9k=\binom9{k-1}.$$</p>
-      <p>求和并换元 $j=k-1$：
-      $$D-U=\sum_{k=2}^{10}\binom9{k-1}=\sum_{j=1}^{9}\binom9j=2^9-\binom90=511.$$</p>
-      <table>
+  <p>设 $U_k$、$D_k$ 分别为 $k$ 位的 upno、downno 个数。由上面的取值范围： $U_k=\binom9k$（$k\le 9$，$k\ge 10$ 时为 $0$），$D_k=\binom{10}k$（$k\le 10$）。</p>
+  <p>对 $2\le k\le 10$，用帕斯卡恒等式 $\binom{10}k=\binom9k+\binom9{k-1}$ 逐项相减： $$D_k-U_k=\binom{10}k-\binom9k=\binom9{k-1}.$$</p>
+  <p>求和并换元 $j=k-1$： $$D-U=\sum_{k=2}^{10}\binom9{k-1}=\sum_{j=1}^{9}\binom9j=2^9-\binom90=511.$$</p>
+<table>
         <tr><th>位数 $k$</th><th>$U_k=\binom9k$</th><th>$D_k=\binom{10}k$</th><th>差 $=\binom9{k-1}$</th></tr>
         <tr><td>2</td><td>36</td><td>45</td><td>9</td></tr>
         <tr><td>3</td><td>84</td><td>120</td><td>36</td></tr>
@@ -226,52 +192,32 @@ window.MathJax = {
         <tr><td>10</td><td>0</td><td>1</td><td>1</td></tr>
         <tr><th>合计</th><th>502</th><th>1013</th><th>511</th></tr>
       </table>
-      <p>这张表同时解释了三个干扰项：<strong>(D) 9</strong> 是只算了两位数的差，
-      <strong>(B) 10</strong> 是把 $k=9,10$ 两行只顾着看 $\binom91$，<strong>(A) 512</strong> 则是 $2^9$ 忘了减 1。</p>
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：两条独立路径必须对上：① 分别算 $U=502$、$D=1013$；② 直接算差 $=2^9-1=511$；
-      ③ 位数表逐行相加也得 $511$。此外计算机枚举 $10\le n<10^7$ 内严格递增的数得 <strong>492</strong> 个，
-      恰等于 $\binom92+\cdots+\binom97=36+84+126+126+84+36$，与 $U_k$ 的一整段对得上——
-      组合模型一旦有问题，这种「部分和」最容易先露馅。
-  </blockquote>
-
+  <p>这张表同时解释了三个干扰项：<strong>(D) 9</strong> 是只算了两位数的差， <strong>(B) 10</strong> 是把 $k=9,10$ 两行只顾着看 $\binom91$，<strong>(A) 512</strong> 则是 $2^9$ 忘了减 1。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：两条独立路径必须对上：① 分别算 $U=502$、$D=1013$；② 直接算差 $=2^9-1=511$； ③ 位数表逐行相加也得 $511$。此外计算机枚举 $10\le n\lt 10^7$ 内严格递增的数得 <strong>492</strong> 个， 恰等于 $\binom92+\cdots+\binom97=36+84+126+126+84+36$，与 $U_k$ 的一整段对得上—— 组合模型一旦有问题，这种「部分和」最容易先露馅。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
   <blockquote>
-    <strong>核心知识点</strong>：<strong>严格单调的数字 ⟺ 一个数字子集</strong>（排列方式唯一）。
-      upno 的池子是 $\{1,\dots,9\}$（9 个），downno 的池子是 $\{0,\dots,9\}$（10 个），
-      差别<strong>只在 0 能不能用</strong>，根子是「首位不得为 0」。
+    <strong>核心知识点</strong>：<strong>严格单调的数字 ⟺ 一个数字子集</strong>（排列方式唯一）。 upno 的池子是 $\{1,\dots,9\}$（9 个），downno 的池子是 $\{0,\dots,9\}$（10 个）， 差别<strong>只在 0 能不能用</strong>，根子是「首位不得为 0」。
   </blockquote>
   <p>必须掌握的要点：</p>
   <ol>
-    <li>见到「严格递增 / 严格递减 / 各位互不相同」的计数题，第一反应应该是
-      <strong>选子集</strong>而不是「先排再除」——因为排法本来就只有一种。</li>
-    <li>凡是涉及「正整数」「$k$ 位数」的计数，都要单独检查 <strong>0 的位置</strong>：
-      递增时 0 只能居首位（非法），递减时 0 只落末位（合法）。本题 511 这个差，全部来自这一条。</li>
-    <li>$2^n-1$ 长相的答案几乎都意味着「<strong>非空子集</strong>」。
-      看到 511 应立刻反应 $511=2^9-1=7\times 73$，并回头去找那个 9 元集。</li>
-    <li>算完务必用 <strong>第二种算法对账</strong>（分别求和 vs 直接求差 vs 按位列表），
-      本题三个干扰项恰好是三种「半途而废」的算路，单算一遍极易选中其中一个。</li>
+    <li>见到「严格递增 / 严格递减 / 各位互不相同」的计数题，第一反应应该是 <strong>选子集</strong>而不是「先排再除」——因为排法本来就只有一种。</li>
+    <li>凡是涉及「正整数」「$k$ 位数」的计数，都要单独检查 <strong>0 的位置</strong>： 递增时 0 只能居首位（非法），递减时 0 只落末位（合法）。本题 511 这个差，全部来自这一条。</li>
+    <li>$2^n-1$ 长相的答案几乎都意味着「<strong>非空子集</strong>」。 看到 511 应立刻反应 $511=2^9-1=7\times 73$，并回头去找那个 9 元集。</li>
+    <li>算完务必用 <strong>第二种算法对账</strong>（分别求和 vs 直接求差 vs 按位列表）， 本题三个干扰项恰好是三种「半途而废」的算路，单算一遍极易选中其中一个。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
   <div class="prob">
     <span class="tag">第 1 题 · 两个数字的天下</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
-    <p>只考虑<strong>两位数</strong>：两位数的 upno 有多少个？两位数的 downno 有多少个？
-      请把最小的三个和最大的三个各写出来验证你的计数。</p>
+    <p>只考虑<strong>两位数</strong>：两位数的 upno 有多少个？两位数的 downno 有多少个？ 请把最小的三个和最大的三个各写出来验证你的计数。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>upno 36 个，downno 45 个，相差 9</strong></div>
-      <p>两位 upno 从 $\{1,\dots,9\}$ 选 2 个：$\binom92=36$；最小的三个是 $12,13,14$，
-      最大的三个按数值是 $78,79,89$（十位为 8 的两位 upno 只剩 $89$，再往下依次是 $79$、$78$）。
-      两位 downno 从 $\{0,\dots,9\}$ 选 2 个：$\binom{10}2=45$；最小的三个是 $10,20,21$，
-      最大的三个是 $98,97,96$。差 $45-36=9$，正是位数表中 $k=2$ 那一行的 $\binom91$。</p>
-      <p class="hint">要点：downno 那一头多出来的 9 个就是 $10,20,\dots,90$ 这 9 个「含 0 的两位数」——
-      「多出来的部分＝含 0 的那批」这条规律在最小的情形已经完全显现。</p>
+      <p>两位 upno 从 $\{1,\dots,9\}$ 选 2 个：$\binom92=36$；最小的三个是 $12,13,14$， 最大的三个按数值是 $78,79,89$（十位为 8 的两位 upno 只剩 $89$，再往下依次是 $79$、$78$）。 两位 downno 从 $\{0,\dots,9\}$ 选 2 个：$\binom{10}2=45$；最小的三个是 $10,20,21$， 最大的三个是 $98,97,96$。差 $45-36=9$，正是位数表中 $k=2$ 那一行的 $\binom91$。</p>
+      <p class="hint">要点：downno 那一头多出来的 9 个就是 $10,20,\dots,90$ 这 9 个「含 0 的两位数」—— 「多出来的部分＝含 0 的那批」这条规律在最小的情形已经完全显现。</p>
     </details>
   </div>
 
@@ -281,66 +227,43 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>255</strong></div>
-      <p>含 5 的 upno 对应一个含 5 的子集 $S\subseteq\{1,\dots,9\}$，$|S|\ge 2$。
-      其余元素从另外 8 个数字里挑，个数 $=|S|-1\ge 1$（因为必须再配至少一个数字才够两位），故
-      $$\sum_{j=1}^{8}\binom8j=2^8-1=255.$$
-      另一种思路交叉验证：全体 upno 共 $502$ 个，不含 5 的 upno 是从剩下 8 个数字里选的非单元素且非空的集合，
-      即 $2^8-1-8=247$ 个，$502-247=255$，一致。</p>
-      <p class="hint">要点：「必选某元素」就把剩余问题降为更小全集的子集计数；注意下界跟着从「≥2 个」
-      变成「其余≥1 个」，是这类题最容易漏掉的一步。</p>
+        <p>含 5 的 upno 对应一个含 5 的子集 $S\subseteq\{1,\dots,9\}$，$|S|\ge 2$。 其余元素从另外 8 个数字里挑，个数 $=|S|-1\ge 1$（因为必须再配至少一个数字才够两位），故 $$\sum_{j=1}^{8}\binom8j=2^8-1=255.$$ 另一种思路交叉验证：全体 upno 共 $502$ 个，不含 5 的 upno 是从剩下 8 个数字里选的非单元素且非空的集合， 即 $2^8-1-8=247$ 个，$502-247=255$，一致。</p>
+      <p class="hint">要点：「必选某元素」就把剩余问题降为更小全集的子集计数；注意下界跟着从「≥2 个」 变成「其余≥1 个」，是这类题最容易漏掉的一步。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t3">第 3 题 · 三位数中的「路人」</span> <span class="stars">★★★</span> <span class="form">形式｜补集排除</span>
-    <p>在三位数（$100\sim 999$，共 900 个）中，<strong>既不是 upno 也不是 downno</strong> 的有多少个？
-      先回答：一个三位数可能同时是 upno 和 downno 吗？</p>
+    <p>在三位数（$100\sim 999$，共 900 个）中，<strong>既不是 upno 也不是 downno</strong> 的有多少个？ 先回答：一个三位数可能同时是 upno 和 downno 吗？</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>不可能同时成立（交集为 0）；既非 upno 亦非 downno 的共 696 个</strong></div>
-      <p>同时要求 $d_1<d_2<d_3$ 与 $d_1>d_2>d_3$，两者不能并存，故交集为空，可以直接相加。
-      三位 upno：$\binom93=84$；三位 downno：$\binom{10}3=120$（含 $\{0,1,2\}\to 210$ 这类末位为 0 的）。
-      于是答案 $=900-84-120=696$。</p>
-      <p class="hint">要点：用补集前<strong>必须先确认交集是否为空</strong>——这点在本类题中总是成立
-      （严格增与严格减互斥），但每次都要顺手证一句，别养成「默认不交」的习惯。</p>
+      <p>同时要求 $d_1\lt d_2\lt d_3$ 与 $d_1>d_2>d_3$，两者不能并存，故交集为空，可以直接相加。 三位 upno：$\binom93=84$；三位 downno：$\binom{10}3=120$（含 $\{0,1,2\}\to 210$ 这类末位为 0 的）。 于是答案 $=900-84-120=696$。</p>
+      <p class="hint">要点：用补集前<strong>必须先确认交集是否为空</strong>——这点在本类题中总是成立 （严格增与严格减互斥），但每次都要顺手证一句，别养成「默认不交」的习惯。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t4">第 4 题 · 位数通项</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
-    <p>记 $U_k$、$D_k$ 为 $k$ 位的 upno、downno 个数。
-      证明：<strong>对 $2\le k\le 10$ 恒有 $D_k-U_k=\binom9{k-1}$</strong>，并用它重新求出 $D-U$。</p>
+    <p>记 $U_k$、$D_k$ 为 $k$ 位的 upno、downno 个数。 证明：<strong>对 $2\le k\le 10$ 恒有 $D_k-U_k=\binom9{k-1}$</strong>，并用它重新求出 $D-U$。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>由帕斯卡恒等式得证；$D-U=\sum_{j=1}^{9}\binom9j=2^9-1=511$</strong></div>
-      <p>$k\le 9$ 时 $U_k=\binom9k$、$D_k=\binom{10}k$，由帕斯卡恒等式
-      $\binom{10}k=\binom9k+\binom9{k-1}$ 得 $D_k-U_k=\binom9{k-1}$。
-      $k=10$ 时 $U_{10}=0$（9 个非零数字撑不出 10 位严格递增），$D_{10}=\binom{10}{10}=1$（即 $9876543210$），
-      而 $\binom99=1$，公式依然成立。故
-      $$D-U=\sum_{k=2}^{10}\binom9{k-1}=\sum_{j=1}^{9}\binom9j=2^9-\binom90=511.$$</p>
-      <p class="hint">要点：逐位恒等式比只算总数更可靠：它把 511 拆成 9 个可逐个核对的分量，
-      任何一个池子取错都会在某一位上当场暴露。</p>
+        <p>$k\le 9$ 时 $U_k=\binom9k$、$D_k=\binom{10}k$，由帕斯卡恒等式 $\binom{10}k=\binom9k+\binom9{k-1}$ 得 $D_k-U_k=\binom9{k-1}$。 $k=10$ 时 $U_{10}=0$（9 个非零数字撑不出 10 位严格递增），$D_{10}=\binom{10}{10}=1$（即 $9876543210$）， 而 $\binom99=1$，公式依然成立。故 $$D-U=\sum_{k=2}^{10}\binom9{k-1}=\sum_{j=1}^{9}\binom9j=2^9-\binom90=511.$$</p>
+      <p class="hint">要点：逐位恒等式比只算总数更可靠：它把 511 拆成 9 个可逐个核对的分量， 任何一个池子取错都会在某一位上当场暴露。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t5">第 5 题 · 拉开差距的新规则</span> <span class="stars">★★★★★</span> <span class="form">形式｜换约束参数</span>
-    <p>把规则改一改：称一个至少两位、且<strong>相邻两位之差至少为 2</strong>
-      （即 $d_{i+1}\ge d_i+2$）的递增数为 <em>gapno</em>。求 gapno 的总个数。</p>
+    <p>把规则改一改：称一个至少两位、且<strong>相邻两位之差至少为 2</strong> （即 $d_{i+1}\ge d_i+2$）的递增数为 <em>gapno</em>。求 gapno 的总个数。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>79</strong></div>
-      <p>作变量替换把它变回「严格递增」：令 $e_i=d_i-(i-1)$。则
-      $$e_{i+1}-e_i=(d_{i+1}-d_i)-1\ \ge\ 2-1=1>0,$$
-      所以 $e_1<e_2<\cdots<e_k$ 严格递增。范围上 $e_1=d_1\ge 1$，$e_k=d_k-(k-1)\le 9-k+1=10-k$，
-      即 $e$ 是从 $\{1,2,\dots,10-k\}$ 中选 $k$ 个严格递增的数，共 $\binom{10-k}{k}$ 个。于是
-      $$\binom82+\binom73+\binom64+\binom55=28+35+15+1=79,$$
-      $k\ge 6$ 时为 $0$。计算机枚举 $10\le n<10^6$ 实测同样得到 $79$，验证无误。</p>
-      <p class="hint">要点：核心技巧是<strong>「减去线性漂移」把带间隔的单调变回严格单调</strong>
-      （$e_i=d_i-(i-1)$），这是处理「间隔至少为 $m$」类组合题的通用手法。</p>
+        <p>作变量替换把它变回「严格递增」：令 $e_i=d_i-(i-1)$。则 $$e_{i+1}-e_i=(d_{i+1}-d_i)-1\ \ge\ 2-1=1>0,$$ 所以 $e_1\lt e_2\lt \cdots\lt e_k$ 严格递增。范围上 $e_1=d_1\ge 1$，$e_k=d_k-(k-1)\le 9-k+1=10-k$， 即 $e$ 是从 $\{1,2,\dots,10-k\}$ 中选 $k$ 个严格递增的数，共 $\binom{10-k}{k}$ 个。于是 $$\binom82+\binom73+\binom64+\binom55=28+35+15+1=79,$$ $k\ge 6$ 时为 $0$。计算机枚举 $10\le n\lt 10^6$ 实测同样得到 $79$，验证无误。</p>
+      <p class="hint">要点：核心技巧是<strong>「减去线性漂移」把带间隔的单调变回严格单调</strong>       （$e_i=d_i-(i-1)$），这是处理「间隔至少为 $m$」类组合题的通用手法。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -355,10 +278,9 @@ window.MathJax = {
       口诀：单调一排位已定，数数就数那个「集」；0 这个差别专割递增，511＝非空九子集。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 10 错题精讲 · 单调数字计数 · 子集双射 &nbsp;|&nbsp; 生成于 2026-09-27</div>
+    <div>AMC 10 错题精讲 · 单调数字计数 · 子集双射 &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
