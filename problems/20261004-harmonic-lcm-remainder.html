@@ -132,31 +132,18 @@ window.MathJax = {
     <div class="item"><span class="k">题目：</span><span class="v">2022AMC10A(19)</span></div>
     <div class="item"><span class="k">知识点：</span><span class="v">Modular arithmetic</span></div>
   </div>
-  <p class="lede">
-把 $\frac11+\cdots+\frac1{17}$ 通分成 $\dfrac{h}{L_{17}}$（$L_n$ 是 $1\sim n$ 的最小公倍数），求 $h$ 除以 $17$ 的余数。
+  <p class="lede">把 $\frac11+\cdots+\frac1{17}$ 通分成 $\dfrac{h}{L_{17}}$（$L_n$ 是 $1\sim n$ 的最小公倍数），求 $h$ 除以 $17$ 的余数。
 真正的突破口不是把 $h$ 算出来（它是 42142223），而是看清一件事：
-<b>17 项里，只有 $k=17$ 那一项不被 17 整除</b>——其余 16 项全部含因子 17，通通归零。
-于是答案就是 $\mathrm{lcm}(1,\ldots,16)$ 模 17。
-</p>
+<strong>17 项里，只有 $k=17$ 那一项不被 17 整除</strong>——其余 16 项全部含因子 17，通通归零。
+于是答案就是 $\mathrm{lcm}(1,\ldots,16)$ 模 17。</p>
 
   <hr>
 
   <h2>一、错题原题</h2>
   <blockquote>
-    
-Let $L_n$ denote the least common multiple of the numbers $1, 2, 3, \ldots, n$, and let $h$ be the
-unique positive integer such that
-$$\frac11+\frac12+\frac13+\cdots+\frac1{17}=\frac{h}{L_{17}}.$$
-What is the remainder when $h$ is divided by $17$?
-<br><br>
-$\textbf{(A) }1\qquad \textbf{(B) }3\qquad \textbf{(C) }5\qquad \textbf{(D) }7\qquad \textbf{(E) }9$
-
+    Let $L_n$ denote the least common multiple of the numbers $1, 2, 3, \ldots, n$, and let $h$ be the unique positive integer such that $$\frac11+\frac12+\frac13+\cdots+\frac1{17}=\frac{h}{L_{17}}.$$ What is the remainder when $h$ is divided by $17$?<br><br>$\textbf{(A) }1\qquad \textbf{(B) }3\qquad \textbf{(C) }5\qquad \textbf{(D) }7\qquad \textbf{(E) }9$
   </blockquote>
-  <p><strong>中文翻译</strong>：
-记 $L_n$ 为 $1,2,3,\ldots,n$ 的最小公倍数。设 $h$ 是唯一的那个正整数，满足
-$$\frac11+\frac12+\frac13+\cdots+\frac1{17}=\frac{h}{L_{17}}.$$
-问 $h$ 除以 $17$ 的余数是多少？
-</p>
+  <p><strong>中文翻译</strong>：记 $L_n$ 为 $1,2,3,\ldots,n$ 的最小公倍数。设 $h$ 是唯一的那个正整数，满足 $$\frac11+\frac12+\frac13+\cdots+\frac1{17}=\frac{h}{L_{17}}.$$ 问 $h$ 除以 $17$ 的余数是多少？</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
   <p class="official">
     📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
@@ -169,57 +156,40 @@ $$\frac11+\frac12+\frac13+\cdots+\frac1{17}=\frac{h}{L_{17}}.$$
   <h2>二、错误原因诊断</h2>
   <table>
     <tr><th>常见错误</th><th>错在哪</th></tr>
-    <tr><td><code>认为答案是 1（或干脆答 0）</code></td><td>
-只模模糊糊记得「好多项都被 17 整除」，就把 <b>所有 17 项</b>都当成 0，
-然后凭感觉挑了 1。错在漏掉最关键的那一项：$k=17$ 时 $\dfrac{L_{17}}{17}$ <b>不含</b>因子 17，
-它才是唯一存活的贡献者。
-</td></tr>
-    <tr><td><code>把 L₁₇ 的质因数分解算错</code></td><td>
-$L_{17}$ 的正确分解是 $2^4\cdot3^2\cdot5\cdot7\cdot11\cdot13\cdot17$。两个高频失误：
-① 2 的幂次写成 $2^3$（忘了 $16=2^4\leq17$）或 $2^5$（把 $32>17$ 也算进来）；
-② 3 的幂次写成 $3^1$（忘了 $9=3^2\leq17$）。任一处出错，最后模 17 就落在别的选项上。
-</td></tr>
+    <tr><td><code>认为答案是 1（或干脆答 0）</code></td><td>只模模糊糊记得「好多项都被 17 整除」，就把 <strong>所有 17 项</strong>都当成 0， 然后凭感觉挑了 1。错在漏掉最关键的那一项：$k=17$ 时 $\dfrac{L_{17}}{17}$ <strong>不含</strong>因子 17， 它才是唯一存活的贡献者。</td></tr>
+    <tr><td><code>把 L₁₇ 的质因数分解算错</code></td><td>$L_{17}$ 的正确分解是 $2^4\cdot3^2\cdot5\cdot7\cdot11\cdot13\cdot17$。两个高频失误： ① 2 的幂次写成 $2^3$（忘了 $16=2^4\leq17$）或 $2^5$（把 $32>17$ 也算进来）； ② 3 的幂次写成 $3^1$（忘了 $9=3^2\leq17$）。任一处出错，最后模 17 就落在别的选项上。</td></tr>
     <!-- 按需增删行 -->
   </table>
   <blockquote class="warn">
-    <strong>根本问题</strong>：
-<b>没有在「求和之前」先做逐项的整除性筛查。</b>本题的设计意图恰恰是：
-分母是 $\mathrm{lcm}$，所以每一项 $\dfrac{L_{17}}{k}$ 都是整数，而其中绝大多数还额外含有一个因子 17。
-先问「哪些项 ≡ 0」，剩下的活儿就只剩一个数。<b>先筛后算</b>是这类题的唯一正确顺序。
-
+    <strong>根本问题</strong>：<strong>没有在「求和之前」先做逐项的整除性筛查。</strong>本题的设计意图恰恰是： 分母是 $\mathrm{lcm}$，所以每一项 $\dfrac{L_{17}}{k}$ 都是整数，而其中绝大多数还额外含有一个因子 17。 先问「哪些项 ≡ 0」，剩下的活儿就只剩一个数。<strong>先筛后算</strong>是这类题的唯一正确顺序。
   </blockquote>
 
   <hr>
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022A/problem/19" target="_blank" rel="noopener">2022AMC10A(19)</a> 的书面解答一致——乘 $L_{17}$ 后模 17，除 $k=17$ 外各项都含因子 17 而归零，只剩 $L_{17}/17=L_{16}\equiv5$。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022A/problem/19" target="_blank" rel="noopener">2022AMC10A(19)</a> 的书面解答一致——乘 $L_{17}$ 后模 17，除 $k=17$ 外各项都含因子 17 而归零，只剩 $L_{17}/17=L_{16}\equiv5$。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一｜先筛后算：逐项整除性筛查（主线）</h3>
-  
-<p><b>第 1 步：写出 $L_{17}$ 的质因数分解</b></p>
-<p>$L_n=\mathrm{lcm}(1,\ldots,n)$ 的构造规则：对每个质数 $q$，取不超过 $n$ 的 $q$ 的最高次幂。$n=17$ 时：</p>
+  <p><strong>第 1 步：写出 $L_{17}$ 的质因数分解</strong></p>
+  <p>$L_n=\mathrm{lcm}(1,\ldots,n)$ 的构造规则：对每个质数 $q$，取不超过 $n$ 的 $q$ 的最高次幂。$n=17$ 时：</p>
 $$L_{17}=2^4\cdot3^2\cdot5\cdot7\cdot11\cdot13\cdot17=12252240$$
-<p>（$2^4=16\leq17<32=2^5$；$3^2=9\leq17<27=3^3$；$5,7,11,13,17$ 各一次。）</p>
-
-<p><b>第 2 步：把 $h$ 写成整数和</b></p>
+  <p>（$2^4=16\leq17\lt 32=2^5$；$3^2=9\leq17\lt 27=3^3$；$5,7,11,13,17$ 各一次。）</p>
+  <p><strong>第 2 步：把 $h$ 写成整数和</strong></p>
 $$h=L_{17}\sum_{k=1}^{17}\frac1k=\sum_{k=1}^{17}\frac{L_{17}}{k}$$
-<p>因为 $k\mid L_{17}$，每一项都是整数。</p>
-
-<p><b>第 3 步：逐项筛查——谁会被 17 整除？</b></p>
-<p>$L_{17}$ 中质数 $17$ 的指数是 $1$。对每一项 $\dfrac{L_{17}}{k}$：</p>
-<ul>
-<li>若 $17\nmid k$（即 $k=1,\ldots,16$）：除以 $k$ 不会动到因子 $17$，结果<b>仍含因子 17</b> ⟹ $\equiv 0\pmod{17}$；</li>
-<li>若 $17\mid k$（这里只有 $k=17$）：除以 $k$ 把唯一的因子 $17$ 除掉了，结果<b>不再含 17</b> ⟹ 不一定为 0。</li>
-</ul>
-<p>于是 17 项里<b>只有一项活下来</b>：</p>
+  <p>因为 $k\mid L_{17}$，每一项都是整数。</p>
+  <p><strong>第 3 步：逐项筛查——谁会被 17 整除？</strong></p>
+  <p>$L_{17}$ 中质数 $17$ 的指数是 $1$。对每一项 $\dfrac{L_{17}}{k}$：</p>
+  <ul>
+    <li>若 $17\nmid k$（即 $k=1,\ldots,16$）：除以 $k$ 不会动到因子 $17$，结果<strong>仍含因子 17</strong> ⟹ $\equiv 0\pmod{17}$；</li>
+    <li>若 $17\mid k$（这里只有 $k=17$）：除以 $k$ 把唯一的因子 $17$ 除掉了，结果<strong>不再含 17</strong> ⟹ 不一定为 0。</li>
+  </ul>
+  <p>于是 17 项里<strong>只有一项活下来</strong>：</p>
 $$h\equiv\frac{L_{17}}{17}\pmod{17}$$
-
-<p><b>第 4 步：算这一项模 17</b></p>
-<p>因为 $17$ 是质数，$L_{17}=17\cdot\mathrm{lcm}(1,\ldots,16)=17\cdot L_{16}$，所以</p>
+  <p><strong>第 4 步：算这一项模 17</strong></p>
+  <p>因为 $17$ 是质数，$L_{17}=17\cdot\mathrm{lcm}(1,\ldots,16)=17\cdot L_{16}$，所以</p>
 $$h\equiv L_{16}=2^4\cdot3^2\cdot5\cdot7\cdot11\cdot13\pmod{17}$$
-<p>逐次取模（每乘一次就化小一次，绝不硬算 $720720$）：</p>
+  <p>逐次取模（每乘一次就化小一次，绝不硬算 $720720$）：</p>
 <table>
 <tr><th>累积</th><th>乘数</th><th>结果（模 17）</th></tr>
 <tr><td>$1$</td><td>$2^4=16$</td><td>$16\equiv-1$</td></tr>
@@ -229,161 +199,73 @@ $$h\equiv L_{16}=2^4\cdot3^2\cdot5\cdot7\cdot11\cdot13\pmod{17}$$
 <tr><td>$8$</td><td>$11$</td><td>$88\equiv 3$</td></tr>
 <tr><td>$3$</td><td>$13$</td><td>$39\equiv \mathbf{5}$</td></tr>
 </table>
-<p>答案为 $\boxed{5}$，对应选项 <b>(C)</b>。</p>
-
+  <p>答案为 $\boxed{5}$，对应选项 <strong>(C)</strong>。</p>
   <h3>方法二｜硬算校验（用程序或分数求和，只为复核）</h3>
-  
-<p>直接算出 $h$ 本身，再取模——考场上不推荐，但用来复核极有价值。</p>
+  <p>直接算出 $h$ 本身，再取模——考场上不推荐，但用来复核极有价值。</p>
 $$L_{17}=12252240,\qquad h=\sum_{k=1}^{17}\frac{12252240}{k}=42142223$$
-<p>再做一次除法：</p>
+  <p>再做一次除法：</p>
 $$42142223=17\times 2478954+\mathbf{5}$$
-<p>（$17\times2478954=42142218$，余 $5$）⟹ $h\equiv 5\pmod{17}$ ✓ 与方法一一致。</p>
-<blockquote class="warn">
-<strong>但请不要在考场上这么干</strong>：四千万量级的数做除法，商只要差 1 就全错
-（$17\times2478955$ 已经超过 $h$ 了）。方法一全程只跟两位数打交道，才是正道。
-</blockquote>
-
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：
-<b>三条独立验算都指向 5：</b>
-① 逐次取模链：$16\to8\to6\to8\to3\to5$；
-② 直接算 $L_{16}=720720$，而 $720720=17\times42395+5$ ✓；
-③ 完整算出 $h=42142223$，$h\bmod 17=5$ ✓。
-另外可以做<b>奇偶性自检</b>：所有选项 $1,3,5,7,9$ 都是奇数，而 $L_{16}$ 是偶数——
-这是因为模 $17$ 的余数与奇偶无关，别被这个表象带走。
-
-  </blockquote>
-
+  <p>（$17\times2478954=42142218$，余 $5$）⟹ $h\equiv 5\pmod{17}$ ✓ 与方法一一致。</p>
+  <blockquote class="warn"><strong>但请不要在考场上这么干</strong>：四千万量级的数做除法，商只要差 1 就全错 （$17\times2478955$ 已经超过 $h$ 了）。方法一全程只跟两位数打交道，才是正道。</blockquote>
+  <blockquote class="ok"><strong>验证技巧</strong>： <strong>三条独立验算都指向 5：</strong> ① 逐次取模链：$16\to8\to6\to8\to3\to5$； ② 直接算 $L_{16}=720720$，而 $720720=17\times42395+5$ ✓； ③ 完整算出 $h=42142223$，$h\bmod 17=5$ ✓。 另外可以做<strong>奇偶性自检</strong>：所有选项 $1,3,5,7,9$ 都是奇数，而 $L_{16}$ 是偶数—— 这是因为模 $17$ 的余数与奇偶无关，别被这个表象带走。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
   <blockquote>
-    <strong>核心知识点</strong>：
-<b>「先筛后算」的整除性筛查法 + $\mathrm{lcm}$ 的质数幂构造。</b>
-（1）$L_n=\mathrm{lcm}(1..n)=\prod_{q\text{ 质数}}q^{\lfloor\log_q n\rfloor}$；
-（2）在模质数 $p$ 下求和 $\sum\frac{L_n}{k}$ 时，先用<b>$p$ 在各分母中的指数</b>判定哪些项归零；
-（3）若 $p$ 是质数且 $p\leq n$，则 $L_n$ 中 $p$ 的指数必为 $1$，故只有含因子 $p$ 的那几项存活。
-
+    <strong>核心知识点</strong>：<strong>「先筛后算」的整除性筛查法 + $\mathrm{lcm}$ 的质数幂构造。</strong> （1）$L_n=\mathrm{lcm}(1..n)=\prod_{q\text{ 质数}}q^{\lfloor\log_q n\rfloor}$； （2）在模质数 $p$ 下求和 $\sum\frac{L_n}{k}$ 时，先用<strong>$p$ 在各分母中的指数</strong>判定哪些项归零； （3）若 $p$ 是质数且 $p\leq n$，则 $L_n$ 中 $p$ 的指数必为 $1$，故只有含因子 $p$ 的那几项存活。
   </blockquote>
   <p>必须掌握的要点：</p>
   <ol>
-    <li>
-<b>$\mathrm{lcm}(1..n)$ 的构造规则</b>：对每个质数 $q$，取 $\leq n$ 的最大 $q$ 的幂。
-$L_{17}=2^4\cdot3^2\cdot5\cdot7\cdot11\cdot13\cdot17$（不是 $2^3$，也不是 $2^5$）。
-</li>
-    <li>
-<b>$17$ 是质数 ⟹ $L_{17}=17\cdot L_{16}$。</b>更一般地，若 $p$ 是 $\leq n$ 的质数且 $2p>n$，
-则 $L_n=p\cdot L_{n-1}\cdot(\text{若 }p\mid L_{n-1}\text{ 则还需调整})$——本题因为 $2\times17>17$ 且 17 是新质数，直接成立。
-</li>
-    <li>
-<b>逐次取模，绝不先乘开。</b>连乘 $16\times9\times5\times7\times11\times13$ 时，每步都把结果压回 $[0,17)$，
-既避免大数运算，也避免溢出式的心算错误。
-</li>
-    <li>
-<b>题目问余数就全程用同余。</b>$\dfrac{L_{17}}{k}\equiv 0$ 的判断只要看「除完之后还剩不剩下因子 17」，
-不需要知道这一项具体是多少。
-</li>
+    <li><strong>$\mathrm{lcm}(1..n)$ 的构造规则</strong>：对每个质数 $q$，取 $\leq n$ 的最大 $q$ 的幂。 $L_{17}=2^4\cdot3^2\cdot5\cdot7\cdot11\cdot13\cdot17$（不是 $2^3$，也不是 $2^5$）。</li>
+    <li><strong>$17$ 是质数 ⟹ $L_{17}=17\cdot L_{16}$。</strong>更一般地，若 $p$ 是 $\leq n$ 的质数且 $2p>n$， 则 $L_n=p\cdot L_{n-1}\cdot(\text{若 }p\mid L_{n-1}\text{ 则还需调整})$——本题因为 $2\times17>17$ 且 17 是新质数，直接成立。</li>
+    <li><strong>逐次取模，绝不先乘开。</strong>连乘 $16\times9\times5\times7\times11\times13$ 时，每步都把结果压回 $[0,17)$， 既避免大数运算，也避免溢出式的心算错误。</li>
+    <li><strong>题目问余数就全程用同余。</strong>$\dfrac{L_{17}}{k}\equiv 0$ 的判断只要看「除完之后还剩不剩下因子 17」， 不需要知道这一项具体是多少。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
-
   <div class="prob">
     <span class="tag">第 1 题 · 把 17 缩成 5，手算一遍</span> <span class="stars">★</span> <span class="form">形式｜基础代入 · 小 n 手算</span>
-    <p>
-沿用原题的定义（$L_n=\mathrm{lcm}(1,\ldots,n)$）。设 $h$ 满足
-$$\frac11+\frac12+\frac13+\frac14+\frac15=\frac{h}{L_5}$$
-求 $h$ 除以 $5$ 的余数。请先用「先筛后算」做，再把 $h$ 整个算出来核对。
-</p>
+    <p>  <p>沿用原题的定义（$L_n=\mathrm{lcm}(1,\ldots,n)$）。设 $h$ 满足 $$\frac11+\frac12+\frac13+\frac14+\frac15=\frac{h}{L_5}$$ 求 $h$ 除以 $5$ 的余数。请先用「先筛后算」做，再把 $h$ 整个算出来核对。</p></p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>余数为 2（h = 137）</strong></div>
-      <p>
-$L_5=\mathrm{lcm}(1,2,3,4,5)=2^2\cdot3\cdot5=60$。$5$ 是质数，只有 $k=5$ 那一项不含因子 5，故
-$$h\equiv\frac{L_5}{5}=2^2\cdot3=12\equiv 2\pmod 5$$
-<b>硬算核对</b>：$h=60+30+20+15+12=137$，$137=5\times27+2$ ✓
-</p>
-      <p class="hint">要点：
-小数字版本能让你看清整个机器是怎么转的：<b>只有「分母含模的那个质数」的项存活</b>，
-答案就等于「$\mathrm{lcm}$ 去掉这个质数后」再取模。
-</p>
+        <p>$L_5=\mathrm{lcm}(1,2,3,4,5)=2^2\cdot3\cdot5=60$。$5$ 是质数，只有 $k=5$ 那一项不含因子 5，故 $$h\equiv\frac{L_5}{5}=2^2\cdot3=12\equiv 2\pmod 5$$ <strong>硬算核对</strong>：$h=60+30+20+15+12=137$，$137=5\times27+2$ ✓</p>
+      <p class="hint">要点：小数字版本能让你看清整个机器是怎么转的：<strong>只有「分母含模的那个质数」的项存活</strong>， 答案就等于「$\mathrm{lcm}$ 去掉这个质数后」再取模。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t2">第 2 题 · 换一个质数模：除以 13</span> <span class="stars">★★</span> <span class="form">形式｜参数替换 · 换一个质数模</span>
-    <p>
-仍用原题的 $h$（即 $\frac h{L_{17}}=\frac11+\cdots+\frac1{17}$），但这次问：
-<b>$h$ 除以 $13$ 的余数</b>是多少？请先说明哪些项存活，再算结果。
-</p>
+    <p>仍用原题的 $h$（即 $\frac h{L_{17}}=\frac11+\cdots+\frac1{17}$），但这次问： <strong>$h$ 除以 $13$ 的余数</strong>是多少？请先说明哪些项存活，再算结果。</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>余数为 6</strong></div>
-      <p>
-$L_{17}$ 中质数 $13$ 的指数也是 $1$（因为 $13\leq17<26=2\times13$）。
-所以只有 $13\mid k$ 的项存活，$k=1..17$ 中只有 $k=13$：
-$$h\equiv\frac{L_{17}}{13}=2^4\cdot3^2\cdot5\cdot7\cdot11\cdot17\pmod{13}$$
-逐次取模（模 13）：$2^4=16\equiv3$；$\times9\to27\equiv1$；$\times5\to5$；
-$\times7\to35\equiv9$；$\times11\to99\equiv8$（$13\times7=91$）；$\times17\equiv\times4\to32\equiv\mathbf{6}$。
-<br><b>程序核对</b>：$h=42142223$，$42142223\bmod 13=6$ ✓
-</p>
-      <p class="hint">要点：
-换成 $13$ 后结构完全一样（仍只有一项存活），但答案从 $5$ 变成 $6$。
-<b>「只有一项存活」这件事依赖于「该质数在 $L_n$ 中的指数恰为 1」</b>——这是下一步的反面教材。
-</p>
+        <p>$L_{17}$ 中质数 $13$ 的指数也是 $1$（因为 $13\leq17\lt 26=2\times13$）。 所以只有 $13\mid k$ 的项存活，$k=1..17$ 中只有 $k=13$： $$h\equiv\frac{L_{17}}{13}=2^4\cdot3^2\cdot5\cdot7\cdot11\cdot17\pmod{13}$$ 逐次取模（模 13）：$2^4=16\equiv3$；$\times9\to27\equiv1$；$\times5\to5$； $\times7\to35\equiv9$；$\times11\to99\equiv8$（$13\times7=91$）；$\times17\equiv\times4\to32\equiv\mathbf{6}$。 <br> <strong>程序核对</strong>：$h=42142223$，$42142223\bmod 13=6$ ✓</p>
+      <p class="hint">要点：换成 $13$ 后结构完全一样（仍只有一项存活），但答案从 $5$ 变成 $6$。 <strong>「只有一项存活」这件事依赖于「该质数在 $L_n$ 中的指数恰为 1」</strong>——这是下一步的反面教材。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t3">第 3 题 · 求和范围扩到 34：有两项存活</span> <span class="stars">★★★</span> <span class="form">形式｜附加约束 · 扩大范围并引入模逆</span>
-    <p>
-把求和范围扩大：设 $\dfrac{h}{L_{34}}=\dfrac11+\dfrac12+\cdots+\dfrac1{34}$。
-<br>(a) 求 $h$ 除以 $17$ 时，哪些 $k$ 对应的项 $\dfrac{L_{34}}{k}$ 不被 17 整除？
-<br>(b) 求 $h$ 除以 $17$ 的余数。
-</p>
+    <p>把求和范围扩大：设 $\dfrac{h}{L_{34}}=\dfrac11+\dfrac12+\cdots+\dfrac1{34}$。 <br> (a) 求 $h$ 除以 $17$ 时，哪些 $k$ 对应的项 $\dfrac{L_{34}}{k}$ 不被 17 整除？ <br> (b) 求 $h$ 除以 $17$ 的余数。</p>
     <details>
       <summary>👉 点击查看解析</summary>
-      <div class="ans">答：<strong>
-(a) 存活的 k 为 17 与 34；(b) 余数为 6
-</strong></div>
-      <p>
-<b>(a)</b> $L_{34}=2^5\cdot3^3\cdot5^2\cdot7\cdot11\cdot13\cdot17\cdot19\cdot23\cdot29\cdot31$
-（$2^5=32\leq34$，$3^3=27\leq34$，$5^2=25\leq34$）。其中 $17$ 的指数仍为 $1$。
-要 $\dfrac{L_{34}}{k}$ 不含因子 17，必须 $17\mid k$；在 $1..34$ 中即 $\boxed{k=17,\ 34}$（$34=2\times17$）。
-<br><b>(b)</b> 记 $M=\dfrac{L_{34}}{17}$，则 $\dfrac{L_{34}}{34}=\dfrac{M}{2}$，于是
-$$h\equiv M+\frac{M}{2}\equiv M\cdot\left(1+2^{-1}\right)\pmod{17}$$
-模 $17$ 下 $2^{-1}\equiv9$（因为 $2\times9=18\equiv1$），故
-$$h\equiv M\cdot(1+9)=10M\pmod{17}$$
-再算 $M=2^5\cdot3^3\cdot5^2\cdot7\cdot11\cdot13\cdot19\cdot23\cdot29\cdot31$ 模 17：
-先各自化小 $2^5\equiv32\equiv15$，$3^3\equiv27\equiv10$，$5^2\equiv25\equiv8$，
-$19\equiv2$，$23\equiv6$，$29\equiv12\equiv-5$，$31\equiv14\equiv-3$，于是
-$$M\equiv15\cdot10\cdot8\cdot7\cdot11\cdot13\cdot2\cdot6\cdot(-5)\cdot(-3)\equiv 4\pmod{17}$$
-所以 $h\equiv10\times4=40\equiv\mathbf{6}\pmod{17}$。
-<br><b>程序核对</b>：直接逐项取模，两项贡献分别为 $4$（$k=17$）与 $2$（$k=34$），
-$4+2=6$ ✓
-</p>
-      <p class="hint">要点：
-一旦出现「分母带模数质因子的二次幂」（$34=2\times17$），存活项就不止一个，
-而且会出现<b>分数系数</b>——这时要动用<b>模逆</b>（$2^{-1}\equiv9\pmod{17}$）。
-这是从「一项存活」通往「合数模」的中间地带。
-</p>
+      <div class="ans">答：<strong> (a) 存活的 k 为 17 与 34；(b) 余数为 6 </strong></div>
+        <p><strong>(a)</strong> $L_{34}=2^5\cdot3^3\cdot5^2\cdot7\cdot11\cdot13\cdot17\cdot19\cdot23\cdot29\cdot31$ （$2^5=32\leq34$，$3^3=27\leq34$，$5^2=25\leq34$）。其中 $17$ 的指数仍为 $1$。 要 $\dfrac{L_{34}}{k}$ 不含因子 17，必须 $17\mid k$；在 $1..34$ 中即 $\boxed{k=17,\ 34}$（$34=2\times17$）。 <br> <strong>(b)</strong> 记 $M=\dfrac{L_{34}}{17}$，则 $\dfrac{L_{34}}{34}=\dfrac{M}{2}$，于是 $$h\equiv M+\frac{M}{2}\equiv M\cdot\left(1+2^{-1}\right)\pmod{17}$$ 模 $17$ 下 $2^{-1}\equiv9$（因为 $2\times9=18\equiv1$），故 $$h\equiv M\cdot(1+9)=10M\pmod{17}$$ 再算 $M=2^5\cdot3^3\cdot5^2\cdot7\cdot11\cdot13\cdot19\cdot23\cdot29\cdot31$ 模 17： 先各自化小 $2^5\equiv32\equiv15$，$3^3\equiv27\equiv10$，$5^2\equiv25\equiv8$， $19\equiv2$，$23\equiv6$，$29\equiv12\equiv-5$，$31\equiv14\equiv-3$，于是 $$M\equiv15\cdot10\cdot8\cdot7\cdot11\cdot13\cdot2\cdot6\cdot(-5)\cdot(-3)\equiv 4\pmod{17}$$ 所以 $h\equiv10\times4=40\equiv\mathbf{6}\pmod{17}$。 <br> <strong>程序核对</strong>：直接逐项取模，两项贡献分别为 $4$（$k=17$）与 $2$（$k=34$）， $4+2=6$ ✓</p>
+      <p class="hint">要点：一旦出现「分母带模数质因子的二次幂」（$34=2\times17$），存活项就不止一个， 而且会出现<strong>分数系数</strong>——这时要动用<strong>模逆</strong>（$2^{-1}\equiv9\pmod{17}$）。 这是从「一项存活」通往「合数模」的中间地带。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t4">第 4 题 · 换成合数模 16：存活一大片</span> <span class="stars">★★★★</span> <span class="form">形式｜分类讨论 · 合数模下的存活项枚举</span>
-    <p>
-仍用原题的 $h$（$\frac h{L_{17}}=\frac11+\cdots+\frac1{17}$）。求 $h$ 除以 <b>$16$</b> 的余数。
-（提示：$16=2^4$，而 $L_{17}$ 中 $2$ 的指数是 $4$，所以存活判据要按 $v_2(k)$ 分类。）
-</p>
+    <p>仍用原题的 $h$（$\frac h{L_{17}}=\frac11+\cdots+\frac1{17}$）。求 $h$ 除以 <strong>$16$</strong> 的余数。 （提示：$16=2^4$，而 $L_{17}$ 中 $2$ 的指数是 $4$，所以存活判据要按 $v_2(k)$ 分类。）</p>
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>余数为 15</strong></div>
       <p>
 记 $v_2(k)$ 为 $k$ 中因子 2 的个数。$\dfrac{L_{17}}{k}$ 中 2 的指数为 $4-v_2(k)$。
-它要不被 $16=2^4$ 整除，需 $4-v_2(k)<4$，即 $v_2(k)\geq1$——<b>存活的恰好是所有偶数 $k$</b>：
+它要不被 $16=2^4$ 整除，需 $4-v_2(k)\lt 4$，即 $v_2(k)\geq1$——<b>存活的恰好是所有偶数 $k$</b>：
 $$k\in\{2,4,6,8,10,12,14,16\}$$
 逐项取模 16（程序结果）：
 <table>
@@ -396,32 +278,21 @@ $$k\in\{2,4,6,8,10,12,14,16\}$$
 候选极少；而 $2^4$ 可以被 $k$ 「部分地」除掉（$v_2(k)=1,2,3,4$ 都行），
 所以存活项一大片——这正是合数模更麻烦的原因。
 </p>
-      <p class="hint">要点：
-判据从「$p\mid k$ 与否」升级为「$v_q(k)$ 有多大」。<b>合数模 = 对每个质因子幂分别做分类</b>，
-这也是中国剩余定理能派上用场的典型场景。
-</p>
+      <p class="hint">要点：判据从「$p\mid k$ 与否」升级为「$v_q(k)$ 有多大」。<strong>合数模 = 对每个质因子幂分别做分类</strong>， 这也是中国剩余定理能派上用场的典型场景。</p>
     </details>
   </div>
 
   <div class="prob">
     <span class="tag t5">第 5 题 · 把 17 换成任意质数 p</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明 + 制表验证</span>
-    <p>
-设 $p$ 为质数，$L_n=\mathrm{lcm}(1,\ldots,n)$，定义 $h_p=L_p\displaystyle\sum_{k=1}^{p}\frac1k$。
-<br>(a) 证明 $h_p\equiv L_{p-1}\pmod p$；
-<br>(b) 由此证明：对<b>任意</b>质数 $p$，都有 $h_p\not\equiv 0\pmod p$；
-<br>(c) 制表算出 $p=2,3,5,7,11,13,17,19,23$ 时的 $h_p\bmod p$，验证 (b)。
-</p>
+    <p>设 $p$ 为质数，$L_n=\mathrm{lcm}(1,\ldots,n)$，定义 $h_p=L_p\displaystyle\sum_{k=1}^{p}\frac1k$。 <br> (a) 证明 $h_p\equiv L_{p-1}\pmod p$； <br> (b) 由此证明：对<strong>任意</strong>质数 $p$，都有 $h_p\not\equiv 0\pmod p$； <br> (c) 制表算出 $p=2,3,5,7,11,13,17,19,23$ 时的 $h_p\bmod p$，验证 (b)。</p>
     <details>
       <summary>👉 点击查看解析</summary>
-      <div class="ans">答：<strong>
-(a) 见证明；(b) 恒成立（因为 $p\nmid L_{p-1}$）；
-(c) 依次为 1, 2, 2, 4, 1, 4, 5, 14, 15 — 全部非零 ✓
-</strong></div>
+      <div class="ans">答：<strong> (a) 见证明；(b) 恒成立（因为 $p\nmid L_{p-1}$）； (c) 依次为 1, 2, 2, 4, 1, 4, 5, 14, 15 — 全部非零 ✓ </strong></div>
       <p>
 <b>(a) 证明</b>：$p$ 是质数且 $p$ 是新出现的质因子，故 $L_p=p\cdot L_{p-1}$。
 同方法一：对 $k=1,\ldots,p-1$，$p\nmid k$，所以 $\dfrac{L_p}{k}$ 仍含因子 $p$，$\equiv0\pmod p$；
 只有 $k=p$ 存活，$h_p\equiv\dfrac{L_p}{p}=L_{p-1}\pmod p$。∎
-<br><b>(b) 证明</b>：$L_{p-1}$ 是 $1,\ldots,p-1$ 的最小公倍数，它的每一个质因子都 $\leq p-1<p$，
+<br><b>(b) 证明</b>：$L_{p-1}$ 是 $1,\ldots,p-1$ 的最小公倍数，它的每一个质因子都 $\leq p-1\lt p$，
 故 $p\nmid L_{p-1}$，即 $L_{p-1}\not\equiv0\pmod p$。由 (a) 得 $h_p\not\equiv0\pmod p$。∎
 <br><b>(c) 制表</b>（同时列出 $L_{p-1}\bmod p$ 验证 (a)）：
 <table>
@@ -431,40 +302,26 @@ $$k\in\{2,4,6,8,10,12,14,16\}$$
 </table>
 两行完全一致，(a) 得证；且两行都没有 0，(b) 得证。注意 $p=17$ 那列正是原题的答案 $5$ ✓
 </p>
-      <p class="hint">要点：
-一般化之后反而更清楚：$h_p\equiv L_{p-1}\pmod p$ 一句话涵盖了所有质数情形，
-而「$L_{p-1}$ 的所有质因子都 $<p$」这个观察直接给出了「永不为 0」的证明。
-</p>
+      <p class="hint">要点：一般化之后反而更清楚：$h_p\equiv L_{p-1}\pmod p$ 一句话涵盖了所有质数情形， 而「$L_{p-1}$ 的所有质因子都 $\lt p$」这个观察直接给出了「永不为 0」的证明。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
   <div class="card">
     <h3>「调和和 / 最小公倍数」同余题通用三步</h3>
     <ol>
-      <li>
-<b>先分解 $L_n$</b>：对每个质数 $q$，取 $\leq n$ 的最大 $q$ 次幂。
-写出完整分解式，不要凭印象（2 和 3 的幂次最容易错）。
-</li>
-      <li>
-<b>先筛后算</b>：逐项问「$\dfrac{L_n}{k}$ 还含不含量模数 $m$ 的质因子？」。
-质数模时通常只有含该质数的 $k$ 存活；合数模要按 $v_q(k)$ 分类。
-</li>
-      <li>
-<b>逐次取模求存活项</b>：每乘一次就把结果压回 $[0,m)$，绝不先把大数乘开。
-出现分数系数时用模逆（$a^{-1}$ 满足 $a\cdot a^{-1}\equiv1$）。
-</li>
+      <li><strong>先分解 $L_n$</strong>：对每个质数 $q$，取 $\leq n$ 的最大 $q$ 次幂。 写出完整分解式，不要凭印象（2 和 3 的幂次最容易错）。</li>
+      <li><strong>先筛后算</strong>：逐项问「$\dfrac{L_n}{k}$ 还含不含量模数 $m$ 的质因子？」。 质数模时通常只有含该质数的 $k$ 存活；合数模要按 $v_q(k)$ 分类。</li>
+      <li><strong>逐次取模求存活项</strong>：每乘一次就把结果压回 $[0,m)$，绝不先把大数乘开。 出现分数系数时用模逆（$a^{-1}$ 满足 $a\cdot a^{-1}\equiv1$）。</li>
     </ol>
     <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
       口诀：先筛后算，逐次取模；问余数就别算原数。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 10 错题精讲 · 同余 · 最小公倍数与调和和 &nbsp;|&nbsp; 生成于 2026-10-11</div>
+    <div>AMC 10 错题精讲 · 同余 · 最小公倍数与调和和 &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
