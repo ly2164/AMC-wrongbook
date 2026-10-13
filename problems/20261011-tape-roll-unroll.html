@@ -139,10 +139,9 @@ window.MathJax = {
   <h2>一、错题原题</h2>
   <blockquote>
     A roll of tape is $4$ inches in diameter and is wrapped around a ring that is $2$ inches in diameter. A cross section of the tape is shown in the figure below. The tape is $0.015$ inches thick. If the tape is completely unrolled, approximately how long would it be? Round your answer to the nearest $100$ inches.
-<img src="../img/amc8/2024/22.svg" style="max-height:12rem; margin-top:10px;">
+<img src="../img/amc8/2024/22.svg" alt="2024AMC8(22) 配图" style="max-height:12rem; margin-top:10px;">
   </blockquote>
-  <p><strong>中文翻译</strong>：一卷胶带外径 $4$ 英寸，缠绕在内径 $2$ 英寸的纸芯上，横截面如图。胶带厚度为 $0.015$ 英寸。若把整卷胶带完全展开，总长约为多少英寸（精确到最近的 $100$ 英寸）？
-(A) 300　(B) 600　(C) 1200　(D) 1500　(E) 1800</p>
+  <p><strong>中文翻译</strong>：一卷胶带外径 $4$ 英寸，缠绕在内径 $2$ 英寸的纸芯上，横截面如图。胶带厚度为 $0.015$ 英寸。若把整卷胶带完全展开，总长约为多少英寸（精确到最近的 $100$ 英寸）？ (A) 300　(B) 600　(C) 1200　(D) 1500　(E) 1800</p>
   <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
   <p class="official">
     📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
@@ -167,37 +166,23 @@ window.MathJax = {
 
   <h2>三、正确解法</h2>
   <blockquote class="ok" style="margin:0 0 1.1rem 0">
-    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/22" target="_blank" rel="noopener">2024AMC8(22)</a> 的书面解答一致——卷着是圆环截面 $\pi(2^2-1^2)=3\pi$，摊开是厚 $0.015$、长 $L$ 的矩形，面积守恒给 $0.015L=3\pi$，即 $L=200\pi\approx628$ 英寸。
-    <br>本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
+    <strong>与官方解法同源</strong>：本站方案一的核心不变量与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2024/problem/22" target="_blank" rel="noopener">2024AMC8(22)</a> 的书面解答一致——卷着是圆环截面 $\pi(2^2-1^2)=3\pi$，摊开是厚 $0.015$、长 $L$ 的矩形，面积守恒给 $0.015L=3\pi$，即 $L=200\pi\approx628$ 英寸。 <br> 本站的增量在于把官网因篇幅省略的中间推理与易错点补全；若另有不同思路，作为方案二呈现。
   </blockquote>
   <h3>方法一：环形面积 = 展开矩形面积（官方思路，推荐）</h3>
-    <p><strong>第 1 步 · 卷着时的截面积。</strong>外径 4 → 外半径 $R=2$；内径 2 → 内半径 $r=1$。胶带截面是圆环：
-    $$S=\pi R^2-\pi r^2=\pi(4-1)=3\pi .$$</p>
-
-    <p><strong>第 2 步 · 摊开时的截面积。</strong>展开后胶带是一条长 $L$、厚 $0.015$ 的细长矩形，截面积
-    $$S=0.015\,L .$$</p>
-
-    <p><strong>第 3 步 · 面积守恒，解出 $L$。</strong></p>
-    $$0.015\,L=3\pi\quad\Longrightarrow\quad L=\frac{3\pi}{0.015}=200\pi\approx628.3\ \text{英寸}.$$
-    <p><strong>第 4 步 · 按题意取整。</strong>最近的 100 英寸：<strong>600</strong>。</p>
-    <blockquote class="ok"><strong>答案：(B) 600</strong>。</blockquote>
+  <p><strong>第 1 步 · 卷着时的截面积。</strong>外径 4 → 外半径 $R=2$；内径 2 → 内半径 $r=1$。胶带截面是圆环： $$S=\pi R^2-\pi r^2=\pi(4-1)=3\pi .$$</p>
+  <p><strong>第 2 步 · 摊开时的截面积。</strong>展开后胶带是一条长 $L$、厚 $0.015$ 的细长矩形，截面积 $$S=0.015\,L .$$</p>
+  <p><strong>第 3 步 · 面积守恒，解出 $L$。</strong></p>
+$$0.015\,L=3\pi\quad\Longrightarrow\quad L=\frac{3\pi}{0.015}=200\pi\approx628.3\ \text{英寸}.$$
+  <p><strong>第 4 步 · 按题意取整。</strong>最近的 100 英寸：<strong>600</strong>。</p>
+  <blockquote class="ok"><strong>答案：(B) 600</strong>。</blockquote>
   <h3>方法二：逐圈累加（平均周长法，用于理解与验算）</h3>
-  胶带每绕一圈半径增加一个厚度 $0.015$，所以圈数
-    $$n=\frac{R-r}{0.015}=\frac{2-1}{0.015}\approx66.7\ \text{圈}.$$
-    每圈周长随半径线性增长，用<strong>平均半径</strong> $\frac{2+1}2=1.5$ 的周长代替平均：
-    $$L\approx n\cdot2\pi\cdot1.5=66.7\times3\pi\approx200\pi\approx628,$$
-    与方法一完全一致（这不是巧合——$\underbrace{n}_{\frac{R-r}t}\times\underbrace{2\pi\frac{R+r}2}_{\text{平均周长}}=\frac{\pi(R^2-r^)}{t}\cdot t=\pi(R^2-r^2)$，两种算法恒等）。逐圈累加在考场上太慢，但它是「面积守恒」为什么成立的直观来源：环形面积被切成 $n$ 个细圈，摊平就是 $n$ 段细矩形。
-  <blockquote class="ok">
-    <strong>验证技巧</strong>：① Python：`3*math.pi/0.015 = 628.318…`，`round(628.318,-2)=600` ✓；② 量级检查：60 多圈、平均一圈约 9.4 英寸，$67\times9.4\approx630$，一致；③ 选项区分度：答案对 $\pi$ 取 3.14 还是 22/7 不敏感（628 与 629 都取 600），对厚度的小数位极敏感——代入 0.015 复核一遍是最后的保险。
-  </blockquote>
-
+  <p>胶带每绕一圈半径增加一个厚度 $0.015$，所以圈数 $$n=\frac{R-r}{0.015}=\frac{2-1}{0.015}\approx66.7\ \text{圈}.$$ 每圈周长随半径线性增长，用<strong>平均半径</strong> $\frac{2+1}2=1.5$ 的周长代替平均： $$L\approx n\cdot2\pi\cdot1.5=66.7\times3\pi\approx200\pi\approx628,$$ 与方法一完全一致（这不是巧合——$\underbrace{n}_{\frac{R-r}t}\times\underbrace{2\pi\frac{R+r}2}_{\text{平均周长}}=\frac{\pi(R^2-r^)}{t}\cdot t=\pi(R^2-r^2)$，两种算法恒等）。逐圈累加在考场上太慢，但它是「面积守恒」为什么成立的直观来源：环形面积被切成 $n$ 个细圈，摊平就是 $n$ 段细矩形。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① Python：<code>3*math.pi/0.015 = 628.318…</code>，<code>round(628.318,-2)=600</code> ✓；② 量级检查：60 多圈、平均一圈约 9.4 英寸，$67\times9.4\approx630$，一致；③ 选项区分度：答案对 $\pi$ 取 3.14 还是 22/7 不敏感（628 与 629 都取 600），对厚度的小数位极敏感——代入 0.015 复核一遍是最后的保险。</blockquote>
   <hr>
 
   <h2>四、知识内核提炼</h2>
   <blockquote>
-    <strong>核心知识点</strong>：<strong>截面积守恒</strong>：可弯曲的均匀薄带（胶带、纸卷、电缆、卫生纸），卷起来的环形截面与摊开的矩形截面是同一块材料，面积相等 $\pi(R^2-r^2)=t\cdot L$，即
-    $$L=\frac{\pi(R^2-r^2)}{t}.$$
-    它与「圈数 × 平均周长」恒等（$\frac{R-r}t\cdot2\pi\cdot\frac{R+r}2$ 展开相同）。这类题的全部变体——正着求 $L$、反着求 $R$、求圈数——都是这一条等式的移项。
+    <strong>核心知识点</strong>：<strong>截面积守恒</strong>：可弯曲的均匀薄带（胶带、纸卷、电缆、卫生纸），卷起来的环形截面与摊开的矩形截面是同一块材料，面积相等 $\pi(R^2-r^2)=t\cdot L$，即 $$L=\frac{\pi(R^2-r^2)}{t}.$$ 它与「圈数 × 平均周长」恒等（$\frac{R-r}t\cdot2\pi\cdot\frac{R+r}2$ 展开相同）。这类题的全部变体——正着求 $L$、反着求 $R$、求圈数——都是这一条等式的移项。
   </blockquote>
   <p>必须掌握的要点：</p>
   <ol>
@@ -206,11 +191,9 @@ window.MathJax = {
     <li>展开后的矩形：<strong>长 $L$、厚 $t$</strong>。$t$ 是展开矩形的宽，不要对它做任何加工（有人下意识除以 2，直接把答案翻倍）。</li>
     <li>「精确到最近的 100」是<strong>估算指令</strong>：$200\pi\approx628$ 落在 600 档。$\pi$ 取 3.14 或 22/7 都不影响档位——见到「nearest 100/10」就放宽心算精度，把注意力留给等式本身。</li>
   </ol>
-
   <hr>
 
   <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
-
   <div class="prob">
     <span class="tag">第 1 题 · 同构换数</span> <span class="stars">★</span> <span class="form">形式｜同构换参</span>
     <p>一卷胶带外径 6、内径 4（英寸），厚 0.01 英寸。完全展开后长约多少英寸（精确到最近的 100 英寸）？</p>
@@ -250,11 +233,7 @@ window.MathJax = {
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>求和 $\approx632.5$ 英寸，与 $200\pi\approx628.32$ 相差约 $0.67\%$（偏差来自最后一层不足一整层）</strong></div>
-      <p>第 $k$ 层半径取 $r_k=1+(k-\tfrac12)\cdot0.015$（$k=1..67$），第 $k$ 层周长 $2\pi r_k$，求和
-    $$L=\sum_{k=1}^{67}2\pi r_k=2\pi\Bigl(67+0.015\cdot\tfrac{67\cdot66}{2}\Bigr)
-      =2\pi\cdot100.6675\approx632.5 .$$
-    连续（面积）法给出 $200\pi\approx628.32$，两者相差约 $0.67\%$。<strong>偏差的来源值得一说</strong>：$(2-1)/0.015=66\tfrac23$ <strong>层</strong>，本不存在整数层；硬凑成 67 层等于凭空多加了 $\tfrac13$ 层（约 $\tfrac13\cdot3\pi\approx3.1$ 英寸），恰好解释了这个差值。
-    <strong>结论</strong>：层数越多（胶带越薄），离散求和与连续公式越贴近；本题 67 层的 0.67% 已经足够好，而答案要精确到「最近的 100」，两法毫无差别都落 600。</p>
+        <p>第 $k$ 层半径取 $r_k=1+(k-\tfrac12)\cdot0.015$（$k=1..67$），第 $k$ 层周长 $2\pi r_k$，求和 $$L=\sum_{k=1}^{67}2\pi r_k=2\pi\Bigl(67+0.015\cdot\tfrac{67\cdot66}{2}\Bigr) =2\pi\cdot100.6675\approx632.5 .$$ 连续（面积）法给出 $200\pi\approx628.32$，两者相差约 $0.67\%$。<strong>偏差的来源值得一说</strong>：$(2-1)/0.015=66\tfrac23$ <strong>层</strong>，本不存在整数层；硬凑成 67 层等于凭空多加了 $\tfrac13$ 层（约 $\tfrac13\cdot3\pi\approx3.1$ 英寸），恰好解释了这个差值。 <strong>结论</strong>：层数越多（胶带越薄），离散求和与连续公式越贴近；本题 67 层的 0.67% 已经足够好，而答案要精确到「最近的 100」，两法毫无差别都落 600。</p>
       <p class="hint">要点：「薄层离散 → 连续守恒」：层数一大，求和自动变成 $\pi(R^2-r^2)/t$；误差分析让我们放心用一行等式替代 67 次加法。</p>
     </details>
   </div>
@@ -269,7 +248,6 @@ window.MathJax = {
       <p class="hint">要点：一条恒等式管全部变体；因式分解 $(R^2-r^2)=(R-r)(R+r)$ 是「守恒视角」与「圈数视角」互相翻译的字典。</p>
     </details>
   </div>
-
   <hr>
 
   <h2>六、方法总结卡片（贴在错题本上）</h2>
@@ -284,10 +262,9 @@ window.MathJax = {
       口诀：「卷是环、摊是条、面积是一家」——半径差当圈数，平均半径当周长，两个视角随便挑。
     </p>
   </div>
-
   <div class="footer">
     <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
-    <div>AMC 8 错题精讲 · 圆环面积 + 展开等积估算 &nbsp;|&nbsp; 生成于 2026-10-12</div>
+    <div>AMC 8 错题精讲 · 圆环面积 + 展开等积估算 &nbsp;|&nbsp; 生成于 2026-10-14</div>
   </div>
 </div>
 <script id="done-progress-js">
