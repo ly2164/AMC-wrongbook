@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>2023AMC8 · AMC 8 ❤️精讲</title>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --ok:#047857;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.7; margin:0; background:#f5f7fb;
+  }
+  .page{max-width:880px; margin:0 auto; padding:56px 40px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:32px; margin:10px 0 6px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15.5px; margin:0 0 8px;}
+  .backtop{margin:0 0 24px; padding-bottom:14px; border-bottom:1px solid var(--line);}
+  .backtop .link{font-size:14.5px; margin-right:18px;}
+  .count{display:inline-block; margin-top:6px; font-size:13px; font-weight:600;
+    color:var(--accent); background:var(--accent-soft); border-radius:20px; padding:4px 14px;}
+  hr{border:none; border-top:1px solid var(--line); margin:32px 0;}
+  .grid{display:grid; gap:16px; margin-top:8px;}
+  .item{
+    display:block; text-decoration:none; color:inherit;
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; transition:all .16s ease; position:relative; overflow:hidden;
+  }
+  .item::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--accent);
+  }
+  .item:hover{border-color:var(--accent); box-shadow:0 6px 20px rgba(37,99,235,.10); transform:translateY(-1px);}
+  .item .row1{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+  .item .title{font-size:17.5px; font-weight:700;}
+  .item .date{font-size:13px; color:var(--sub);}
+  .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .badge{font-size:12px; font-weight:600; border-radius:20px; padding:3px 12px; background:var(--accent-soft); color:var(--accent);}
+  .badge.k{background:#f0fdf4; color:var(--ok);}
+  .badge.p{background:#fff7ed; color:var(--warn);}
+  .desc{color:var(--sub); font-size:14.5px; margin-top:6px;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center;
+    border-top:1px solid var(--line); padding-top:18px;}
+  a.link{color:var(--accent); text-decoration:none; font-weight:600;}
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="backtop">
+    <a class="link" href="../index.html">← 返回题库首页</a>
+  </div>
+
+  <div class="kicker">AMC 8</div>
+  <h1>2023AMC8</h1>
+  <p class="lede">本场考试已收录的❤️精讲，点击任意一张卡片进入详细解析（含知识点提炼 + 由易到难的 5 道配套练习）。</p>
+  <span class="count">共 3 道错题</span>
+
+  <hr>
+
+  <div class="grid">
+
+    <a class="item" href="../problems/20261020-range-mode-median-max-sum.html">
+      <div class="row1">
+        <span class="title">极差翻倍、众数中数不许动：两数之和最大多少</span>
+        <span class="date">20261020</span>
+      </div>
+      <div class="desc">极差 25→50、median 8 钉死一左一右（x&lt;8&lt;y）、mode 唯一把 x 卡在 ≤7（x=8 双峰是陷阱，61=8+53 正是错源）；分 case 得上界 60，(7,53) 三统计量全复原。</div>
+      <div class="badges">
+        <span class="badge k">Range, median, mode and optimization</span>
+        <span class="badge ">2023AMC8(20)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261020-trapezoid-area-ratio.html">
+      <div class="row1">
+        <span class="title">大三角形套小三角形：一个梯形与内三角形的面积比</span>
+        <span class="date">20261020</span>
+      </div>
+      <div class="desc">内外等边三角形边长比 2:3，面积比是平方 4:9；三个全等梯形共 5/9、一个 5/27，与内三角形比得 5:12——通项 (1−r²)/(n·r²) 对任何嵌套全等分割都成立。</div>
+      <div class="badges">
+        <span class="badge k">Area ratio and similarity</span>
+        <span class="badge ">2023AMC8(19)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261020-pqr-pattern-count.html">
+      <div class="row1">
+        <span class="title">20×20 表格 P/Q/R：每列差一个，答案就看余数</span>
+        <span class="date">20261020</span>
+      </div>
+      <div class="desc">行列都是 3 周期，20=3·6+2 使每条线里两个字母比第三个多出现一次；按列型分组（P 在 7 列垫底、13 列多数）得 P=R=133、Q=134，对角线视角与转置对称一键互验。</div>
+      <div class="badges">
+        <span class="badge k">Pattern recognition and modular arithmetic</span>
+        <span class="badge ">2023AMC8(16)</span>
+        <span class="badge p">成员：YC</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    AMC 8 ❤️精讲 · 2023AMC8 &nbsp;|&nbsp; 由 WorkBuddy 维护 · 最近更新 2026-10-20
+  </div>
+</div>
+</body>
+</html>

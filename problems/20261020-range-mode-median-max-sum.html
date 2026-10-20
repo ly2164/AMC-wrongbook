@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 极差/中位数/众数约束下的两数最大化</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2023AMC8.html">← 返回 2023AMC8</a>
+    <div class="pager">
+      <a href="20261020-trapezoid-area-ratio.html">‹ 上一题</a>
+      <a class="disabled" href="#">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>极差翻倍、众数中数不许动：两数之和最大多少</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261020</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2023AMC8(20)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Range, median, mode and optimization</span></div>
+  </div>
+  <p class="lede">原数列 $3,3,8,11,28$ 的极差 $28-3=25$，翻倍成 $50$；median 保持 $8$ 强制插入的两个数一左一右（$x\lt 8\lt y$）。若 $x\ge3$，最小值仍是 $3$、最大值必须是 $53$；而 mode 不许变把 $x$ 卡在 $x\le7$（$x=8$ 会让 $8$ 与 $3$ 并列众数），于是 $x+y\le7+53=60$；$x\lt 3$ 的分支最多 $54$。$x=7$、$y=53$ 全部条件满足，最大和为 $60$。答案 <strong>(D)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Two integers are inserted into the list $3,$ $3,$ $8,$ $11,$ $28$ to double its range. The mode and median remain unchanged. What is the maximum possible sum of the two additional numbers?
+  </blockquote>
+  <p><strong>中文翻译</strong>：往数列 $3,$ $3,$ $8,$ $11,$ $28$ 中插入两个整数，使它的极差翻倍，且<strong>众数和中位数都保持不变</strong>。求这两个数之和最大可能是多少。 (A) $56$　(B) $57$　(C) $58$　(D) $60$　(E) $61$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2023/problem/20" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2023/problem/20</a><br>
+    官方给出的正确选项为 <strong>(D) $60$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 61</code></td><td>把「median 保持 8」直观理解成「塞一个 8 进去最保险」：取 $x=8$、$y=53$，和 $=61$。验算一下就知道错在哪——新数列 $3,3,8,8,11,28,53$：median 是第 4 个数 $8$ ✓、range $=53-3=50$ ✓，<strong>但 mode 从唯一的 3 变成了 3 和 8 双峰</strong>（各出现 2 次）✗。这是全题最大的陷阱：$61=8+53$ 正好是「最大和 + 1」，命题人把雷区埋在「最自然的那一步」上。<strong>mode 是一个「唯一性」条件，不是「存在性」条件</strong>——3 必须仍然是唯一的众数，任何让别的数出现次数追上 3 的插入都是死。</td></tr>
+    <tr><td><code>答 (A) 56 或 (B) 57</code></td><td>另一类错误是「只会躲、不会用」：要么只敢取 $x=3$（「最小值不变最安全」），得 $3+53=56$；要么被「$x=3$ 会改变 mode」的提示吓得只取 $x=4$，得 $4+53=57$。共同缺陷是<strong>没有把 $x$ 沿着合法边界往上探</strong>：$4\le x\le7$ 全部合法（mode 仍是唯一的 3），$x$ 每大 1、和就大 1，最大值在边界 $x=7$ 处取到。最大化问题的基本动作是「在约束允许的范围内把大的尽量大」，不是在约束里挑最安全的躲。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：三道翻译没做：① <strong>median 不变 $\Rightarrow$ 一数在 8 左、一数在 8 右</strong>（$x\lt 8\lt y$，严格不等）；② <strong>mode 不变 $\Rightarrow$ 逐值检验出现次数</strong>（$x=8$ 双峰是雷、$x=3$ 按官方口径也要排除）；③ <strong>range 翻倍 $\Rightarrow$ 差值从 25 变 50</strong>，且要分「最小值变不变」两个世界讨论。三道翻译齐了，答案就是顺推的结果。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2023/problem/20" target="_blank" rel="noopener">2023AMC8(20)</a> 的书面解答一致——原 range $=25$，新 range 必须为 $50$；保持 median $8$ 要求一个加入的数小于 $8$、另一个大于 $8$。若 $x\ge3$，最小值仍为 $3$，新最大值必须为 $53$；$x=3$ 会改变 mode，故 $x\le7$，$x+y\le7+53=60$。若 $x\lt 3$ 且 $y\gt 28$，则 $y-x=50$，$x+y=2x+50\le54$；若 $y\le28$ 则最大值仍为 $28$，迫使 $x=-22$、和更小。$x=7$、$y=53$ 时 mode 与 median 都保持、range 为 $50$，故最大和为 $60$。 <br> 本站的增量在于把「median 约束为什么强制一左一右」「mode 为什么卡住 $x\le7$」逐步补全，并对每个干扰项追溯错源。
+  </blockquote>
+  <h3>方法一：分 case 讨论（官方思路，推荐）</h3>
+  <p>记插入的两个整数为 $x$、$y$。</p>
+  <p><strong>第 1 步 · 把三个约束全部翻译成数学语言。</strong></p>
+  <ul>
+    <li>极差翻倍：原 range $=28-3=25$，新 range 必须为 $50$。</li>
+    <li>median 不变：插入后共 7 个数，median 是第 4 个。原数列里 $8$ 排第 3；要让它插入后仍排第 4，必须<strong>恰好一个数插到 8 左边、一个数插到 8 右边</strong>：$x\lt 8\lt y$（严格不等——$x=8$ 或 $y=8$ 都会把 8 的次数顶到 2 次，直接引爆 mode，见错解 1）。</li>
+    <li>mode 不变：3 必须仍是<strong>唯一</strong>众数。当前 3 出现 2 次、其余各 1 次。</li>
+  </ul>
+  <p><strong>第 2 步 · Case A：$x\ge3$（最小值不变）。</strong></p>
+  <p>最小值仍是 3，而 range 必须为 50，所以最大值必须是 $3+50=53$，即 $y=53$（$y\le28$ 时 range 只有 25，不够）。此时 mode 约束：$x\neq 8$（否则 $3,3,8,8,\dots$ 双峰）；按官方口径 $x=3$ 也排除（3 会出现 3 次，改变 mode 的出现次数）；$4\le x\le7$ 都合法。于是</p>
+$$x+y\le 7+53=60.$$
+  <p><strong>第 3 步 · Case B：$x\lt3$（最小值改变）。</strong></p>
+  <p>新的最小值是 $x$，range 50 要求最大值为 $x+50$。</p>
+  <ul>
+    <li>若 $y=x+50$（$y$ 就是新的最大值，$y\gt28$ 自动满足）：$x+y=2x+50\le2\cdot2+50=54\lt60$。</li>
+    <li>若 $y\le28$（最大值仍是 28）：$28-x=50\Rightarrow x=-22$，和 $-22+y\le-22+28=6$，更小。</li>
+  </ul>
+  <p><strong>第 4 步 · 合并与达成性检验。</strong></p>
+  <p>两个 case 的上界分别是 60 与 54，取大得 60。还要确认 60 <strong>真的可达</strong>：取 $x=7$、$y=53$，新数列</p>
+$$3,\ 3,\ 7,\ 8,\ 11,\ 28,\ 53:\quad \text{range}=53-3=50\ \checkmark,\quad \text{median}=8\ \checkmark,\quad \text{mode}=3\ (\text{唯一})\ \checkmark.$$
+  <blockquote class="ok"><strong>答案：(D) $60$。</strong></blockquote>
+  <h3>方法二：约束盒扫描——先框住 $(x,y)$ 再最大化</h3>
+  <p>换个组织顺序：先把所有约束画成 $(x,y)$ 平面上的可行域，再找 $x+y$ 最大的点。</p>
+  <ul>
+    <li>median 约束：$x\lt 8\lt y$（整数：$x\le7$ 且 $y\ge9$）。</li>
+    <li>range 约束：$\max-\min=50$。7 个数的 max 不是 $y$ 就是 $28$、min 不是 $x$ 就是 $3$，共四种组合，逐一验算：</li>
+    <li>$\max=y,\ \min=x$：$y-x=50$（$x\lt3$ 分支），$x+y=2x+50\le54$；</li>
+    <li>$\max=y,\ \min=3$：$y=53$（$x\ge3$ 分支），$x\le7\Rightarrow x+y\le60$；</li>
+    <li>$\max=28,\ \min=x$：$x=-22$，和 $\le6$；</li>
+    <li>$\max=28,\ \min=3$：range $=25\neq50$，直接淘汰。</li>
+    <li>mode 约束只在 $\max=y,\min=3$ 分支里加码：$x\ne8$（已由 $x\le7$ 覆盖）、$x\ne3$（官方口径），可行 $x\in\{4,5,6,7\}$。</li>
+  </ul>
+  <p>可行域一目了然：$x+y$ 的最大点 $(7,53)$，最大值 60。「约束盒」的价值在于<strong>不漏 case</strong>——四种 max/min 组合是把「range 50」翻译彻底的标准动作。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 达成性检验（$x=7,y=53$ 全条件满足）是最大化问题的收尾必做——上界算得再漂亮，不可达也是白搭；② 选项扫描追溯错源：(E) $61=8+53$ 是 mode 雷区；(A) $56=3+53$、(B) $57=4+53$ 是「不敢把 $x$ 推大」；(C) $58$ 多来自把原 range 误算（如误为 24，则新 range 48、$y=51$，$7+51=58$）；(D) $60$ 唯一通过全部约束；③ 可行域复盘：合法解集 $\{(x,53):x=4,5,6,7\}$ 中，$(7,53)$ 是唯一边界点，$(4,53)$、$(5,53)$、$(6,53)$ 正是选项 (B)(C) 的来路——<strong>最大化问题的答案永远长在可行域的顶点上</strong>。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>约束下的最大化 = 在约束盒里把大的尽量大。</strong> 本题的约束盒由三条边围成：range（差值锁 50）、median（$x\lt 8\lt y$）、mode（3 唯一）。把每条边翻译成不等式，可行域的顶点就是候选答案，最后做达成性检验。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>奇数个数的 median 是第 $\frac{n+1}{2}$ 个</strong>。7 个数的 median 是第 4 个；原数列 5 个数的 median（第 3 个）是 8，插入两数后它要挪到第 4 位，只能一左一右——<strong>median 约束的本质是「计数约束」</strong>，不是「有一个数等于 median」。</li>
+    <li><strong>range $=\max-\min$，「翻倍」就是差值翻倍</strong>：$25\to50$。range 约束只管差值、不管谁大谁小，所以必须分「min 是 3 还是 $x$」「max 是 28 还是 $y$」四种组合——这是 $2\times2$ 的标准分类讨论。</li>
+    <li><strong>mode 是唯一性条件</strong>：插入任何数之后，3 的出现次数必须严格多于其他所有数。$x=8$ 让 8 追上 3（双峰）是最典型的雷；官方还排除 $x=3$（3 出现 3 次，mode 的「出现次数」也变了）。<strong>mode 类题目要逐值数次数，不能凭感觉。</strong></li>
+    <li><strong>分 case 求上界，再取大</strong>：Case A（min 不变）上界 60，Case B（min 改变）上界 54。两个互斥世界覆盖全部可能，$\max(60,54)=60$。分类讨论的完备性靠「min 变/不变」这种二分法保证——不重不漏。</li>
+    <li><strong>达成性检验收尾</strong>：上界 60 要落实到一个具体的 $(x,y)$ 才作数。$x=7$、$y=53$ 让三个统计量全部复原，答案闭环。反过来，任何给不出实例的「最大」都是纸上谈兵。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 同构换数</span> <span class="stars">★</span> <span class="form">形式｜同构换参</span>
+    <p>往数列 $2,2,7,9,20$ 中插入两个整数，使极差翻倍，且 mode 与 median 不变。求两数之和的最大值。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$44$</strong></div>
+      <p>原 range $=20-2=18$，新 range $=36$；median $=7$、mode $=2$，故 $x\lt 7\lt y$。Case $x\ge2$：min 仍为 2，max 须 $2+36=38$，即 $y=38$；mode 约束 $x\ne7$（否则双峰），$x\le6$，$x+y\le6+38=44$。Case $x\lt2$：max$=x+36$，$x+y=2x+36\le2\cdot1+36=38$。取大得 44，且 $x=6$、$y=38$ 可达：$2,2,6,7,9,20,38$，range $=36$ ✓、median $7$ ✓、mode $2$ ✓。</p>
+      <p class="hint">要点：换数不换骨架：range 翻倍定差值、median 定一左一右、mode 定 $x$ 的上界、分 case 取大。注意 $x$ 的上界总是「median 减 1」（差一步就双峰）。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 解集分析</span> <span class="stars">★★</span> <span class="form">形式｜解集刻画</span>
+    <p>原题中满足全部条件的 $(x,y)$ 有哪些？其中哪些给出了选项里的数值？最大和由哪一组取得？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>合法解集 $\{(4,53),(5,53),(6,53),(7,53)\}$；分别给出 $57,58,59,60$，最大和 60 由 $(7,53)$ 取得</strong></div>
+      <p>$y=53$ 由 range 锁定（min 不变的世界里 max 必为 53）；$x$ 合法当且仅当：$x\lt8$（median）、$x\ge3$（本 case 前提）、$x\ne3$（官方口径排除）、mode 仍唯一——$4,5,6,7$ 都满足（数列 $3,3,x,8,11,28,53$ 中 3 出现 2 次、其余各 1 次）。于是合法解集就是 $\{(x,53):x=4,5,6,7\}$，对应和 $57,58,59,60$。选项 (B) $57$ 和 (C) $58$ 正是合法但非最大的点——$x=4$ 与 $x=6$；最大值在边界点 $(7,53)$ 取得。</p>
+      <p class="hint">要点：先把「哪些 $(x,y)$ 合法」和「哪个 $(x,y)$ 最大」分开：合法解集是约束的答案，边界点才是最大化的答案。<strong>错选 (B)(C) 的本质是停在可行域内部</strong>——最大化问题永远要摸到边界。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 加大倍数</span> <span class="stars">★★★</span> <span class="form">形式｜同构换参（改倍数）</span>
+    <p>原题其他条件不变，把「翻倍」改成「变成三倍」（新 range $=3\times25=75$）。求两数之和的最大值。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$85$</strong></div>
+      <p>median 约束不变：$x\lt 8\lt y$。Case $x\ge3$：min 仍 3，max 须 $3+75=78$，$y=78$，$x\le7$，$x+y\le85$。Case $x\lt3$：$y=x+75$，$x+y=2x+75\le79$；或 $y\le28\Rightarrow x=-47$，和更小。取大得 85，$x=7$、$y=78$ 可达：$3,3,7,8,11,28,78$，range $=75$ ✓、median $8$ ✓、mode $3$ ✓。</p>
+      <p class="hint">要点：range 的倍数 $k$ 只改 Case A 里的 $y=a+kR$；$x$ 的上界始终由 mode + median 钉在 $m-1$。一般地，$k$ 倍 range 的最大和 $=(m-1)+(a+kR)$（在 min 不变的世界里）。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 陷阱识别</span> <span class="stars">★★★★</span> <span class="form">形式｜证明 + 解释</span>
+    <p>严格证明：原题中 $x=8$ 一定破坏 mode 条件，因此 (E) $61$ 必然错误。并说明为什么 $x=7$ 是 $x$ 的最大合法值。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$x=8$ 时 8 出现 2 次、与 3 并列，mode 不唯一；$x=7$ 合法（3 仍唯一，2 次），$x=8$ 是第一个非法的 $x$，故最大合法值为 7</strong></div>
+      <p>$x=8$ 时新数列为 $3,3,8,8,11,28,y$：3 出现 2 次、8 出现 2 次，其余至多 1 次（$y=53$ 只出现 1 次），mode 从「唯一的 3」变成「3 和 8 双峰」，违反「mode 不变」。$x=7$ 时数列 $3,3,7,8,11,28,53$：3 出现 2 次严格多于其他（各 1 次），mode 唯一 ✓；median 第 4 位是 8 ✓。由于 $x\lt8$ 且 $x$ 为整数，$x$ 的最大合法值就是 7（还要 $x\ne3$，但 7 不触发）。</p>
+      <p class="hint">要点：mode 题的检验模板：<strong>把每个数的出现次数列成表，找严格最大值</strong>。$x=8$ 的死因在表里一眼可见（3 和 8 都是 2）。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 通项公式</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>一般化：数列 $a,a,m,b,c$（$a\lt m\lt b\lt c$，$a$ 出现 2 次为唯一 mode，median 为 $m$，range $R=c-a$）。插入两个整数使 range 变成 $k$ 倍（$k\ge2$）、mode 与 median 不变。求两数和的最大值（用 $a,m,R,k$ 表示），并代入原题验证。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>最大值 $=(m-1)+(a+kR)$（设其不小于 $2(a-1)+kR$；原题 $=7+53=60$ ✓）</strong></div>
+      <p>median 不变 $\Rightarrow x\lt m\lt y$。Case $x\ge a$（min 不变）：max 须 $a+kR$，即 $y=a+kR$；mode 不变 $\Rightarrow x\ne m$（双峰）且 $x$ 不把 $a$ 顶成非唯一——$x=m-1$ 时数列 $a,a,m-1,m,b,c,a+kR$ 中 $a$ 仍严格最多（2 次），合法；故 $x+y\le(m-1)+(a+kR)$。Case $x\lt a$：max$=x+kR$，$x+y=2x+kR\le2(a-1)+kR$。两者取大。代入原题 $a=3,m=8,R=25,k=2$：Case A 上界 $7+(3+50)=60$，Case B 上界 $2\cdot2+50=54$，$\max=60$ ✓；且 $x=7$、$y=53$ 可达。</p>
+      <p class="hint">要点：通项把「$x$ 的上界 $m-1$」与「$y$ 的下界 $a+kR$」分离——最大值永远长在「median 左边一点、range 末端」这个角上。记这个角，比记题目快。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>统计量约束 + 最大化 30 秒决策卡</h3>
+    <ol>
+      <li>算原统计量：range $=25$、median $=8$、mode $=3$（唯一）。新 range $=50$。</li>
+      <li>median 定形：$x\lt 8\lt y$（一左一右，严格）；range 定值：min 不变 $\Rightarrow y=3+50=53$。</li>
+      <li>mode 定 $x$ 的上界：$x=8$ 双峰（死）、$x=3$ 官方排除 $\Rightarrow x\le7\Rightarrow x+y\le7+53=60$。</li>
+      <li>另一半世界兜底：$x\lt3\Rightarrow$ 和 $\le54\lt60$；达成检验 $x=7,y=53$ 三统计量全复原 ✓，选 (D)。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「range 管差值、median 管左右、mode 管次数；一左一右钉死形，边界取大再验证」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 极差/中位数/众数约束下的两数最大化 &nbsp;|&nbsp; 生成于 2026-10-20</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
