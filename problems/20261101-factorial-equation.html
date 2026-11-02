@@ -175,7 +175,7 @@ $$5!\times9! = 12\times10\times9! = 12\times N! \;\Longrightarrow\; 10\times9! =
   <p><strong>第 3 步 · 认出接龙。</strong> $10\times9!$ 恰好是"$10$ 往下乘到 $1$"：</p>
 $$10\times9! = 10! \;\Longrightarrow\; N=10.$$
   <blockquote class="ok"><strong>答案：(A) $10$。</strong></blockquote>
-  <h3>方法二：数值验算（兜底手段）</h3>
+  <h3>方法二：数值验算（仅为兜底手段，做题费时间，不建议采用）</h3>
   <p>$5!=120$，$9!=362880$，左边 $=120\times362880=43545600$。除以 $12$：$43545600\div12=3628800$。对照阶乘表：$10!=3628800$，而 $11!=39916800$（约 $3.99\times10^7$）对不上。故 $N!=10!$，$N=10$。</p>
   <blockquote class="ok"><strong>验证技巧</strong>：① 阶乘题做完<strong>必代回检验</strong>：$12\times10! = 12\times3628800 = 43545600 = 5!\times9!$ ✓；② 数量级定位：左边 $\approx1.2\times10^2\times3.6\times10^5\approx4.4\times10^7$，除以 $12$ 得 $\approx3.6\times10^6$，恰好是 $10!$ 的数量级——若有人给 $N=11$，$12\times11!\approx4.8\times10^8$，大了十倍以上，一眼假。</blockquote>
   <hr>
@@ -212,7 +212,7 @@ $$10\times9! = 10! \;\Longrightarrow\; N=10.$$
     <details>
       <summary>👉 点击查看解析</summary>
       <div class="ans">答：<strong>不存在</strong></div>
-      <p>$5!\times9!=43545600$，而 $43545600\div11=3958727\tfrac3{11}$ 不是整数——左边根本不是 $11$ 的倍数，更谈不上等于 $11\times N!$。证明：$11$ 是质数且 $11\gt9$，所以 $11$ 整除 $11!$ 但<strong>不整除任何 $k!\ (k\le10)$</strong>；又 $11\nmid5!$、$11\nmid9!$（两者的素因子都不超过 $9$），故 $11\nmid 5!\times9!$，方程两边要相等，左边必须被 $11$ 整除，矛盾。</p>
+      <p>$5!\times9!$ 根本不是 $11$ 的倍数，更谈不上等于 $11\times N!$。证明：$11$ 是质数且 $11\gt9$，所以 $11$ 整除 $11!$ 但<strong>不整除任何 $k!\ (k\le10)$</strong>；又 $11\nmid5!$、$11\nmid9!$（两者的素因子都不超过 $9$），故 $11\nmid 5!\times9!$，方程两边要相等，左边必须被 $11$ 整除，矛盾。</p>
       <p class="hint">要点：<strong>整除性先于求值</strong>：拿一个质数 $p$ 去乘 $N!$，方程有解的前提是 $p\mid$ 左边；$p$ 大于左边所有阶乘的"阶"时立刻无解——不用做大除法，素因子论证三行收工。</p>
     </details>
   </div>
@@ -258,7 +258,7 @@ $$10\times9! = 10! \;\Longrightarrow\; N=10.$$
       <li>写成 $a!\times b! = c\times N!$，先算 $a!\div c$ 是否整除（本题 $120\div12=10$）。</li>
       <li>整除则方程变成 $\text{商}\times b! = N!$；商若等于 $b+1$，立刻接龙 $N=b+1$（$10\times9!=10!$）。</li>
       <li>不整除或商不是 $b+1$，改用数量级定位：估算 $a!\times b!/c$ 落在哪两个阶乘之间。</li>
-      <li><strong>必代回检验</strong>（乘一次就完），并记住：$k\times n!=(n+1)!$ 当且仅当 $k=n+1$；"$11!/11=10!$"不产生新解。</li>
+      <li>考试不必采用，<strong>必代回检验</strong>（乘一次就完），并记住：$k\times n!=(n+1)!$ 当且仅当 $k=n+1$；"$11!/11=10!$"不产生新解。</li>
     </ol>
     <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
       口诀：「小阶乘，拆系数；约常数，接尾巴；商几就接几号阶乘」。
