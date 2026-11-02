@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 占比方程（分子分母同增）</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2020AMC8.html">← 返回 2020AMC8</a>
+    <div class="pager">
+      <a href="20261101-factorial-equation.html">‹ 上一题</a>
+      <a href="20261101-percent-x-y-relation.html">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>加紫袜到 60%：分子分母都要加</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261101</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2020AMC8(13)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Basic probability</span></div>
+  </div>
+  <p class="lede">设加 $s$ 只紫袜：紫袜 $18+s$ 只、总数 $36+s$ 只，$\dfrac{18+s}{36+s}=0.6$，解得 $0.4s=3.6$，$s=9$。答案 <strong>(B)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Jamal has a drawer containing $6$ green socks, $18$ purple socks, and $12$ orange socks. After adding more purple socks, Jamal noticed that there is now a $60\%$ chance that a sock randomly selected from the drawer is purple. How many purple socks did Jamal add?
+  </blockquote>
+  <p><strong>中文翻译</strong>：Jamal 的抽屉里有 $6$ 只绿袜、$18$ 只紫袜、$12$ 只橙袜。放入若干只紫袜后，Jamal 发现随机抽一只袜子是紫袜的概率变成了 $60\%$。Jamal 放入了几只紫袜？　(A) $6$　(B) $9$　(C) $12$　(D) $18$　(E) $24$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2020/problem/13" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2020/problem/13</a><br>
+    官方给出的正确选项为 <strong>(B) $9$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (A) 6</code></td><td><strong>分母忘了更新</strong>。学生列 $\dfrac{18+s}{36}=0.6$（总数仍写原来的 $36$），解得 $s=3.6$；发现不是整数后不回头查方程，反而"就近凑整"选了 (A) $6$。放入紫袜后<strong>分子加 $s$、分母也加 $s$</strong>——占比方程的两个量同时动，这是本题的全部机关。</td></tr>
+    <tr><td><code>答 (C) 12</code></td><td>把"紫色占 $60\%$"读成"<strong>紫色增加 $60\%$"：$s=18\times0.6=10.8$，凑整选 $12$。占比是"部分占整体的比例"，不是"部分的增长率"——$60\%$ 描述的是加完</strong>之后**的状态（$18+s$ 占 $36+s$ 的六成），与"$s$ 相对 $18$ 增长多少"（那是另一道题，答案也不是 $60\%$ 对应的数）完全是两码事。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把"加袜子"翻译成<strong>代数动作</strong>：设加 $s$ 只 → 分子 $18+s$、分母 $36+s$，一个方程 $\frac{18+s}{36+s}=0.6$ 直接锁死答案。凡是"往混合物里加料、问比例变化"的题（浓度、占比、概率），标准动作都是<strong>设未知数 → 新分子、新分母同时更新 → 列方程</strong>。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2020/problem/13" target="_blank" rel="noopener">2020AMC8(13)</a> 的书面解答一致——设加 $s$ 只，$\dfrac{s+18}{s+36}=0.6$，展开解得 $0.4s=3.6$，$s=9$。 <br> 本站的增量在于给出"比例 $3:2$"的免解方程快路径，并用它解释为什么答案一定合法。
+  </blockquote>
+  <h3>方法一：设未知数列方程（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 设未知数，更新两个量。</strong> 加 $s$ 只紫袜后：紫袜 $18+s$ 只；总数 $6+18+12+s=36+s$ 只。</p>
+  <p><strong>第 2 步 · 翻译"60%"。</strong> 随机抽一只是紫袜的概率为</p>
+$$\frac{18+s}{36+s}=0.6.$$
+  <p><strong>第 3 步 · 解方程。</strong> 两边乘 $36+s$：</p>
+$$18+s = 0.6s+21.6 \;\Longrightarrow\; 0.4s = 3.6 \;\Longrightarrow\; s=9.$$
+  <blockquote class="ok"><strong>答案：(B) $9$。</strong></blockquote>
+  <h3>方法二：比例 3 : 2（免解方程）</h3>
+  <p>紫袜占 $60\%$，则紫袜 : 非紫袜 $=60:40=3:2$。<strong>非紫袜（绿 + 橙）加袜子前后始终是 $6+12=18$ 只</strong>，所以加完后紫袜有</p>
+$$18\times\frac32 = 27 \text{ 只},\qquad s=27-18=9.$$
+  <p>两法一致。方法二的隐藏优势：$18$ 能被 $2$ 整除，比例法一步出整数——<strong>凡是"加的料不改变另一部分"的题，盯住不变的那部分列比例最快</strong>。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 代回：$\dfrac{18+9}{36+9}=\dfrac{27}{45}=\dfrac35=60\%$ ✓；② 单调性检查：原来紫袜占 $18/36=50\%$，加紫袜只会升高占比，$50\%\to60\%$ 方向合理；若解出负数或解出的 $s$ 使占比越过头（比如算出 $s=45$ 时 $63/81\approx77.8\%$），都该回头查方程。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>占比问题的方程骨架：新部分 / 新整体 = 目标比例</strong>。加料题里分子分母<strong>同步加 $s$</strong>，这正是这类方程与非齐次方程的分水岭。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>分母是"活的"</strong>：总数随加料变化，$36+s$ 而非 $36$。忘更新分母得到 $s=3.6$ 这个"非整数"，本身就是方程列错了的信号——占比方程的解通常恰好落在选项上。</li>
+    <li><strong>盯住不变量</strong>：绿袜与橙袜共 $18$ 只始终不动。目标比例 $60\%=3/5$ 把整体分成 $3:2$，用不变的 $18$ 反推紫袜 $27$，绕开解方程。<strong>找"加料不动的部分"是比例法的入口</strong>。</li>
+    <li><strong>"占比"不是"增长率"</strong>：$60\%$ 是加完后的状态描述；把它当成 $18$ 的增幅（错解 2）属于语义误读。读题圈关键词："there is <strong>now</strong> a 60% chance"——now 是解方程后的世界。</li>
+    <li><strong>单调性给答案上保险</strong>：加紫袜使紫袜占比从 $50\%$ 单调上升趋于 $1$，目标 $60\%$ 必有唯一解且 $s\gt0$；若解出的 $s$ 是负数或非整数，方程一定列错。</li>
+    <li><strong>概率 = 比例</strong>：本题的"60% chance"就是抽中紫袜的频率，$\dfrac{\text{紫袜数}}{\text{总数}}$。等可能抽样的概率计算永远先问："分子是什么集合、分母是什么集合、两者是否都被刚才的操作改变了？"</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 同构换数</span> <span class="stars">★</span> <span class="form">形式｜同构换数</span>
+    <p>抽屉里有 $4$ 只红袜、$8$ 只蓝袜。再放入若干只蓝袜后，随机抽一只袜于是蓝袜的概率变成 $75\%$。放入了几只蓝袜？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$4$ 只</strong></div>
+      <p>设加 $s$ 只：$\dfrac{8+s}{12+s}=\dfrac34$，交叉相乘 $32+4s=36+3s$，$s=4$。代回：$\dfrac{12}{16}=75\%$ ✓。比例法：蓝 : 非蓝 $=3:1$，红袜 $4$ 只不变，蓝袜 $=4\times3=12$，$s=12-8=4$ ✓。</p>
+      <p class="hint">要点：与原题完全同构，非蓝部分恰为 $4$、目标比 $3:1$——<strong>不变量是 $4$ 的倍数时比例法一步出答案</strong>，连方程都可以不解。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 反向思考</span> <span class="stars">★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>原题情境下（$6$ 绿、$18$ 紫、$12$ 橙），如果 Jamal 放入的是<strong>橙袜</strong>而不是紫袜，抽到紫袜的概率能到达 $60\%$ 吗？说明理由。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>不能</strong></div>
+      <p>设加 $t$ 只橙袜，紫袜占比 $=\dfrac{18}{36+t}$。$t\ge0$ 时分母 $\ge36$，占比 $\le\dfrac{18}{36}=50\%$，且随 $t$ 增大<strong>严格递减</strong>趋于 $0$——方向与目标 $60\%$ 相反，永远够不着。事实上加紫袜之所以能升到 $60\%$，是因为加的料<strong>本身就是目标集合的成员</strong>，分子分母同增但分子增得更快。</p>
+      <p class="hint">要点：<strong>判断"能不能"先看方向</strong>：加目标集合以外的成员只会稀释目标占比。存在性问题的标准答法是给出上下界与单调方向，而不是硬解方程。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 加一层约束</span> <span class="stars">★★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>按原题加入 $9$ 只紫袜后，抽屉里共有 $45$ 只袜。从中随机<strong>同时</strong>抽出 $2$ 只，两只都是紫袜的抽法有多少种？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$351$ 种</strong></div>
+      <p>加完后的紫袜数 $=18+9=27$，从 $27$ 只里取 $2$ 只：$\dbinom{27}{2}=\dfrac{27\times26}{2}=351$。</p>
+      <p class="hint">要点：原题只是"配菜"——<strong>占比方程先定下各色数量，组合计数随后接管</strong>；两问链条式出题时，前问的输出（$27$ 只紫袜）就是后问的输入，务必先保证前问正确。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 目标改一改</span> <span class="stars">★★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>原题情境不变，但 Jamal 想让紫袜占比达到 $70\%$。需要放入几只紫袜？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$24$ 只</strong></div>
+      <p>$\dfrac{18+s}{36+s}=0.7\Rightarrow18+s=0.7s+25.2\Rightarrow0.3s=7.2\Rightarrow s=24$。代回：$\dfrac{42}{60}=70\%$ ✓。比例法：紫 : 非紫 $=7:3$，非紫 $18$ 只 → 紫袜 $=18\times\tfrac73=42$，$s=42-18=24$ ✓。</p>
+      <p class="hint">要点：目标从 $60\%$ 提到 $70\%$，答案从 $9$ 跳到 $24$——<strong>占比越高，边际成本越贵</strong>（每提高 $1$ 个百分点要加的袜子数从 $0.9$ 只涨到 $2.4$ 只），这是占比方程非线性增长的直观感受。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 一般化公式</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>抽屉里有绿袜 $g$ 只、紫袜 $p$ 只、橙袜 $o$ 只。放入 $s$ 只紫袜后紫袜占比恰为 $\dfrac mn$（$\gcd(m,n)=1$，$m\lt n$）。证明：$s=\dfrac{m(g+p+o)-np}{\,n-m\,}$，并用它复核原题（$g,p,o=6,18,12$、$m:n=3:5$）与练习 4（$m:n=7:10$）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$s=\dfrac{mG-np}{n-m}$（$G=g+p+o$）；原题 $s=9$、练习 4 $s=24$</strong></div>
+      <p>加 $s$ 只后 $\dfrac{p+s}{G+s}=\dfrac mn$，交叉相乘 $n(p+s)=m(G+s)$，展开 $np+ns=mG+ms$，移项 $s(n-m)=mG-np$，即 $s=\dfrac{mG-np}{n-m}$。复核 1：$G=36,p=18,m=3,n=5$：$s=\dfrac{3\times36-5\times18}{2}=\dfrac{108-90}{2}=9$ ✓。复核 2：$m=7,n=10$：$s=\dfrac{7\times36-10\times18}{3}=\dfrac{252-180}{3}=24$ ✓。公式的两个读法：分子 $mG-np$ 是"目标紫袜数减现有紫袜数"的 $n$ 倍尺度，分母 $n-m$ 度量"目标离 $100\%$ 还有多远"——$m$ 越接近 $n$，$s$ 越大。</p>
+      <p class="hint">要点：通项把"同增方程"一次性解完，还顺带回答"什么样的 $(m,n)$ 才有整数解"：需要 $n-m\mid mG-np$；<strong>出题人选 $60\%=\frac35$ 正是因为 $2\mid18$</strong>——分母整除性是占比题设计答案为整数的暗门。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>加料占比 30 秒决策卡</h3>
+    <ol>
+      <li>设加 $s$，写新分子（目标集合 $+s$）、新分母（总数 $+s$）——<strong>两个都加</strong>。</li>
+      <li>列 $\dfrac{\text{新分子}}{\text{新分母}}=\text{目标比例}$，一次方程直接解（本题 $0.4s=3.6$）。</li>
+      <li>快路径：把目标比例化成 $m:n$，找<strong>加料不变的那部分</strong>当锚（本题非紫袜 $18$），$18\times\frac32=27$，$s=27-18$。</li>
+      <li>自检：代回验证占比；方向检查（加目标成员 → 占比升）；解非整数 = 方程列错，回头查分母。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「加谁分子动，加了总数动；锚住不变量，比例一步通」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 占比方程（分子分母同增） &nbsp;|&nbsp; 生成于 2026-11-02</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

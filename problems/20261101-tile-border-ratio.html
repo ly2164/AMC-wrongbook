@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 铺砖边框的面积比（平方比开方）</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2020AMC8.html">← 返回 2020AMC8</a>
+    <div class="pager">
+      <a href="20261101-awards-inclusion-exclusion.html">‹ 上一题</a>
+      <a class="disabled" href="#">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>砖与缝：24 块砖 25 条缝</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261101</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2020AMC8(24)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Area ratio</span></div>
+  </div>
+  <p class="lede">$n=24$ 时大方形边长 $=24s+25d$（$24$ 块砖夹 $25$ 条缝）。阴影占 $64\%=\dfrac{16}{25}$，开方得线性比 $\dfrac{24s}{24s+25d}=\dfrac45$，解出 $24s=100d$，$\dfrac ds=\dfrac{6}{25}$。答案 <strong>(A)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    A large square region is paved with $n^2$ shaded square tiles, each measuring $s$ inches on a side. A border $d$ inches wide surrounds each tile. The figure below shows the case for $n=3.$ When $n=24,$ the $576$ shaded tiles cover $64\%$ of the area of the large square region. What is the ratio $\frac{d}{s}$ for this larger value of $n?$
+<img src="../img/amc8/2020/24.svg" alt="2020AMC8(24) 配图：n=3 时的铺砖示意图" style="max-height:9rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：一个大正方形区域铺有 $n^2$ 块阴影正方形砖，每块砖边长 $s$ 英寸；每块砖四周都有宽 $d$ 英寸的边框。右图所示是 $n=3$ 的情形。当 $n=24$ 时，$576$ 块阴影砖恰好覆盖大正方形区域的 $64\%$。求此时 $\dfrac ds$。　(A) $\dfrac{6}{25}$　(B) $\dfrac14$　(C) $\dfrac{9}{25}$　(D) $\dfrac{7}{16}$　(E) $\dfrac{9}{16}$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2020/problem/24" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2020/problem/24</a><br>
+    官方给出的正确选项为 <strong>(A) $\dfrac{6}{25}$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (B) 1/4</code></td><td><strong>缝数差一</strong>。学生把大方形边长写成 $24s+24d$（以为 $n$ 块砖配 $n$ 条缝），代入得 $\dfrac{24s}{24s+24d}=\dfrac45$，解出 $s=4d$，$\dfrac ds=\dfrac14$。画一画 $n=1$、$n=2$ 的小图就破案：$n$ 块砖并排，砖与砖之间有 $n-1$ 条内部缝，加上左右两条外沿缝，<strong>共 $n+1$ 条</strong>。$24$ 块砖 $25$ 条缝——差这一条，答案从 $\frac{6}{25}$ 漂到 $\frac14$。</td></tr>
+    <tr><td><code>答 (C) 9/25</code></td><td><strong>面积比不开方</strong>。学生算出阴影 $64\%$、边框 $36\%$，然后直接把 $36\%=\dfrac{9}{25}$ 当作 $\dfrac ds$ 的答案。$64\%$ 是<strong>面积</strong>之比 $s^2$ 量级的比，$\dfrac ds$ 是<strong>长度</strong>之比——面积比要开平方才能落地成线段比。选项 (C) 正是 $0.36=\frac{9}{25}$ 的原样呈现，专为"忘开方"准备。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：两处结构性失守：① <strong>边长的组成模型</strong>没画图核实（$ns+(n+1)d$）；② <strong>面积比与线性比的关系</strong>（正方形相似比 $k$ → 面积比 $k^2$）没有主动启用。正确路径是三段式：边长模型 → 面积方程 → 开方解比值。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2020/problem/24" target="_blank" rel="noopener">2020AMC8(24)</a> 的书面解答一致——$n=24$ 时阴影面积 $24^2s^2$，大方形边长 $24s+25d$，由 $\dfrac{24^2s^2}{(24s+25d)^2}=\dfrac{16}{25}$ 开方得 $\dfrac{24s}{24s+25d}=\dfrac45$，解出 $\dfrac ds=\dfrac6{25}$。 <br> 本站的增量在于用 $n=1,2$ 小图夯实"缝数 $=n+1$"的模型，并给出通项公式（练习 5）。
+  </blockquote>
+  <h3>方法一：边长模型 + 面积方程开方（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 边长模型（先画小图数缝）。</strong> $n$ 块砖并排：内部缝 $n-1$ 条 + 外沿缝 $2$ 条 $=n+1$ 条。验证：$n=1$ 时边长 $s+2d$（一块砖左右各一条）✓；$n=2$ 时 $2s+3d$ ✓。故 $n=24$：</p>
+$$\text{大方形边长}=24s+25d.$$
+  <p><strong>第 2 步 · 面积方程。</strong> 阴影面积 $=24^2s^2=576s^2$；大方形面积 $=(24s+25d)^2$。阴影占 $64\%=\dfrac{16}{25}$：</p>
+$$\frac{24^2s^2}{(24s+25d)^2}=\frac{16}{25}.$$
+  <p><strong>第 3 步 · 开方化线性比。</strong> 两边均为正，开平方：</p>
+$$\frac{24s}{24s+25d}=\frac45.$$
+  <p><strong>第 4 步 · 解出 $\dfrac ds$。</strong> 交叉相乘：$5\times24s=4(24s+25d)\Rightarrow120s=96s+100d\Rightarrow24s=100d$，故</p>
+$$\frac{d}{s}=\frac{24}{100}=\frac{6}{25}.$$
+  <blockquote class="ok"><strong>答案：(A) $\dfrac{6}{25}$。</strong></blockquote>
+  <h3>方法二：线性占比的补数视角</h3>
+  <p>开方后阴影的<strong>线性</strong>占比是 $\dfrac45$，即大方形边长里"砖的部分"占 $\frac45$、"缝的部分"占 $\frac15$：</p>
+$$\frac{25d}{24s+25d}=\frac15 \;\Longrightarrow\; 24s+25d=125d \;\Longrightarrow\; 24s=100d \;\Longrightarrow\; \frac ds=\frac{6}{25}.$$
+  <p>与方法一一致，且少一次交叉相乘。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① <strong>代回</strong>：$d=\frac{6}{25}s$ 时边长 $=24s+25\times\frac6{25}s=30s$，阴影占比 $\frac{576s^2}{900s^2}=64\%$ ✓；② <strong>合理性</strong>：缝很细（$d$ 约为砖边长的四分之一不到）才能让砖占六成四面积——$\frac{6}{25}=0.24$，砖边长 $s$ 对缝宽 $d$ 之比约 $4:1$，与直觉相符；③ 选项 (B) $\frac14=0.25$ 与 (A) $0.24$ 只差 $0.01$，<strong>缝数差一的错误必须靠小图数缝来防</strong>，靠算得"差不多"是防不住的。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>$n\times n$ 铺砖的边长模型：$ns+(n+1)d$</strong>。砖 $n$ 块、缝 $n+1$ 条——内外缝合计永远比砖数多一。一切面积比计算都从这个边长出发。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>相似正方形的面积比 = 线性比的平方</strong>：阴影小方与大方形相似，$\dfrac{\text{阴影面积}}{\text{总面积}}=\left(\dfrac{ns}{ns+(n+1)d}\right)^2$。面积比 $64\%=\frac{16}{25}$ 必须开方成 $\frac45$ 才能对接边长。</li>
+    <li><strong>画小图数缝是零成本保险</strong>：$n=1$：$s+2d$；$n=2$：$2s+3d$——两笔画清 "$n$ 块砖 $n+1$ 条缝"，(B) 选项的 off-by-one 从此免疫。</li>
+    <li><strong>$64\%$ 的巧劲</strong>：$64=\dfrac{16}{25}\times100$ 是完全平方分数，开方出干净比 $\frac45$——出题人选 $64\%$ 就是为了让开方后仍是漂亮分数；遇到 $64\%$、$25\%$、$49\%$ 这类数，条件反射想"哪个分数的平方"。</li>
+    <li><strong>解比值不必求出 $s,d$</strong>：方程 $\frac{24s}{24s+25d}=\frac45$ 是齐次的（$s,d$ 同乘任何数不变），直接解出 $\frac ds$。比值问题的方程天然齐次，<strong>目标是"比"，未知数就设成"比"</strong>。</li>
+    <li><strong>代回验算是比值题的最后一道闸</strong>：把 $\frac ds=\frac6{25}$ 代回<strong>正确的 $25d$ 模型</strong>，阴影占比 $\frac{576s^2}{(24s+6s)^2}=\frac{576}{900}=64\%$ ✓；若把 (B) 的 $\frac14$ 代入同一模型，占比 $=\frac{576s^2}{(24s+6.25s)^2}\approx62.9\%\ne64\%$，立刻被拒。注意验算必须钉死在正确模型上——带着错误的 $24d$ 模型验算，错误答案会"自洽"。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 小图数缝</span> <span class="stars">★</span> <span class="form">形式｜同构换数</span>
+    <p>$n=2$ 时画出（或想出）铺砖图，写出大方形边长；若 $d/s=1$，大方形与 $4$ 块砖的面积比是多少？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>边长 $2s+3d$；面积比 $25:4$</strong></div>
+      <p>$2$ 块砖并排，内部缝 $1$ 条 + 外沿 $2$ 条 $=3$ 条，边长 $2s+3d$；纵向同理。$d=s$ 时边长 $=5s$，大方形面积 $25s^2$，砖总面积 $4s^2$，比 $25:4$。</p>
+      <p class="hint">要点：<strong>$n=1,2$ 是数缝的标定图</strong>：一块砖 $2$ 条缝、两块砖 $3$ 条缝，"$n+1$"规律当场建立；边长模型一旦牢靠，后面全是代数。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 边框拆账</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>在原题设定下（$n=24$、$\frac ds=\frac6{25}$）：① 边框（非阴影部分）占大正方形面积的百分之几？② 横缝与竖缝交叉形成的 $d\times d$ 小方块共有多少个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>① $36\%$；② $625$ 个</strong></div>
+      <p>① 阴影 $64\%$，补集即边框 $36\%$。② 交叉点即"内部缝网格"的格点：横缝 $25$ 条、竖缝 $25$ 条，每个交叉处是一个 $d\times d$ 小方格，共 $25\times25=625$ 个。</p>
+      <p class="hint">要点：<strong>补集一步得边框占比</strong>；"十字格"计数用"线条数相乘"而非"找图案"——$25$ 条横缝与 $25$ 条竖缝的每个交点恰是一个小方块，乘法原理直接落地。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 剔除十字</span> <span class="stars">★★★</span> <span class="form">形式｜补集排除</span>
+    <p>接练习 2：把 $625$ 个 $d\times d$ 十字格从边框面积里扣掉，剩下的"纯条带"边框占大正方形面积的百分之几？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$32\%$</strong></div>
+      <p>$d=\frac6{25}s$，大方形边长 $=24s+25\cdot\frac6{25}s=30s$，面积 $900s^2$；边框面积 $36\%\times900s^2=324s^2$；十字格总面积 $625d^2=625\cdot\frac{36}{625}s^2=36s^2$；纯条带 $=324-36=288s^2$，占比 $\frac{288}{900}=32\%$。</p>
+      <p class="hint">要点：<strong>"边框"内部还有结构</strong>：条带与十字格的分割让面积账本多了一行；扣减时单位统一成 $s^2$，所有比都落在同一把尺子上。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 反过来问</span> <span class="stars">★★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>$n=3$（如题图），若 $\dfrac ds=\dfrac12$，阴影部分占大正方形面积的百分之几？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$36\%$</strong></div>
+      <p>边长 $=3s+4\cdot\frac12s=5s$；阴影 $=9s^2$，占比 $\frac{9s^2}{25s^2}=\frac9{25}=36\%$。</p>
+      <p class="hint">要点：与原题互为逆问题——<strong>正问题开方、逆问题平方</strong>；$n=3$ 时 $ns+(n+1)d=3s+4d$ 再现"缝比砖多一"，且 $\frac{9}{25}$ 恰是错解 2 里那个"面积分数"，在这里它名正言顺地是个面积答案。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 一般化公式</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>证明：$n\times n$ 铺砖中，若阴影占大正方形面积的比例为 $p^2$（$0\lt p\lt1$，$p$ 为线性占比），则 $\dfrac ds=\dfrac{n(1-p)}{p(n+1)}$；并用 $n=24$、$p=\dfrac45$ 复核原题答案。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\dfrac ds=\dfrac{n(1-p)}{p(n+1)}$；$n=24,p=\frac45$ 时 $\frac ds=\frac{24\cdot\frac15}{\frac45\cdot25}=\frac{24}{100}=\frac{6}{25}$ ✓</strong></div>
+      <p>线性占比 $p=\dfrac{ns}{ns+(n+1)d}$（阴影线性尺度与总边长之比）。交叉相乘：$p\,(ns+(n+1)d)=ns\Rightarrow p(n+1)d=ns(1-p)\Rightarrow\dfrac ds=\dfrac{n(1-p)}{p(n+1)}$。代入 $n=24$、$p=\frac45$：分子 $24\times\frac15=\frac{24}{5}$，分母 $\frac45\times25=20$，$\frac ds=\frac{24/5}{20}=\frac{24}{100}=\frac6{25}$ ✓。公式的两个读法：$n$ 越大缝越"摊薄"（$\frac ds\to\frac{1-p}{p}$ 当 $n\to\infty$）；$p\to1$（阴影占满）时 $\frac ds\to0$，边框消失——两端行为都符合直觉。</p>
+      <p class="hint">要点：通项把"边长模型 + 开方 + 解比值"三步打包；<strong>记住 $p$ 是线性占比（面积占比开方）</strong>，把 $64\%$ 直接塞进公式就重蹈错解 2。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>铺砖面积比 30 秒决策卡</h3>
+    <ol>
+      <li>画 $n=1,2$ 小图定边长模型：$ns+(n+1)d$——<strong>缝永远比砖多一</strong>。</li>
+      <li>面积占比开方成线性比：$64\%=\frac{16}{25}\to p=\frac45$（认完全平方分数）。</li>
+      <li>解齐次方程 $\frac{ns}{ns+(n+1)d}=p$，直接出 $\frac ds$（不必求 $s,d$ 本身）。</li>
+      <li>自检：代回重算占比 $=64\%$；缝宽/砖宽比例要合理；(B) 型答案 = 缝数差一，(C) 型答案 = 忘开方。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「砖 n 缝 n 加一条；面积开方变线段；齐次方程直接比」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 铺砖边框的面积比（平方比开方） &nbsp;|&nbsp; 生成于 2026-11-02</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

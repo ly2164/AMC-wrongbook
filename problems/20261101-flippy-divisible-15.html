@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 位值结构与整除判定</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2020AMC8.html">← 返回 2020AMC8</a>
+    <div class="pager">
+      <a href="20261101-factor-counting-2020.html">‹ 上一题</a>
+      <a href="20261101-tree-height-casework.html">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>Flippy 数被 15 整除：末位定 5，数字和定 3</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261101</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2020AMC8(19)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Divisibility</span></div>
+  </div>
+  <p class="lede">五位 flippy 数形如 $ABABA$（$A\ne0$、$A\ne B$）。被 $15$ 整除 = 被 $5$ 与被 $3$ 整除：末位 $A$ 必须 $\in\{0,5\}$，又 $A\ne0$，故 $A=5$；数字和 $15+2B$ 被 $3$ 整除要求 $B\equiv0\pmod3$，$B\in\{0,3,6,9\}$ 共 $4$ 个。答案 <strong>(B)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    A number is called flippy if its digits alternate between two distinct digits. For example, $2020$ and $37373$ are flippy, but $3883$ and $123123$ are not. How many five-digit flippy numbers are divisible by $15?$
+  </blockquote>
+  <p><strong>中文翻译</strong>：若一个数的数字在两个<strong>不同</strong>数字之间交替出现，就称它为 flippy 数。例如 $2020$ 与 $37373$ 是 flippy 数，而 $3883$ 与 $123123$ 不是。问：能被 $15$ 整除的五位 flippy 数有多少个？　(A) $3$　(B) $4$　(C) $5$　(D) $6$　(E) $8$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2020/problem/19" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2020/problem/19</a><br>
+    官方给出的正确选项为 <strong>(B) $4$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (A) 3</code></td><td><strong>把 $B=0$ 误删了</strong>。学生解出 $B\in\{0,3,6,9\}$ 后，心想"数字交替出现在两个数字之间，$0$ 算数字吗？"于是把 $50505$ 划掉，只剩 $\{3,6,9\}$ 共 $3$ 个。$0$ 当然是合法数字——题面只要求"两个<strong>不同</strong>数字"（distinct），唯一被禁的是首位 $A=0$（否则就不是五位数）。$50505=15\times3367$，完全合法。</td></tr>
+    <tr><td><code>答 (D) 6</code></td><td><strong>把"数字和被 3 整除"错误地也压到 $A$ 头上</strong>。学生正确得到 $B\in\{0,3,6,9\}$ 后，又画蛇添足地要求首位 $A$ 也是 $3$ 的倍数（$A\in\{3,9\}$，$A\ne B$ 自动满足），于是组合出 $A=3$：$B$ 有 $3$ 种（$0,6,9$）、$A=9$：$B$ 有 $3$ 种（$0,3,6$），共 $6$ 个。数字和条件只约束<strong>整个数</strong>的数字和 $3A+2B$——它自动被 $B\equiv0\pmod3$ 满足（$3A$ 本来就是 $3$ 的倍数），对 $A$ 再加同样的过滤是无中生有。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有按"$15=3\times5$ 且 $\gcd(3,5)=1$"把整除条件<strong>拆成两个独立判定</strong>：被 $5$ 整除只看<strong>末位</strong>，被 $3$ 整除只看<strong>数字和</strong>。两个判定各管各的变量（末位 $\to A$，数字和 $\to B$），一旦互相串门（错解 2）或漏掉合法值（错解 1），计数立刻出错。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2020/problem/19" target="_blank" rel="noopener">2020AMC8(19)</a> 的书面解答一致——五位 flippy 数形如 $ABABA$，$A\ne0$ 且 $A\ne B$；被 $5$ 整除要求末位 $A\in\{0,5\}$，$A\ne0$ 故 $A=5$；数字和 $15+2B$ 被 $3$ 整除给出 $B\in\{0,3,6,9\}$，共 $4$ 个。 <br> 本站的增量在于说明"为什么两个判定互不干扰"，并把四个数全部写出来验证。
+  </blockquote>
+  <h3>方法一：拆 15 = 3 × 5，分别判定（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 确定形状。</strong> 五位 flippy 数的数字交替出现，必为</p>
+$$ABABA,\qquad A\ne0,\; A\ne B.$$
+  <p>（$A$ 是首位也是末位；$A=0$ 则不是五位数。）</p>
+  <p><strong>第 2 步 · 被 5 整除 → 锁定 $A$。</strong> $15=3\times5$ 且 $3\perp5$，故被 $15$ 整除 $\iff$ 同时被 $5$ 和被 $3$ 整除。末位 $A$ 必须 $\in\{0,5\}$；由 $A\ne0$ 得</p>
+$$A=5,\qquad \text{形状 } 5B5B5.$$
+  <p><strong>第 3 步 · 被 3 整除 → 锁定 $B$。</strong> 数字和 $=5+2B\cdot\dots$ 具体：</p>
+$$5+B+5+B+5 = 15+2B \equiv 0 \pmod 3.$$
+  <p>因 $15\equiv0\pmod3$，等价于 $2B\equiv0\pmod3$，即 $B\equiv0\pmod3$（$2$ 与 $3$ 互质可约去）：</p>
+$$B\in\{0,\;3,\;6,\;9\}.$$
+  <p><strong>第 4 步 · 计数与验证。</strong> 四个候选都满足 $B\ne A=5$：</p>
+$$50505=15\times3367,\quad 53535=15\times3569,\quad 56565=15\times3771,\quad 59595=15\times3973.$$
+  <p>共 $4$ 个。</p>
+  <blockquote class="ok"><strong>答案：(B) $4$。</strong></blockquote>
+  <h3>方法二：位值展开直接算（交叉验证）</h3>
+$$ABABA = 10101A+1010B.$$
+  <p>被 $5$ 整除：$10101A+1010B\equiv A\pmod5$（因 $10101\equiv1$、$1010\equiv0\pmod5$），故 $5\mid A$，同法一得 $A=5$。被 $3$ 整除：$10101\equiv0$、$1010\equiv2\pmod3$，故 $1010B\equiv2B\pmod3$，需 $2B\equiv0\pmod3$，$B\in\{0,3,6,9\}$。两法对 $A$、$B$ 的约束完全一致。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① <strong>四个候选逐一除一遍</strong>（$50505\div15=3367$ 等），每个都整除，没有"看走眼"的空间；② <strong>反向扫雷</strong>：检查有没有漏掉的非候选解——$B$ 若 $\notin\{0,3,6,9\}$，数字和 $15+2B$ 除以 $3$ 余 $1$ 或 $2$，必不整除，无漏。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>合数整除判定按互质因数拆分</strong>：$15=3\times5$，$\gcd(3,5)=1$，故"被 15 整除 $\iff$ 被 3 且被 5 整除"。每个判定只碰自己的探针：被 $5$ 看末位，被 $3$ 看数字和。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>数字和判定对交替结构有"豁免"效应</strong>：$ABABA$ 的数字和 $=3A+2B$，其中 $3A$ 自动是 $3$ 的倍数——被 $3$ 整除的条件<strong>只落在 $B$ 上</strong>。认识到这一点，就不会像错解 2 那样对 $A$ 二次过滤。</li>
+    <li><strong>$0$ 是合法数字，只是不能打头</strong>：数论计数题里 $0$ 的待遇是"末尾中间随便站、首位禁止入内"。$50505$ 是本题最容易丢的解（选项 (A) 专为它设）。</li>
+    <li><strong>末位探针最硬，先做末位</strong>：被 $2,5,10$ 整除都只看末位，一步把 $A$ 锁死成单值（$A=5$），把二维问题 $(A,B)$ 降成一维。<strong>先用最强约束降维，再用剩余约束枚举</strong>。</li>
+    <li><strong>"distinct" 只约束相等，不约束 $0$</strong>：$A\ne B$ 是唯一的关系约束；审题时把题面给的例子（$2020$ 合法含 $0$、$3883$ 非法因重复非交替）翻译成"交替 + 两数字不同 + 首位非零"三条硬规则。</li>
+    <li><strong>候选必须逐一代入</strong>：$4$ 个候选每个除一次 $15$，把"应该对"变成"确实对"；同时用余数论证说明候选集外无解，正反两面合拢才算数完。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 降一位试刀</span> <span class="stars">★</span> <span class="form">形式｜同构换数</span>
+    <p>能被 $15$ 整除的<strong>四位</strong> flippy 数（形如 $ABAB$）有多少个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$6$ 个</strong></div>
+      <p>$ABAB$ 的<strong>末位是 $B$</strong>（与原题 $ABABA$ 末位是 $A$ 不同！）。被 $5$ 整除要求 $B\in\{0,5\}$，且 $B=0$ 不违反任何约束（首位是 $A$，只需 $A\ne0$）。分两类：$B=0$：数形 $A0A0$，数字和 $2A\equiv0\pmod3\Rightarrow A\in\{3,6,9\}$（$A\ne B=0$ 自动满足），得 $3030,6060,9090$，验算 $3030\div15=202$ ✓；$B=5$：数形 $A5A5$，数字和 $2A+10\equiv0\pmod3\Rightarrow A\equiv1\pmod3$，$A\in\{1,4,7\}$（$A\ne5$ ✓），得 $1515,4545,7575$，验算 $1515\div15=101$ ✓。合计 $3+3=6$ 个。</p>
+      <p class="hint">要点：<strong>位形一变，"谁在末位"就变</strong>：$ABABA$ 末位是 $A$、$ABAB$ 末位是 $B$。被 $5$ 整除的探针永远只扎末位，但末位上的字母换了，$0$ 的禁令（首位）与解锁（末位）也要跟着重排。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 原题四兄弟</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>原题找到的 $4$ 个数（$50505,53535,56565,59595$）中，最大的数比最小的数大多少？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$9090$</strong></div>
+      <p>最大 $59595$、最小 $50505$，差 $59595-50505=9090$。结构解释：四个数只在 $B$ 位（百位、十位……即第 $2$、$4$ 位）不同，$B$ 每加 $3$（从 $0$ 到 $3$），数增加 $1010\times3=3030$；从 $B=0$ 到 $B=9$ 共增 $1010\times9=9090$ ✓。</p>
+      <p class="hint">要点：<strong>同形数作差看"动着的位"</strong>：flippy 家族里固定 $A$ 动 $B$，差的实现单位是 $B$ 的位权 $1010$；用结构算差比列竖式更能暴露位值本质。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 全集与补集</span> <span class="stars">★★★</span> <span class="form">形式｜补集排除</span>
+    <p>五位 flippy 数总共有多少个？其中<strong>不能</strong>被 $15$ 整除的有多少个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>总数 $81$ 个；不能被 $15$ 整除的 $77$ 个</strong></div>
+      <p>$A\in\{1,\dots,9\}$ 共 $9$ 种；$B\in\{0,\dots,9\}$ 且 $B\ne A$，共 $9$ 种——总数 $9\times9=81$。由原题，被 $15$ 整除的 $4$ 个，故不能被 $15$ 整除的 $=81-4=77$。</p>
+      <p class="hint">要点：<strong>先数全集再减合法集</strong>：flippy 数的全集是个干净的乘法计数（$9\times9$），补集一减就出；这提醒我们"被 15 整除的 flippy 数"只是 $81$ 分之 $4$ 的小贵客，答案量级 shouldBe 个位数，(E) 8 这种偏大的选项可以直接怀疑。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 换除数</span> <span class="stars">★★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>能被 $12$ 整除的五位 flippy 数有多少个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$8$ 个</strong></div>
+      <p>$12=3\times4$，$3\perp4$。被 $3$ 整除：数字和 $3A+2B\equiv0\pmod3\Rightarrow2B\equiv0\Rightarrow B\in\{0,3,6,9\}$。被 $4$ 整除：看末两位 $BA$（十位 $B$、个位 $A$），需 $10B+A\equiv0\pmod4$，即 $A\equiv-2B\pmod4$。逐一枚举：$B=0$：$A\equiv0\pmod4$，$A\in\{4,8\}$；$B=3$：$A\equiv2\pmod4$，$A\in\{2,6\}$；$B=6$：$A\equiv0\pmod4$，$A\in\{4,8\}$；$B=9$：$A\equiv2\pmod4$，$A\in\{2,6\}$。每组都自动满足 $A\ne0$、$A\ne B$。合计 $2+2+2+2=8$ 个。抽验：$40404\div12=3367$ ✓、$23232\div12=1936$ ✓、$63636\div12=5303$ ✓、$86868\div12=7239$ ✓。</p>
+      <p class="hint">要点：<strong>$12$ 的两个探针换了靶位</strong>：被 $4$ 整除看<strong>末两位</strong>（不是末位！），于是约束落在 $(B,A)$ 的组合上而非单变量；被 $3$ 整除依旧豁免 $A$（$3A$ 自动过）只锁 $B$——两探针一交，逐 $B$ 枚举井然有序。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 不存在性证明</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>一般化：$2k+1$ 位 flippy 数（形如 $ABAB\dots A$，共 $2k+1$ 位，$k\ge1$）的数字和为 $(k+1)A+kB$。证明：<strong>不存在</strong>能被 $15$ 整除的七位 flippy 数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>不存在（$0$ 个）</strong></div>
+      <p>七位 flippy 数 $ABABABA$：末位 $A$，被 $5$ 整除要求 $A\in\{0,5\}$，$A\ne0$ 故 $A=5$。数字和 $=4A+3B=20+3B$。被 $3$ 整除要求 $20+3B\equiv0\pmod3$，而 $3B\equiv0$，即需 $20\equiv0\pmod3$——但 $20\equiv2\pmod3$，矛盾。故无论 $B$ 取何值，七位 flippy 数（首位末位同字）被 $5$ 整除者数字和必与 $3$ 互斥，不存在被 $15$ 整除的。对照：五位时数字和 $3A+2B$ 里 $A$ 的系数是 $3$（自动消去）所以有解；七位时 $A$ 的系数是 $4$（$\equiv1\pmod3$，消不掉），$A=5$ 的余数 $2$ 暴露无遗。</p>
+      <p class="hint">要点：<strong>一般化暴露可解与不可解的分界</strong>：$(k+1)A+kB\pmod3$ 中，$A$ 的系数 $(k+1)\bmod3$ 是否为 $0$、$B$ 的系数 $k\bmod3$ 是否为 $0$，决定了约束落在谁头上；五位（$k=2$）$B$ 系数 $2\ne0$、$A$ 系数 $3\equiv0$ → 有解；七位（$k=3$）$A$ 系数 $4\equiv1$、$B$ 系数 $3\equiv0$ → 死局。"系数归零"是整除计数题里真正的机关。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>flippy / 整除计数 30 秒决策卡</h3>
+    <ol>
+      <li>写出位形（$ABABA$、$ABAB$…），标出首位非零约束与 $A\ne B$。</li>
+      <li>拆除数：$15=3\times5$。<strong>末位探针先上</strong>（被 $5$ 看末位），把一个变量锁死（$A=5$）。</li>
+      <li>数字和探针跟上（被 $3$ 看数字和），利用 $3A$ 自动归零，只解 $B$（$B\in\{0,3,6,9\}$）。</li>
+      <li>自检：$0$ 只在首位被禁；候选逐一代入除一遍；用余数论证证明候选集外无解。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「先锁末位再查和；零不牵头随便坐；系数归零才豁免」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 位值结构与整除判定 &nbsp;|&nbsp; 生成于 2026-11-02</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

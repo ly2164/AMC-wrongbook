@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 容斥原理计数</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2020AMC8.html">← 返回 2020AMC8</a>
+    <div class="pager">
+      <a href="20261101-tree-height-casework.html">‹ 上一题</a>
+      <a href="20261101-tile-border-ratio.html">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>五个奖项分三人：容斥三步 243−96+3</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261101</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2020AMC8(23)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Inclusion-Exclusion</span></div>
+  </div>
+  <p class="lede">每个奖项独立地发给 $3$ 人之一，共 $3^5=243$ 种。用容斥减去"至少一人空手"：$3\cdot2^5=96$（但一人全拿的 $3$ 种被减了两次，加回 $3$），得 $243-96+3=150$。答案 <strong>(B)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Five different awards are to be given to three students. Each student will receive at least one award. In how many different ways can the awards be distributed?
+  </blockquote>
+  <p><strong>中文翻译</strong>：$5$ 个<strong>互不相同</strong>的奖项要发给 $3$ 名学生，每名学生至少获得一个奖项。共有多少种不同的分发方式？　(A) $120$　(B) $150$　(C) $180$　(D) $210$　(E) $240$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2020/problem/23" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2020/problem/23</a><br>
+    官方给出的正确选项为 <strong>(B) $150$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 240</code></td><td><strong>只减了"一人全拿"</strong>。学生从 $3^5=243$ 出发（这一步对），然后想"非法情形就是某个人把奖全拿走，一共 $3$ 种"，得 $243-3=240$。真正的非法集大得多：<strong>只要有一人空手就算非法</strong>——甲空手时奖项在乙丙之间任意分（$2^5=32$ 种），其中绝大多数是"乙丙都拿了一些"的正常分法。把"空手"窄化成"全拿"，是容斥题最常见的漏。</td></tr>
+    <tr><td><code>答 (D) 210</code></td><td><strong>数值与符号双错</strong>。学生把 $2^5$ 算成 $2\times5=10$（指数运算回归乘法的低级滑坡），容斥项 $3\cdot2^5$ 变成 $30$；又把最后"加回 $3$"记成再减一次：$243-30-3=210$。检查手段：容斥三步每步都有量级感——$3^5=243$ 是主项，修正项 $3\cdot2^5=96$ 占四成、$+3$ 是小补丁；算出修正项只有 $30$ 时应立刻警觉。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>："每人至少一个"这类<strong>带下限的分配</strong>必须用容斥（或等价的满射计数）：非法事件 $A_i$ = "$i$ 号学生空手"，三个事件两两相交不为空，减的时候重叠部分会被多减，必须加回来。跳过容斥直接减、或容斥项算错，都源于没有把"至少"翻译成事件语言。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2020/problem/23" target="_blank" rel="noopener">2020AMC8(23)</a> 的书面解答一致——$3^5=243$ 种总分配；某个特定学生空手 $2^5$ 种、三人共 $3\cdot2^5$，但"一人全拿"的 $3$ 种情形各被减两次，容斥相减再加回：$243-3\cdot2^5+3=150$。 <br> 本站的增量在于逐层画出韦恩图式的扣除过程，并给出分类计数法交叉验证。
+  </blockquote>
+  <h3>方法一：容斥三步（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 全体分配。</strong> $5$ 个奖项互不相同，每个奖项独立选主人（$3$ 选 $1$）：</p>
+$$3^5=243.$$
+  <p><strong>第 2 步 · 减"至少一人空手"。</strong> 设 $A_i$ = "$i$ 号学生空手"。某个固定学生（比如甲）空手：$5$ 个奖项都只能在乙、丙中选，$2^5=32$ 种。三个学生各减一次：</p>
+$$|A_1|+|A_2|+|A_3| = 3\times2^5=96.$$
+  <p>但这里<strong>重复扣了</strong>：甲、乙同时空手（= 全部给丙）的分配，在 $|A_1|$ 与 $|A_2|$ 里各出现一次，被扣了两次——而它只该扣一次。这样的"两人同时空手"情形有 $3$ 种（全给甲 / 全给乙 / 全给丙）。</p>
+  <p><strong>第 3 步 · 加回重叠。</strong> 两两交集 $|A_i\cap A_j|=$ 全给剩下那人的 $1$ 种，三个交集共 $3$ 种（三交集 $A_1A_2A_3$ 为空——奖不可能谁都不拿）：</p>
+$$3^5-3\cdot2^5+3 = 243-96+3=150.$$
+  <blockquote class="ok"><strong>答案：(B) $150$。</strong></blockquote>
+  <h3>方法二：按人数结构分类（交叉验证）</h3>
+  <p>每人至少一个，$5$ 个奖项分给 $3$ 人只有两种人数结构：</p>
+  <ul>
+    <li><strong>$(3,1,1)$</strong>：某一人拿 $3$ 个。选这个人（$3$ 种）$\times$ 从 $5$ 个奖里选 $3$ 个给他 $\binom53=10$ $\times$ 剩下 $2$ 个奖分给另外两人 $2!=2$ 种：$3\times10\times2=60$。</li>
+    <li><strong>$(2,2,1)$</strong>：某一人拿 $1$ 个。选这个人（$3$ 种）$\times$ 选他拿哪个奖（$5$ 种）$\times$ 剩下 $4$ 个奖两两分给另外两人 $\binom42=6$ 种：$3\times5\times6=90$。</li>
+  </ul>
+  <p>合计 $60+90=150$ ✓，与方法一一致。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 两种方法同数；② 结构检验：$(3,1,1)$ 与 $(2,2,1)$ 覆盖了全部分配方式（$5=3+1+1=2+2+1$，无别的拆法），且两类显然不重叠；③ 容斥的量级感：$243$（自由）$\to$ 砍掉约四成（$96$）$\to$ 微调（$+3$）$\to150$，落在"略多于 $3^5$ 的一半"的直觉区间。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>"每个都至少一个"= 满射分配 = 容斥</strong>：$n$ 个不同物体分给 $k$ 个有标签的盒子、无空盒的分法数
+
+$$k^n-\binom k1(k-1)^n+\binom k2(k-2)^n-\cdots$$
+
+本题 $n=5,k=3$：$3^5-3\cdot2^5+3\cdot1^5=150$。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>"每个奖项独立选主人"给出干净的全集 $3^5$</strong>：先无视"至少一个"，让每个对象自由选择，再修约束——<strong>先放宽后修剪</strong>是所有带约束计数的总路线。</li>
+    <li><strong>容斥的重叠来自"多减"</strong>：$|A_1|+|A_2|+|A_3|$ 把两人同时空手的情形各扣了两次；$m$ 个事件同时发生就被扣 $m$ 次、只该扣一次，多扣的 $m-1$ 次靠后面的项加回。<strong>画韦恩图数一数"被扣几次"</strong>，比背公式可靠。</li>
+    <li><strong>幂的语义要分清</strong>：$2^5$ 是"每个奖在两人里选"，$5\cdot2$ 什么都不是（错解 2 的病根）。分配计数的每个指数表达式都应能读成一句"每个……各自……"的话。</li>
+    <li><strong>修正项的量级感</strong>：$3^5=243$ 主项、$96$ 一级修正、$3$ 二级修正——依次衰减是容斥的正常形态；若修正项与主项同量级或逆序，多半算错。</li>
+    <li><strong>分类计数是容斥的孪生验证</strong>：人数结构 $(3,1,1)+(2,2,1)$ 把问题拆成两个"选人 × 选奖 × 分剩余"的乘法步骤，每一因子都有组合意义。两法同数才能落笔答案。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 全家福列举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>$3$ 个互不相同的奖品分给甲、乙两人，每人至少一个。请把<strong>所有</strong>分法写出来，并数出总数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$6$ 种</strong></div>
+      <p>每个奖品独立归甲或乙，共 $2^3=8$ 种；全部给甲（$\{1,2,3\}\to$甲）与全部给乙这 $2$ 种违反"至少一个"，划掉。合法 $6$ 种：甲 $\{1\}$、$\{2\}$、$\{3\}$、$\{1,2\}$、$\{1,3\}$、$\{2,3\}$（其余归乙）。公式：$2^3-2=6$。</p>
+      <p class="hint">要点：最小规模的满射计数<strong>就该用列举建立直觉</strong>：$8-2=6$ 里那个"$-2$"看得见摸得着，是容斥公式的种子。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 指定份额</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>$4$ 个互不相同的奖品分给甲、乙两人，每人至少一个（共 $14$ 种）。其中<strong>甲恰好得 $1$ 个</strong>的分法有几种？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$4$ 种</strong></div>
+      <p>甲拿恰好 $1$ 个：从 $4$ 个奖品里选 $1$ 个给甲 $\binom41=4$ 种，剩下 $3$ 个全给乙（满足乙至少一个）。共 $4$ 种。交叉验证：乙恰得 $1$ 个同理 $4$ 种；甲 $2$ 乙 $2$：$\binom42=6$；$4+4+6=14$ ✓ 与总数吻合。</p>
+      <p class="hint">要点：<strong>"恰好 $k$ 个"直接乘法计数</strong>（$\binom n k\times1$），不必绕容斥；把全部"甲得 $i$ 个"的行加起来等于总数，是最实用的自洽检查。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 降一档容斥</span> <span class="stars">★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>$4$ 个互不相同的奖品分给 $3$ 名学生，每人至少一个。共有多少种分法？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$36$ 种</strong></div>
+      <p>容斥：$3^4-3\cdot2^4+3\cdot1^4=81-48+3=36$。分类验证：$(2,1,1)$：选拿两个的人（$3$）$\times\binom42=6\times$ 剩两个分给两人（$2$）$=36$；$(2,2,0)$ 型非法已排除；$(4,0,0)$ 等被容斥修剪。两法一致。</p>
+      <p class="hint">要点：<strong>指数从 $5$ 降到 $4$，容斥公式骨架不动</strong>（$3^4-3\cdot2^4+3$）；量级修正依旧依次衰减（$81\to-48\to+3$），三步走完不用分类也能确信。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 存在性反转</span> <span class="stars">★★★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>① $5$ 个互不相同的奖品分给 $3$ 名学生，能否让<strong>每人恰好得 $2$ 个</strong>？说明理由。② 若换成 $6$ 个奖品，每人恰好 $2$ 个，有多少种分法？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>① 不可能；② $90$ 种</strong></div>
+      <p>① 每人恰 $2$ 个需要 $2+2+2=6$ 个奖品，$5\lt6$，抽屉原理直接否定——不存在。② $6$ 个奖品每人恰 $2$ 个：把 $6$ 个奖品排成序列，第 $1,2$ 位给甲、$3,4$ 给乙、$5,6$ 给丙的<strong>分组</strong>计数：$\dfrac{6!}{2!\,2!\,2!}=\dfrac{720}{8}=90$ 种（每人内部 $2$ 个奖无序，除掉 $2!$ 三次）。</p>
+      <p class="hint">要点：<strong>"恰好"问题先做数量守恒检查</strong>（$3\times2=6\ne5$），一行判死；可解时用多重集合排列 $\frac{n!}{n_1!\cdots n_k!}$，与"至少一个"的容斥是两套工具，别混用。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 一般化公式</span> <span class="stars">★★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>$n$ 个互不相同奖品分给 $3$ 名学生、每人至少一个的分法数记为 $S(n)$。证明 $S(n)=3^n-3\cdot2^n+3$，并用 $n=3$ 验证（与练习 1 对照）、$n=4$ 验证（与练习 3 对照）、$n=5$ 复核原题。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$S(n)=3^n-3\cdot2^n+3$；$S(3)=6$ ✓、$S(4)=36$ ✓、$S(5)=150$ ✓</strong></div>
+        <p>全集 $3^n$（每个奖品 $3$ 选 $1$）。$A_i$=$i$ 号学生空手，$|A_i|=2^n$；$|A_i\cap A_j|=1$（全给第三人）；$|A_1\cap A_2\cap A_3|=0$。容斥（$k=3$）：</p>
+$$S(n)=3^n-\binom31 2^n+\binom31 1^n-\binom30\cdot0^n=3^n-3\cdot2^n+3.$$
+  <p>（末项 $\binom31 1^n=3$ 恰是"两人同时空手"加回的三种。）验证：$S(3)=27-24+3=6$ ✓；$S(4)=81-48+3=36$ ✓；$S(5)=243-96+3=150$ ✓。</p>
+      <p class="hint">要点：通项把"主项 − 一级修正 + 二级修正"的衰减结构写成闭式；<strong>$+3$ 恒为常数</strong>（$\binom31 1^n$），而 $3^n$ 与 $3\cdot2^n$ 的差距随 $n$ 指数拉大——所以"每人都有一份"在奖品多时越来越接近自由分配，这也是 (E) 240 那种"少减"错误在 $n$ 大时更难被直觉发现的原因。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>满射分配 30 秒决策卡</h3>
+    <ol>
+      <li>见"每人至少一个"→ 先算自由分配 $k^n$（每个对象独立选主人）。</li>
+      <li>容斥修剪：减 $k\cdot(k-1)^n$（某人空手），加 $\binom k2(k-2)^n$（两人空手）……本题 $243-96+3=150$。</li>
+      <li>交叉验证用人数结构分类：$5=3+1+1$（$60$）$+2+2+1$（$90$）$=150$。</li>
+      <li>自检：幂表达式能读成"每个……各自……"（$2^5$ 不是 $5\cdot2$）；修正项依次衰减；"恰好"配额先查数量守恒。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「自由放，容斥剪；减多加回；分类再验一遍」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 容斥原理计数 &nbsp;|&nbsp; 生成于 2026-11-02</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
