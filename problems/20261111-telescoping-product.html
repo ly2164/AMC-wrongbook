@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 连乘积的裂项相消</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2019AMC8.html">← 返回 2019AMC8</a>
+    <div class="pager">
+      <a href="20261111-fraction-comparison-order.html">‹ 上一题：分数排序</a>
+      <a href="20261111-dice-parity-probability.html">下一题：骰子奇偶 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>98 个分式连乘：只剩开头的 1/2 和结尾的 100/99</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2019AMC8(17)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Telescoping</span></div>
+  </div>
+  <p class="lede">把每一项拆成 $\frac{k}{k+1}\cdot\frac{k+2}{k+1}$，前后两串各自相消，只剩 $\frac12\times\frac{100}{99}=\frac{50}{99}$，答案 <strong>(B)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    What is the value of the product $\left(\dfrac{1\cdot3}{2\cdot2}\right)\left(\dfrac{2\cdot4}{3\cdot3}\right)\left(\dfrac{3\cdot5}{4\cdot4}\right)\cdots\left(\dfrac{97\cdot99}{98\cdot98}\right)\left(\dfrac{98\cdot100}{99\cdot99}\right)$?　(A) $\frac{1}{2}$　(B) $\frac{50}{99}$　(C) $\frac{9800}{9801}$　(D) $\frac{100}{99}$　(E) $50$
+  </blockquote>
+  <p><strong>中文翻译</strong>：求连乘积 $\left(\dfrac{1\cdot3}{2\cdot2}\right)\left(\dfrac{2\cdot4}{3\cdot3}\right)\left(\dfrac{3\cdot5}{4\cdot4}\right)\cdots\left(\dfrac{97\cdot99}{98\cdot98}\right)\left(\dfrac{98\cdot100}{99\cdot99}\right)$ 的值。　(A) $\frac{1}{2}$　(B) $\frac{50}{99}$　(C) $\frac{9800}{9801}$　(D) $\frac{100}{99}$　(E) $50$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2019/problem/17" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2019/problem/17</a><br>
+    官方给出的正确选项为 <strong>(B) $\frac{50}{99}$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (A) 1/2</code></td><td>只看到「前一半」的连锁相消 $\frac{1}{2}\cdot\frac{2}{3}\cdot\frac{3}{4}\cdots$，把整串当成趋近于 $0$ 或只剩 $\frac12$，<strong>漏掉了第二串 $\frac{3}{2}\cdot\frac{4}{3}\cdots\frac{100}{99}$</strong>。每个因子是「两串的乘积」，少乘一串就少一个 $\frac{100}{99}$。</td></tr>
+    <tr><td><code>答 (C) 9800/9801</code></td><td>把 $(k+1)^2-1$ 的差看成「只差最后一项」，误以为乘积是 $1-\frac{1}{99^2}=\frac{9800}{9801}$（这其实是<strong>最后一项</strong> $\frac{98\cdot100}{99^2}$ 的值）。把「某一项的值」当成「全部项的乘积」是连乘题最典型的错。</td></tr>
+    <tr><td><code>答 (D) 100/99 或 (E) 50</code></td><td>相消时把开头的 $\frac12$ 也算丢了，只剩 $\frac{100}{99}$；或者把分母的 $2$ 当成普通因子乘到分子上，凑出 $50$。<strong>连乘相消要写清楚「谁留下」</strong>，不能凭感觉。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把通项 $\dfrac{k(k+2)}{(k+1)^2}$ <strong>拆成两个独立的望远镜链</strong>。标准动作：先把分子分母按「小数 / 大数」分组，写成 $\prod\frac{k}{k+1}\times\prod\frac{k+2}{k+1}$，两串各自只留首尾。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2019/problem/17" target="_blank" rel="noopener">2019AMC8(17)</a> 的书面解答一致——把全部因子重排成 $\frac{1}{2}\cdot\left(\frac{3\cdot2}{2\cdot3}\right)\left(\frac{4\cdot3}{3\cdot4}\right)\cdots\left(\frac{99\cdot98}{98\cdot99}\right)\cdot\frac{100}{99}$，中间项全消，剩 $\frac12\cdot\frac{100}{99}=\frac{50}{99}$。 <br> 本站的增量是给出「拆成两条独立望远镜」的显式推导与通项 $P_n=\frac{n+2}{2(n+1)}$，并用精确分数程序复核。
+  </blockquote>
+  <h3>方法一：重排成一条望远镜链（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 看清通项。</strong> 第 $k$ 个因子（$k=1,\ldots,98$）是</p>
+$$\frac{k(k+2)}{(k+1)^2}=\frac{1}{2}\ \text{型的两串之积：}\ \frac{k}{k+1}\cdot\frac{k+2}{k+1}.$$
+  <p><strong>第 2 步 · 把 98 个因子全部展开并重新组合。</strong> 把第一串的 $\frac{k}{k+1}$ 与第二串的 $\frac{k+2}{k+1}$ 交错排列：</p>
+$$\prod_{k=1}^{98}\frac{k(k+2)}{(k+1)^2}
+=\frac{1}{2}\cdot\left(\frac{3\cdot2}{2\cdot3}\right)\left(\frac{4\cdot3}{3\cdot4}\right)\cdots\left(\frac{99\cdot98}{98\cdot99}\right)\cdot\frac{100}{99}.$$
+  <p>括号内每个都等于 $1$（分子分母只是顺序不同），于是中间 $97$ 个括号全部消去。</p>
+  <p><strong>第 3 步 · 只剩首尾。</strong></p>
+$$=\frac{1}{2}\cdot\frac{100}{99}=\frac{50}{99}.$$
+  <blockquote class="ok"><strong>答案：(B) $\frac{50}{99}$。</strong></blockquote>
+  <h3>方法二：拆成两条独立望远镜（用来交叉验证）</h3>
+  <p>把乘积按「小因子链」和「大因子链」分开：</p>
+$$\prod_{k=1}^{98}\frac{k}{k+1}=\frac{1}{2}\cdot\frac{2}{3}\cdot\frac{3}{4}\cdots\frac{98}{99}=\frac{1}{99},$$
+$$\prod_{k=1}^{98}\frac{k+2}{k+1}=\frac{3}{2}\cdot\frac{4}{3}\cdot\frac{5}{4}\cdots\frac{100}{99}=\frac{100}{2}=50.$$
+  <p>两式相乘：$\frac{1}{99}\times 50=\frac{50}{99}$。与方法一一致，且能推广：前 $n$ 项之积</p>
+$$P_n=\frac{1}{n+1}\cdot\frac{n+2}{2}=\frac{n+2}{2(n+1)}.$$
+  <p>代入 $n=98$ 得 $\frac{100}{2\cdot99}=\frac{50}{99}$ ✓。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 用 <code>Fraction</code> 精确累乘 98 个因子，结果逐位等于 $\frac{50}{99}$；② 小规模回代 $n=1,2,3$ 得 $\frac34,\frac23,\frac58$，与通项 $\frac{n+2}{2(n+1)}$ 完全吻合；③ 量级检查：$\frac{50}{99}\approx0.505$，略大于 $\frac12$——因为每个因子都略小于 $1$，乘积应小于 $1$，且通项 $P_n=\frac12+\frac{1}{2(n+1)}$ 确实从上方趋近 $\frac12$。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>连乘裂项（telescoping product）</strong>——把每一项写成 $\frac{f(k)}{f(k+1)}$ 型，展开后中间项成对抵消，只剩首尾。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>通项先行</strong>。$\frac{k(k+2)}{(k+1)^2}=\frac{k}{k+1}\cdot\frac{k+2}{k+1}$ 是整题的唯一钥匙；不写通项，98 个因子就是一团乱麻。</li>
+    <li><strong>两条链各自只留首尾</strong>。第一串从 $1$ 到 $98$ 留 $\frac{1}{99}$，第二串留 $\frac{100}{2}=50$；漏掉任何一串都会得到 (A) 或 (D) 这类干扰项。</li>
+    <li><strong>每个因子都小于 $1$</strong>：$\frac{k(k+2)}{(k+1)^2}=\frac{(k+1)^2-1}{(k+1)^2}=1-\frac{1}{(k+1)^2}$。这既解释了乘积为何小于 $1$，也说明 (C) $\frac{9800}{9801}=1-\frac{1}{99^2}$ 只是<strong>最后一项</strong>的值。</li>
+    <li><strong>一般化通项</strong> $P_n=\frac{n+2}{2(n+1)}=\frac12+\frac{1}{2(n+1)}$，随 $n$ 递减且趋于 $\frac12$；用 $n=1,2,3$ 回检是免费的保险。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 前三项全列举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>逐项算出前 $1$、前 $2$、前 $3$ 个因子的乘积（写成分数，写出每一步相乘），并猜出前 $n$ 项积 $P_n$ 的公式。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$P_1=\frac34$、$P_2=\frac23$、$P_3=\frac58$；$P_n=\frac{n+2}{2(n+1)}$</strong></div>
+      <p>$P_1=\frac{1\cdot3}{2\cdot2}=\frac34$。$P_2=\frac34\cdot\frac{2\cdot4}{3\cdot3}=\frac34\cdot\frac89=\frac{24}{36}=\frac23$。$P_3=\frac23\cdot\frac{3\cdot5}{4\cdot4}=\frac23\cdot\frac{15}{16}=\frac{30}{48}=\frac58$。代入公式：$n=1$ 给 $\frac{3}{4}$、$n=2$ 给 $\frac{4}{6}=\frac23$、$n=3$ 给 $\frac{5}{8}$，三项全对。</p>
+      <p class="hint">要点：<strong>小规模列举是猜通项最可靠的办法</strong>，但列举完必须用望远镜推导证明，不能只靠前三项归纳。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 把 98 改成 49</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>若乘积只取前 $49$ 项（末项为 $\frac{49\cdot51}{50\cdot50}$），结果是多少？并用两条望远镜链给出推导。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\frac{51}{100}$</strong></div>
+      <p>由通项 $P_n=\frac{n+2}{2(n+1)}$，代 $n=49$ 得 $\frac{51}{2\cdot50}=\frac{51}{100}=0.51$。拆链验证：$\prod_{k=1}^{49}\frac{k}{k+1}=\frac{1}{50}$，$\prod_{k=1}^{49}\frac{k+2}{k+1}=\frac{51}{2}$，相乘 $\frac{51}{100}$ ✓。比原题的 $\frac{50}{99}\approx0.50505$ 略大，符合 $P_n$ 递减。</p>
+      <p class="hint">要点：<strong>改项数只改通项里的 $n$</strong>，构造完全不变；用「$P_{49}>P_{98}$」做合理性检查能立刻发现方向性错误。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 加一条「大于 1」条件</span> <span class="stars">★★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>在原题的 $98$ 个因子中，有多少个因子<strong>严格大于 $1$</strong>？请给出证明，不必逐个计算。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$0$ 个</strong></div>
+      <p>第 $k$ 个因子 $=\frac{k(k+2)}{(k+1)^2}=\frac{(k+1)^2-1}{(k+1)^2}=1-\frac{1}{(k+1)^2}\lt1$，对一切 $k\ge1$ 成立，故没有因子大于 $1$（也没有等于 $1$ 的）。由此还能立刻推出整个乘积小于 $1$，排除 (D)(E)。</p>
+      <p class="hint">要点：<strong>用恒等式 $(k+1)^2-k(k+2)=1$ 一眼看穿结构</strong>；「逐项都小于 1」是比「算乘积」更强的定性结论。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 通项与门槛</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>用两条望远镜链证明 $P_n=\frac{1}{n+1}\cdot\frac{n+2}{2}=\frac{n+2}{2(n+1)}$；再求使 $P_n\lt0.51$ 成立的<strong>最小</strong>正整数 $n$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>通项如上；最小 $n=50$</strong></div>
+      <p>如方法二，$\prod_{k=1}^{n}\frac{k}{k+1}=\frac1{n+1}$（分子分母连锁相消），$\prod_{k=1}^{n}\frac{k+2}{k+1}=\frac{n+2}{2}$，相乘即证。改写 $P_n=\frac12+\frac{1}{2(n+1)}$。解 $\frac{1}{2(n+1)}\lt 0.01\iff n+1>50\iff n\ge50$，故最小 $n=50$。校验 $P_{50}=\frac{52}{102}=\frac{26}{51}\approx0.5098\lt 0.51$，而 $P_{49}=\frac{51}{100}=0.51$ 恰好取等、不满足严格小于。</p>
+      <p class="hint">要点：把通项写成 $\frac12+$ 余项，<strong>单调性与极限同时到手</strong>；边界 $n=49$ 给等号，务必排除。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 单调性与余项</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明 $P_n$ 随 $n$ 严格递减、恒大于 $\frac12$ 且 $\lim_{n\to\infty}P_n=\frac12$；并求原题乘积与 $\frac12$ 的差（精确分数）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>严格递减、恒 $>\frac12$、极限 $\frac12$；$P_{98}-\frac12=\frac{1}{198}$</strong></div>
+      <p>$P_n=\frac12+\frac{1}{2(n+1)}$，余项 $\frac{1}{2(n+1)}$ 随 $n$ 严格递减且恒正，故 $P_n$ 严格递减、恒大于 $\frac12$，且余项趋于 $0$ 给出极限 $\frac12$。$P_{98}-\frac12=\frac{1}{2\cdot99}=\frac{1}{198}$（也可由 $\frac{50}{99}-\frac12=\frac{100-99}{198}=\frac1{198}$ 直接算出）。</p>
+      <p class="hint">要点：<strong>"极值 + 极限" 类问题只要把通项拆成「常数 + 正余项」就一步解决</strong>；这个 $\frac{1}{198}$ 也解释了为什么答案 $\frac{50}{99}$ 只比 $\frac12$ 大一点点。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>连乘裂项 20 秒决策卡</h3>
+    <ol>
+      <li>写出通项 $\frac{k(k+2)}{(k+1)^2}$，拆成 $\frac{k}{k+1}\cdot\frac{k+2}{k+1}$。</li>
+      <li>两条链各自相消：小链留 $\frac{1}{n+1}$，大链留 $\frac{n+2}{2}$。</li>
+      <li>相乘得 $P_n=\frac{n+2}{2(n+1)}$；本题 $n=98\Rightarrow\frac{50}{99}$。</li>
+      <li>自检——每个因子 $=1-\frac{1}{(k+1)^2}\lt1$（排除 C/D/E），用 $n=1,2,3$ 回检通项。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「连乘先拆两条链，中间成对全不见；只留小链头与大链尾，一乘就出答案」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 连乘积的裂项相消 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

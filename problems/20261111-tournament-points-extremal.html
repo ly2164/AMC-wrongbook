@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 极值上界与可达性构造</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2019AMC8.html">← 返回 2019AMC8</a>
+    <div class="pager">
+      <a href="20261111-dice-parity-probability.html">‹ 上一题：骰子奇偶</a>
+      <a href="20261111-difference-of-squares-roots.html">下一题：平方差求根 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>六队双循环：前三名同分最多各拿 24 分</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2019AMC8(19)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Optimization</span></div>
+  </div>
+  <p class="lede">每支强队对三支弱队 $6$ 场最多拿 $6\times3=18$ 分；三支强队之间的 $6$ 场比赛总共最多发 $18$ 分，三队平分每人最多 $6$ 分。故上界 $18+6=24$，且「强队全胜弱队、强队两两各胜一场」可达到，答案 <strong>(C)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    In a tournament there are six teams that play each other twice. A team earns $3$ points for a win, $1$ point for a draw, and $0$ points for a loss. After all the games have been played it turns out that the top three teams earned the same number of total points. What is the greatest possible number of total points for each of the top three teams?　(A) $22$　(B) $23$　(C) $24$　(D) $26$　(E) $30$
+  </blockquote>
+  <p><strong>中文翻译</strong>：六支队伍进行双循环赛（任意两队交手两次）。胜得 $3$ 分、平各得 $1$ 分、负得 $0$ 分。全部比赛结束后，排名前三的队伍总积分相同。问这三队每队最多可能得多少分？　(A) $22$　(B) $23$　(C) $24$　(D) $26$　(E) $30$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2019/problem/19" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2019/problem/19</a><br>
+    官方给出的正确选项为 <strong>(C) $24$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 30</code></td><td>只算「每队共打 $10$ 场，全胜就是 $10\times3=30$ 分」，忘了<strong>三支强队之间必须互相交手</strong>：两队不能在同一场比赛里同时获胜，强队内战必然有人丢分。$30$ 是「单队理论满分」，不是「三队同时满分」。</td></tr>
+    <tr><td><code>答 (D) 26 或 (B) 23</code></td><td>想到了强队之间要丢分，但只做了模糊估计（例如「每队大概输两场扣 6 分」），没有把「三队内战总共最多发多少分」算成一个硬上界。极值题<strong>必须有严格上界 + 可达构造</strong>，缺一不可。</td></tr>
+    <tr><td><code>答 (A) 22</code></td><td>误以为平局（每场只发 $2$ 分）能帮三队「都多拿分」，其实平局让<strong>总分变少</strong>，只会拉低上界；或者担心弱队积分反超而不敢让强队全胜弱队。弱队之间还有 $6$ 场比赛，最多各得 $18$ 分，不会反超 $24$。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「最大化三队共同积分」拆成<strong>两个互不重叠的得分来源</strong>：① 强队 vs 弱队；② 强队 vs 强队。第二块是「固定大小的蛋糕」，三队平分就是每人上限。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2019/problem/19" target="_blank" rel="noopener">2019AMC8(19)</a> 的书面解答一致——每支强队对三支弱队打 $6$ 场最多得 $18$ 分；三强之间有 $3$ 对、共 $6$ 场，每场最多发 $3$ 分，故这 $6$ 场总共最多 $18$ 分，三队平分每人最多 $6$ 分；上界 $18+6=24$，并由「强队全胜弱队、每对强队各胜一场」构造达到。 <br> 本站的增量是用程序穷举三强内战 $3^6=729$ 种赛果验证上界，并把结论推广到「每对交手 $m$ 次」的一般公式 $12m$。
+  </blockquote>
+  <h3>方法一：切分两块得分源（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 强队对弱队。</strong> 设前三名为 $A,B,C$，后三名为 $D,E,F$。每支强队与三支弱队各交手 $2$ 次，共 $3\times2=6$ 场；全胜时得</p>
+$$6\times3=18\ \text{分（上限）}.$$
+  <p><strong>第 2 步 · 强队之间。</strong> $A,B,C$ 共 $\binom32=3$ 对，每对打 $2$ 场，共 $6$ 场。每场比赛最多发出 $3$ 分（分出胜负时 $3+0=3$；平局只发 $1+1=2$ 分，更少）。所以这 $6$ 场在三队之间最多分配</p>
+$$6\times3=18\ \text{分}.$$
+  <p>三队最终积分相同，设各为 $S$，则三队从内战拿到的分数之和 $\le 18$，故每队从内战最多拿 $\frac{18}{3}=6$ 分。</p>
+  <p><strong>第 3 步 · 合并上界。</strong></p>
+$$S\le 18+6=24.$$
+  <p><strong>第 4 步 · 构造达到 24。</strong> 让 $A,B,C$ 对 $D,E,F$ 全部取胜（各得 $18$ 分）；对每一对强队，让双方各胜一场（例如 $A$ 主场胜 $B$、$B$ 主场胜 $A$），则每支强队在内战 $4$ 场中 $2$ 胜 $2$ 负，得 $2\times3=6$ 分。于是每队 $18+6=24$ 分。弱队对强队全负，彼此之间最多拿 $18$ 分，不会反超 ✓。</p>
+  <blockquote class="ok"><strong>答案：(C) $24$。</strong></blockquote>
+  <h3>方法二：穷举内战赛果（用来交叉验证）</h3>
+  <p>固定「强队对弱队全胜」（每队 $18$ 分，这是最优选择——任何平局或失利都只会减少总分）。三强之间的 $6$ 场比赛，每场有 $3$ 种结果（甲胜 / 乙胜 / 平），共 $3^6=729$ 种赛果。逐一计算三队内战得分，筛出三队总积分相等的情形，取最大值：结果恰为 $24$（对应每队内战 $6$ 分）。这与上界完全一致，也说明「平局不会带来更高分」。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 程序穷举 $729$ 种内战赛果，最大同分值为 $24$；② 检查构造下弱队最高分：弱队之间 $6$ 场最多共发 $18$ 分，单队最多 $18\lt 24$，排名成立；③ 量级检查：$24\lt 30$（单队满分），且 $24$ 是 $3$ 的倍数（每队 $8$ 胜 $0$ 平 $2$ 负），与计分规则自洽。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>极值题 = 严格上界 + 可达构造</strong>。上界来自「把固定总量的蛋糕平分」，构造要逐一写出赛果，两件事缺一不可。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>得分源要切干净</strong>。强队的总分 = 对弱队得分 + 对强队得分，两块互不重叠，才能分别求上界。</li>
+    <li><strong>「每场最多发 3 分」是硬约束</strong>。分出胜负发 $3$ 分，平局只发 $2$ 分；要让三队同分最大，必须让内战<strong>全部</strong>分出胜负，且三队平分这 $18$ 分。</li>
+    <li><strong>排名条件不能忘</strong>。构造里弱队最高只能拿 $18$ 分（它们之间 $6$ 场），确实低于 $24$，所以「前三名」这个前提成立。</li>
+    <li><strong>一般化 $12m$</strong>：若每对交手 $m$ 次、仍取前三同分，则每队对弱队最多 $3m\times3=9m$ 分，内战 $3m$ 场共发 $\le 9m$ 分、三队平分各 $\le 3m$，故上界 $12m$（$m=2$ 给 $24$）。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 赛果全列举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把达到 $24$ 分的构造中，三支强队 $A,B,C$ 之间 $6$ 场比赛的赛果<strong>一场不漏</strong>写出来，并逐队核对内战得分与总积分。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$A$ 胜 $B$ 一次、$B$ 胜 $A$ 一次；$A$ 胜 $C$ 一次、$C$ 胜 $A$ 一次；$B$ 胜 $C$ 一次、$C$ 胜 $B$ 一次。每队内战 $2$ 胜 $2$ 负得 $6$ 分，总分 $18+6=24$</strong></div>
+      <p>三对强队各打 $2$ 场，安排成「各胜一场」。每队内战共 $4$ 场，$2$ 胜（$6$ 分）$2$ 负（$0$ 分），共 $6$ 分；加上对三支弱队 $6$ 场全胜的 $18$ 分，得 $24$ 分。三队完全相同，满足题设。核对内战总分发：每场 $3$ 分，$6$ 场共 $18$ 分，三队各 $6$ 分，恰好把蛋糕分完。</p>
+      <p class="hint">要点：<strong>构造要写到「每一场」才算完整</strong>；同时检查内战总分 $18=6\times3$ 没被浪费（没有平局）。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 改计分规则</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把计分改成「胜 $2$ 分、平各 $1$ 分、负 $0$ 分」，其余条件不变，求前三名同分时的最大共同积分。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$16$</strong></div>
+      <p>每支强队对三支弱队 $6$ 场全胜得 $6\times2=12$ 分。三强之间 $6$ 场比赛，每场无论胜负还是平局都恰好发 $2$ 分（$2+0$ 或 $1+1$），共 $12$ 分；三队平分各得 $4$ 分。故上界 $12+4=16$。构造：强队全胜弱队、每对强队各胜一场（每队内战 $2$ 胜 $2$ 负 $=4$ 分），得 $16$。程序穷举 $3^6$ 种内战赛果，最大同分值确为 $16$ ✓。</p>
+      <p class="hint">要点：<strong>新规则下每场发的总分恒为 $2$（不再有「平局少发分」）</strong>，所以内战蛋糕固定 $12$ 分；上界结构不变，只是数字整体缩小。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 加一条「总分发分」条件</span> <span class="stars">★★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>全部 $30$ 场比赛最多能发出多少分？在「前三名各得 $24$ 分」的构造中，后三队之间最多能发出多少分？两个数字相加是否等于前者？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$90$ 分；$18$ 分；$72+18=90$，相等</strong></div>
+      <p>共 $\binom62\times2=30$ 场，每场最多发 $3$ 分，故全场最多 $90$ 分。构造中三强共得 $3\times24=72$ 分；后三队之间 $\binom32\times2=6$ 场，最多 $6\times3=18$ 分，$72+18=90$ ✓。这也说明构造<strong>没有浪费任何一分</strong>：所有 $30$ 场都分出胜负，没有平局。</p>
+      <p class="hint">要点：<strong>「总分守恒」是极值构造最好的自检</strong>：若算出的 $3S+$ 弱队上限 $\lt 90$，说明还有分没发完，往往意味着上界还能提高。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 交手 m 次的通项</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>设每对队伍交手 $m$ 次（$m\ge1$），其余条件不变。证明前三名同分时的最大共同积分为 $12m$，并用 $m=1,2,3$ 验证。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>上界 $12m$；$m=1,2,3$ 分别为 $12,24,36$</strong></div>
+      <p>每支强队对三支弱队打 $3m$ 场，最多 $9m$ 分。三强之间 $3$ 对共 $3m$ 场，每场最多发 $3$ 分，共 $\le 9m$ 分，三队平分各 $\le 3m$ 分。故 $S\le 9m+3m=12m$。构造：强队全胜弱队、每对强队胜负各半（$m$ 为偶数时显然；$m$ 为奇数时让三队循环胜负，仍可做到每人内战 $3m$ 分），上界可达。程序对 $m=1,2,3$ 穷举 $3^{3m}$ 种内战赛果，最大同分值分别为 $12,24,36$，逐项吻合 ✓。</p>
+      <p class="hint">要点：一般化把「一道选择题」变成一条<strong>线性关系 $12m$</strong>；上界证明与构造都只用到「每场最多 3 分」和「三队平分」两件事，与 $m$ 的具体值无关。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 为什么 30 不可能</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明单队理论满分 $30$ 分不可能被三支队伍同时取得；指出每支强队在内战中「必然丢掉」多少分，并说明这个数与选项 (D) $26$、(E) $30$ 的关系。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>每队内战最多 $6$ 分、理论最多 $12$ 分，必然丢 $6$ 分；故同分上限 $30-6=24$，(D)(E) 均不可能</strong></div>
+      <p>每支强队共打 $10$ 场，$4$ 场是内战（对另两强各 $2$ 场），若这 $4$ 场全胜可拿 $12$ 分，总分为 $18+12=30$。但内战 $6$ 场总共只发 $\le18$ 分，三队平分每人 $\le6$ 分，所以每队在这 $4$ 场里最多拿 $6$ 分，<strong>必然丢掉至少 $12-6=6$ 分</strong>。于是 $30-6=24$ 是硬上界；$26$ 与 $30$ 都超过它。等价地，若三队同分 $S>24$，则三队内战得分之和 $>18$，与「内战最多发 $18$ 分」矛盾。</p>
+      <p class="hint">要点：<strong>「必然丢掉的 6 分」是本题的结构核心</strong>；把「为什么不能更高」写成一个矛盾（内战总分超发），比反复试数更有说服力，也是极值题的标准收尾。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>赛制极值 30 秒决策卡</h3>
+    <ol>
+      <li>把强队得分切成「对弱队」与「对强队」两块；前者 $6$ 场全胜 $=18$ 分。</li>
+      <li>数内战场数（$3$ 对 $\times2=6$ 场），每场最多发 $3$ 分 $\Rightarrow$ 蛋糕 $18$ 分，三队平分各 $6$ 分。</li>
+      <li>上界 $18+6=24$；再写构造（全胜弱队、每对强队各胜一场）证明可达。</li>
+      <li>自检——弱队最高 $18\lt 24$ 排名成立；全场发分 $72+18=90$ 无浪费。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「极值先切两块账，内战蛋糕按人分；上界要配构造表，排名别忘回头看」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 极值上界与可达性构造 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

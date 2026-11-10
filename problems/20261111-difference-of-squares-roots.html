@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 平方差与二次方程实根个数</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2019AMC8.html">← 返回 2019AMC8</a>
+    <div class="pager">
+      <a href="20261111-tournament-points-extremal.html">‹ 上一题：赛制极值</a>
+      <a href="20261111-percent-up-down.html">下一题：涨跌百分比 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>(x² − 5)² = 16：平方差一拆，四个实根全出来</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2019AMC8(20)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Difference of Squares</span></div>
+  </div>
+  <p class="lede">把 $16$ 写成 $4^2$ 并移项：$(x^2-5)^2-4^2=(x^2-1)(x^2-9)=0$，得 $x=\pm1,\pm3$ 共 <strong>4</strong> 个实根，答案 <strong>(D)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    How many different real numbers $x$ satisfy the equation $(x^2-5)^2=16?$　(A) $0$　(B) $1$　(C) $2$　(D) $4$　(E) $8$
+  </blockquote>
+  <p><strong>中文翻译</strong>：有多少个不同的实数 $x$ 满足方程 $(x^2-5)^2=16$？　(A) $0$　(B) $1$　(C) $2$　(D) $4$　(E) $8$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2019/problem/20" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2019/problem/20</a><br>
+    官方给出的正确选项为 <strong>(D) $4$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (C) 2</code></td><td>开平方时只取正根：$x^2-5=4\Rightarrow x^2=9\Rightarrow x=\pm3$，<strong>漏掉 $x^2-5=-4$</strong>。$A^2=16$ 的解是 $A=\pm4$，不是只有 $A=4$；这一步漏掉一半答案，正好落进 (C)。</td></tr>
+    <tr><td><code>答 (B) 1</code></td><td>把 $x^2$ 当成 $x$ 来解，得到 $x=3$（或 $x=1$）一个值；或者开平方后忘了 $x^2=9$ 还有 $x=-3$。<strong>每解一次 $x^2=c>0$ 都要给出正负两个根</strong>。</td></tr>
+    <tr><td><code>答 (E) 8</code></td><td>以为「四次方程最多 4 个根」再加上「每个根还能取正负」变成 $8$。其实 $(x^2-1)(x^2-9)=0$ 已经是两个二次因式，每个给 $2$ 个根，合计 $4$；$8$ 是重复计数。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「平方等于常数」系统地写成<strong>两条分支</strong>。标准动作：① $A^2=16\Rightarrow A=4$ 或 $A=-4$；② 每条分支解 $x^2=c$；③ 按 $c>0$（两根）、$c=0$（一根 $0$）、$c\lt 0$（无实根）分类计数。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2019/problem/20" target="_blank" rel="noopener">2019AMC8(20)</a> 的书面解答一致——用 $a^2-b^2=(a+b)(a-b)$ 把 $(x^2-5)^2-4^2$ 分解为 $(x^2-1)(x^2-9)=0$，由此看出有 $4$ 个可能的 $x$。 <br> 本站的增量是显式写出「两条开方分支」并给出一般参数 $c$ 的根数分类，便于迁移到变式。
+  </blockquote>
+  <h3>方法一：平方差因式分解（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 把 16 看成 $4^2$ 并移项。</strong></p>
+$$(x^2-5)^2-16=0\ \Longrightarrow\ (x^2-5)^2-4^2=0.$$
+  <p><strong>第 2 步 · 用平方差公式。</strong> 令 $a=x^2-5$、$b=4$，由 $a^2-b^2=(a+b)(a-b)$：</p>
+$$\big((x^2-5)+4\big)\big((x^2-5)-4\big)=(x^2-1)(x^2-9)=0.$$
+  <p><strong>第 3 步 · 两个因式分别给根。</strong></p>
+$$x^2-1=0\Rightarrow x=\pm1,\qquad x^2-9=0\Rightarrow x=\pm3.$$
+  <p>四个值互不相同，共 $4$ 个实根。</p>
+  <blockquote class="ok"><strong>答案：(D) $4$。</strong></blockquote>
+  <h3>方法二：两条开方分支（用来交叉验证）</h3>
+  <p>由 $A^2=16$（$A=x^2-5$）得 $A=4$ 或 $A=-4$：</p>
+  <ul>
+    <li>分支一：$x^2-5=4\Rightarrow x^2=9\Rightarrow x=3,-3$；</li>
+    <li>分支二：$x^2-5=-4\Rightarrow x^2=1\Rightarrow x=1,-1$。</li>
+  </ul>
+  <p>两条分支各自 $x^2=c>0$，各给 $2$ 个实根，合计 $4$。与方法一一致，且更清楚地显示「容易漏掉的是负的那一支」。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 逐个代入：$(\pm1)^2-5=-4$，平方为 $16$ ✓；$(\pm3)^2-5=4$，平方为 $16$ ✓；② 用平方差的展开回验：$(x^2-1)(x^2-9)=x^4-10x^2+9$，而 $(x^2-5)^2-16=x^4-10x^2+25-16=x^4-10x^2+9$，两式相同 ✓；③ 量级检查：方程是 $x$ 的四次多项式，实根个数不超过 $4$，所以 (E) $8$ 不可能。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>$A^2=c\ (c>0)\Rightarrow A=\pm\sqrt c$</strong>，两条分支都要走；再用平方差 $a^2-b^2=(a+b)(a-b)$ 把四次式降成两个二次式。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>平方差公式</strong> $a^2-b^2=(a+b)(a-b)$ 是官方 Concepts 点名的知识点；本题把 $16$ 写成 $4^2$ 才能套用。</li>
+    <li><strong>$x^2=c$ 的根数分类</strong>：$c>0$ 给 $2$ 个实根 $\pm\sqrt c$；$c=0$ 只给 $1$ 个根 $x=0$；$c\lt 0$ 无实根。本题两条分支都属 $c>0$。</li>
+    <li><strong>根要查重</strong>。两条分支给出的 $\pm1,\pm3$ 互不相同；若两分支给出同一个 $c$（例如 $A^2=0$），就要去重。</li>
+    <li><strong>次数给上界</strong>：$(x^2-5)^2=16$ 展开是 $x^4-10x^2+9=0$，最多 $4$ 个实根，所以任何大于 $4$ 的选项可先排除。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 四个根全列举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把 $(x^2-5)^2=16$ 的全部实根<strong>一个不漏</strong>写出来，并逐个代入原方程验算（写出 $x^2-5$ 的值及其平方）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$x=-3,-1,1,3$</strong></div>
+      <p>$x=\pm3$ 时 $x^2-5=9-5=4$，$4^2=16$ ✓；$x=\pm1$ 时 $x^2-5=1-5=-4$，$(-4)^2=16$ ✓。四个值互不重复，且四次方程最多 $4$ 个实根，故已列全。注意 $x^2-5=-4$ 那一支的平方同样是 $16$，这正是最容易被漏掉的两个根。</p>
+      <p class="hint">要点：<strong>列举完要验算也要说明「为什么不会有第五个」</strong>；次数上界 $4$ 就是完整性证明。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 把 16 换成 25</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把方程改成 $(x^2-5)^2=25$，求全部实根并数出个数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$x=-\sqrt{10},\ 0,\ \sqrt{10}$，共 $3$ 个实根</strong></div>
+      <p>两条分支：$x^2-5=5\Rightarrow x^2=10\Rightarrow x=\pm\sqrt{10}$；$x^2-5=-5\Rightarrow x^2=0\Rightarrow x=0$（只有一个根！）。合计 $3$ 个。平方差回验：$(x^2-5)^2-5^2=(x^2-10)(x^2)=0$，即 $x^2(x^2-10)=0$，给出同样三根。</p>
+      <p class="hint">要点：<strong>$x^2=0$ 只给一个根</strong>，这是根数从 $4$ 掉到 $3$ 的全部原因；改参数后务必按 $c>0/=0/\lt 0$ 重新分类。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 加两条筛选条件</span> <span class="stars">★★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>在原题的 $4$ 个实根中，正整数根有几个？满足 $|x|\le2$ 的根有几个？两者之和是多少？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>正整数根 $2$ 个（$1,3$）；$|x|\le2$ 的根 $2$ 个（$\pm1$）；之和 $4$</strong></div>
+      <p>四根为 $-3,-1,1,3$。正整数为 $1,3$ 共 $2$ 个；$|x|\le2$ 筛掉 $\pm3$，剩 $\pm1$ 共 $2$ 个。之和 $4$（注意这两个集合交集为 $\{1\}$，但题目问的是各自个数相加，不是并集大小）。</p>
+      <p class="hint">要点：<strong>先列全根再逐条筛</strong>；读清「个数之和」与「并集个数」的区别，别自作主张去重。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般 c 的根数分类</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>对 $(x^2-5)^2=c^2$（$c>0$），证明实根个数只取决于 $c$ 与 $5$ 的大小关系；并求 $c=4,5,6$ 时的根数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$c\lt 5$ 时 $4$ 个、$c=5$ 时 $3$ 个、$c>5$ 时 $2$ 个；$c=4,5,6$ 分别为 $4,3,2$</strong></div>
+      <p>两条分支给出 $x^2=5+c$ 与 $x^2=5-c$。前者恒正，给 $2$ 个根 $\pm\sqrt{5+c}$。后者：若 $0\lt c\lt 5$ 则 $5-c>0$ 再给 $2$ 个根（合计 $4$）；若 $c=5$ 则 $x^2=0$ 给 $1$ 个根（合计 $3$）；若 $c>5$ 则无实根（合计 $2$）。代 $c=4$（$16$）得 $4$ 根 ✓；$c=5$（$25$）得 $3$ 根 ✓；$c=6$（$36$）得 $2$ 根 $\pm\sqrt{11}$ ✓。平方差形式：$(x^2-5-c)(x^2-5+c)=0$。</p>
+      <p class="hint">要点：一般化把「一道数根题」变成<strong>分段计数函数</strong>；分界点 $c=5$ 恰是「$x^2=0$ 只给一根」的临界情形。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 对称性与极值</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明该方程的实根集合关于原点对称（即 $x$ 是根则 $-x$ 也是根），从而根之和恒为 $0$；再求 $c=6$ 时两根之积，并说明为什么根数不可能超过 $4$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>根集关于 $0$ 对称、根和恒为 $0$；$c=6$ 时两根之积 $=-11$；四次方程最多 $4$ 个实根</strong></div>
+      <p>方程只含 $x$ 的偶次幂（展开为 $x^4-10x^2+25-c^2=0$），故 $f(-x)=f(x)$，根集关于原点对称，成对出现的根之和为 $0$（若有 $x=0$ 也不改变和）。$c=6$ 时 $x^2=11$，两根 $\pm\sqrt{11}$，积 $=-11$。原方程展开是 $x^4-10x^2+9=0$，为 $x^2$ 的二次式，最多两个 $x^2$ 值、每个最多给 $2$ 个 $x$，故实根数 $\le4$。</p>
+      <p class="hint">要点：<strong>「只含偶次幂」是根对称的结构原因</strong>；把四次式看成「关于 $x^2$ 的二次方程」，根数上界 $4$ 一步到位，也直接判死选项 (E) $8$。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>平方型方程数根 20 秒决策卡</h3>
+    <ol>
+      <li>把常数写成平方（$16=4^2$），移项后用 $a^2-b^2$ 分解：$(x^2-1)(x^2-9)=0$。</li>
+      <li>或直接走两条开方分支 $x^2-5=\pm4$，务必两条都写。</li>
+      <li>按 $x^2=c$ 的三种情况数根：$>0$ 给 $2$ 个、$=0$ 给 $1$ 个、$\lt 0$ 给 $0$ 个；本题 $2+2=4$。</li>
+      <li>自检——把四根逐个代回，并用「四次方程最多 4 根」排除 (E)。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「平方等于常数，先写正负两支；每支解出 x 平方，正二零一负零；四次最多四根，别把八当答案」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 平方差与二次方程实根个数 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

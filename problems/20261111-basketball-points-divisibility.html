@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 整除约束下的整数解定位</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2019AMC8.html">← 返回 2019AMC8</a>
+    <div class="pager">
+      <a href="20261111-percent-up-down.html">‹ 上一题：涨跌百分比</a>
+      <a href="20261111-triangle-area-ratio.html">下一题：面积比 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>篮球队得分：总分必须是 28 的倍数，答案 11</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2019AMC8(23)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Divisibility</span></div>
+  </div>
+  <p class="lede">设总分 $x$、其余 $7$ 人共得 $y$ 分，则 $\frac{x}{4}+\frac{2x}{7}+15+y=x\Rightarrow y+15=\frac{13x}{28}$。$x$ 必须是 $28$ 的倍数，而 $y\le14$，逐个试 $28,56,84$ 只有 $x=56$ 给 $y=11$，答案 <strong>(B)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    After Euclid High School's last basketball game, it was determined that $\dfrac{1}{4}$ of the team's points were scored by Alexa and $\dfrac{2}{7}$ were scored by Brittany. Chelsea scored $15$ points. None of the other $7$ team members scored more than $2$ points. What was the total number of points scored by the other $7$ team members?　(A) $10$　(B) $11$　(C) $12$　(D) $13$　(E) $14$
+  </blockquote>
+  <p><strong>中文翻译</strong>：Euclid 高中最后一场篮球赛后统计：Alexa 得了全队 $\dfrac14$ 的分，Brittany 得了全队 $\dfrac27$ 的分，Chelsea 得了 $15$ 分，其余 $7$ 名队员每人得分都不超过 $2$ 分。问这 $7$ 人一共得了多少分？　(A) $10$　(B) $11$　(C) $12$　(D) $13$　(E) $14$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2019/problem/23" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2019/problem/23</a><br>
+    官方给出的正确选项为 <strong>(B) $11$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 14</code></td><td>把「每人不超过 $2$ 分」直接用成「$7\times2=14$」，<strong>把上限当成了答案</strong>。上限只是约束 $y\le14$，真正决定 $y$ 的是整除条件，不是这个上界。</td></tr>
+    <tr><td><code>答 (A) 10 或 (C) 12</code></td><td>解出 $y+15=\frac{13x}{28}$ 后，没有意识到 $x$ 必须让 $\frac{x}{4}$ 与 $\frac{2x}{7}$ 都是<strong>整数</strong>（得分是整数），于是随便取了使 $y$ 落在 $10\sim14$ 的某个 $x$，凑出一个看着合理的数。</td></tr>
+    <tr><td><code>答 (D) 13</code></td><td>漏掉了 Chelsea 的 $15$ 分，把方程写成 $y=\frac{13x}{28}$，或者把 $\frac14+\frac27=\frac{15}{28}$ 算错成 $\frac{13}{28}$ 的位置放反，导致 $y$ 偏大。分数加法要通分到 $28$：$\frac{7}{28}+\frac{8}{28}=\frac{15}{28}$。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「人数得分必须是整数」转成<strong>整除约束</strong>：$4\mid x$ 且 $7\mid x\Rightarrow 28\mid x$。这类题的解法永远是「先列方程 $\to$ 再找整除条件 $\to$ 最后用不等式夹出唯一解」。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2019/problem/23" target="_blank" rel="noopener">2019AMC8(23)</a> 的书面解答一致——设总分 $x$、所求为 $y$，由 $\frac{x}{4}+\frac{2x}{7}+15+y=x$ 化简得 $y+15=\frac{13x}{28}$；由 $y\le14$ 与 $x$ 必为 $28$ 的倍数，试 $x=28,56,84$ 得唯一可行 $y=11$。 <br> 本站的增量是把「为什么 $28\mid x$」写成显式的整除推导，并把不等式夹逼写成可复用的区间。
+  </blockquote>
+  <h3>方法一：方程 + 整除夹逼（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 设元列方程。</strong> 设全队总分 $x$，其余 $7$ 人共得 $y$ 分：</p>
+$$\frac{x}{4}+\frac{2x}{7}+15+y=x.$$
+  <p><strong>第 2 步 · 化简。</strong> $\frac14+\frac27=\frac{7+8}{28}=\frac{15}{28}$，故</p>
+$$\frac{15x}{28}+15+y=x\Rightarrow y+15=\frac{13x}{28}.$$
+  <p><strong>第 3 步 · 找整除约束。</strong> Alexa 的得分 $\frac{x}{4}$、Brittany 的得分 $\frac{2x}{7}$ 都必须是整数，故 $4\mid x$ 且 $7\mid x$；因 $\gcd(4,7)=1$，得 $28\mid x$。</p>
+  <p><strong>第 4 步 · 用 $0\le y\le14$ 夹出唯一解。</strong> 由 $y=\frac{13x}{28}-15$ 且 $0\le y\le14$：</p>
+$$15\le\frac{13x}{28}\le29\iff \frac{420}{13}\le x\le\frac{812}{13}\iff 32.3\ldots\le x\le62.4\ldots$$
+  <p>在这个区间里 $28$ 的正倍数只有 $x=56$。代入：</p>
+$$y=\frac{13\cdot56}{28}-15=26-15=11.$$
+  <blockquote class="ok"><strong>答案：(B) $11$。</strong></blockquote>
+  <h3>方法二：逐个试 28 的倍数（用来交叉验证）</h3>
+  <p>| $x$ | $y=\frac{13x}{28}-15$ | 是否可行 | |---|---|---| | $28$ | $13-15=-2$ | ✗ 得分为负 | | $56$ | $26-15=11$ | ✓ $0\le11\le14$ | | $84$ | $39-15=24$ | ✗ 超过 $7\times2=14$ | | $\ge112$ | $\ge37$ | ✗ 更大，更不可能 |</p>
+  <p>$x$ 每增加 $28$，$y$ 增加 $13$，所以 $x=56$ 之后全部出局。与方法一的区间结论一致。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 回代检验：$x=56$ 时 Alexa $14$ 分、Brittany $16$ 分、Chelsea $15$ 分、其余 $11$ 分，$14+16+15+11=56$ ✓；② $11\le14$，可分配给 $7$ 人（例如 $2,2,2,2,2,1,0$）✓；③ 程序枚举 $28$ 的前 $7$ 个倍数，$0\le y\le14$ 只命中 $56$ 一次。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>得分是整数 $\Rightarrow$ 总分满足整除约束</strong>。$\frac{x}{4}\in\mathbb{Z}$ 且 $\frac{2x}{7}\in\mathbb{Z}\Rightarrow 28\mid x$，这一步把连续变量变成离散候选。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>分数加法通分</strong>：$\frac14+\frac27=\frac{15}{28}$，剩下给 Chelsea 与其他人的部分是 $1-\frac{15}{28}=\frac{13}{28}$。</li>
+    <li><strong>$\gcd(4,7)=1$ 才敢说 $28\mid x$</strong>。若两个分母不互质，要用最小公倍数（如 $4$ 与 $6$ 给 $12$）。</li>
+    <li><strong>不等式夹逼</strong>：$y\le14$ 来自「$7$ 人每人最多 $2$ 分」，$y\ge0$ 来自得分非负；两端把 $x$ 锁在 $[32.3,62.4]$，只剩一个 $28$ 的倍数。</li>
+    <li><strong>单调性收尾</strong>：$y=\frac{13x}{28}-15$ 随 $x$ 严格递增，所以一旦某个候选超出 $14$，后面全部出局，不必无限试下去。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 三个候选全列举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把 $x=28,56,84$ 三个候选对应的 Alexa、Brittany、Chelsea 与其余 $7$ 人得分<strong>一个不漏</strong>列出来，并逐一标注是否可行。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$x=28$：$(7,8,15,-2)$ 不可行；$x=56$：$(14,16,15,11)$ 可行；$x=84$：$(21,24,15,24)$ 不可行</strong></div>
+      <p>$x=28$ 时 $\frac{x}{4}=7$、$\frac{2x}{7}=8$，$y=28-7-8-15=-2$，得分为负，不可行。$x=56$ 时 $14+16+15+11=56$ ✓，$11\le14$。$x=84$ 时 $21+24+15=60$，$y=24>14$，超过 $7$ 人上限。三者之外 $x\le0$ 或 $x\ge112$ 只会更差。</p>
+      <p class="hint">要点：<strong>列全候选并逐条给判词</strong>，既验证答案又说明「唯一性」；注意 $-2$ 这类负分是最容易被忽略的排除理由。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 把 15 改成 20</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>若 Chelsea 得 $20$ 分（其余条件不变），求其余 $7$ 人的总得分。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$6$</strong></div>
+      <p>方程变为 $y+20=\frac{13x}{28}\Rightarrow y=\frac{13x}{28}-20$。仍要求 $28\mid x$ 与 $0\le y\le14$，即 $20\le\frac{13x}{28}\le34\iff 43.1\le x\le73.2$，区间内 $28$ 的倍数仍只有 $56$。代入 $y=26-20=6$。校验：$14+16+20+6=56$ ✓，$6\le14$ 可分配给 $7$ 人（如 $2,2,1,1,0,0,0$）✓。</p>
+      <p class="hint">要点：<strong>改 Chelsea 的分数只平移 $y$ 的截距</strong>，整除条件与夹逼区间结构不变；再次说明「上限 14」只是约束，不是答案。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 加「可行 x 的个数」条件</span> <span class="stars">★★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>在 $28$ 的前 $10$ 个正倍数中，有多少个 $x$ 能使「其余 $7$ 人总得分 $y$ 落在 $0\le y\le14$」？分别是哪些？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$1$ 个，只有 $x=56$</strong></div>
+      <p>$y=\frac{13x}{28}-15$，令 $x=28m$，则 $y=13m-15$。要求 $0\le13m-15\le14\iff 15\le13m\le29\iff 2\le m\le2$，故只有 $m=2$（$x=56$，$y=11$）。程序枚举 $m=1..10$，命中数恰为 $1$。</p>
+      <p class="hint">要点：换成 $m$ 之后<strong>不等式变成一步整数夹逼</strong> $2\le m\le2$；这比逐个算 $10$ 个 $y$ 更快，也直接证明了解的唯一性。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般化与区间</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>把 Chelsea 的得分记为 $c$（非负整数），证明总分必为 $x=28m$（$m$ 为正整数）且 $y=13m-c$；再对 $c=0,15,20$ 分别求出唯一可行的 $m$ 与 $y$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$x=28m,\ y=13m-c$；$c=0\Rightarrow m=1,y=13$；$c=15\Rightarrow m=2,y=11$；$c=20\Rightarrow m=2,y=6$</strong></div>
+      <p>由 $y+c=\frac{13x}{28}$ 且 $28\mid x$，令 $x=28m$ 得 $y=13m-c$。条件 $0\le y\le14$ 化为 $c\le13m\le c+14$，区间长度 $\frac{14}{13}>1$，故候选 $m$ 至多两个，逐个检查即可。$c=0$：$0\le13m\le14\Rightarrow m=1,\ y=13$；$c=15$：$15\le13m\le29\Rightarrow m=2,\ y=11$（原题）；$c=20$：$20\le13m\le34\Rightarrow m=2,\ y=6$（练习 2）。回代验证：$c=0$ 时 $7+8+0+13=28$ ✓。</p>
+      <p class="hint">要点：一般化把「试数」变成<strong>「区间里有没有整数」</strong>；$m$ 每增 $1$，$y$ 增 $13$，而 $y$ 的允许区间只有 $15$ 个整数，所以候选极少，这就是本题能快速收尾的原因。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 分配方式计数</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>已知 $y=11$，且 $7$ 名队员每人得 $0$、$1$ 或 $2$ 分。证明这样的分配一定存在，并求共有多少种不同的有序分配方式（$7$ 人有编号）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>存在（如 $2,2,2,2,2,1,0$）；共 $77$ 种</strong></div>
+      <p>存在性由构造给出。计数：设 $a$ 人得 $2$ 分、$b$ 人得 $1$ 分、$c$ 人得 $0$ 分，$a+b+c=7$ 且 $2a+b=11$。枚举 $a$：由 $b=11-2a\ge0$ 且 $c=7-a-b=a-4\ge0$，得 $4\le a\le5$。$a=4,b=3,c=0$：多项式系数 $\frac{7!}{4!3!}=35$；$a=5,b=1,c=1$：$\frac{7!}{5!1!1!}=42$。合计 $35+42=77$。程序枚举 $3^7=2187$ 种分配，和为 $11$ 的恰 $77$ 种 ✓。</p>
+      <p class="hint">要点：<strong>先证明存在、再计数</strong>，是「极值/结构」题的完整收尾；用 $2a+b=11$ 把枚举压到两个 $a$ 值，比暴力试 $2187$ 种干净得多。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>整除夹逼 30 秒决策卡</h3>
+    <ol>
+      <li>设总分 $x$、所求 $y$，列方程并通分：$\frac{x}{4}+\frac{2x}{7}=\frac{15x}{28}$，故 $y+15=\frac{13x}{28}$。</li>
+      <li>由「得分是整数」得 $4\mid x,\ 7\mid x\Rightarrow 28\mid x$。</li>
+      <li>由「$7$ 人每人 $\le2$ 分」得 $0\le y\le14$，把 $x$ 夹进 $[32.3,62.4]$。</li>
+      <li>区间内只有 $x=56$，代回得 $y=11$；回代验算 $14+16+15+11=56$。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「得分必整先找公倍，人数上限夹出区间；单调一次只一个解，回代加总别漏人」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 整除约束下的整数解定位 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

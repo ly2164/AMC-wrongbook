@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 8 错题精讲 · 奇偶性与独立事件概率</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc8/2019AMC8.html">← 返回 2019AMC8</a>
+    <div class="pager">
+      <a href="20261111-telescoping-product.html">‹ 上一题：连乘裂项</a>
+      <a href="20261111-tournament-points-extremal.html">下一题：赛制极值 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 8 · 错题精讲</div>
+  <h1>两颗怪骰子：2 个偶数面、4 个奇数面，偶数和概率 5/9</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YC</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2019AMC8(18)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Dice Probability</span></div>
+  </div>
+  <p class="lede">和为偶数 $\iff$ 两颗骰子<strong>同奇偶</strong>。每颗骰子偶数面 $2$ 个、奇数面 $4$ 个，故 $P=\left(\frac13\right)^2+\left(\frac23\right)^2=\frac19+\frac49=\frac59$，答案 <strong>(C)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    The faces of each of two fair dice are numbered $1,$ $2,$ $3,$ $5,$ $7,$ and $8.$ When the two dice are tossed, what is the probability that their sum will be an even number?　(A) $\frac{4}{9}$　(B) $\frac{1}{2}$　(C) $\frac{5}{9}$　(D) $\frac{3}{5}$　(E) $\frac{2}{3}$
+  </blockquote>
+  <p><strong>中文翻译</strong>：两颗均匀骰子的六个面分别写着 $1,2,3,5,7,8$。同时掷出后，两数之和为偶数的概率是多少？　(A) $\frac{4}{9}$　(B) $\frac{1}{2}$　(C) $\frac{5}{9}$　(D) $\frac{3}{5}$　(E) $\frac{2}{3}$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc8/2019/problem/18" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc8/2019/problem/18</a><br>
+    官方给出的正确选项为 <strong>(C) $\frac{5}{9}$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (B) 1/2</code></td><td>把「标准骰子 3 奇 3 偶」的结论直接搬过来，以为「和是奇数或偶数各一半」。<strong>这颗骰子不是标准骰子</strong>：面是 $1,2,3,5,7,8$，偶数只有 $2,8$ 两个，奇数有 $1,3,5,7$ 四个。没数奇偶个数就套结论，是本题最主要的坑。</td></tr>
+    <tr><td><code>答 (A) 4/9</code></td><td>只算了「两个都是奇数」或只算了「两个都是偶数」中的一项，漏掉另一项。$\left(\frac23\right)^2=\frac49$ 正好是干扰项 (A)，说明出题人专门等着漏算的人。</td></tr>
+    <tr><td><code>答 (D) 3/5 或 (E) 2/3</code></td><td>把「至少一个偶数」「至少一个是奇数」之类事件当成了「和为偶数」，或者直接把 $P(\text{单颗奇数})=\frac23$ 当答案。<strong>事件的逻辑必须先写清楚</strong>：偶数和 $=$ 偶偶 $\cup$ 奇奇，两个互斥事件相加。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「和的奇偶」翻译成「两数奇偶是否相同」。标准动作：① 数出单颗骰子奇、偶面各几个；② 用 $P(\text{偶偶})+P(\text{奇奇})$；③ 两颗骰子独立，概率相乘。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc8/2019/problem/18" target="_blank" rel="noopener">2019AMC8(18)</a> 的书面解答一致——只有「两颗都偶」或「两颗都奇」能使和为偶数，单颗偶数概率 $\frac{2}{6}=\frac13$、奇数概率 $\frac{4}{6}=\frac23$，故 $\frac13\cdot\frac13+\frac23\cdot\frac23=\frac59$。 <br> 本站的增量是补上 $6\times6=36$ 个等可能结果的枚举路径，并把结论推广到「任意 $e$ 个偶数面」的一般公式。
+  </blockquote>
+  <h3>方法一：同奇偶分两类（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 数面。</strong> 六个面 $\{1,2,3,5,7,8\}$ 中偶数是 $\{2,8\}$ 共 $2$ 个，奇数是 $\{1,3,5,7\}$ 共 $4$ 个。故</p>
+$$P(\text{偶})=\frac{2}{6}=\frac13,\qquad P(\text{奇})=\frac{4}{6}=\frac23.$$
+  <p><strong>第 2 步 · 判定事件。</strong> 两数之和为偶数 $\iff$ 奇偶相同（偶 $+$ 偶、奇 $+$ 奇）；奇偶不同时和为奇数。</p>
+  <p><strong>第 3 步 · 互斥相加、独立相乘。</strong></p>
+$$P(\text{偶偶})+P(\text{奇奇})=\frac13\cdot\frac13+\frac23\cdot\frac23=\frac19+\frac49=\frac59.$$
+  <blockquote class="ok"><strong>答案：(C) $\frac{5}{9}$。</strong></blockquote>
+  <h3>方法二：36 格表枚举（用来交叉验证）</h3>
+  <p>两颗骰子共 $6\times6=36$ 个等可能有序结果。偶偶有 $2\times2=4$ 个，奇奇有 $4\times4=16$ 个，合计 $20$ 个：</p>
+$$P=\frac{20}{36}=\frac59.$$
+  <p>注意「有序」：$(2,8)$ 与 $(8,2)$ 是两个不同结果，$6\times6$ 的格表把它们都算进去了；若按无序组合数会少算非对角格，得到错误答案。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 枚举全部 $36$ 个有序结果，偶数和恰为 $20$ 个；② 补集检查：和为奇数的有 $2\times4+4\times2=16$ 个，$\frac{16}{36}=\frac49$，$1-\frac49=\frac59$ ✓；③ 合理性检查：奇偶面不均衡时「同奇偶」概率必然<strong>大于</strong> $\frac12$，所以 (A)(B) 可直接排除。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>和的奇偶 $=$ 两加数奇偶是否相同</strong>。先把「和的奇偶」翻译成「两颗骰子的奇偶组合」，概率题就变成了数格子。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>先数面再套公式</strong>。这颗骰子偶数面 $2$ 个、奇数面 $4$ 个，与标准骰子 $3/3$ 不同；$1,3,5,7$ 是四个奇数，$2,8$ 是两个偶数。</li>
+    <li><strong>互斥事件用加法，独立事件用乘法</strong>。偶偶与奇奇互斥（相加），两颗骰子独立（相乘）。</li>
+    <li><strong>有序计数</strong>。$36$ 个等可能结果是有序对，别把 $(2,8)$ 和 $(8,2)$ 合并。</li>
+    <li><strong>补集自检</strong>：$P(\text{和为奇})=2\cdot\frac13\cdot\frac23=\frac49$，故 $P(\text{和为偶})=1-\frac49=\frac59$，比直接算更快。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 两类全列举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把六个面按奇偶<strong>一个不漏</strong>分成两组；再分别列出「偶偶」与「奇奇」两类各有多少个有序结果，合计后化成最简分数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>偶面 $\{2,8\}$、奇面 $\{1,3,5,7\}$；偶偶 $4$ 个、奇奇 $16$ 个，合计 $20$ 个，$\frac{20}{36}=\frac59$</strong></div>
+      <p>偶偶：第一颗有 $2$ 种、第二颗有 $2$ 种，共 $2\times2=4$ 个有序对：$(2,2),(2,8),(8,2),(8,8)$。奇奇：$4\times4=16$ 个。合计 $20$ 个，除以 $36$ 得 $\frac59$。校验补集：奇偶混合 $2\times4+4\times2=16$ 个，$20+16=36$ ✓。</p>
+      <p class="hint">要点：<strong>列全再相加</strong>才叫「不重不漏」；把补集也数一遍，总数对上 $36$ 才算数完。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 换一颗骰子的面</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把六个面改成 $1,2,3,5,7,9$（偶数面只剩 $1$ 个），求两颗这样的骰子掷出偶数和的概率。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\frac{13}{18}$</strong></div>
+      <p>新面中偶数只有 $\{2\}$ 共 $1$ 个，奇数 $\{1,3,5,7,9\}$ 共 $5$ 个，故 $P(\text{偶})=\frac16$、$P(\text{奇})=\frac56$。偶数和 $=\left(\frac16\right)^2+\left(\frac56\right)^2=\frac{1+25}{36}=\frac{26}{36}=\frac{13}{18}\approx0.722$。枚举验证：$1\times1+5\times5=26$ 个有序对 ✓。奇偶越不均衡，同奇偶的概率越大。</p>
+      <p class="hint">要点：<strong>改参数只改 $e,o$ 的个数</strong>，公式 $P=\frac{e^2+o^2}{36}$ 不变；对比原题 $\frac59\approx0.556$ 能直观感受「不均衡推高同奇偶概率」。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 再加一个条件</span> <span class="stars">★★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>在 $36$ 个有序结果中，和为偶数<strong>且两数之和恰好等于 $10$</strong> 的有几个？请把它们全部写出来。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$5$ 个：$(2,8),(3,7),(5,5),(7,3),(8,2)$</strong></div>
+      <p>从 $\{1,2,3,5,7,8\}$ 中找两数和为 $10$ 的有序对：$(2,8)$、$(3,7)$、$(5,5)$、$(7,3)$、$(8,2)$，共 $5$ 个（$1+9$、$4+6$ 等因面上没有 $9,4,6$ 而不成立）。这 $5$ 个的和都是 $10$（偶数），与「偶偶 / 奇奇」的分类也一致：$(2,8),(8,2)$ 属偶偶，其余三个属奇奇。</p>
+      <p class="hint">要点：<strong>附加条件要在「原样本空间」里筛</strong>，不能另起一套计数；$(5,5)$ 这类对角格最容易漏。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般骰子通项</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>设一颗六面骰有 $e$ 个偶数面、$o=6-e$ 个奇数面。证明两颗这样的骰子掷出偶数和的概率为 $P(e)=\dfrac{e^2+o^2}{36}$；并求 $e=0,1,\ldots,6$ 中使 $P$ <strong>最小</strong>的 $e$ 及该最小值。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$P(e)=\frac{e^2+(6-e)^2}{36}$；最小在 $e=3$，$P=\frac12$</strong></div>
+      <p>偶偶 $e^2$ 个有序对、奇奇 $o^2$ 个，合计 $e^2+o^2$，除以 $36$ 即证。展开 $P(e)=\frac{2e^2-12e+36}{36}=\frac{(e-3)^2}{18}+\frac12$，故在 $e=3$ 取最小值 $\frac12$。逐值验证：$e=0,6\Rightarrow1$，$e=1,5\Rightarrow\frac{26}{36}=\frac{13}{18}$，$e=2,4\Rightarrow\frac{20}{36}=\frac59$（原题），$e=3\Rightarrow\frac{18}{36}=\frac12$。</p>
+      <p class="hint">要点：一般化后<strong>配方</strong> $(e-3)^2$ 把「枚举 7 种情况」压成一行；原题 $e=2$ 落在对称轴左侧，与 $e=4$ 结果相同（把奇偶标签互换即可）。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 下界结构证明</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明对任意六面骰（各面数字奇偶任意），两颗掷出偶数和的概率恒不小于 $\frac12$，并指出取等条件；再说明为什么原题答案一定大于 $\frac12$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$P\ge\frac12$；等号当且仅当 $e=o=3$；原题 $e=2,o=4$ 故 $P=\frac59>\frac12$</strong></div>
+      <p>由 $e+o=6$，$(e-o)^2\ge0\Rightarrow e^2+o^2\ge\frac{(e+o)^2}{2}=18$，故 $P=\frac{e^2+o^2}{36}\ge\frac{18}{36}=\frac12$，等号当且仅当 $e=o=3$。原题 $e=2,o=4$，$e^2+o^2=4+16=20>18$，故 $P=\frac{20}{36}=\frac59>\frac12$。直观上：奇偶面越不均衡，两颗「撞到同一种奇偶」的机会越大。</p>
+      <p class="hint">要点：<strong>「同奇偶概率 ≥ 1/2」是普适下界</strong>，用 $(e-o)^2\ge0$ 一步证出；它同时给选项 (A)(B) 判了死刑，是考场最省时的排除法。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>和的奇偶 15 秒决策卡</h3>
+    <ol>
+      <li>先数单颗骰子的偶面 $e$、奇面 $o$（本题 $2$ 与 $4$，别套标准骰子）。</li>
+      <li>偶数和 $=$ 偶偶 $+$ 奇奇；$P=\frac{e^2+o^2}{36}$。</li>
+      <li>本题 $\frac{4+16}{36}=\frac{20}{36}=\frac59$；或用补集 $1-2\cdot\frac13\cdot\frac23=\frac59$。</li>
+      <li>自检——结果必 $\ge\frac12$（奇偶不均衡时严格大于），用 $36$ 格表对账。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「和为偶，看同奇同偶；先数面，再平方相加；三十六格作分母，不均衡必过半」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 8 错题精讲 · 奇偶性与独立事件概率 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
