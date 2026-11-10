@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 因式分解与模运算排除法</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2022AMC10B.html">← 返回 2022AMC10B</a>
+    <div class="pager">
+      <a href="20261111-arithmetic-sequence-invariant-ratio.html">‹ 上一题：等差数列不变量</a>
+      <a href="20261111-binary-matrix-singular-count.html">下一题：0/1 方程组 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>五个 600 次幂的巨数：唯一躲开 2、3、5、7 的是 2⁶⁰⁷ − 1</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2022AMC10B(17)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Factoring and Modular Arithmetic</span></div>
+  </div>
+  <p class="lede">四个选项各能被一个小质数整除：$2^{606}-1$ 被 $3$（也被 $7$）、$2^{606}+1$ 被 $5$、$2^{607}+1$ 被 $3$、$2^{607}+3^{607}$ 被 $5$ 整除；只有 $2^{607}-1$ 是奇数且模 $3,5,7$ 都不为 $0$，答案 <strong>(C)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    One of the following numbers is not divisible by any prime number less than $10.$ Which is it?　(A) $2^{606}-1$　(B) $2^{606}+1$　(C) $2^{607}-1$　(D) $2^{607}+1$　(E) $2^{607}+3^{607}$
+  </blockquote>
+  <p><strong>中文翻译</strong>：下面五个数中有一个<strong>不被任何小于 $10$ 的质数整除</strong>，是哪一个？　(A) $2^{606}-1$　(B) $2^{606}+1$　(C) $2^{607}-1$　(D) $2^{607}+1$　(E) $2^{607}+3^{607}$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/17" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022B/problem/17</a><br>
+    官方给出的正确选项为 <strong>(C) $2^{607}-1$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (A) 或 (D)</code></td><td>看到 $2^{606}-1$、$2^{607}+1$ 是「$\pm1$ 型」就直觉认为是质数。<strong>指数 parity 决定模 $3$ 的余数</strong>：$2\equiv-1\pmod3$，所以 $2^{\text{偶数}}-1$ 与 $2^{\text{奇数}}+1$ 都被 $3$ 整除。没算 $2\equiv-1\pmod3$ 就会漏掉这两项。</td></tr>
+    <tr><td><code>答 (B) 或 (E)</code></td><td>不会处理「$+1$」与「$a^n+b^n$」型。关键是把 $+1$ 写成 $-(-1)$、把 $3^{607}+2^{607}$ 写成 $3^{607}-(-2)^{607}$，再用 $a^n-b^n$ 的因式分解。看到加号就放弃，是本题最常见的失分点。</td></tr>
+    <tr><td><code>答 (C) 但说不出理由</code></td><td>靠「排除法猜中」却不会证明 C 真的不被 $2,3,5,7$ 整除。排除四个只说明「至多一个」，必须<strong>对 C 逐个模验证</strong>才算完整（官方解答也专门补了这一步）。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：<strong>没有建立「$a^n-b^n$ 恒被 $a-b$ 整除」与「$2$ 在小模数下的短周期」这两件武器</strong>。小于 $10$ 的质数只有 $2,3,5,7$ 四个，逐个查即可，根本不需要处理巨大的数——所有计算都应在模 $3,5,7$ 下进行。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/17" target="_blank" rel="noopener">2022AMC10B(17)</a> 的书面解答一致——用 $a^n-b^n$ 被 $a-b$ 整除逐项排除：A $=4^{303}-1$ 被 $3$ 整除、B $=4^{303}-(-1)^{303}$ 被 $5$ 整除、D 由 $2(2^{606}-1)$ 被 $3$ 整除推出 $2^{607}+1$ 被 $3$ 整除、E $=3^{607}-(-2)^{607}$ 被 $5$ 整除；再验证 C 不被 $2,3,5,7$ 整除。 <br> 本站的增量是把每一步改写成显式的模运算周期（$2\equiv-1\pmod3$、$2^4\equiv1\pmod5$、$2^3\equiv1\pmod7$），让「为什么 C 能幸存」可逐行核对。
+  </blockquote>
+  <h3>方法一：因式分解逐个排除（官方思路，推荐）</h3>
+  <p>用到的恒等式（直接展开即可验证，不需命名）：</p>
+$$a^n-b^n=(a-b)(a^{n-1}+a^{n-2}b+\cdots+b^{n-1}),$$
+  <p>故 $a^n-b^n$ 恒被 $a-b$ 整除。</p>
+  <p><strong>A</strong>：$2^{606}-1=4^{303}-1^{303}$，被 $4-1=3$ 整除。</p>
+  <p><strong>B</strong>：$2^{606}+1=4^{303}-(-1)^{303}$（因为 $303$ 为奇数，$-(-1)^{303}=+1$），被 $4-(-1)=5$ 整除。</p>
+  <p><strong>D</strong>：由 A 知 $3\mid 2^{606}-1$，乘 $2$ 得 $3\mid 2^{607}-2$，故 $2^{607}+1=(2^{607}-2)+3$ 也被 $3$ 整除。</p>
+  <p><strong>E</strong>：$3^{607}+2^{607}=3^{607}-(-2)^{607}$（$607$ 为奇数），被 $3-(-2)=5$ 整除。</p>
+  <p><strong>C 的验证</strong>：$2^{607}-1$ 是奇数，故不被 $2$ 整除；又</p>
+  <ul>
+    <li>模 $3$：$2\equiv-1$，$607$ 奇数 $\Rightarrow 2^{607}\equiv-1\equiv2$，$2^{607}-1\equiv1\not\equiv0$；</li>
+    <li>模 $5$：$2^4\equiv1$，$607\equiv3\pmod4\Rightarrow2^{607}\equiv2^3=8\equiv3$，$2^{607}-1\equiv2\not\equiv0$；</li>
+    <li>模 $7$：$2^3=8\equiv1$，$607\equiv1\pmod3\Rightarrow2^{607}\equiv2$，$2^{607}-1\equiv1\not\equiv0$。</li>
+  </ul>
+  <p>四个小质数全被排除，C 是唯一答案。</p>
+  <blockquote class="ok"><strong>答案：(C) $2^{607}-1$。</strong></blockquote>
+  <h3>方法二：全部改用模周期表（用来交叉验证）</h3>
+  <p>把 $2$ 的幂在模 $3,5,7$ 下的周期列出来：模 $3$ 周期 $2$（$2,-?$ 具体为 $2,1$）、模 $5$ 周期 $4$（$2,4,3,1$）、模 $7$ 周期 $3$（$2,4,1$）。由于 $606\equiv0\pmod2$、$606\equiv2\pmod4$、$606\equiv0\pmod3$，得 $2^{606}\equiv1\pmod3$、$\equiv4\pmod5$、$\equiv1\pmod7$；$607$ 则分别为 $2,3,2$。于是：</p>
+  <ul>
+    <li>$2^{606}-1\equiv0\pmod3$ → A 出局；</li>
+    <li>$2^{606}+1\equiv4+1\equiv0\pmod5$ → B 出局；</li>
+    <li>$2^{607}+1\equiv2+1\equiv0\pmod3$ → D 出局；</li>
+    <li>$3^{607}+2^{607}$：模 $5$ 下 $3^4\equiv1$、$607\equiv3\pmod4\Rightarrow3^{607}\equiv3^3=27\equiv2$，$2^{607}\equiv3$，和 $\equiv0$ → E 出局。</li>
+  </ul>
+  <p>与方法一完全一致，且不依赖因式分解。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 用 Python 直接算五个巨数对 $2,3,5,7$ 取模，结果为 A$[3,7]$、B$[5]$、C$[]$、D$[3]$、E$[5]$，只有 C 为空；② 交叉检查 A 其实还被 $7$ 整除（$606\equiv0\pmod3\Rightarrow2^{606}\equiv1\pmod7$），说明「找到一个因子就够」；③ 记住 $607$ 是奇数、$606$ 是偶数，parity 是整题的开关。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>小于 $10$ 的质数只有 $2,3,5,7$</strong>。把「不被任何小质数整除」翻译成「对这四个模逐个验证」，巨数立刻变成四道小学余数题。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>$a^n-b^n$ 被 $a-b$ 整除</strong>（因式分解恒等式）。加号型改写成减号型：$+1=-(-1)^n$（$n$ 奇）、$a^n+b^n=a^n-(-b)^n$（$n$ 奇）。</li>
+    <li><strong>$2\equiv-1\pmod3$</strong> 是最省事的一条：$2^e\equiv(-1)^e$，所以 $2^{\text{偶}}-1$、$2^{\text{奇}}+1$ 必被 $3$ 整除，一步干掉 A 与 D。</li>
+    <li><strong>幂的周期</strong>：模 $5$ 周期 $4$（$2^4=16\equiv1$）、模 $7$ 周期 $3$（$2^3=8\equiv1$）。把指数对周期取模，不必算大数。</li>
+    <li><strong>排除四个 ≠ 证明第五个</strong>。必须像方法一那样对 C 写出四个非零余数，「幸存者」才算坐实。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 五个数逐一验</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>对五个选项分别列出它在 $2,3,5,7$ 中<strong>能被哪些整除</strong>（一个不漏），并指出哪个集合为空。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>A：$\{3,7\}$；B：$\{5\}$；C：$\varnothing$；D：$\{3\}$；E：$\{5\}$；空集是 C</strong></div>
+      <p>A：$2^{606}-1$ 模 $3$ 为 $1-1=0$，模 $7$ 为 $1-1=0$（$606$ 是 $2$ 与 $3$ 的公倍数）。B：$2^{606}+1\equiv4+1=0\pmod5$。C：模 $3,5,7$ 余数分别为 $1,2,1$，且为奇数，集合为空。D：$2^{607}+1\equiv2+1=0\pmod3$。E：$3^{607}+2^{607}\equiv2+3=0\pmod5$。</p>
+      <p class="hint">要点：<strong>A 有两个小因子</strong>说明「只需找一个」就够排除；列全集合则是为了确认没有第二个「幸存者」。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 按小质数统计</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>五个选项中，能被 $3$ 整除的有几个？能被 $5$ 整除的有几个？分别写出是哪些选项。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>被 $3$ 整除的有 $2$ 个（A、D）；被 $5$ 整除的有 $2$ 个（B、E）</strong></div>
+      <p>由练习 1 的整除集合直接数：含 $3$ 的是 A、D；含 $5$ 的是 B、E。C 两者都不含。用程序对五个巨数取模复核一致。</p>
+      <p class="hint">要点：<strong>parity 分工</strong>：$606$ 偶 $\Rightarrow 2^{606}-1$ 归 $3$、$2^{606}+1$ 归 $5$；$607$ 奇 $\Rightarrow 2^{607}+1$ 归 $3$、$3^{607}+2^{607}$ 归 $5$。四个选项恰好被 $3$、$5$ 平分。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 指数减一</span> <span class="stars">★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把 C 的指数 $607$ 改成 $606$，问 $2^{606}-1$ 是否被小于 $10$ 的质数整除；并给出一般结论：$2^e-1$ 何时被 $3$ 整除？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$2^{606}-1$ 被 $3$ 与 $7$ 整除；$2^e-1$ 被 $3$ 整除当且仅当 $e$ 为偶数</strong></div>
+      <p>$2\equiv-1\pmod3\Rightarrow2^e\equiv(-1)^e$，故 $2^e-1\equiv0\iff(-1)^e=1\iff e$ 偶。$606$ 为偶数，故被 $3$ 整除；又 $606\equiv0\pmod3$，$2^{606}\equiv1\pmod7$，也被 $7$ 整除。逐项验 $e=1..8$：$e$ 偶时 $2^e-1$ 模 $3$ 余 $0$，奇时余 $1$。</p>
+      <p class="hint">要点：<strong>指数奇偶是开关</strong>；原题给 $607$（奇数）正是为了让 C 躲开 $3$。改一个数字，答案从「唯一幸存」变成「立刻出局」。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 恒等式与推广</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>证明 $a^n-b^n=(a-b)(a^{n-1}+a^{n-2}b+\cdots+b^{n-1})$；用它说明 B 与 E 为何被 $5$ 整除；再给出 $2^e+1$ 被 $3$ 整除的充要条件。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>恒等式如上（展开即证）；B 取 $a=4,b=-1,n=303$，E 取 $a=3,b=-2,n=607$，两者 $a-b=5$；$2^e+1$ 被 $3$ 整除 $\iff e$ 为奇数</strong></div>
+      <p>把右边展开，中间项全部抵消，只剩 $a^n-b^n$。B：$4^{303}-(-1)^{303}=4^{303}+1=2^{606}+1$，被 $4+1=5$ 整除。E：$3^{607}-(-2)^{607}=3^{607}+2^{607}$，被 $3+2=5$ 整除（$607$ 为奇数保证 $-(-2)^{607}=+2^{607}$）。最后 $2^e+1\equiv(-1)^e+1\pmod3$，为 $0$ 当且仅当 $e$ 奇。验 $e=1..8$：$1,3,5,7$ 时余 $0$。</p>
+      <p class="hint">要点：<strong>「$+b^n$ 型」在 $n$ 为奇数时才能写成 $a^n-(-b)^n$</strong>；若 $n$ 为偶数，$a^n+b^n$ 不满足这个恒等式，这正是本题所有指数都取 $607$（奇）或 $303$（奇）的原因。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 幸存者结构证明</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>不用因式分解，只用模周期证明 $2^{607}-1$ 不被 $2,3,5,7$ 中任何一个整除；写出它对 $3,5,7$ 的余数，并说明为什么这就足以断定它是唯一答案。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>余数分别为 $1,2,1$（模 $3,5,7$），且为奇数；四个小质数全部排除，故唯一</strong></div>
+      <p>奇数性排除 $2$。模 $3$：$2^{607}\equiv(-1)^{607}=-1\equiv2$，减 $1$ 余 $1$。模 $5$：$2^4\equiv1$，$607\equiv3\pmod4$，故 $2^{607}\equiv2^3=8\equiv3$，减 $1$ 余 $2$。模 $7$：$2^3\equiv1$，$607\equiv1\pmod3$，故 $2^{607}\equiv2$，减 $1$ 余 $1$。三个余数都非零。又题目保证「恰有一个」满足条件，且 A、B、D、E 已被排除，故 C 唯一。</p>
+      <p class="hint">要点：<strong>题目里的 "one of the following" 是排除法的授权</strong>；但严谨写法仍要把幸存者的四个模都算一遍，否则只是「猜对」而不是「证出」。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>小质数筛 20 秒决策卡</h3>
+    <ol>
+      <li>把「小于 10 的质数」写成清单 $2,3,5,7$，准备逐个取模。</li>
+      <li>记 $2\equiv-1\pmod3$、$2^4\equiv1\pmod5$、$2^3\equiv1\pmod7$，指数对 $2,4,3$ 取模。</li>
+      <li>加号型用 $a^n-b^n$ 恒等式改写成减号型（$n$ 需为奇数），一步读出因子 $a-b$。</li>
+      <li>对幸存者写出四个非零余数（本题 $1,2,1$ 且为奇数），收工。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「小质数只有四个，加号改减号；偶减一被三除，奇加一被三除」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 因式分解与模运算排除法 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 回文数的因式分解与合数判定</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2022AMC10B.html">← 返回 2022AMC10B</a>
+    <div class="pager">
+      <a href="20260927-sphere-semicircles.html">‹ 上一题：球面半圆</a>
+      <a href="20261111-factorial-telescoping-sum.html">下一题：阶乘裂项 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>121、11211、1112111：一串看起来像质数的合数</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2022AMC10B(6)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Prime</span></div>
+  </div>
+  <p class="lede">第 $n$ 项不是「随机数」，而是两个重叠的全 $1$ 块之和：$a_n=(10^n+1)\left(1+10+\cdots+10^n\right)$。两个因子都大于 $1$，所以<strong>前 10 项里一个质数都没有</strong>，答案 <strong>(A)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    How many of the first ten numbers of the sequence $121, 11211, 1112111, \ldots$ are prime numbers?　(A) $0$　(B) $1$　(C) $2$　(D) $3$　(E) $4$
+  </blockquote>
+  <p><strong>中文翻译</strong>：数列 $121,\ 11211,\ 1112111,\ \ldots$ 的前 $10$ 项中，有多少个是质数？　(A) $0$　(B) $1$　(C) $2$　(D) $3$　(E) $4$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/6" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022B/problem/6</a><br>
+    官方给出的正确选项为 <strong>(A) $0$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (B) 1 或 (C) 2</code></td><td>只试了前两三项就下结论。$121=11^2$ 一眼看穿，$11211$ 却容易被当成质数——其实 $11211=101\times111=3\times37\times101$。<strong>「试除到 $\sqrt n$」对 5 位数要试到 $106$，手算很容易漏掉 $101$</strong>。选项 (B)(C) 正是给「只查了小质数」的人准备的。</td></tr>
+    <tr><td><code>答 (E) 4</code></td><td>把「位数越来越大、越来越不像有 small factor」当成「越来越可能是质数」。这是把<strong>直觉当证明</strong>：项数一多，人工试除彻底失效，必须找结构而不是找因子。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「数字串」翻译成「代数式」。这类题的题面是一串十进制数字，考点却是<strong>把十进制表示写成 $10$ 的幂之和</strong>，再用因式分解一举判死。看到 $121,\ 11211,\ 1112111$ 这种对称形状，第一反应应当是「这是回文数，可能有代数分解」。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/6" target="_blank" rel="noopener">2022AMC10B(6)</a> 的书面解答一致——把第 $n$ 项写成两个重叠的全 $1$ 块 $\sum_{k=0}^{2n}10^k+10^n=\sum_{k=0}^{n}10^k+10^n\sum_{k=0}^{n}10^k=(10^n+1)\sum_{k=0}^{n}10^k$，两个因子都大于 $1$ 故全是合数。 <br> 本站的增量是把「重叠两块」画成具体的十进制形状，并补上第二条「按位值硬拆」的路径做交叉验证。
+  </blockquote>
+  <h3>方法一：重叠全 1 块（官方思路，推荐）</h3>
+  <p>第 $n$ 项的十进制形状是「$n$ 个 $1$、中间一个 $2$、再 $n$ 个 $1$」，共 $2n+1$ 位。把中间的 $2$ 拆成 $1+1$，它就等于<strong>两个全 $1$ 数相加</strong>：</p>
+$$a_n=\underbrace{11\cdots1}_{2n+1\ \text{个}1}+10^n .$$
+  <p>按位值拆开：</p>
+$$\sum_{k=0}^{2n}10^k+10^n=\sum_{k=0}^{n}10^k+\sum_{k=n}^{2n}10^k=\sum_{k=0}^{n}10^k+10^n\sum_{k=0}^{n}10^k=(10^n+1)\left(\sum_{k=0}^{n}10^k\right).$$
+  <p>记 $R_{n+1}=\sum_{k=0}^{n}10^k=1+10+\cdots+10^n=\dfrac{10^{n+1}-1}{9}$，则</p>
+$$a_n=(10^n+1)\,R_{n+1}.$$
+  <p>对任意 $n\ge 1$：$10^n+1\ge 11>1$，$R_{n+1}\ge 11>1$，所以 $a_n$ <strong>恒为两个大于 $1$ 的整数之积</strong>，必为合数。前 $10$ 项中质数个数为 $0$。</p>
+  <blockquote class="ok"><strong>答案：(A) $0$。</strong></blockquote>
+  <h3>方法二：按位值直接读形状（用来交叉验证）</h3>
+  <p>以 $n=2$ 为例：$11211=11111+100$。一般地</p>
+$$a_n=\frac{10^{2n+1}-1}{9}+10^n .$$
+  <p>通分后分子 $=10^{2n+1}-1+9\cdot10^n=(10^n+1)(10^{n+1}-1)$（展开即可验证：$(10^n+1)(10^{n+1}-1)=10^{2n+1}-10^n+10^{n+1}-1=10^{2n+1}+9\cdot10^n-1$），除以 $9$ 得</p>
+$$a_n=(10^n+1)\cdot\frac{10^{n+1}-1}{9},$$
+  <p>与方法一完全一样，只是从「分式」而不是「拆分」入手。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 代入 $n=1,2,3$：$121=11\times11$、$11211=101\times111$、$1112111=1001\times1111$，三式全部成立；② 用程序对前 $10$ 项逐一做 $2$ 到 $10^6$ 的试除，每项都在很小的质数处就被整除；③ 更强的是这个分解对<strong>所有</strong> $n\ge1$ 成立，所以「前 10 项」只是幌子，答案与 $10$ 无关。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>十进制数字串 $\to$ $10$ 的幂之和 $\to$ 因式分解</strong>。只要能写成 $A\cdot B$ 且 $A,B>1$，就不需要真的去找质因子。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>全 $1$ 数（repunit）的标准写法</strong> $R_m=\underbrace{11\cdots1}_{m}=\dfrac{10^m-1}{9}$。本题 $a_n=(10^n+1)R_{n+1}$，两个因子都是 $11$ 以上的整数。</li>
+    <li><strong>中间的 $2$ 是「$1+1$」</strong>。这正是分解能成立的关键：把 $2\cdot10^n$ 拆成 $10^n+10^n$，才凑出两个重叠的 $\sum 10^k$。若中间换成 $3$，分解立刻失效（见练习 2）。</li>
+    <li><strong>「质数」的否定是「存在非平凡因子」</strong>，不是「试除没找到因子」。判断质数靠试除是穷举，判断合数靠构造一个因子是证明——后者才可能在考场完成。</li>
+    <li><strong>回文数长度奇偶有用但不够</strong>。偶数位回文数都能被 $11$ 整除是常用结论，但本题位数 $2n+1$ 是奇数，所以别指望 $11$；本题的普适工具是代数分解，不是整除判别法。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 动手拆三项</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把 $121$、$11211$、$1112111$ 分别写成 $(10^n+1)\times R_{n+1}$ 的形式，并给出各自的<strong>完整质因数分解</strong>（一个不漏）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$121=11\times11=11^2$；$11211=101\times111=3\times37\times101$；$1112111=1001\times1111=7\times11^2\times13\times101$</strong></div>
+      <p>$n=1$：$11\times11=11^2$。$n=2$：$101\times111$，而 $111=3\times37$，故 $11211=3\times37\times101$。$n=3$：$1001\times1111$，其中 $1001=7\times11\times13$、$1111=11\times101$，故 $1112111=7\times11^2\times13\times101$。三项都不是质数，且第 $2$ 项的最小质因子是 $3$ 而不是 $101$——这正说明「按公式拆」比「试除找小因子」更可靠。</p>
+      <p class="hint">要点：列举时<strong>先套公式再分解两个因子</strong>，不要对着原数硬试除；$1001=7\cdot11\cdot13$ 与 $1111=11\cdot101$ 是 AMC 高频常数，值得记住。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 把 2 改成 3</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>若把中间的数字 $2$ 改成 $3$，数列变为 $131,\ 11311,\ 1113111,\ \ldots$，问前 $10$ 项中有几个是质数？并说明为什么原来的分解不再成立。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$2$ 个（$131$ 与 $11311$ 是质数）</strong></div>
+      <p>中间为 $3$ 时，$b_n=\sum_{k=0}^{2n}10^k+2\cdot10^n$，中间的 $3\cdot10^n$ 无法拆成两个「全 $1$ 块」之和，$(10^n+1)R_{n+1}$ 的分解失效。用 Miller–Rabin 对前 $10$ 项逐一判定：$131$、$11311$ 为质数，$1113111$ 起全部为合数（例如 $1113111$ 的数字和为 $9$，被 $3$ 整除）。故质数共 $2$ 个。</p>
+      <p class="hint">要点：<strong>分解对数字的取值极其敏感</strong>；题目给的是 $2$ 而不是 $3$，是因为 $2=1+1$ 恰好让两个全 $1$ 块重叠。改一个数字，结论从 $0$ 变 $2$，这就是「找结构」而不是「套结论」的理由。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 加一条整除条件</span> <span class="stars">★★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>原题数列的前 $10$ 项中，能被 $11$ 整除的有几个？其中能被 $121$ 整除的有几个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>能被 $11$ 整除的有 $5$ 个（$n=1,3,5,7,9$），且这 $5$ 个都能被 $121$ 整除</strong></div>
+      <p>因 $10\equiv-1\pmod{11}$，故 $10^n+1\equiv(-1)^n+1$，当 $n$ 为奇数时为 $0$；同时 $R_{n+1}=\sum_{k=0}^{n}10^k\equiv\sum_{k=0}^{n}(-1)^k$，$n$ 为奇数时共偶数项、和为 $0$。所以 $n$ 奇数时<strong>两个因子都被 $11$ 整除</strong>，乘积被 $121$ 整除；$n$ 偶数时两个因子都不被 $11$ 整除，乘积也不被整除。前 $10$ 项中奇数 $n$ 有 $5$ 个，故两问答案都是 $5$。</p>
+      <p class="hint">要点：把 $10\equiv-1\pmod{11}$ 代进<strong>两个因子分别判断</strong>，比直接看乘积的整除性清楚得多；「两个因子各贡献一个 $11$」解释了为什么答案是 $121$ 而不是 $11$。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 通项与位数</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>证明对任意 $n\ge1$ 都有 $a_n=(10^n+1)\dfrac{10^{n+1}-1}{9}$，并求第 $10$ 项的位数，以及它按此公式分出的两个因子。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$a_n=(10^n+1)\dfrac{10^{n+1}-1}{9}$；第 $10$ 项共 $21$ 位；两因子为 $10000000001$ 与 $11111111111$</strong></div>
+      <p>$R_{n+1}=1+10+\cdots+10^n=\dfrac{10^{n+1}-1}{9}$（等比数列求和，公比 $10$），代入 $a_n=(10^n+1)R_{n+1}$ 即证。$n=10$ 时 $10^{10}+1=10000000001$（$11$ 位），$R_{11}=11111111111$（$11$ 位），乘积位数 $=11+11-1=21$（最高位无进位，因为 $1\cdot1=1$）。用 $n=1,2,3$ 回代得 $11\times11$、$101\times111$、$1001\times1111$，与练习 1 一致。</p>
+      <p class="hint">要点：一般化公式把「前 10 项」变成「所有项」；<strong>位数用 $\text{位数}(A)+\text{位数}(B)-1$ 估算</strong>，再用小规模回代验公式，是防止推导出错的免费保险。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 结构上证明到底</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明「不只是前 $10$ 项，这个数列的<strong>任何一项</strong>都是合数」；再用数字和的办法求前 $10$ 项中能被 $3$ 整除的有几个。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>任意 $n\ge1$ 都是合数；前 $10$ 项中能被 $3$ 整除的有 $3$ 个（$n=2,5,8$）</strong></div>
+      <p>第一问由通项 $a_n=(10^n+1)R_{n+1}$ 直接得到：$n\ge1$ 时 $10^n+1\ge11$、$R_{n+1}\ge11$，两个因子都严格大于 $1$，与 $n$ 的上限无关，所以对一切 $n\ge1$ 都是合数。第二问：$a_n$ 的十进制是「$n$ 个 $1$、一个 $2$、$n$ 个 $1$」，数字和 $=n+2+n=2n+2$。由 $3$ 的整除判别法，$2n+2\equiv0\pmod 3\iff n\equiv2\pmod 3$，在 $1\le n\le10$ 中为 $n=2,5,8$，共 $3$ 项（例如 $11211$ 的数字和 $6$，确实被 $3$ 整除）。</p>
+      <p class="hint">要点：<strong>"有非平凡因子" 是全局结论，"逐项试除" 只是局部经验</strong>；本题选项把上限写成「前 10 项」是干扰，真正的证明根本不需要这个上限。数字和判别法则提供了独立于分解的第二条验证通道。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>数字串判质数 20 秒决策卡</h3>
+    <ol>
+      <li>看到 $121/11211/1112111$ 这种<strong>对称数字串</strong>，先别试除，先把十进制写成 $10$ 的幂之和。</li>
+      <li>把中间那个「多出来的 $1$」分给两个重叠的全 $1$ 块：$a_n=R_{2n+1}+10^n=R_{n+1}+10^nR_{n+1}$。</li>
+      <li>提公因式 $a_n=(10^n+1)R_{n+1}$，检查两个因子都 $>1$，立刻判合数。</li>
+      <li>自检——代 $n=1,2,3$ 得 $11\times11$、$101\times111$、$1001\times1111$；顺手用 $10\equiv-1\pmod{11}$ 验奇数项被 $121$ 整除。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「数字对称先拆幂，重叠两块提公因；两个因子都过一，质数一个也不存」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 回文数的因式分解与合数判定 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

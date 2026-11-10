@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 齐次方程组的秩与补集计数</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2022AMC10B.html">← 返回 2022AMC10B</a>
+    <div class="pager">
+      <a href="20261111-modular-divisibility-elimination.html">‹ 上一题：小质数筛法</a>
+      <a href="20261111-grid-transformation-center.html">下一题：元胞自动机 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>512 个 0/1 方程组：减去 174 个只有零解的</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2022AMC10B(18)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">System of Equations</span></div>
+  </div>
+  <p class="lede">$3\times3$ 的 $0/1$ 系数矩阵共 $2^9=512$ 个（方程组按行有序）。只有零解 $\iff$ 三行线性无关；无关矩阵只有 $7\cdot6\cdot5-6\cdot3!=174$ 个，故有非零解的共 $512-174=338$ 个，答案 <strong>(B)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Consider systems of three linear equations with unknowns $x,$ $y,$ and $z,$ where each of the coefficients is either $0$ or $1$ and the system has a solution other than $x=y=z=0.$ For example, one such system is $1x+1y+0z=0,\ 0x+1y+1z=0,\ 0x+0y+0z=0$ with a nonzero solution of $(x,y,z)=(1,-1,1).$ How many such systems of equations are there? (The equations in a system need not be distinct, and two systems containing the same equations in a different order are considered different.)　(A) $302$　(B) $338$　(C) $340$　(D) $343$　(E) $344$
+  </blockquote>
+  <p><strong>中文翻译</strong>：考虑关于 $x,y,z$ 的三元齐次线性方程组，每个系数取 $0$ 或 $1$，且方程组有非零解（不全为 $0$）。例如 $x+y=0,\ y+z=0,\ 0=0$ 有非零解 $(1,-1,1)$。这样的方程组共有多少个？（方程可以重复；同样的三个方程换顺序算<strong>不同</strong>的方程组。）　(A) $302$　(B) $338$　(C) $340$　(D) $343$　(E) $344$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/18" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022B/problem/18</a><br>
+    官方给出的正确选项为 <strong>(B) $338$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (D) 343</code></td><td>只排除了「有零行」的情形，得到 $512-(512-7^3)=7^3=343$，把「三行都非零」当成了「有非零解」。其实三行都非零仍可能线性无关（例如单位矩阵），那时<strong>只有零解</strong>。$343$ 是「三行都非零」的个数，不是答案。</td></tr>
+    <tr><td><code>答 (E) 344</code></td><td>在 $343$ 基础上只加了 $1$（全零矩阵），漏掉了「两行相同」与「一行是另两行之和」这两大类线性相关情形。</td></tr>
+    <tr><td><code>答 (C) 340 或 (A) 302</code></td><td>把「线性相关」误当成「模 $2$ 意义下相关」。注意方程组是在<strong>实数域</strong>上求解，$x,y,z$ 可取任意实数（例题的解 $(1,-1,1)$ 就有 $-1$）。若按 $\mathbb{F}_2$ 计数，无关矩阵数会变成 $(8-1)(8-2)(8-4)=7\cdot6\cdot4=168$，答案变成 $344$，正好是干扰项 (E)。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「齐次方程组有非零解」翻译成「系数矩阵<strong>奇异</strong>（三行线性相关）」，也没有意识到<strong>计数对象是有序的 $3\times3$ 矩阵</strong>。标准动作：总数 $2^9$ 减去满秩矩阵数（补集计数），而满秩必须三行互不相同、都非零、且没有一行是另两行之和。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/18" target="_blank" rel="noopener">2022AMC10B(18)</a> 的书面解答一致——共 $2^9=512$ 个有序 $0/1$ 矩阵，只有零解当且仅当三行线性无关；三行必为互不相同的非零向量，共 $7\cdot6\cdot5=210$ 个有序选择，其中相关恰为「一行是另两行（支集不交）之和」的 $6$ 个无序三元组 $×3!=36$ 个，故无关 $174$ 个、答案 $512-174=338$。 <br> 本站的增量是把奇异矩阵按「零行 / 重复行 / 和为第三行」三类<strong>直接正向计数</strong>（$169+133+36=338$），与官方补集法互为印证，并用程序对全部 $512$ 个矩阵做高斯消元复核。
+  </blockquote>
+  <h3>方法一：补集计数（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 总数与判据。</strong> 每个系数 $0/1$，共 $9$ 个系数，方程组按行有序，故总数 $2^9=512$。齐次方程组 $A\mathbf{x}=0$ 只有零解 $\iff$ 三行在 $\mathbb{R}^3$ 中线性无关 $\iff \operatorname{rank}A=3$。</p>
+  <p><strong>第 2 步 · 无关矩阵必须有三个互不相同的非零行。</strong> 非零 $0/1$ 向量共 $2^3-1=7$ 个。有序选三个不同的：$7\cdot6\cdot5=210$。</p>
+  <p><strong>第 3 步 · 从 210 里扣掉相关的。</strong> 三个互不相同的非零 $0/1$ 向量线性相关，只能是「其中一行等于另两行的<strong>普通和</strong>（实数加法，不是模 $2$）」，且这两个加数的 $1$ 的位置必须不重叠（否则和会出现 $2$）。按和的支集大小分类：</p>
+  <ul>
+    <li>和的支集大小 $2$：选哪两个坐标 $\binom32=3$ 种，两个加数就是对应的单位向量 → $3$ 个三元组；</li>
+    <li>和的支集大小 $3$：选哪个坐标单独成一个加数 $3$ 种，其余两个坐标合成另一个加数 → $3$ 个三元组。</li>
+  </ul>
+  <p>共 $6$ 个无序三元组，每个有 $3!=6$ 种行顺序，故相关矩阵 $6\cdot6=36$ 个。</p>
+$$\text{无关}=210-36=174,\qquad \text{有非零解}=512-174=338.$$
+  <blockquote class="ok"><strong>答案：(B) $338$。</strong></blockquote>
+  <h3>方法二：奇异矩阵正向分类（用来交叉验证）</h3>
+  <p>把 $512$ 个矩阵按「为什么奇异」分成互不重叠的三类：</p>
+  <ol>
+    <li><strong>至少一行全零</strong>：$512-7^3=512-343=169$；</li>
+    <li><strong>三行都非零但有重复</strong>：$343-7\cdot6\cdot5=343-210=133$；</li>
+    <li><strong>三行互不相同但相关</strong>：方法一算出的 $36$。</li>
+  </ol>
+$$169+133+36=338.$$
+  <p>与方法一一致。注意第 2 类里「两行相同」必然相关（两行相等 $\Rightarrow$ 秩 $\le2$），第 3 类正是「没有重复却仍相关」的精细情形，也是本题唯一需要动脑的部分。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 用程序枚举全部 $512$ 个矩阵并做有理数高斯消元，秩分布为 $0{:}1$、$1{:}49$、$2{:}288$、$3{:}174$，奇异合计 $338$；② 交叉检查 $1+49+288=338$ 与方法二分类相容；③ 检查例题矩阵 $\begin{pmatrix}1&1&0\\0&1&1\\0&0&0\end{pmatrix}$ 有零行，属第 1 类，$(1,-1,1)$ 确实满足三式 ✓；④ 别忘了「换顺序算不同」——所有计数都是<strong>有序</strong>的。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>齐次方程组有非零解 $\iff$ 系数矩阵不满秩</strong>。于是「数有非零解的方程组」＝「总数 $-$ 满秩矩阵数」，这是最干净的补集计数。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>有序 vs 无序</strong>。题目明说换顺序算不同，故用 $7\cdot6\cdot5$（排列）而不是 $\binom73$；相关三元组也要乘 $3!$。混淆两者会得到 $512-(210-6)=308$ 一类错误答案。</li>
+    <li><strong>实数域不是 $\mathbb{F}_2$</strong>。解可以带负数（例题 $(1,-1,1)$），所以相关条件是「一行是另两行的普通和」，支集必须不交；若误按模 $2$ 计数会得到干扰项 (E) $344$。</li>
+    <li><strong>三个不同非零 $0/1$ 向量相关的唯一形态</strong>是「两个支集不交的向量之和等于第三个」。支集大小 $2$ 给 $3$ 组、大小 $3$ 给 $3$ 组，共 $6$ 组——这个 $6$ 是整题的核心常数。</li>
+    <li><strong>补集与正向分类互为校验</strong>。$512-174=338$ 与 $169+133+36=338$ 从两个方向到达同一数字，比只算一遍可靠。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 把 7 个向量写全</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>写出全部 $7$ 个非零 $0/1$ 行向量，并把「三行互不相同却线性相关」的 $6$ 个无序三元组<strong>一个不漏</strong>列出来，按「和的支集大小 $=2$ / $=3$」分成两组。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$7$ 个向量：$001,010,011,100,101,110,111$；支集 $2$ 的三组 $\{001,010,011\}$、$\{001,100,101\}$、$\{010,100,110\}$；支集 $3$ 的三组 $\{001,110,111\}$、$\{010,101,111\}$、$\{011,100,111\}$；共 $6$ 组</strong></div>
+      <p>支集 $2$：两个单位向量相加得一个含两个 $1$ 的向量，选坐标对有 $\binom32=3$ 种。支集 $3$：一个单位向量 + 一个含两个 $1$ 的向量（支集互补），选「哪个坐标单独」有 $3$ 种，得 $3$ 组。每组中第三个向量恰是前两个之和，故三行线性相关。每组 $3!=6$ 种行顺序，共 $36$ 个有序矩阵。</p>
+      <p class="hint">要点：<strong>把抽象的「线性相关」翻译成「支集不交的两个向量相加」</strong>， enumerating 才有抓手；这 $6$ 组是本题全部难点所在。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 按零行个数分类</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>在 $512$ 个矩阵中，恰有 $1$ 个零行、恰有 $2$ 个零行、恰有 $3$ 个零行的各有多少个？至少 $1$ 个零行的共多少个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$147$、$21$、$1$；合计 $169$</strong></div>
+      <p>恰 $1$ 个零行：选哪一行 $3$ 种，其余两行各取 $7$ 个非零向量之一 → $3\cdot7^2=147$。恰 $2$ 个零行：选哪两行 $\binom32=3$ 种，剩下一行 $7$ 种 → $21$。恰 $3$ 个零行：只有全零矩阵 $1$ 个。合计 $147+21+1=169=512-7^3$ ✓。</p>
+      <p class="hint">要点：<strong>「至少」型计数用补集（$512-343$）最快，用分类加和则可交叉验证</strong>；两法结果必须相等。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 降维到 2×2</span> <span class="stars">★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把方程组改成 $2$ 个方程、$2$ 个未知数（仍为 $0/1$ 系数、有序、可重复），问有多少个方程组有非零解？请用补集法做，并说明为什么此时「三行互不相同」的复杂分类消失了。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$10$ 个（总数 $16$，满秩 $6$）</strong></div>
+      <p>$2\times2$ 的 $0/1$ 矩阵共 $2^4=16$ 个。满秩需两行都是非零且线性无关：非零行向量有 $01,10,11$ 共 $3$ 个，有序取两个不同共 $3\cdot2=6$ 个。两个不同的非零 $0/1$ 向量不可能一个是另一个的实数倍（若 $v=\lambda w$ 且分量只取 $0/1$，则 $\lambda=1\Rightarrow v=w$），故这 $6$ 个全无关，不需要再扣「和为第三行」这类情形。答案 $16-6=10$。程序枚举复核一致。</p>
+      <p class="hint">要点：<strong>维数降到 $2$ 后，「相关」只剩「相等或成比例」一种</strong>；三维里凭空多出的「$u+v=w$」正是本题 $36$ 这个修正项的来源。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 满秩通项推导</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>证明「三个互不相同的非零 $0/1$ 向量线性相关 $\iff$ 其中一个是另两个之和」，据此推导满秩矩阵数的通式 $7\cdot6\cdot5-6\cdot3!$，并求有非零解的矩阵占全部矩阵的比例（最简分数）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>通式 $210-36=174$；比例 $\dfrac{338}{512}=\dfrac{169}{256}$</strong></div>
+      <p>设三个互不相同的非零 $0/1$ 向量 $u,v,w$ 相关，则存在不全为零的实数 $\alpha,\beta,\gamma$ 使 $\alpha u+\beta v+\gamma w=0$。若某个系数为 $0$，剩下两个非零向量成比例，$0/1$ 向量成比例只能相等，与「互不相同」矛盾，故三个系数都非零，可写成 $w=au+bv$（$a,b\ne0$）。由于 $u,v,w$ 都只在 $\{0,1\}$ 中取值，逐个坐标比较可证 $a=b=1$ 且 $u,v$ 支集不交（若两支集相交，该坐标上 $a+b$ 必须仍是 $0$ 或 $1$，与其余坐标给出的 $a,b$ 值冲突）；更稳妥的做法是<strong>穷举验证</strong>：非零 $0/1$ 向量只有 $7$ 个，$\binom73=35$ 个无序三元组全部做一次高斯消元，相关的恰好是练习 1 列出的 $6$ 组，且每组都满足「一行 = 另两行之和、支集不交」。故满秩 $=210-6\cdot3!=174$，比例 $338/512=169/256$。</p>
+      <p class="hint">要点：<strong>「相关」在 $0/1$ 向量里被极强的离散结构锁死</strong>，只剩「和」一种形态；这也是为什么本题能用手工分类而不是线性代数通用公式。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 秩的全分布</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>用分类或程序求出 $512$ 个矩阵按秩 $0,1,2,3$ 的完整分布，并证明秩 $0/1/2$ 三类之和恰等于方法二的 $169+133+36=338$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>秩 $0{:}1$、秩 $1{:}49$、秩 $2{:}288$、秩 $3{:}174$；$1+49+288=338$</strong></div>
+      <p>秩 $0$：只有全零矩阵 $1$ 个。秩 $1$：三行必须都是同一个非零 $0/1$ 向量 $v$ 的实数倍，而 $0/1$ 向量的倍数仍为 $0/1$ 的只有 $0$ 与 $v$ 本身，故每行在 $\{0,v\}$ 中取、且至少一行取 $v$；每个 $v$ 给 $2^3-1=7$ 个矩阵，$7$ 个 $v$ 共 $7\cdot7=49$ 个。秩 $3$：方法一的 $174$ 个。秩 $2$：由总数扣减 $512-1-49-174=288$。三类之和 $1+49+288=338$，正是奇异矩阵总数，与方法二 $169+133+36=338$ 一致（两种分法只是切法不同）。用程序对 $512$ 个矩阵做有理数高斯消元，分布逐项吻合。</p>
+      <p class="hint">要点：<strong>同一批对象按「秩」切与按「为何奇异」切，总数必须相同</strong>；这类「两种分法对账」是组合计数最可靠的自检手段。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>0/1 方程组计数 30 秒决策卡</h3>
+    <ol>
+      <li>把「有非零解」翻译成「矩阵奇异」，总数 $2^9=512$（有序！）。</li>
+      <li>数满秩：三行互不相同且非零 $7\cdot6\cdot5=210$，再扣「一行是另两行之和」的 $6\times3!=36$ → $174$。</li>
+      <li>相减 $512-174=338$；用正向分类 $169+133+36=338$ 对账。</li>
+      <li>自检——确认在<strong>实数域</strong>上算（不是模 $2$），确认解带负数合法，确认换顺序算不同。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「齐次有非零解，就是矩阵不满秩；补集先数满秩，六个和型乘六阶乘」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 齐次方程组的秩与补集计数 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

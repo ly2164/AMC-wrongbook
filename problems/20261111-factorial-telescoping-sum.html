@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 阶乘裂项与望远镜求和</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2022AMC10B.html">← 返回 2022AMC10B</a>
+    <div class="pager">
+      <a href="20261111-palindromic-composite-sequence.html">‹ 上一题：回文合数</a>
+      <a href="20261111-contrapositive-logic.html">下一题：逆否命题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>2021 个阶乘分式相加：只剩 1 − 1/2022!</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2022AMC10B(9)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Telescoping</span></div>
+  </div>
+  <p class="lede">关键恒等式 $\dfrac{k}{(k+1)!}=\dfrac{1}{k!}-\dfrac{1}{(k+1)!}$ 让中间项全部抵消，和 $=1-\dfrac{1}{2022!}$，故 $a=1$、$b=2022$、$a+b=2023$，答案 <strong>(D)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    The sum $\dfrac{1}{2!}+\dfrac{2}{3!}+\dfrac{3}{4!}+\cdots+\dfrac{2021}{2022!}$ can be expressed as $a-\dfrac{1}{b!}$, where $a$ and $b$ are positive integers. What is $a+b?$　(A) $2020$　(B) $2021$　(C) $2022$　(D) $2023$　(E) $2024$
+  </blockquote>
+  <p><strong>中文翻译</strong>：和 $\dfrac{1}{2!}+\dfrac{2}{3!}+\dfrac{3}{4!}+\cdots+\dfrac{2021}{2022!}$ 可写成 $a-\dfrac{1}{b!}$，其中 $a,b$ 为正整数。求 $a+b$。　(A) $2020$　(B) $2021$　(C) $2022$　(D) $2023$　(E) $2024$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/9" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022B/problem/9</a><br>
+    官方给出的正确选项为 <strong>(D) $2023$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 2024</code></td><td>把末项分母 $2022!$ 里的 $2022$ 当成 $b$，又误以为 $a=2$，凑出 $2+2022=2024$。<strong>$a$ 不是「首项的整数部分」，而是望远镜抵消后剩下常数</strong>；这类题的 $a$ 几乎总是 $1$（因为 $\frac{1}{1!}=1$ 是链的起点）。</td></tr>
+    <tr><td><code>答 (C) 2022</code></td><td>算对了 $b=2022$，却把 $a$ 当成 $0$（误以为和是「$-\frac1{b!}$ 加上某个 $0$」），或者把 $a+b$ 直接写成 $b$。少加了那个 $1$。</td></tr>
+    <tr><td><code>答 (B) 2021</code></td><td>把末项分子 $2021$ 当成了项数或 $b$，没有意识到 $b!$ 的下标来自<strong>最后一项的分母</strong> $(k+1)!$，即 $k=2021\Rightarrow b=2022$。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有建立「<strong>看到 $\dfrac{k}{(k+1)!}$ 就拆成相邻两个阶乘倒数之差</strong>」的条件反射。阶乘题的通用手法是把分子凑成「分母的因子之差」：$(k+1)-1=k$，于是 $\frac{k}{(k+1)!}=\frac{(k+1)-1}{(k+1)!}=\frac{1}{k!}-\frac{1}{(k+1)!}$。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/9" target="_blank" rel="noopener">2022AMC10B(9)</a> 的书面解答一致——由 $\frac{k}{(k+1)!}=\frac1{k!}-\frac1{(k+1)!}$ 裂项，中间项全部抵消得 $1-\frac1{2022!}$，故 $a=1,b=2022,a+b=2023$。 <br> 本站的增量是显式给出「分子凑成 $(k+1)-1$」的推导，并用一般 $N$ 的通项与小规模回代做交叉验证。
+  </blockquote>
+  <h3>方法一：裂项望远镜（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 拆通项。</strong> 因为 $k=(k+1)-1$，</p>
+$$\frac{k}{(k+1)!}=\frac{(k+1)-1}{(k+1)!}=\frac{k+1}{(k+1)!}-\frac{1}{(k+1)!}=\frac{1}{k!}-\frac{1}{(k+1)!}.$$
+  <p><strong>第 2 步 · 求和，看抵消。</strong> 令 $N=2021$，则</p>
+$$\sum_{k=1}^{N}\frac{k}{(k+1)!}=\sum_{k=1}^{N}\left(\frac{1}{k!}-\frac{1}{(k+1)!}\right)
+=\left(\frac1{1!}-\frac1{2!}\right)+\left(\frac1{2!}-\frac1{3!}\right)+\cdots+\left(\frac1{N!}-\frac1{(N+1)!}\right).$$
+  <p>相邻括号一减一加全部抵消，只剩首尾：</p>
+$$=\frac{1}{1!}-\frac{1}{(N+1)!}=1-\frac{1}{2022!}.$$
+  <p><strong>第 3 步 · 读答案。</strong> 与 $a-\dfrac1{b!}$ 比对，$a=1$、$b=2022$（$a,b$ 为正整数，且 $\frac1{b!}$ 随 $b$ 严格递减，故读法唯一）。</p>
+$$a+b=1+2022=2023.$$
+  <blockquote class="ok"><strong>答案：(D) $2023$。</strong></blockquote>
+  <h3>方法二：数学归纳法（用来交叉验证）</h3>
+  <p>命题 $P(N)$：$\displaystyle\sum_{k=1}^{N}\frac{k}{(k+1)!}=1-\frac{1}{(N+1)!}$。</p>
+  <ul>
+    <li>$N=1$：左边 $\frac{1}{2!}=\frac12$，右边 $1-\frac1{2!}=\frac12$，成立。</li>
+    <li>假设 $P(N)$ 成立，则</li>
+  </ul>
+$$\sum_{k=1}^{N+1}\frac{k}{(k+1)!}=1-\frac{1}{(N+1)!}+\frac{N+1}{(N+2)!}
+=1-\frac{N+2}{(N+2)!}+\frac{N+1}{(N+2)!}=1-\frac{1}{(N+2)!},$$
+  <p>即 $P(N+1)$ 成立。故对一切 $N\ge1$ 成立，代入 $N=2021$ 得同一结果。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 小规模回代：$N=1,2,3$ 时和分别为 $\frac12,\frac56,\frac{23}{24}$，正好是 $1-\frac1{2!},1-\frac1{3!},1-\frac1{4!}$；② 用 <code>Fraction</code> 精确累加 $2021$ 项，与 $1-\frac1{2022!}$ 逐位相等；③ 量级检查：和严格小于 $1$ 且非常接近 $1$，$a$ 只能是 $1$。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>$\dfrac{k}{(k+1)!}=\dfrac1{k!}-\dfrac1{(k+1)!}$</strong>。凡通项能写成 $f(k)-f(k+1)$，求和就只剩 $f(1)-f(N+1)$。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>分子凑分母</strong>是裂项的通用起手式：$(k+1)-1=k$ 把 $\frac{k}{(k+1)!}$ 拆成两个相邻的阶乘倒数。同类还有 $\frac{1}{k(k+1)}=\frac1k-\frac1{k+1}$、$\frac{k-1}{k!}=\frac1{(k-1)!}-\frac1{k!}$。</li>
+    <li><strong>链的起点决定 $a$</strong>。这里第一项是 $\frac1{1!}=1$，所以常数项是 $1$；若和从 $k=2$ 起，常数项就变成 $\frac1{2!}=\frac12$。别默认 $a$ 恒为 $1$。</li>
+    <li><strong>$b$ 来自末项分母</strong>。第 $k$ 项分母 $(k+1)!$，末项 $k=N$ 给出 $b=N+1$。本题 $N=2021\Rightarrow b=2022$，不是 $2021$。</li>
+    <li><strong>表示唯一性</strong>。$\frac1{b!}$ 随 $b$ 严格递减，故 $a,b$ 的读法唯一；这也是「反求 $N$」类问题（练习 2）能成立的原因。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 小规模验算</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把 $N=1,2,3$ 的和<strong>逐项写出来</strong>（列分数，不跳步），并验证每个都等于 $1-\dfrac{1}{(N+1)!}$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\frac12$、$\frac56$、$\frac{23}{24}$；分别等于 $1-\frac1{2!}$、$1-\frac1{3!}$、$1-\frac1{4!}$</strong></div>
+      <p>$N=1$：$\frac{1}{2!}=\frac12$。$N=2$：$\frac12+\frac{2}{3!}=\frac12+\frac13=\frac56=1-\frac16$。$N=3$：$\frac56+\frac{3}{4!}=\frac56+\frac18=\frac{20+3}{24}=\frac{23}{24}=1-\frac1{24}$。三项全部吻合，望远镜结构确认。</p>
+      <p class="hint">要点：<strong>先算三项再信公式</strong>；三项对上，通项的量级与常数项基本不会错。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 倒着求项数</span> <span class="stars">★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>若已知 $\displaystyle\sum_{k=1}^{N}\frac{k}{(k+1)!}=1-\frac{1}{2022!}$，反求 $N$；并说明满足该等式的正整数对 $(a,b)$ 是否唯一。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$N=2021$；$(a,b)=(1,2022)$ 唯一</strong></div>
+      <p>由通项，和 $=1-\frac1{(N+1)!}$，故 $(N+1)!=2022!\Rightarrow N=2021$。唯一性：阶乘在正整数上严格递增，$\frac1{b!}$ 严格递减，若 $1-\frac1{b!}=1-\frac1{2022!}$ 则 $b!=2022!$ 只能 $b=2022$；进而 $a=1$。所以表示唯一。</p>
+      <p class="hint">要点：<strong>从结论反推条件是检验「是否真的懂通项」的好办法</strong>；单调性（阶乘严格递增）是唯一性证明的全部依据。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 分子换成 k+1</span> <span class="stars">★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把分子从 $k$ 换成 $k+1$，求 $\displaystyle\sum_{k=1}^{5}\frac{k+1}{(k+1)!}$ 的精确值，并判断它能否写成 $1-\dfrac1{b!}$ 的形式。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\frac{103}{60}$；不能写成 $1-\frac1{b!}$</strong></div>
+      <p>$\frac{k+1}{(k+1)!}=\frac1{k!}$，故和 $=1+\frac12+\frac16+\frac1{24}+\frac1{120}=\frac{120+60+20+5+1}{120}=\frac{206}{120}=\frac{103}{60}\approx1.7167$。它大于 $1$，而 $1-\frac1{b!}$ 恒小于 $1$，故不可能。原因：分子 $k$ 恰好等于 $(k+1)-1$ 才能裂成相邻两项之差；换成 $k+1$ 后只剩单个 $\frac1{k!}$，没有可抵消的配对。</p>
+      <p class="hint">要点：<strong>裂项对分子极其敏感</strong>；原题的 $k$ 不是随手写的，是「分母因子减一」凑出来的。改一个字，望远镜立刻塌掉。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般 N 的通项</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>证明对任意正整数 $N$，$\displaystyle\sum_{k=1}^{N}\frac{k}{(k+1)!}=1-\frac{1}{(N+1)!}$；再求 $\displaystyle\sum_{k=1}^{2021}\frac{k}{(k+1)!}+\frac{1}{2022!}$ 的值，以及原题的 $a+b$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>通项如上；加尾项后恰为 $1$；$a+b=2023$</strong></div>
+      <p>由 $\frac{k}{(k+1)!}=\frac1{k!}-\frac1{(k+1)!}$ 求和，中间项全消，得 $1-\frac1{(N+1)!}$；也可用归纳法（见方法二）。补上 $\frac1{2022!}$ 后 $1-\frac1{2022!}+\frac1{2022!}=1$。原题 $a=1,b=2022$，故 $a+b=2023$。用 $N=1,2,3$ 回代与练习 1 一致。</p>
+      <p class="hint">要点：一般化之后，<strong>「补上尾巴恰好等于 $1$」是对裂项最干净的自检</strong>；同时说明 $a=1$ 不是巧合，而是链的起点 $\frac1{1!}$。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 误差门槛</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明部分和 $\displaystyle S_N=\sum_{k=1}^{N}\frac{k}{(k+1)!}$ 对一切 $N$ 都严格小于 $1$ 且随 $N$ 严格递增；再求使 $1-S_N \lt 10^{-10}$ 成立的<strong>最小</strong> $N$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$S_N \lt 1$ 且严格递增；最小 $N=13$</strong></div>
+      <p>$S_N=1-\frac1{(N+1)!}$，因 $\frac1{(N+1)!}>0$ 故 $S_N \lt 1$；因 $(N+2)!>(N+1)!$ 故 $\frac1{(N+2)!}\lt\frac1{(N+1)!}$，从而 $S_{N+1}>S_N$。差 $1-S_N=\frac1{(N+1)!}\lt10^{-10}\iff (N+1)!>10^{10}$。计算 $13!=6227020800\approx6.23\times10^9 \lt 10^{10}$，$14!=87178291200\approx8.72\times10^{10}>10^{10}$，故 $N+1=14$，最小的 $N=13$。</p>
+      <p class="hint">要点：把「 Telescope 和」与「误差控制」连起来——<strong>阶乘增长极快</strong>，只要 $14$ 项，误差就掉到 $10^{-10}$ 以下；这也是本题 $2022$ 项的和不可能是 $0.999\ldots$ 之外任何数的原因。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>阶乘裂项 15 秒决策卡</h3>
+    <ol>
+      <li>看到 $\dfrac{k}{(k+1)!}$，立刻把分子写成 $(k+1)-1$，拆成 $\dfrac1{k!}-\dfrac1{(k+1)!}$。</li>
+      <li>写出前三个括号，肉眼确认「一减一加」全消，只剩 $\frac1{1!}$ 与 $-\frac1{(N+1)!}$。</li>
+      <li>读 $a=1$、$b=N+1$；本题 $N=2021\Rightarrow a+b=2023$。</li>
+      <li>自检——$N=1,2,3$ 得 $\frac12,\frac56,\frac{23}{24}$；补上尾项应恰好等于 $1$。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「分子凑成因子减一，相邻倒数两相减；中间全消剩首尾，常数一、下标加一」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 阶乘裂项与望远镜求和 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>2022AMC10B · AMC 10 ❤️精讲</title>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --ok:#047857;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.7; margin:0; background:#f5f7fb;
+  }
+  .page{max-width:880px; margin:0 auto; padding:56px 40px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:32px; margin:10px 0 6px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15.5px; margin:0 0 8px;}
+  .backtop{margin:0 0 24px; padding-bottom:14px; border-bottom:1px solid var(--line);}
+  .backtop .link{font-size:14.5px; margin-right:18px;}
+  .count{display:inline-block; margin-top:6px; font-size:13px; font-weight:600;
+    color:var(--accent); background:var(--accent-soft); border-radius:20px; padding:4px 14px;}
+  hr{border:none; border-top:1px solid var(--line); margin:32px 0;}
+  .grid{display:grid; gap:16px; margin-top:8px;}
+  .item{
+    display:block; text-decoration:none; color:inherit;
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; transition:all .16s ease; position:relative; overflow:hidden;
+  }
+  .item::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--accent);
+  }
+  .item:hover{border-color:var(--accent); box-shadow:0 6px 20px rgba(37,99,235,.10); transform:translateY(-1px);}
+  .item .row1{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+  .item .title{font-size:17.5px; font-weight:700;}
+  .item .date{font-size:13px; color:var(--sub);}
+  .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .badge{font-size:12px; font-weight:600; border-radius:20px; padding:3px 12px; background:var(--accent-soft); color:var(--accent);}
+  .badge.k{background:#f0fdf4; color:var(--ok);}
+  .badge.p{background:#fff7ed; color:var(--warn);}
+  .desc{color:var(--sub); font-size:14.5px; margin-top:6px;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center;
+    border-top:1px solid var(--line); padding-top:18px;}
+  a.link{color:var(--accent); text-decoration:none; font-weight:600;}
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="backtop">
+    <a class="link" href="../index.html">← 返回题库首页</a>
+  </div>
+
+  <div class="kicker">AMC 10</div>
+  <h1>2022AMC10B</h1>
+  <p class="lede">本场考试已收录的❤️精讲，点击任意一张卡片进入详细解析（含知识点提炼 + 由易到难的 5 道配套练习）。</p>
+  <span class="count">共 9 道错题</span>
+
+  <hr>
+
+  <div class="grid">
+
+    <a class="item" href="../problems/20261111-palindromic-composite-sequence.html">
+      <div class="row1">
+        <span class="title">回文合数：121、11211、1112111 一个质数都没有</span>
+        <span class="date">20261111</span>
+      </div>
+      <div class="desc">把中间那个 2 拆成两个重叠的全 1 块：通项 = (10ⁿ+1) × 全 1 数 一举判死所有项；附改成 3 的反例与 mod 11 子计数。</div>
+      <div class="badges">
+        <span class="badge k">Prime</span>
+        <span class="badge ">2022AMC10B(6)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261111-factorial-telescoping-sum.html">
+      <div class="row1">
+        <span class="title">阶乘裂项：2021 项相加只剩 1 − 1/2022!</span>
+        <span class="date">20261111</span>
+      </div>
+      <div class="desc">k/(k+1)! = 1/k! − 1/(k+1)!，望远镜全消得 a=1、b=2022；附一般 N 通项与误差门槛 N=13。</div>
+      <div class="badges">
+        <span class="badge k">Telescoping</span>
+        <span class="badge ">2022AMC10B(9)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261111-contrapositive-logic.html">
+      <div class="row1">
+        <span class="title">逆否命题：「没有更大的学校卖得更多」翻个面</span>
+        <span class="date">20261111</span>
+      </div>
+      <div class="desc">P ⇒ 非Q 与 Q ⇒ 非P 等价；(C) 把 not more 偷换成 fewer 因而更强；附状态表与五选项反例。</div>
+      <div class="badges">
+        <span class="badge k">Logical Deduction</span>
+        <span class="badge ">2022AMC10B(11)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261111-twin-primes-cube-difference.html">
+      <div class="row1">
+        <span class="title">孪生质数立方差：6m² + 2 = 31106 解出 71 与 73</span>
+        <span class="date">20261111</span>
+      </div>
+      <div class="desc">差 2 设 m∓1，三次式降为平方；m=72，下一质数 79，数字和 16；附 D ≡ 2 (mod 24) 结构证明。</div>
+      <div class="badges">
+        <span class="badge k">Sum and Difference of Cubes</span>
+        <span class="badge ">2022AMC10B(13)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261111-arithmetic-sequence-invariant-ratio.html">
+      <div class="row1">
+        <span class="title">等差数列不变量：S₃ₙ / Sₙ 与 n 无关 ⇒ 首项锁成 1</span>
+        <span class="date">20261111</span>
+      </div>
+      <div class="desc">整成 9 − 6(a+1)/(a+n+1) 令分子为零；数列即 1, 3, 5, …，S₂₀ = 400；附一般公差通式 b = d/2。</div>
+      <div class="badges">
+        <span class="badge k">Arithmetic Sequence</span>
+        <span class="badge ">2022AMC10B(15)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261111-modular-divisibility-elimination.html">
+      <div class="row1">
+        <span class="title">小质数筛法：五个巨数里唯一躲开 2、3、5、7</span>
+        <span class="date">20261111</span>
+      </div>
+      <div class="desc">aⁿ − bⁿ 因式分解 + 2 ≡ −1 (mod 3)、2⁴ ≡ 1 (mod 5)、2³ ≡ 1 (mod 7)，四项出局，2⁶⁰⁷ − 1 幸存。</div>
+      <div class="badges">
+        <span class="badge k">Factoring and Modular Arithmetic</span>
+        <span class="badge ">2022AMC10B(17)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261111-binary-matrix-singular-count.html">
+      <div class="row1">
+        <span class="title">0/1 方程组：512 个矩阵减去 174 个满秩</span>
+        <span class="date">20261111</span>
+      </div>
+      <div class="desc">齐次有非零解 ⇔ 不满秩；7×6×5 − 6×3! = 174 个满秩，答案 338；附秩分布 1 / 49 / 288 / 174 对账。</div>
+      <div class="badges">
+        <span class="badge k">System of Equations</span>
+        <span class="badge ">2022AMC10B(18)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261111-grid-transformation-center.html">
+      <div class="row1">
+        <span class="title">元胞自动机：512 种初态里 22 种收敛到中心一格</span>
+        <span class="date">20261111</span>
+      </div>
+      <div class="desc">中心填/不填分两类得 2 + 20；消失允许邻居数 1，旋转镜像算不同；附官方图与轨道分解 2 + 4 + 4 + 4 + 8。</div>
+      <div class="badges">
+        <span class="badge k">Process Simulation</span>
+        <span class="badge ">2022AMC10B(19)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261111-rhombus-cyclic-angle.html">
+      <div class="row1">
+        <span class="title">菱形里的隐藏圆：延长 BE 交 AD 于 G</span>
+        <span class="date">20261111</span>
+      </div>
+      <div class="desc">全等得 DG = AD，A、C、F、G 共圆；∠GDC=134° ⇒ ∠GFC=67° ⇒ ∠BFC=113°；附通式 90° + θ/2。</div>
+      <div class="badges">
+        <span class="badge k">Angle Chasing</span>
+        <span class="badge ">2022AMC10B(20)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    AMC 10 ❤️精讲 · 2022AMC10B &nbsp;|&nbsp; 由 WorkBuddy 维护 · 最近更新 2026-11-11
+  </div>
+</div>
+</body>
+</html>

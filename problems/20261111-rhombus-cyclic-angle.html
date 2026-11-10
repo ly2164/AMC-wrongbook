@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 四点共圆与圆周角追角</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2022AMC10B.html">← 返回 2022AMC10B</a>
+    <div class="pager">
+      <a href="20261111-grid-transformation-center.html">‹ 上一题：元胞自动机</a>
+      <a class="disabled" href="#">下一题 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>菱形里的隐藏圆：延长 BE 交 AD 于 G，D 恰是 AG 中点</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2022AMC10B(20)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Angle Chasing</span></div>
+  </div>
+  <p class="lede">延长 $BE$ 交直线 $AD$ 于 $G$，由 $\triangle GDE\cong\triangle BCE$ 得 $DG=BC=AD$，故 $D$ 是 $AG$ 中点；以 $D$ 为圆心、$DA$ 为半径的圆同时过 $A,C,G$，又 $AF\perp FG$ 使 $F$ 也在此圆上。$\angle GDC=134^\circ$，圆周角 $\angle GFC=67^\circ$，故 $\angle BFC=180^\circ-67^\circ=113^\circ$，答案 <strong>(D)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Let $ABCD$ be a rhombus with $\angle ADC = 46^\circ.$ Let $E$ be the midpoint of $\overline{CD},$ and let $F$ be the point on $\overline{BE}$ such that $\overline{AF}$ is perpendicular to $\overline{BE}.$ What is the degree measure of $\angle BFC?$　(A) $110$　(B) $111$　(C) $112$　(D) $113$　(E) $114$
+  </blockquote>
+  <p><strong>中文翻译</strong>：菱形 $ABCD$ 中 $\angle ADC=46^\circ$，$E$ 是 $\overline{CD}$ 的中点，$F$ 是 $\overline{BE}$ 上满足 $AF\perp BE$ 的点。求 $\angle BFC$ 的度数。　(A) $110$　(B) $111$　(C) $112$　(D) $113$　(E) $114$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/20" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022B/problem/20</a><br>
+    官方给出的正确选项为 <strong>(D) $113$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (C) 112 或 (E) 114</code></td><td>直接建坐标硬算 $\angle BFC$，却在垂足参数或向量夹角上差了 $1^\circ\sim2^\circ$ 的舍入，然后按「最接近的整数」猜选项。<strong>本题五个选项只差 $1^\circ$，任何数值近似的容差都大于选项间距</strong>，必须用精确的角度关系，不能用浮点猜。</td></tr>
+    <tr><td><code>答 (A) 110 或 (B) 111</code></td><td>把 $\angle GDC$ 当成 $180^\circ-46^\circ/2$ 之类，或把圆周角与圆心角的关系用反（算成 $\angle GFC=134^\circ$ 的一半时写错方向），再减一次 $180^\circ$ 得到偏小的数。</td></tr>
+    <tr><td><code>答不上来，卡在 F 的位置</code></td><td>只盯着 $F$ 是垂足，试图在 $\triangle ABF$ 里追角。$F$ 的位置由垂直条件决定，本身很难直接追；<strong>真正的突破口是「把 $BE$ 延长出去」</strong>，用中点和 $AD\parallel BC$ 造出全等三角形，从而发现一个圆。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有识别「$AF\perp BE$」的隐含信号：<strong>直角 + 一条线段的中点 ⇒ 直径所对圆周角 ⇒ 四点共圆</strong>。看到垂足就想到直角，看到直角就想到「以斜边为直径的圆」，这是几何题最重要的一条构造反射。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/20" target="_blank" rel="noopener">2022AMC10B(20)</a> 的书面解答一致——延长 $BE$ 交直线 $AD$ 于 $G$，由 $\angle GDE=\angle ECB$、$\angle GED=\angle BEC$ 与 $DE=EC$ 得 $\triangle GDE\cong\triangle BCE$，于是 $DG=BC=AD$，$D$ 为 $AG$ 中点；以 $D$ 为圆心过 $A$ 的圆也过 $C,G$，由 $AF\perp FG$ 及泰勒斯定理（Thales' theorem，官方解答所用名称，即直径所对圆周角为直角）知 $F$ 在此圆上；$\angle GDC=134^\circ$ 给出圆周角 $\angle GFC=67^\circ$，故 $\angle BFC=113^\circ$。 <br> 本站的增量是用坐标解析法给出第二条独立路径，数值验证 $113.000000^\circ$，并补上一般角度 $\theta$ 的通式。
+  </blockquote>
+  <h3>方法一：延长 BE 造出圆（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 造 $G$ 并证全等。</strong> 延长 $\overline{BE}$ 交直线 $AD$ 于 $G$。因为 $AD\parallel BC$，有 $\angle GDE=\angle ECB$；$\angle GED=\angle BEC$ 是对顶角；又 $E$ 是 $CD$ 中点，$DE=EC$。故 $\triangle GDE\cong\triangle BCE$（角边角），从而</p>
+$$DG=BC=AD.$$
+  <p>于是 $D$ 是 $\overline{AG}$ 的中点（$G$ 在 $DA$ 的延长线上，且 $DG=DA$）。</p>
+  <p><img src="../img/amc10/2022B/20sol.svg" alt="2022 AMC 10B Problem 20 官方解答配图：延长 BE 交 AD 于 G，A/C/F/G 共圆" style="max-height:16rem"></p>
+  <p><strong>第 2 步 · 找到圆。</strong> 菱形四边相等，$DA=DC$。以 $D$ 为圆心、$DA$ 为半径作圆：它过 $A$、过 $C$，又因 $DG=DA$ 也过 $G$。由于 $AF\perp FG$（$F$ 在 $BE$ 上，$G$ 也在该直线上），$\angle AFG=90^\circ$；直径 $AG$ 所对的圆周角为直角，其逆命题（泰勒斯定理，官方解答使用的名称）说明 $F$ 也在这个圆上。于是 $A,C,F,G$ 四点共圆。</p>
+  <p><strong>第 3 步 · 追角。</strong> 因 $DG$ 与 $DA$ 方向相反，</p>
+$$\angle GDC=180^\circ-\angle ADC=180^\circ-46^\circ=134^\circ.$$
+  <p>在以 $D$ 为圆心的圆里，$\angle GDC$ 是弧 $GC$ 所对的圆心角，$\angle GFC$ 是同弧所对的圆周角，故</p>
+$$\angle GFC=\frac{134^\circ}{2}=67^\circ.$$
+  <p><strong>第 4 步 · 补角。</strong> $B,F,G$ 共线，故 $\angle BFC+\angle GFC=180^\circ$：</p>
+$$\angle BFC=180^\circ-67^\circ=113^\circ.$$
+  <blockquote class="ok"><strong>答案：(D) $113^\circ$。</strong></blockquote>
+  <h3>方法二：坐标解析法（用来交叉验证）</h3>
+  <p>取边长为 $1$，令 $D=(0,0)$、$C=(1,0)$、$A=(\cos46^\circ,\sin46^\circ)$、$B=A+C$、$E=(\frac12,0)$。把 $A$ 投影到直线 $BE$ 上得垂足 $F$，再用向量夹角公式算 $\angle BFC$。用 Python 的 <code>math</code> 双精度计算：</p>
+$$\angle BFC=113.000000^\circ.$$
+  <p>同时对多个角度做同一计算，都满足 $\angle BFC=90^\circ+\frac{\theta}{2}$（$\theta=\angle ADC$，且 $F$ 落在线段 $BE$ 上时）。这既是独立验证，也给出了下面练习 4 的通式。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 坐标法算出 $113.000000^\circ$，与几何法逐位一致；② 检查 $DG=DA=1$（数值上 $DG=1.000000$），确认全等结论；③ 检查 $\angle AFG=90^\circ$；④ 关键自检：$\angle GDC=134^\circ$ 与 $\angle GFC=67^\circ$ 是二倍关系，答案必须落在 $110\sim114$ 之间且为奇数——$113$ 是唯一满足 $180-(180-\theta)/2$ 的值。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>直角 $AF\perp FG$ + 中点 $D$（$DA=DG$）$\Rightarrow$ $A,C,F,G$ 四点共圆</strong>，且 $AG$ 是直径。一旦找到这个圆，追角就退化成「圆心角 $=2\times$ 圆周角」。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>全等造中点</strong>。$AD\parallel BC$ 给内错角、对顶角给第二组角、$E$ 是中点给夹边，$\triangle GDE\cong\triangle BCE$ 于是 $DG=BC=AD$。这是整题唯一的构造性一步。</li>
+    <li><strong>圆周角定理</strong>（官方 Concepts 中的 inscribed angle）：同弧所对圆周角等于圆心角的一半。$\angle GDC=134^\circ\Rightarrow\angle GFC=67^\circ$。</li>
+    <li><strong>泰勒斯定理</strong>（Thales' theorem，官方解答点名）：直径所对的圆周角是直角；其逆命题把「$\angle AFG=90^\circ$」翻译成「$F$ 在以 $AG$ 为直径的圆上」。这只是圆周角定理的 $\theta=90^\circ$ 特例，本站不引入任何自造名称。</li>
+    <li><strong>共线补角</strong>。$B,F,G$ 共线，故 $\angle BFC=180^\circ-\angle GFC$，最后一步别漏。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 角度链全列举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把解题链上用到的角度<strong>一个不漏</strong>写出来：菱形四个内角、$\angle GDC$、$\angle GFC$、$\angle BFC$，并注明每一步依据。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>菱形内角 $\angle ADC=\angle ABC=46^\circ$、$\angle BAD=\angle BCD=134^\circ$；$\angle GDC=134^\circ$；$\angle GFC=67^\circ$；$\angle BFC=113^\circ$</strong></div>
+      <p>菱形对角相等、邻角互补，故四个内角为 $46^\circ,134^\circ,46^\circ,134^\circ$。$DG$ 与 $DA$ 反向，$\angle GDC=180^\circ-46^\circ=134^\circ$。圆周角定理给 $\angle GFC=134^\circ/2=67^\circ$。$B,F,G$ 共线给 $\angle BFC=180^\circ-67^\circ=113^\circ$。</p>
+      <p class="hint">要点：<strong>选项只差 $1^\circ$，所以每一步角度都必须是精确值</strong>；把链条完整写出，任何一处算错都会立刻破坏最后的整数结果。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 把 46° 换成 60°</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把 $\angle ADC$ 由 $46^\circ$ 改成 $60^\circ$（其余条件不变），求 $\angle BFC$；再用坐标法数值验证。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$120^\circ$</strong></div>
+      <p>构造不变，$A,C,F,G$ 仍共圆。$\angle GDC=180^\circ-60^\circ=120^\circ$，$\angle GFC=120^\circ/2=60^\circ$，故 $\angle BFC=180^\circ-60^\circ=120^\circ$。取 $D=(0,0),C=(1,0),A=(\cos60^\circ,\sin60^\circ)$ 做投影与向量夹角，得 $120.000000^\circ$ ✓。</p>
+      <p class="hint">要点：<strong>改角度不改变构造</strong>，只改变链上的数值；这说明「找圆」才是通用解法，「凑 $46^\circ$」不是。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 由答案反求角度</span> <span class="stars">★★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>若 $\angle BFC=120^\circ$，反求 $\angle ADC$；并说明在 $0^\circ \lt \theta \lt 120^\circ$ 内这个 $\theta$ 是否唯一。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\angle ADC=60^\circ$，且唯一</strong></div>
+      <p>由角度链倒推：$\angle GFC=180^\circ-120^\circ=60^\circ$，$\angle GDC=2\cdot60^\circ=120^\circ$，$\theta=180^\circ-120^\circ=60^\circ$。唯一性：链上每一步都是一一对应（互补、二倍、互补），$\angle BFC=90^\circ+\theta/2$ 关于 $\theta$ 严格递增，故在给定区间内解唯一。</p>
+      <p class="hint">要点：<strong>反向追角检验是否真的理解「哪一步取半、哪一步取补」</strong>；把正向链倒着走一遍，是最省事的验算。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般 θ 的通项</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>设 $\theta=\angle ADC$（$0^\circ \lt \theta \lt 120^\circ$，保证垂足 $F$ 落在线段 $BE$ 上）。证明 $\angle BFC=90^\circ+\dfrac{\theta}{2}$，并用 $\theta=30^\circ,46^\circ,60^\circ,90^\circ$ 四个值数值验证。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\angle BFC=90^\circ+\frac{\theta}{2}$；四值分别为 $105^\circ,113^\circ,120^\circ,135^\circ$</strong></div>
+      <p>全等与共圆论证对每个 $\theta$ 都成立（只用到 $AD\parallel BC$、$E$ 为中点、$AF\perp BE$）。$\angle GDC=180^\circ-\theta$，圆周角 $\angle GFC=\frac{180^\circ-\theta}{2}=90^\circ-\frac\theta2$，故 $\angle BFC=180^\circ-\left(90^\circ-\frac\theta2\right)=90^\circ+\frac\theta2$。坐标法对四个 $\theta$ 分别算得 $105.000000^\circ$、$113.000000^\circ$、$120.000000^\circ$、$135.000000^\circ$，逐项吻合。注意当 $\theta\ge120^\circ$ 时垂足 $F$ 跑出线段 $BE$，通式不再适用——这正是题目给 $46^\circ$ 的原因之一。</p>
+      <p class="hint">要点：一般化把「一道 $1^\circ$ 分辨率的选择题」变成一条<strong>线性关系</strong>；同时暴露适用范围（$F$ 必须在线段上），是严谨解题与「套公式」的分水岭。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 中点是结构核心</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明 $D$ 必为 $\overline{AG}$ 的中点（即 $DG=DA$），并说明「若 $E$ 不是 $CD$ 中点，这个圆还存不存在」；最后求 $0^\circ \lt \theta\le90^\circ$ 时 $\angle BFC$ 的取值范围。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$DG=DA$（由全等）；$E$ 不是中点则 $\triangle GDE\not\cong\triangle BCE$、$DG\ne DA$，$AG$ 不再是直径，圆不成立；$\angle BFC\in(90^\circ,135^\circ]$</strong></div>
+      <p>全等需要夹边 $DE=EC$；若 $E$ 偏离中点，$DE\ne EC$，则 $DG\ne BC=AD$，$D$ 不是 $AG$ 中点，以 $D$ 为圆心过 $A$ 的圆不再过 $G$，$AG$ 不再是直径，「$AF\perp FG\Rightarrow F$ 在圆上」的推理链断裂。<strong>中点条件正是整题的隐藏支点</strong>。范围：由通式 $\angle BFC=90^\circ+\theta/2$ 且 $\theta\in(0^\circ,90^\circ]$，得 $(90^\circ,135^\circ]$，上端在 $\theta=90^\circ$（正方形）取到。</p>
+      <p class="hint">要点：<strong>「构造为什么成立」比「答案是多少」更重要</strong>；识别哪个条件是结构支点，就能一眼判断题目的变式哪些还能做、哪些会塌。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>直角 + 中点造圆 20 秒决策卡</h3>
+    <ol>
+      <li>见「垂足 $AF\perp BE$」+「$E$ 是中点」，立刻延长 $BE$ 交 $AD$ 于 $G$。</li>
+      <li>用 $AD\parallel BC$、对顶角、$DE=EC$ 证 $\triangle GDE\cong\triangle BCE$，得 $DG=AD$ ⇒ $D$ 是 $AG$ 中点。</li>
+      <li>以 $D$ 为圆心、$DA$ 为半径作圆（过 $A,C,G$）；由 $\angle AFG=90^\circ$ 知 $F$ 也在圆上，$AG$ 是直径。</li>
+      <li>$\angle GDC=180^\circ-\theta$ ⇒ $\angle GFC=\frac{180^\circ-\theta}{2}$ ⇒ $\angle BFC=90^\circ+\frac\theta2$；代 $\theta=46^\circ$ 得 $113^\circ$。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「见垂足，延长找 G；中点造直径，圆周角减半；共线再补角，答案九零加半角」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 四点共圆与圆周角追角 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

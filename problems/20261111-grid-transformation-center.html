@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 元胞自动机的分类计数与对称性</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2022AMC10B.html">← 返回 2022AMC10B</a>
+    <div class="pager">
+      <a href="20261111-binary-matrix-singular-count.html">‹ 上一题：0/1 方程组</a>
+      <a href="20261111-rhombus-cyclic-angle.html">下一题：菱形共圆 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>5×5 元胞自动机：512 种初态里恰好 22 种收敛到中心一格</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2022AMC10B(19)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Process Simulation</span></div>
+  </div>
+  <p class="lede">把中心格分「初始填充 / 初始为空」两类：前者要求中心有 $2$ 或 $3$ 个填充邻居且这些邻居必须全部消失，只有 $2$ 种（一对对角角格）；后者要求中心恰有 $3$ 个填充邻居，按旋转/镜像轨道得 $4+4+4+8=20$ 种。合计 $22$，答案 <strong>(C)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Each square in a $5\times5$ grid is either filled or empty, and has up to eight adjacent neighboring squares, where neighboring squares share either a side or a corner. The grid is transformed by the following rules: any filled square with two or three filled neighbors remains filled; any empty square with exactly three filled neighbors becomes a filled square; all other squares remain empty or become empty. Suppose the $5\times5$ grid has a border of empty squares surrounding a $3\times3$ subgrid. How many initial configurations will lead to a transformed grid consisting of a single filled square in the center after a single transformation? (Rotations and reflections of the same configuration are considered different.)　(A) $14$　(B) $18$　(C) $22$　(D) $26$　(E) $30$
+<img src="../img/amc10/2022B/19_1.svg" alt="2022 AMC 10B Problem 19 官方变换示例图一" style="max-height:10rem; margin-top:10px;">
+<img src="../img/amc10/2022B/19_2.svg" alt="2022 AMC 10B Problem 19 官方变换示例图二" style="max-height:10rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：$5\times5$ 网格中每格为「填充」或「空」，每格最多有 $8$ 个相邻格（共边或共角都算相邻）。一次变换规则：填充格若有 $2$ 或 $3$ 个填充邻居则保持填充；空格若恰有 $3$ 个填充邻居则变为填充；其余格保持为空或变为空。设 $5\times5$ 网格外围一圈是空格，中间是 $3\times3$ 子网格。有多少种初始状态能在<strong>一次变换后</strong>得到「只有正中心一格填充」？（互为旋转或镜像的状态算不同。）　(A) $14$　(B) $18$　(C) $22$　(D) $26$　(E) $30$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/19" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022B/problem/19</a><br>
+    官方给出的正确选项为 <strong>(C) $22$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (B) 18 或 (D) 26</code></td><td>只数了「中心初始为空」的一大类，忘了「中心初始已填充、靠 $2$ 或 $3$ 个邻居存活」这一小类（$2$ 种），或者把它的数量估错。题目问的是「变换后只有中心一格」，<strong>中心初始是填充还是空，都要考虑</strong>。</td></tr>
+    <tr><td><code>答 (A) 14</code></td><td>把「每个初始填充的非中心格都必须消失」误当成「它们两两不相邻」。实际上相邻也可以消失——只要该格的填充邻居数是 $0$ 或 $1$（规则中存活要求 $2$ 或 $3$）。过度收紧条件会砍掉 $8$ 个合法状态。</td></tr>
+    <tr><td><code>答 (E) 30</code></td><td>忘了检查<strong>边框空格会不会「诞生」新格</strong>。外围一圈虽初始为空，但若某个边框格恰有 $3$ 个填充邻居，它也会变成填充，变换后就不止中心一格了。合法状态必须同时满足「内部只有中心存活」和「边框全部保持为空」。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「变换后只有中心一格」拆成<strong>逐格的充要条件</strong>，再按中心状态分类。标准动作：① 中心若初始填充 → 需恰 $2$ 或 $3$ 个填充邻居；② 中心若初始为空 → 需恰 $3$ 个填充邻居；③ 其余 $24$ 格（含边框）都必须变换后为空；④ 用 $2^9=512$ 个初态的穷举或对称性分类把计数做实。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/19" target="_blank" rel="noopener">2022AMC10B(19)</a> 的书面解答一致——按中心初始是否填充分两类：中心填充时只有「两个对角角格 + 中心」这 $2$ 种；中心为空时恰 $3$ 个邻居填充，得到四类代表图案，其中三类各有 $4$ 个旋转、一类有 $4$ 个旋转加 $4$ 个镜像共 $8$ 个，合计 $4+4+4+8=20$；总数 $2+20=22$。 <br> 本站的增量是把规则写成可执行的逐格判定并对全部 $512$ 个初态做程序模拟，同时用旋转/镜像轨道把 $20$ 这一类的来源逐项核对。
+  </blockquote>
+  <h3>方法一：按中心状态分类（官方思路，推荐）</h3>
+  <p>把 $3\times3$ 子网格的 $9$ 格记为变量，外围一圈恒为空。一次变换后要求<strong>只有中心格填充</strong>。</p>
+  <p><strong>情形 1 · 中心初始填充。</strong> 它要存活，必须有恰好 $2$ 或 $3$ 个填充邻居（中心有 $8$ 个邻居，都在子网格内）。每个填充的邻居又必须消失，即它自己不能有 $2$ 或 $3$ 个填充邻居；同时不能有任何空格（含边框格）恰好凑到 $3$ 个填充邻居而诞生新格。逐对检查「互不相邻」的位置组合，唯一可行的是<strong>一对对角角格</strong>：</p>
+<pre style="font-family:ui-monospace,Consolas,monospace; line-height:1.35; background:#f8fafc; border:1px solid #e3e8ef; border-radius:8px; padding:12px 16px; font-size:15px;">..#        #..
+.#.        .#.
+#..        ..#</pre>
+  <p>共 $2$ 种（两种对角方向）。此时中心有 $2$ 个填充邻居得以存活，两个角格各有 $1$ 个填充邻居（中心）而消失，边框格最多看到 $2$ 个填充格、不会诞生。</p>
+  <p><strong>情形 2 · 中心初始为空。</strong> 它要变成填充，必须恰有 $3$ 个填充邻居。这 $3$ 格又都得消失，且不能让别的空格（包括边框）凑到 $3$ 个填充邻居。满足条件的代表图案如下图（取自官方解答配图），按旋转/镜像展开：</p>
+  <p><img src="../img/amc10/2022B/19sol.svg" alt="2022 AMC 10B Problem 19 官方解答中的四类代表图案" style="max-height:18rem"></p>
+  <p>前三类图案各自只有 $4$ 个旋转像，最后一类旋转与镜像不同、共 $4+4=8$ 个，故</p>
+$$4+4+4+8=20.$$
+  <p><strong>合计</strong> $2+20=22$。</p>
+  <blockquote class="ok"><strong>答案：(C) $22$。</strong></blockquote>
+  <h3>方法二：程序模拟全部 512 个初态（用来交叉验证）</h3>
+  <p>规则写成逐格判定：对 $5\times5$ 的每格数出 $8$ 邻域内的填充数 $n$，若该格填充则新状态 $=1$ 当且仅当 $n\in\{2,3\}$；若为空则新状态 $=1$ 当且仅当 $n=3$。枚举 $3\times3$ 子网格的 $2^9=512$ 种初始填充方式（边框恒为空），检查新网格是否恰为「只有中心一格」：</p>
+  <ul>
+    <li>命中总数 $22$；</li>
+    <li>其中中心初始填充 $2$ 种、初始为空 $20$ 种；</li>
+    <li>$22$ 种初态<strong>恰好都只有 $3$ 个填充格</strong>；</li>
+    <li>轨道分解：在正方形对称群（$4$ 旋转 $×$ 是否镜像）下共 $5$ 个轨道，大小 $2,4,4,4,8$，和为 $22$。</li>
+  </ul>
+  <p>与方法一的 $2+20$ 完全对齐。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 独立枚举 $512$ 个初态逐格模拟，答案 $22$；② 检查情形 1 的两种图案确实让中心有 $2$ 邻居、边框无诞生；③ 用轨道大小 $2+4+4+4+8=22$ 对账；④ 特别验证「旋转/镜像算不同」——若把互为对称的图案合并，答案会变成 $5$ 而不是 $22$。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>把「变换后的形状」翻译成每一格的局部条件</strong>，再按中心状态分类。这是过程模拟（process simulation）题的标准拆解。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>存活条件是邻居数 $\in\{2,3\}$，诞生条件是 $=3$</strong>。所以「消失」允许邻居数 $0,1,4,\ldots$，不等于「不相邻」——误把消失当成孤立是本题最大的坑。</li>
+    <li><strong>边框不是背景板</strong>。外围一圈初始为空，但仍参与邻域计数与诞生判定，必须逐格验证它们变换后仍为空。</li>
+    <li><strong>对称性用来放大而不是合并</strong>。旋转/镜像把代表图案扩成 $4$ 或 $8$ 个状态；题目明说它们算不同，所以最后要乘上轨道大小，而不是除以。</li>
+    <li><strong>$2^9=512$ 是这类题的天然上界</strong>，规模小到可以全枚举。手工分类给思路，程序枚举给确定性，两者互为校验。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 中心已填充的两解</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把「中心初始填充」的全部合法初态<strong>一个不漏</strong>画成 $3\times3$ 图（用 <code>#</code> 表示填充、<code>.</code> 表示空），并逐格说明为什么它们变换后只剩中心。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>共 $2$ 种：<code>..# / .#. / #..</code> 与 <code>#.. / .#. / ..#</code></strong></div>
+      <p>两种图案都是「中心 + 一对对角角格」。中心有 $2$ 个填充邻居，满足 $n\in\{2,3\}$ 故存活；两个角格各自只有中心这 $1$ 个填充邻居（对角两角互不相邻），$n=1$ 故消失；其余空格的填充邻居数最多为 $2$（例如边框格最多看到两个角格），达不到诞生门槛 $3$，故全部保持为空。变换结果恰为只有中心一格。</p>
+      <p class="hint">要点：<strong>逐格给出邻居数</strong>才是完整的列举证明；只画图不解释规则，等于没验证。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 按中心状态分层</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>在全部 $22$ 个合法初态中，中心初始填充的有几个？初始为空的有几个？其中「初始填充格总数恰为 $3$」的有几个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$2$ 个、$20$ 个；$22$ 个（全部）</strong></div>
+      <p>官方分类给出 $2$ 与 $20$。程序枚举 $512$ 个初态并对每个合法初态统计填充格数，结果全部为 $3$：情形 1 是「中心 + $2$ 个角格」，情形 2 是「$3$ 个中心邻居」。因此「恰 $3$ 个填充格」的有 $22$ 个。</p>
+      <p class="hint">要点：<strong>「全部合法初态都有 3 格填充」是本题隐藏的结构定理</strong>：中心填充需 $2$ 个邻居、中心为空需 $3$ 个邻居，两条路都导向总数 $3$。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 改诞生门槛</span> <span class="stars">★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把规则中「空格恰有 $3$ 个填充邻居才诞生」改成「恰有 $2$ 个」，存活规则不变，仍要求一次变换后只有中心一格。问合法初态有几个？</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$2$ 个</strong></div>
+      <p>中心初始为空时，要让它诞生必须恰有 $2$ 个填充邻居；这两个填充格又必须消失，且不能让边框格也凑到 $2$ 个填充邻居。唯一可行的是<strong>一对对角角格</strong>（<code>..# / ... / #..</code> 与 <code>#.. / ... / ..#</code>）：两角互不相邻，各有 $0$ 个填充邻居故消失；边框格最多只看到 $1$ 个角格，不会诞生；中心恰有 $2$ 个填充邻居，按新规则诞生。中心初始填充的情形则会被「边框格也凑到 $2$」淘汰。对全部 $512$ 个初态按新规则重新模拟，命中数恰为 $2$。</p>
+      <p class="hint">要点：<strong>规则参数一改，答案从 $22$ 塌到 $2$</strong>；诞生门槛降低会让「边框也诞生」的约束急剧收紧。这类题务必按新规则重新全枚举，不能靠调整旧答案。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 对称性轨道</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>证明「若某初态合法，则它的任意旋转或镜像也合法」；据此把 $22$ 个合法初态按正方形的旋转/镜像群分成轨道，写出每个轨道的大小并验证总和为 $22$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>规则与目标形状在旋转/镜像下不变，故轨道内全体合法；共 $5$ 个轨道，大小 $2,4,4,4,8$，和为 $22$</strong></div>
+      <p>邻域（共边或共角共 $8$ 格）在正方形的旋转与镜像下保持不变，变换规则只依赖邻居个数，目标「只有中心一格」在变换下也不变，故合法性与对称性可交换。情形 1 的两种对角角格图案互为一个 $90°$ 旋转，构成大小 $2$ 的轨道。情形 2 的四类代表图案中，三类有 $4$ 个旋转像（镜像与某个旋转重合），一类旋转与镜像不同、给 $4+4=8$ 个。轨道大小 $2+4+4+4+8=22$ ✓，与分类计数一致。</p>
+      <p class="hint">要点：<strong>对称性是计数的乘数不是除数</strong>（题目说旋转/镜像算不同）；用轨道大小反查「有没有漏数」比逐个数更可靠。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 三格结构证明</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明任一合法初态中，每个初始填充的<strong>非中心格</strong>至多只有 $1$ 个填充邻居（因而必然消失），而中心若初始填充则恰有 $2$ 个填充邻居；由此求所有合法初态中初始填充格数的最小值与最大值。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>非中心格邻居数 $\le1$；中心初始填充时恰为 $2$；最小值 $=$ 最大值 $=3$</strong></div>
+      <p><strong>先定总数</strong>。中心初始为空时要诞生，必须恰有 $3$ 个填充邻居，故总数恰为 $3$。中心初始填充时要存活，填充邻居数为 $2$ 或 $3$；若为 $3$，这三个邻居在 $8$ 邻域中必然出现相邻的一对，从而某个空格会同时看到三个填充格而诞生新格，与目标矛盾（官方分类也只剩「一对对角角格」），故只能是 $2$，总数 $=1+2=3$。<strong>再定邻居数</strong>：既然总共只有 $3$ 个填充格，任一非中心填充格最多看到另外 $2$ 个填充格；又它必须消失（否则变换后不止中心一格），邻居数不能在 $\{2,3\}$，故只能是 $0$ 或 $1$。程序统计印证：全部 $22$ 个合法初态中，非中心填充格的邻居数为 $0$ 者 $36$ 次、$1$ 者 $28$ 次，无一达到 $2$；中心填充的两种图案里中心恰有 $2$ 个邻居。于是初始填充格数的最小值与最大值都是 $3$。</p>
+      <p class="hint">要点：<strong>「极值相等」本身就是结构定理</strong>；先用「必须消失」把邻居数压到 $\le1$，再用「中心要存活/诞生」定出总数，比穷举更有说服力。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>元胞自动机计数 30 秒决策卡</h3>
+    <ol>
+      <li>把「变换后只有中心一格」拆成逐格条件：中心按初始填充/空分两类，其余 $24$ 格（含边框）都必须为空。</li>
+      <li>中心填充 → 需 $2$ 或 $3$ 个填充邻居且邻居全灭，只有对角角格 $2$ 种；中心为空 → 需恰 $3$ 个填充邻居，得 $4+4+4+8=20$ 种。</li>
+      <li>合计 $22$；用 $2^9=512$ 全枚举或轨道大小 $2+4+4+4+8$ 对账。</li>
+      <li>自检——「消失」允许邻居数 $1$，别误当「两两不相邻」；旋转/镜像算不同，是乘不是除。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「先看中心填不填，邻居二或三；其余全要灭，边框别忘验；对称是乘数，轨道来对账」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 元胞自动机的分类计数与对称性 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

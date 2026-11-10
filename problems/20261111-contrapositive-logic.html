@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 逆否命题与逻辑等价</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2022AMC10B.html">← 返回 2022AMC10B</a>
+    <div class="pager">
+      <a href="20261111-factorial-telescoping-sum.html">‹ 上一题：阶乘裂项</a>
+      <a href="20261111-twin-primes-cube-difference.html">下一题：孪生质数 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>「没有更大的学校卖得更多」：把全称命题翻个面</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2022AMC10B(11)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Logical Deduction</span></div>
+  </div>
+  <p class="lede">原句是「更大 $\Rightarrow$ 没有卖得更多」，取逆否命题得「卖得更多 $\Rightarrow$ 不更大」，正是选项 <strong>(B)</strong>。(C) 把「没有卖得更多」偷换成「卖得更少」，多禁掉了「销量持平」，因此比原句强。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    All the high schools in a large school district are involved in a fundraiser selling T-shirts. Which of the choices below is logically equivalent to the statement "No school bigger than Euclid HS sold more T-shirts than Euclid HS"?　(A) All schools smaller than Euclid HS sold fewer T-shirts than Euclid HS.　(B) No school that sold more T-shirts than Euclid HS is bigger than Euclid HS.　(C) All schools bigger than Euclid HS sold fewer T-shirts than Euclid HS.　(D) All schools that sold fewer T-shirts than Euclid HS are smaller than Euclid HS.　(E) All schools smaller than Euclid HS sold more T-shirts than Euclid HS.
+  </blockquote>
+  <p><strong>中文翻译</strong>：某学区所有高中都参加 T 恤义卖。下面哪个选项与命题「没有比 Euclid HS <strong>更大</strong>的学校卖出<strong>更多</strong> T 恤」逻辑等价？　(A) 所有比 Euclid 小的学校都卖得更少　(B) 没有卖出更多 T 恤的学校比 Euclid 大　(C) 所有比 Euclid 大的学校都卖得更少　(D) 所有卖得更少的学校都比 Euclid 小　(E) 所有比 Euclid 小的学校都卖得更多</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/11" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022B/problem/11</a><br>
+    官方给出的正确选项为 <strong>(B) No school that sold more T-shirts than Euclid HS is bigger than Euclid HS.</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (C)</code></td><td>把「没有卖得更多（not more）」读成「卖得更少（fewer）」。<strong>not more = fewer 或 equal</strong>，两者是补集关系不是同义；原句允许「更大的学校销量恰好与 Euclid 持平」，(C) 却把它判为违规，故 (C) 严格更强。这是本题最主要的陷阱，官方解答也专门点名。</td></tr>
+    <tr><td><code>答 (A) 或 (E)</code></td><td>把讨论对象从「比 Euclid 大的学校」换成了「比 Euclid 小的学校」。原句对小学校<strong>什么都没说</strong>，任何关于小学校的断言都不可能与之等价。读逻辑题要先把「量词管到谁」圈出来。</td></tr>
+    <tr><td><code>答 (D)</code></td><td>把原命题取了「逆命题」或搞混了主谓顺序：原句前件是「更大」、后件是「没卖更多」，(D) 却用「卖得更少」当前件、「更小」当后件，既换了条件也换了比较方向。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把自然语言<strong>先翻译成蕴含式</strong>再操作。标准动作是：① 圈出量词与两个谓词；② 写成 $\forall x\,(P(x)\Rightarrow Q(x))$；③ 逆否命题 $\forall x\,(\neg Q(x)\Rightarrow\neg P(x))$ 与原句等价，逆命题、否命题都不等价。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/11" target="_blank" rel="noopener">2022AMC10B(11)</a> 的书面解答一致——原句即「若一所学校比 Euclid 大，则它没有卖出更多 T 恤」，其逆否命题为「若一所学校卖出更多 T 恤，则它不比 Euclid 大」，正是 (B)；官方同时指出 (C) 比原句强，因为它排除了「更大的学校销量持平」。 <br> 本站的增量是把「not more」的三种销量状态列成表，并用枚举所有可能世界的方式逐一证伪其余四个选项。
+  </blockquote>
+  <h3>方法一：翻译成蕴含式再取逆否（官方思路，推荐）</h3>
+  <p>设对任意学校 $x$：</p>
+  <ul>
+    <li>$P(x)$：$x$ 比 Euclid HS 大；</li>
+    <li>$Q(x)$：$x$ 卖出更多 T 恤。</li>
+  </ul>
+  <p>原句「没有 $P$ 且 $Q$ 的学校」即</p>
+$$\neg\exists x\big(P(x)\wedge Q(x)\big)\ \equiv\ \forall x\big(P(x)\Rightarrow\neg Q(x)\big).$$
+  <p><strong>取逆否</strong>：$P\Rightarrow\neg Q$ 的逆否是 $Q\Rightarrow\neg P$，即</p>
+$$\forall x\big(Q(x)\Rightarrow\neg P(x)\big),$$
+  <p>翻回自然语言：「卖出更多 T 恤的学校都不比 Euclid 大」＝「<strong>没有</strong>卖出更多 T 恤的学校比 Euclid 大」，正是 <strong>(B)</strong>。</p>
+  <p><strong>为什么 (C) 不对</strong>：把销量分成「更多 / 持平 / 更少」三档，$\neg Q$ 包含「持平」与「更少」两档。(C) 只留「更少」一档，多禁掉了「更大且持平」，所以 (C) $\Rightarrow$ 原句，但原句 $\nRightarrow$ (C)，二者不等价。</p>
+  <blockquote class="ok"><strong>答案：(B)。</strong></blockquote>
+  <h3>方法二：2×3 表格穷举（用来交叉验证）</h3>
+  <p>把一所学校按「规模」分 2 类（更大 / 不大）、按「销量」分 3 类（更多 / 持平 / 更少），原句只禁掉一种组合。逐类列出：</p>
+  <ul>
+    <li>比 Euclid 大 且 卖得更多：<strong>✗ 禁止</strong>（原句唯一禁止的一格）</li>
+    <li>比 Euclid 大 且 持平：✓ 允许</li>
+    <li>比 Euclid 大 且 卖得更少：✓ 允许</li>
+    <li>不比 Euclid 大：无论销量如何，✓ 全部允许</li>
+  </ul>
+  <p>(B) 禁的同样是「卖得更多 且 比 Euclid 大」这一格，禁集相同 $\Rightarrow$ 等价。(C) 额外禁掉「比 Euclid 大 且 持平」，禁集更大。(A)(E) 管的是「比 Euclid 小」的行，(D) 管的是「卖得更少」的列，都与被禁格无关。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 用程序枚举 $1$ 所学校在 $2\times3=6$ 种状态下的所有「世界」，逐条比对五个选项与原句的真值表，只有 (B) 在全部世界上真值相同；② 造一个具体反例：某校比 Euclid 大、销量与 Euclid <strong>完全相同</strong>——原句为真、(C) 为假，一句话证伪 (C)；③ 记住口诀「逆否等价，逆/否不等价」。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>$P\Rightarrow Q$ 与 $\neg Q\Rightarrow\neg P$ 等价</strong>；「没有 $P$ 且 $Q$」既可以写成 $P\Rightarrow\neg Q$，也可以写成 $Q\Rightarrow\neg P$，两种读法都合法。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>「没有 A 是 B」= 全称否定</strong>，等价于「所有 A 都不是 B」，也等价于「所有 B 都不是 A」。本题 A = 更大的学校，B = 卖得更多的学校。</li>
+    <li><strong>not more ≠ fewer</strong>。销量的三档是「更多 / 持平 / 更少」，「没有卖得更多」= 持平 或 更少。凡把否定词直接换成反义词的选项都是偷换概念。</li>
+    <li><strong>只换谓词顺序不换否定，是逆命题</strong>，不等价；把 $\forall$ 的作用对象换掉（大 $\to$ 小）更是直接跑了题。</li>
+    <li><strong>证伪一个「等价」断言只需一个反例世界</strong>；证明等价则要对所有世界成立。本题用「更大且持平」这一个世界就能排掉 (C)。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 四格表热身</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把「规模（更大 / 不大）」与「销量（更多 / 不多）」组成 $2\times2=4$ 格，<strong>逐格写出</strong>原句是否允许；再逐格检查 (B) 与 (C) 是否允许，说明两者的禁集差在哪一格。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>原句与 (B) 都只禁「更大 且 更多」；(C) 额外禁「更大 且 持平」</strong></div>
+      <p>四格为 (更大,更多)✗、(更大,不多)✓、(不大,更多)✓、(不大,不多)✓。把「不多」再细分为「持平 / 更少」：(C) 要求所有「更大」的学校都「更少」，于是 (更大,持平) 被 (C) 禁止，而原句允许它。故 (C) 的禁集多一格。</p>
+      <p class="hint">要点：<strong>把否定词展开成「互补的两档」</strong>是避免误读的最稳做法；表格一列出来，「等价」与否就是禁集是否相同。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 加人数条件</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>学区共 $10$ 所学校（不含 Euclid），其中恰有 $4$ 所比 Euclid 大、恰有 $3$ 所卖得比 Euclid 多，且原命题成立。问「比 Euclid 大且销量与 Euclid <strong>持平</strong>」的学校最多有几所？并说明这个数为什么能证伪 (C)。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>最多 $4$ 所</strong></div>
+      <p>原命题只禁「更大 且 更多」。$3$ 所卖得更多的学校必须都不比 Euclid 大，而「不比 Euclid 大」的学校有 $10-4=6$ 所，$6\ge3$ 可行。于是 $4$ 所更大的学校可以全部「持平」，达到上限 $4$。此时原句为真，但 (C)「所有更大的学校都卖得更少」为假——这就是 (C) 不等价的具体反例。</p>
+      <p class="hint">要点：先满足<strong>硬约束</strong>（卖得更多的不能更大），再在剩余自由度里取极值；「持平」这一档的存在是 (C) 与原句分道扬镳的唯一原因。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 把「大」换成「小」</span> <span class="stars">★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把原句中的两个比较方向都反过来：「没有比 Euclid <strong>小</strong>的学校卖出<strong>更少</strong> T 恤」。写出它的逆否命题，并判断「所有卖得更少的学校都不比 Euclid 小」是否与它等价。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>等价；逆否命题为「没有卖出更少 T 恤的学校比 Euclid 小」</strong></div>
+      <p>设 $P$＝比 Euclid 小，$Q$＝卖得更少。原句 $P\Rightarrow\neg Q$，逆否 $Q\Rightarrow\neg P$，即「卖得更少的学校都不比 Euclid 小」＝「没有卖得更少的学校比 Euclid 小」，与题中所给断言一致，故等价。注意「不比 Euclid 小」包含「一样大」和「更大」两档，不能读成「更大」。</p>
+      <p class="hint">要点：<strong>换参数不改变逻辑骨架</strong>；只要还是「没有 $P$ 且 $Q$」，逆否就还是「没有 $Q$ 且 $P$」。同时再次提醒 $\neg$「小」≠「大」。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 抽象成谓词</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>对任意两个谓词 $P,Q$，证明 $\neg\exists x\,(P(x)\wedge Q(x))$、$\forall x\,(P(x)\Rightarrow\neg Q(x))$、$\forall x\,(Q(x)\Rightarrow\neg P(x))$ 三者逻辑等价；再用它说明「所有 $P$ 都是非 $Q$」与「所有非 $Q$ 都是 $P$」是否等价。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>三者等价；「所有 $P$ 都是非 $Q$」与「所有非 $Q$ 都是 $P$」不等价（后者是逆命题）</strong></div>
+      <p>由德摩根律 $\neg\exists x(P\wedge Q)\equiv\forall x\,\neg(P\wedge Q)\equiv\forall x\,(P\Rightarrow\neg Q)$；又 $P\Rightarrow\neg Q\equiv Q\Rightarrow\neg P$（逆否）。第三式即第二式的逆否。而「所有非 $Q$ 都是 $P$」是 $\neg Q\Rightarrow P$，是 $P\Rightarrow\neg Q$ 的<strong>逆命题</strong>，不等价：取 $P$＝「是猫」、$Q$＝「会飞」，「猫都不会飞」为真，但「不会飞的都不是猫」显然为假。</p>
+      <p class="hint">要点：把自然语言压成 $\forall/\exists/\Rightarrow$ 后，<strong>等价与否只取决于是否取了逆否</strong>；逆命题与否命题是两大经典错误。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 五个选项逐一证伪</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明五个选项中<strong>恰有一个</strong>与原句逻辑等价，并为其余四个各构造一个「原句为真、该选项为假」的具体反例（用「规模 / 销量」二词描述即可）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>只有 (B) 等价；(A)(C)(D)(E) 各有一个反例</strong></div>
+      <p>等价性由方法一的逆否证明（唯一）。反例：① (A)「所有更小的学校卖得更少」——取一所比 Euclid 小、但卖得更多的学校，原句仍真（它不比 Euclid 大），(A) 假；② (C)——取一所比 Euclid 大、销量持平的学校；③ (D)「所有卖得更少的学校都更小」——取一所比 Euclid 大、卖得更少的学校，原句真而 (D) 假；④ (E)「所有更小的学校卖得更多」——取一所比 Euclid 小、卖得更少的学校。四个反例互不相同且都不触碰被禁格，故四个选项全被排除。</p>
+      <p class="hint">要点：<strong>证明「唯一」= 一个等价证明 + 每个对手一个反例</strong>；逻辑题里反例比长篇推理更有说服力，也更省考场时间。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>逆否命题 20 秒决策卡</h3>
+    <ol>
+      <li>把句子写成「没有 $P$ 且 $Q$ 的对象」，圈出两个谓词与全称量词。</li>
+      <li>写成 $P\Rightarrow\neg Q$，取逆否得 $Q\Rightarrow\neg P$，翻回自然语言去比对选项。</li>
+      <li>警惕「not more」被偷换成「fewer」——否定词覆盖的是「持平 + 更少」两档。</li>
+      <li>对可疑选项造反例（如「更大且持平」），一句话证伪。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「没有 P 且 Q，换个头就是没有 Q 且 P；逆否才等价，逆否不换否定词」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 逆否命题与逻辑等价 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

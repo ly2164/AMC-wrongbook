@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 立方差公式与孪生质数</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2022AMC10B.html">← 返回 2022AMC10B</a>
+    <div class="pager">
+      <a href="20261111-contrapositive-logic.html">‹ 上一题：逆否命题</a>
+      <a href="20261111-arithmetic-sequence-invariant-ratio.html">下一题：等差数列不变量 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>差 2 的两个质数，立方差 31106：解出 71 与 73</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2022AMC10B(13)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Sum and Difference of Cubes</span></div>
+  </div>
+  <p class="lede">设两质数为 $m-1,m+1$，立方差 $(m+1)^3-(m-1)^3=6m^2+2=31106\Rightarrow m=72$，质数即 $71,73$；大于它们的最小质数是 $79$，数字和 $7+9=16$，答案 <strong>(E)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    The positive difference between a pair of primes is equal to $2,$ and the positive difference between the cubes of the two primes is $31106.$ What is the sum of the digits of the least prime that is greater than those two primes?　(A) $8$　(B) $10$　(C) $11$　(D) $13$　(E) $16$
+  </blockquote>
+  <p><strong>中文翻译</strong>：一对质数之差为 $2$，两质数的立方之差为 $31106$。求<strong>大于这两个质数的最小质数</strong>的各位数字之和。　(A) $8$　(B) $10$　(C) $11$　(D) $13$　(E) $16$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/13" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022B/problem/13</a><br>
+    官方给出的正确选项为 <strong>(E) $16$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (C) 11</code></td><td>解出了 $71,73$，却把「大于它们的最小质数」当成 $74$ 之后的第一个<strong>奇数</strong>或误取 $83$（数字和 $11$）。$75,77$ 是合数，但 $79$ 是质数——<strong>「下一个质数」必须逐个试除</strong>，不能跳到 $83$。</td></tr>
+    <tr><td><code>答 (D) 13</code></td><td>把立方差公式记成 $6m^2+2$ 却解错方程：$31106-2=31104$，$31104/6=5184$，$\sqrt{5184}=72$。若误算成 $m=77$ 之类，会得出 $76,78$ 或 $79,81$ 附近的错误质数，数字和凑成 $13$。</td></tr>
+    <tr><td><code>答 (A) 8</code></td><td>直接用立方差公式 $a^3-b^3=(a-b)(a^2+ab+b^2)$ 后，把 $a-b=2$ 代进去得到 $a^2+ab+b^2=15553$，然后<strong>卡在解二次方程</strong>上，最后凭猜选了最小的数字和。其实设中点 $m$ 能把三次式一次降为二次单项式，是本题的关键简化。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：<strong>没有用「对称化」处理差为 $2$ 的两个数</strong>。凡是已知两数之差、又要求它们的三次式，令两数为 $m-1$ 与 $m+1$（中点 $\pm$ 半差）能让奇次项全部抵消，只留 $6m^2+2$。硬展开 $a^2+ab+b^2$ 也能做，但计算量翻倍、更容易出错。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/13" target="_blank" rel="noopener">2022AMC10B(13)</a> 的书面解答一致——把两质数写成 $m-1,m+1$，由 $(m+1)^3-(m-1)^3=6m^2+2=31106$ 得 $m^2=5184$、$m=72$，质数为 $71,73$，大于它们的最小质数为 $79$，数字和 $16$。 <br> 本站的增量是补上「用立方差公式展开」的第二条路径，以及用一般 $D$ 的反解公式做交叉验证。
+  </blockquote>
+  <h3>方法一：对称化设中点（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 设元。</strong> 两质数差为 $2$，设为 $m-1$ 与 $m+1$（$m$ 是它们的平均数）。</p>
+  <p><strong>第 2 步 · 展开立方差。</strong> 用 $(m\pm1)^3=m^3\pm3m^2+3m\pm1$：</p>
+$$(m+1)^3-(m-1)^3=(m^3+3m^2+3m+1)-(m^3-3m^2+3m-1)=6m^2+2.$$
+  <p>三次项与一次项全部抵消，只剩一个平方项。</p>
+  <p><strong>第 3 步 · 解方程。</strong></p>
+$$6m^2+2=31106\Rightarrow m^2=\frac{31104}{6}=5184\Rightarrow m=72.$$
+  <p>（取正根，因为质数 $m-1>0$。）两质数为 $71$ 与 $73$，验证：都是质数、差为 $2$，且 $73^3-71^3=389017-357911=31106$ ✓。</p>
+  <p><strong>第 4 步 · 找下一个质数。</strong> $74=2\times37$、$75=3\times25$、$76=2\times38$、$77=7\times11$、$78=2\times39$ 都是合数；$79$ 不被 $2,3,5,7$ 整除且 $\sqrt{79}\lt9$，故 $79$ 是质数。</p>
+$$\text{数字和}=7+9=16.$$
+  <blockquote class="ok"><strong>答案：(E) $16$。</strong></blockquote>
+  <h3>方法二：立方差公式直接展开（用来交叉验证）</h3>
+  <p>由 $a^3-b^3=(a-b)(a^2+ab+b^2)$ 且 $a-b=2$：</p>
+$$a^2+ab+b^2=\frac{31106}{2}=15553.$$
+  <p>令 $b=p,\ a=p+2$：</p>
+$$(p+2)^2+(p+2)p+p^2=3p^2+6p+4=15553\Rightarrow 3p^2+6p-15549=0\Rightarrow p^2+2p-5183=0.$$
+  <p>配方 $(p+1)^2=5184\Rightarrow p+1=72\Rightarrow p=71$，与方法一一致。注意这里配方后同样出现 $(p+1)^2=5184$，说明<strong>两种路径本质是同一个「中点」</strong>。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 直接算 $73^3-71^3=389017-357911=31106$；② 检查 $71,73$ 的质性（试除到 $8$ 与 $9$ 即可）；③ 从 $74$ 逐个试除到 $79$，确认中间没有漏掉的质数；④ 用 $m$ 反解通式 $\sqrt{(D-2)/6}$ 必须是整数——$D=31106$ 给 $\sqrt{5184}=72$ 恰好是整数，否则题目无解。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>差为 $2$ 的两数设为 $m\pm1$</strong>，奇次项自动抵消；$(m+1)^3-(m-1)^3=6m^2+2$ 把三次方程降成一步开平方。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>立方差公式</strong> $a^3-b^3=(a-b)(a^2+ab+b^2)$ 是官方 Concepts 点名的知识点；本题 $a-b=2$ 使 $a^2+ab+b^2=15553$，配方后同样得到 $(a-1)^2=5184$。</li>
+    <li><strong>「大于两质数的最小质数」要逐个试除</strong>。$74\sim78$ 全为合数，$79$ 是答案；这一步没有捷径，只能按 $2,3,5,7$ 依次筛。</li>
+    <li><strong>孪生质数（差为 $2$ 的质数对）的结构</strong>：除 $(3,5)$ 外，两质数必为 $6k-1$ 与 $6k+1$，故中点 $m=p+1$ 是 $6$ 的倍数。本题 $m=72=6\times12$ 正好符合。</li>
+    <li><strong>先验检查</strong>：$\dfrac{D-2}{6}$ 必须是完全平方数，否则「差 2 的质数对」根本不存在。这能在动笔前 5 秒判定题目是否自洽。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 小范围全列举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>写出 $100$ 以内<strong>全部</strong>孪生质数对 $(p,p+2)$，并逐对算出其立方差；指出哪一对的立方差是 $31106$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>共 $8$ 对：$(3,5)\to98$、$(5,7)\to218$、$(11,13)\to866$、$(17,19)\to1946$、$(29,31)\to5402$、$(41,43)\to10586$、$(59,61)\to21602$、$(71,73)\to31106$；对应 $(71,73)$</strong></div>
+      <p>枚举 $p\le100$ 且 $p,p+2$ 均为质数，得上面 $8$ 对；逐对用 $(p+2)^3-p^3=6(p+1)^2+2$ 计算（例如 $p=29$：$6\cdot30^2+2=5402$）。只有 $(71,73)$ 给 $31106$。校验：$6\cdot72^2+2=6\cdot5184+2=31106$ ✓。</p>
+      <p class="hint">要点：小规模全枚举既给出答案，又验证了通式 $6(p+1)^2+2$；<strong>列出全部才叫「不重不漏」</strong>。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 加一条整除条件</span> <span class="stars">★★</span> <span class="form">形式｜附加约束的子计数</span>
+    <p>在练习 1 的 $8$ 对孪生质数中，立方差能被 $4$ 整除的有几对？请给出理由（不必逐对试除）。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$0$ 对</strong></div>
+      <p>由通式 $D=6(p+1)^2+2$。除 $p=2$（不成对）外 $p$ 为奇数，故 $p+1$ 为偶数，$(p+1)^2$ 被 $4$ 整除，$6(p+1)^2$ 被 $24$ 整除，从而 $D\equiv2\pmod 4$，永远不能被 $4$ 整除。逐对核验：$98,218,866,1946,5402,10586,21602,31106$ 除以 $4$ 余数都是 $2$。</p>
+      <p class="hint">要点：<strong>用通式做整除判定</strong>，比逐个算 $8$ 个大数再试除省事得多；「恒余 $2$」这类结构结论是数论题的常见得分点。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 把差改成 4</span> <span class="stars">★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>若把两质数之差由 $2$ 改成 $4$，且<strong>立方差仍为 $31106$</strong>，问这样的质数对是否存在？给出推导。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>不存在</strong></div>
+      <p>设两数为 $p,p+4$，则 $(p+4)^3-p^3=12p^2+48p+64=31106$，即 $12(p^2+4p)=31042$。但 $31042$ 除以 $12$ 余 $10$，不是整数，方程无整数解。另从整除角度看：$12p^2+48p$ 是 $12$ 的倍数，$+64$ 后模 $12$ 余 $4$，而 $31106\equiv2\pmod{12}$，矛盾。</p>
+      <p class="hint">要点：<strong>改参数后先用模运算做存在性判定</strong>，能一句话判死，不必解二次方程；原题的差 $2$ 与 $31106$ 是精心配好的。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般 D 的反解</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>对差为 $2$ 的质数对 $(m-1,m+1)$，证明立方差 $D=6m^2+2$，并给出由 $D$ 反解两质数的通式；用它解 $D=31106$，再求大于两质数的最小质数的数字和。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$D=6m^2+2$；$m=\sqrt{\dfrac{D-2}{6}}$，两质数 $m\mp1$；$D=31106\Rightarrow(71,73)$，下一质数 $79$，数字和 $16$</strong></div>
+      <p>展开 $(m+1)^3-(m-1)^3=6m^2+2$（奇次项抵消）。反解 $m=\sqrt{(D-2)/6}$，要求 $(D-2)/6$ 为完全平方数且 $m\mp1$ 皆为质数。代入 $D=31106$：$(31106-2)/6=5184=72^2$，故 $m=72$，质数 $71,73$；筛得下一质数 $79$，数字和 $7+9=16$。用练习 1 的表回检：$p=71$ 那一行的立方差正是 $31106$ ✓。</p>
+      <p class="hint">要点：一般化把「解三次」压成「开平方」；<strong>反解后的质性检查不可省</strong>——通式给的是候选整数，还需确认它真是质数对。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 模 24 结构证明</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明任意一对差为 $2$ 的质数，其立方差恒满足 $D\equiv2\pmod{24}$；并求所有这类质数对中<strong>最小</strong>的立方差，最后验证 $31106$ 符合该结论。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$D\equiv2\pmod{24}$；最小立方差 $98$（对应 $(3,5)$）；$31106=24\times1296+2$ ✓</strong></div>
+      <p>设两质数 $p,p+2$（$p\ge3$ 为奇数），中点 $m=p+1$ 为偶数，故 $m^2$ 被 $4$ 整除，$6m^2$ 被 $24$ 整除，于是 $D=6m^2+2\equiv2\pmod{24}$。又 $D$ 随 $p$ 严格递增，最小在 $p=3$ 取到：$5^3-3^3=125-27=98=24\times4+2$。$31106-2=31104=24\times1296$，故也余 $2$。</p>
+      <p class="hint">要点：<strong>结构结论能当「快速验错器」</strong>：若算出的立方差模 $24$ 不是 $2$，一定是展开或代入错了；本题 $31106$ 在动笔前就已通过这道检查。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>差 2 立方差 20 秒决策卡</h3>
+    <ol>
+      <li>见「两数差为 $2$ + 三次式」，立刻设 $m-1,m+1$，别硬展开 $a^2+ab+b^2$。</li>
+      <li>套 $(m+1)^3-(m-1)^3=6m^2+2$，解 $m=\sqrt{(D-2)/6}$；本题 $\sqrt{5184}=72$。</li>
+      <li>回代得两质数 $71,73$，用 $2,3,5,7$ 试除确认质性。</li>
+      <li>从 $74$ 起逐个找下一个质数（$79$），算数字和 $16$；顺手用 $D\equiv2\pmod{24}$ 验算。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「差二设中点，三次只剩平方；开方定质数，别忘再找下一个」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 立方差公式与孪生质数 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

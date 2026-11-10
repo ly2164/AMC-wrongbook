@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 等差数列求和与不变量条件</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2022AMC10B.html">← 返回 2022AMC10B</a>
+    <div class="pager">
+      <a href="20261111-twin-primes-cube-difference.html">‹ 上一题：孪生质数</a>
+      <a href="20261111-modular-divisibility-elimination.html">下一题：小质数筛法 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>S₃ₙ / Sₙ 与 n 无关：公差 2 的数列被锁成 1, 3, 5, …</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261111</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2022AMC10B(15)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Arithmetic Sequence</span></div>
+  </div>
+  <p class="lede">把第 $i$ 项写成 $a+2i$，则 $S_n=n(a+n+1)$，$\dfrac{S_{3n}}{S_n}=9-\dfrac{6(a+1)}{a+n+1}$。要与 $n$ 无关，只能 $a=-1$，于是 $S_n=n^2$、$S_{20}=400$，答案 <strong>(D)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Let $S_n$ be the sum of the first $n$ terms of an arithmetic sequence that has a common difference of $2.$ The quotient $\dfrac{S_{3n}}{S_n}$ does not depend on $n.$ What is $S_{20}?$　(A) $340$　(B) $360$　(C) $380$　(D) $400$　(E) $420$
+  </blockquote>
+  <p><strong>中文翻译</strong>：设 $S_n$ 是某个公差为 $2$ 的等差数列的前 $n$ 项和。已知商 $\dfrac{S_{3n}}{S_n}$ 与 $n$ 无关，求 $S_{20}$。　(A) $340$　(B) $360$　(C) $380$　(D) $400$　(E) $420$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>官方答案（LIVE by Po-Shen Loh）</strong>：
+    <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/15" target="_blank" rel="noopener">https://live.poshenloh.com/past-contests/amc10/2022B/problem/15</a><br>
+    官方给出的正确选项为 <strong>(D) $400$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (C) 380 或 (E) 420</code></td><td>把「与 $n$ 无关」当成「取一个方便的 $n$ 代入」，例如令 $n=1$ 得 $S_3/S_1$ 之后随意配一个首项，或者误以为「无关」就是「对所有 $n$ 都等于 $3$」（以为 $S_{3n}=3S_n$）。$S_{3n}/S_n$ 是<strong>关于 $n$ 的有理式</strong>，必须让它恒为常数，而不是解某一个 $n$。</td></tr>
+    <tr><td><code>答 (B) 360</code></td><td>首项设成 $0$，得 $S_n=n(n+1)$、$S_{20}=420$ 附近；或者把 $S_n$ 公式记成 $n(a+n-1)$，差了一个 $1$，最终首项算成 $0$ 而不是 $1$。<strong>公差 $2$ 的求和公式里 $2\cdot\frac{n(n+1)}2=n(n+1)$ 的 $+1$ 极易漏</strong>。</td></tr>
+    <tr><td><code>答 (A) 340</code></td><td>先猜答案再反推首项，把「商与 $n$ 无关」当成「商等于 $9$ 时随便取一个 $n$」的充分条件，凑不出 $400$ 就选了最接近的干扰项。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：<strong>没有把「与 $n$ 无关」翻译成「含 $n$ 的那一项系数必须为 $0$」</strong>。标准动作：把 $S_{3n}/S_n$ 整理成 $C+\dfrac{K}{a+n+1}$ 的形状，$n$ 只出现在分母里，要恒定只能让分子 $K=0$。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与官网 <a href="https://live.poshenloh.com/past-contests/amc10/2022B/problem/15" target="_blank" rel="noopener">2022AMC10B(15)</a> 的书面解答一致——把第 $i$ 项写作 $a+2i$（$a$ 是首项之前那一项），得 $S_n=n(a+n+1)$、$\frac{S_{3n}}{S_n}=9-\frac{6(a+1)}{a+n+1}$，令分子 $6(a+1)=0$ 得 $a=-1$，故 $S_{20}=20(-1+20+1)=400$。 <br> 本站的增量是补上「用首项 $b$ 直接写」的第二条路径，以及一般公差 $d$ 的通式作为交叉验证。
+  </blockquote>
+  <h3>方法一：整成常数加余项（官方思路，推荐）</h3>
+  <p><strong>第 1 步 · 设元与求和。</strong> 令第 $i$ 项为 $a+2i$（于是 $a$ 是「第 $0$ 项」，首项 $=a+2$）。则</p>
+$$S_n=\sum_{i=1}^{n}(a+2i)=na+2\cdot\frac{n(n+1)}{2}=n(a+n+1).$$
+  <p><strong>第 2 步 · 写商并分离常数。</strong></p>
+$$\frac{S_{3n}}{S_n}=\frac{3n(a+3n+1)}{n(a+n+1)}=\frac{3(a+3n+1)}{a+n+1}
+=\frac{9(a+n+1)-6(a+1)}{a+n+1}=9-\frac{6(a+1)}{a+n+1}.$$
+  <p><strong>第 3 步 · 令含 $n$ 的部分消失。</strong> 上式中 $n$ 只在 $\dfrac{6(a+1)}{a+n+1}$ 里。要对一切 $n$ 恒定，必须</p>
+$$6(a+1)=0\Rightarrow a=-1.$$
+  <p>此时首项 $=a+2=1$，数列即 $1,3,5,7,\ldots$，$S_n=n^2$，商恒为 $9$ ✓。</p>
+  <p><strong>第 4 步 · 求 $S_{20}$。</strong></p>
+$$S_{20}=20(-1+20+1)=20\cdot20=400.$$
+  <blockquote class="ok"><strong>答案：(D) $400$。</strong></blockquote>
+  <h3>方法二：用首项 $b$ 直接写（用来交叉验证）</h3>
+  <p>设首项 $b$、公差 $2$，则第 $i$ 项 $=b+2(i-1)$，</p>
+$$S_n=\frac{n\big(2b+(n-1)\cdot2\big)}{2}=n(b+n-1).$$
+$$\frac{S_{3n}}{S_n}=\frac{3n(b+3n-1)}{n(b+n-1)}=3\cdot\frac{b+3n-1}{b+n-1}=9-\frac{6(b-1)}{b+n-1}.$$
+  <p>恒定 $\Rightarrow b-1=0\Rightarrow b=1$，$S_{20}=20(1+20-1)=400$。与方法一的 $a=-1$ 对应（$b=a+2$），完全一致。</p>
+  <blockquote class="ok"><strong>验证技巧</strong>：① 代 $n=1,2,3$ 检验：$S_1=1,S_2=4,S_3=9$，$S_3/S_1=9$、$S_6/S_2=36/4=9$、$S_9/S_3=81/9=9$，确实恒定；② 若首项取 $0$，三个商分别是 $6,7,7.5$，随 $n$ 变化，反证条件不可省；③ 量级检查：$S_n$ 是二次式，$\frac{S_{3n}}{S_n}$ 当 $n\to\infty$ 必趋于 $9$，所以「恒定」只可能恒等于 $9$。</blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：<strong>「与 $n$ 无关」＝ 把式子写成「常数 $+$ $\dfrac{K}{f(n)}$」后令 $K=0$</strong>。本题 $K=6(a+1)$。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li><strong>等差数列求和</strong> $S_n=\dfrac{n(2b+(n-1)d)}2$；公差 $2$ 时化为 $n(b+n-1)$ 或 $n(a+n+1)$，两种写法只差一个常数平移，别混用。</li>
+    <li><strong>极限给出常数的候选值</strong>。$S_{3n}/S_n\to 3^2=9$（二次式之首项系数比），所以条件等价于「对一切 $n$ 恒等于 $9$」，这提供了另一条思路：直接解 $S_{3n}=9S_n$ 比较系数。</li>
+    <li><strong>本题的答案数列是奇数列</strong> $1,3,5,\ldots$，$S_n=n^2$。记住「前 $n$ 个奇数之和 $=n^2$」能一眼看出 $S_{20}=400$。</li>
+    <li><strong>「不变量条件」常常是用来锁死首项的</strong>，不是用来算某个具体 $n$ 的。看到 "does not depend on $n$" 就去找式子里 $n$ 的系数。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 三行验算</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>对 $a=-1,0,1$ 三种取法，分别写出 $S_1,S_2,S_3$ 与三个商 $\dfrac{S_3}{S_1},\dfrac{S_6}{S_2},\dfrac{S_9}{S_3}$（用精确分数），指出哪一种满足「与 $n$ 无关」。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>只有 $a=-1$ 满足（三个商都是 $9$）；$a=0$ 给 $6,7,\frac{15}{2}$；$a=1$ 给 $5,6,\frac{33}{5}$</strong></div>
+      <p>由 $S_n=n(a+n+1)$：$a=-1$ 时 $S_1,S_2,S_3=1,4,9$，商 $\frac{9}{1}=9,\frac{36}{4}=9,\frac{81}{9}=9$。$a=0$ 时 $S_n=n(n+1)$，$S_3/S_1=12/2=6$、$S_6/S_2=42/6=7$、$S_9/S_3=90/12=\frac{15}{2}$。$a=1$ 时 $S_n=n(n+2)$，$S_3/S_1=15/3=5$、$S_6/S_2=48/8=6$、$S_9/S_3=99/15=\frac{33}{5}$。后两者随 $n$ 变化。</p>
+      <p class="hint">要点：<strong>列三个 $n$ 就足以暴露「不恒定」</strong>；而确认「恒定」要靠方法一的代数证明，列举只是佐证。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 反解唯一性</span> <span class="stars">★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>若只要求 $\dfrac{S_3}{S_1}=\dfrac{S_6}{S_2}$（即只在前两个 $n$ 上相等），是否还存在除 $a=-1$ 以外的整数 $a$？在 $-50\le a\le50$ 中求解并证明唯一性。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>不存在，唯一解 $a=-1$</strong></div>
+      <p>由分离式 $\frac{S_{3n}}{S_n}=9-\frac{6(a+1)}{a+n+1}$，令 $n=1,2$ 相等得 $\frac{a+1}{a+2}=\frac{a+1}{a+3}$。若 $a\ne-1$，两边约去 $a+1$ 得 $\frac1{a+2}=\frac1{a+3}$，即 $a+2=a+3$，矛盾。故 $a=-1$ 是唯一解；在 $-50\le a\le50$ 穷举也只得到 $-1$。</p>
+      <p class="hint">要点：<strong>「与所有 $n$ 无关」强于「对两个 $n$ 相等」，但本题弱条件已足以锁死首项</strong>；分式方程约分前一定先检查分子是否可能为 $0$。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 公差改成 3</span> <span class="stars">★★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把公差由 $2$ 改成 $3$，仍要求 $\dfrac{S_{3n}}{S_n}$ 与 $n$ 无关（沿用「第 $i$ 项 $=a+3i$」的记法），求 $a$ 与 $S_{20}$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$a=-\dfrac32$，$S_{20}=600$</strong></div>
+      <p>$S_n=na+3\cdot\frac{n(n+1)}{2}=n\left(a+\frac{3(n+1)}2\right)$。商 $=3\cdot\dfrac{2a+3(3n+1)}{2a+3(n+1)}=9-\dfrac{12a+18}{2a+3n+3}$（按方法一分离常数可得）。令分子 $12a+18=0\Rightarrow a=-\frac32$。此时首项 $=-\frac32+3=\frac32$，数列是 $\frac32,\frac92,\frac{15}2,\ldots=\frac32(1,3,5,\ldots)$，$S_{20}=\frac32\cdot20^2=600$。用 $n=1,2,3$ 回代商均为 $9$ ✓。</p>
+      <p class="hint">要点：公差一变，被锁死的是「首项 $=\dfrac d2$」这个<strong>比例关系</strong>，而不是某个固定数字；$S_n=\dfrac d2 n^2$ 随之缩放。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般公差通项</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>设首项 $b$、公差 $d$（$d\ne0$）。证明 $\dfrac{S_{3n}}{S_n}$ 与 $n$ 无关 <strong>当且仅当</strong> $b=\dfrac d2$，此时 $S_n=\dfrac d2 n^2$、商恒为 $9$；再用它求原题的 $S_{20}$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>当且仅当 $b=\frac d2$；$S_n=\frac d2n^2$，商 $=9$；原题 $d=2,b=1\Rightarrow S_{20}=400$</strong></div>
+      <p>$S_n=\frac{n(2b+(n-1)d)}2=\frac d2n^2+\left(b-\frac d2\right)n$。记 $c=b-\frac d2$，则 $S_n=\frac d2 n^2+cn$，$\frac{S_{3n}}{S_n}=\frac{\frac{9d}2n^2+3cn}{\frac d2n^2+cn}=\frac{9d n+6c}{d n+2c}$。要它与 $n$ 无关，交叉比较系数：设恒为 $K$，则 $9d=Kd\Rightarrow K=9$，且 $6c=9\cdot2c=18c\Rightarrow c=0\Rightarrow b=\frac d2$。此时 $S_n=\frac d2n^2$。原题 $d=2\Rightarrow b=1,S_{20}=\frac22\cdot400=400$。</p>
+      <p class="hint">要点：一般化后条件变成「<strong>一次项系数 $c=0$</strong>」，即 $S_n$ 是没有一次项的齐次二次式；这比逐题分离分式更本质，也解释了为什么答案是奇数列。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 结构 + 子计数</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明「商与 $n$ 无关」条件在公差 $2$、首项为整数的数列中等价于「数列恰为 $1,3,5,7,\ldots$」；并求这个数列前 $20$ 项中能被 $3$ 整除的项数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>数列唯一为 $1,3,5,\ldots,39$；能被 $3$ 整除的有 $7$ 项</strong></div>
+      <p>由练习 4，$b=\frac d2=1$，故第 $i$ 项 $=1+2(i-1)=2i-1$，即前 $20$ 项为 $1,3,5,\ldots,39$。其中 $2i-1\equiv0\pmod3\iff 2i\equiv1\pmod3\iff i\equiv2\pmod3$，在 $1\le i\le20$ 中 $i=2,5,8,11,14,17,20$ 共 $7$ 个，对应项 $3,9,15,21,27,33,39$。</p>
+      <p class="hint">要点：<strong>结构结论（数列被唯一确定）之后，任何「再问一句」的计数题都变成解一个同余式</strong>；把 $2i\equiv1\pmod3$ 解成 $i\equiv2\pmod3$ 比逐项试除更快。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>「与 n 无关」20 秒决策卡</h3>
+    <ol>
+      <li>写出 $S_n$（二次式），再写 $\dfrac{S_{3n}}{S_n}$，用多项式除法整成 $9-\dfrac{K}{a+n+1}$。</li>
+      <li>令 $K=0$ 解出首项；公差 $2$ 时得 $a=-1$、首项 $1$。</li>
+      <li>识别 $S_n=n^2$（前 $n$ 个奇数之和），直接得 $S_{20}=400$。</li>
+      <li>自检——$n=1,2,3$ 的商都是 $9$；若首项为 $0$，商变成 $6,7,7.5$，条件不成立。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「不依赖 n，先分离常数；分子归零锁首项，公差一半是首项」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 等差数列求和与不变量条件 &nbsp;|&nbsp; 生成于 2026-11-11</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
