@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 分数二叉树的逆向追踪</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2026AMC10A.html">← 返回 2026AMC10A</a>
+    <div class="pager">
+      <a href="20261114-triangle-inequality-parameter.html">‹ 上一题：三角形参数</a>
+      <a href="20261114-capped-score-urn.html">下一题：有上限抽球 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>从 20/27 逆推 8 步回到根 1/2：分数二叉树的层数就是上行步数</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261114</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2026AMC10A(15)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Fractions</span></div>
+  </div>
+  <p class="lede">所有节点都满足 $0\lt a\lt b$：左子节点小于 $\frac12$、右子节点大于 $\frac12$，故父节点可唯一反推。沿 $\frac{20}{27}\to\frac{7}{20}\to\frac{7}{13}\to\frac{6}{7}\to\frac{1}{6}\to\frac{1}{5}\to\frac{1}{4}\to\frac{1}{3}\to\frac{1}{2}$ 上行 $8$ 步到根，故 $\frac{20}{27}$ 在第 $8$ 层，答案 <strong>(B)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    The tree diagram below has nodes labeled with rational numbers. The top node, at level $0$, is $\frac12$. Each node $\frac{a}{b}$ sprouts two nodes in the level below it, $\frac{a}{a+b}$ and $\frac{b}{a+b}$. For example, level $1$ has nodes $\frac{1}{1+2}=\frac13$ and $\frac{2}{1+2}=\frac23$. At what level does the node $\frac{20}{27}$ appear in the diagram?　(A) $5$　(B) $8$　(C) $12$　(D) $26$　(E) The node $\frac{20}{27}$ does not appear in the diagram.
+<img src="../img/amc10/2026A/15-tree.png" alt="2026 AMC 10A Problem 15 分数二叉树示意图（根 1/2，左子 a/(a+b)，右子 b/(a+b)）" style="max-height:16rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：一棵分数二叉树，根（第 $0$ 层）为 $\frac12$。每个节点 $\frac{a}{b}$ 向下一层生出两个子节点 $\frac{a}{a+b}$ 与 $\frac{b}{a+b}$（例如第 $1$ 层为 $\frac13$ 与 $\frac23$）。问节点 $\frac{20}{27}$ 出现在第几层？　(A) $5$　(B) $8$　(C) $12$　(D) $26$　(E) $\frac{20}{27}$ 不出现在图中</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>答案依据</strong>：讲义《2026AMC10A 答案与解析》（用户随附，含答案总表与逐题解析）<br>
+    讲义给出的正确选项为 <strong>(B) $8$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (D) 26 或 (C) 12</code></td><td>顺着<strong>向下展开</strong>，把分母 $27$ 或分子分母之和 $20+27=47$ 当成层数，或逐层 BFS 展开到第 $8$ 层（共 $256$ 个节点）时手算失控。讲义明确：<strong>逆向追踪远比逐层展开简便</strong>，根记为第 $0$ 层，上行步数就是层数。</td></tr>
+    <tr><td><code>答 (A) 5</code></td><td>只逆推了前 $5$ 步（$\frac{20}{27}\to\cdots\to\frac{1}{6}$）就以为到根了，或把「$b-a$」操作误当成一次减法直接把 $27-20=7$ 看成层数。逆推必须一直做到 $\frac12$ 为止，中途停下会少数步数。</td></tr>
+    <tr><td><code>答 (E) 不出现</code></td><td>看到分母 $27$ 是奇数、分子分母互素就怀疑不在树上；或误以为树上只有分母为 $2$ 的幂的分数。实际上所有满足 $0\lt a\lt b$ 的既约分数都会出现，$\frac{20}{27}$ 完全合法。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有抓住「子节点与 $\frac12$ 的大小关系决定父节点」这一<strong>可逆性</strong>。只要能唯一反推，层数就是上行步数，与树的规模无关。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与用户随附讲义《2026AMC10A 答案与解析》第 15 题的书面解答同源（本卷官方站尚未收录，讲义即本次权威答案依据）——所有节点满足 $0\lt a\lt b$，左子节点小于 $\frac12$、右子节点大于 $\frac12$，故 $\frac{u}{v}\lt \frac12$ 时父节点为 $\frac{u}{v-u}$，$\frac{u}{v}>\frac12$ 时父节点为 $\frac{v-u}{u}$；逆推链 $\frac{20}{27}\to\frac{7}{20}\to\frac{7}{13}\to\frac{6}{7}\to\frac{1}{6}\to\frac{1}{5}\to\frac{1}{4}\to\frac{1}{3}\to\frac{1}{2}$ 共 $8$ 步，故在第 $8$ 层。 <br> 本站的增量是给出连分数闭式、第 $8$ 层的规模与最大分母，以及「不在树上」的判别。
+  </blockquote>
+  <h3>方法一：逆向追踪父节点（讲义思路，推荐）</h3>
+  <p><strong>第 1 步 · 证明父节点唯一。</strong> 节点 $\frac{a}{b}$（$0\lt a\lt b$，已约分）的两个子节点为</p>
+$$\frac{a}{a+b}\lt \frac12,\qquad \frac{b}{a+b}>\frac12 .$$
+  <p>因为 $a\lt a+b$ 保证左子小于 $\frac12$，而 $2b>a+b\Longleftrightarrow b>a$ 保证右子大于 $\frac12$。所以看到一个节点 $\frac{u}{v}$：</p>
+$$\frac{u}{v}\lt \frac12 \Longrightarrow \text{父}=\frac{u}{v-u};\qquad \frac{u}{v}>\frac12 \Longrightarrow \text{父}=\frac{v-u}{u} .$$
+  <p>（$\frac{u}{v}=\frac12$ 只可能是根，因为子节点分母 $a+b$ 严格大于分子，永远不会等于 $\frac12$。）</p>
+  <p><strong>第 2 步 · 逐步上行。</strong> 从 $\frac{20}{27}$ 出发（每一步先与 $\frac12$ 比较）：</p>
+$$\frac{20}{27}\xrightarrow{>1/2}\frac{7}{20}\xrightarrow{\lt 1/2}\frac{7}{13}\xrightarrow{>1/2}\frac{6}{7}\xrightarrow{>1/2}\frac{1}{6}\xrightarrow{\lt 1/2}\frac{1}{5}\xrightarrow{\lt 1/2}\frac{1}{4}\xrightarrow{\lt 1/2}\frac{1}{3}\xrightarrow{\lt 1/2}\frac{1}{2}.$$
+  <p><strong>第 3 步 · 数步数。</strong> 共 $8$ 次上行到达根 $\frac12$（第 $0$ 层），故 $\frac{20}{27}$ 位于第 $8$ 层。</p>
+  <blockquote class="ok"><strong>答案：(B) $8$。</strong></blockquote>
+  <h3>方法二：连分数闭式（交叉验证）</h3>
+  <p>把 $\frac{u}{v}$ 写成 $\frac{v}{u}$ 的连分数。对 $\frac{20}{27}$ 考察 $\frac{27}{20}$：</p>
+$$\frac{27}{20}=1+\frac{7}{20}=1+\cfrac{1}{2+\cfrac{1}{1+\cfrac{1}{6}}}=[1,2,1,6].$$
+  <p>一般地，若 $\frac{v}{u}=[q_0,q_1,\ldots,q_s]$，则该节点所在层数为</p>
+$$\text{level}=q_0+q_1+\cdots+q_s-2 .$$
+  <p>此处 $1+2+1+6-2=8$，与方法一一致。这个闭式把「逆推」压缩成一次带余除法，且对全部既约 $\frac{a}{b}\ (0\lt a\lt b\lt 30)$ 逐一验算均成立。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① 正向回代：由 $\frac12$ 依次取右、右、左、左、左、左、左、左 可回到 $\frac{20}{27}$，共 $8$ 条边 ✓；② 连分数校验：$\frac{27}{20}=[1,2,1,6]$，部分商之和 $1+2+1+6=10$，层数 $=10-2=8$ ✓；③ 第 $0\sim3$ 层节点数为 $1,2,4,8$，与每层翻倍一致；④ 讲义给出的逆推链与本站逐步核对无一步偏差。
+  </blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：分数树是<strong>可逆</strong>的——子节点相对 $\frac12$ 的大小唯一决定它是左子还是右子，从而父节点唯一；层数 $=$ 上行到根的步数。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>讲义点明的易错点是「逆向追踪远比逐层展开简便，根节点标为 $0$，步数就是层数」。第 $8$ 层已有 $256$ 个节点，正向展开不可行。</li>
+    <li>所有节点满足 $0\lt a\lt b$，即分数严格落在 $(0,1)$；这是可逆性的前提，也是判断「某分数不在树上」的第一条。</li>
+    <li>逆推操作只有两种：$u/v\lt 1/2$ 时分子不变、分母变 $v-u$；$u/v>1/2$ 时分子变 $v-u$、分母变 $u$。每一步都保持既约。</li>
+    <li>连分数闭式 $\text{level}=\sum q_i-2$ 是独立的第二通道；连分数部分商之和恰好等于「减 $2$ 之后的上行步数」。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 前四层全展开</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>逐层<strong>列出</strong>第 $0$ 至第 $3$ 层的全部节点（按分母、分子排序），并说明每层节点数的规律。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$1,2,4,8$ 个；第 $0$ 层 $\frac12$；第 $1$ 层 $\frac13,\frac23$；第 $2$ 层 $\frac14,\frac34,\frac25,\frac35$；第 $3$ 层 $\frac15,\frac45,\frac27,\frac37,\frac47,\frac57,\frac38,\frac58$</strong></div>
+      <p>从 $\frac12$ 生 $\frac13,\frac23$；$\frac13$ 生 $\frac14,\frac34$，$\frac23$ 生 $\frac25,\frac35$；再下一层由 $\frac14\to\frac15,\frac45$，$\frac34\to\frac37,\frac47$，$\frac25\to\frac27,\frac57$，$\frac35\to\frac38,\frac58$。每层节点数翻倍，因为每个节点恰生两个子节点且不同节点不会生出相同分数（父节点唯一）。</p>
+      <p class="hint">要点：<strong>小规模完整列举是逆推规则最好的试金石</strong>；把第 $3$ 层的 $8$ 个分数抄一遍，就能确认「左小右大」的判断没有写反。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 换一个目标分数</span> <span class="stars">★★</span> <span class="form">形式｜换数据计算</span>
+    <p>用同样的逆推法求 $\frac{13}{20}$ 位于第几层，并写出完整逆推链。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>第 $7$ 层</strong></div>
+      <p>$\frac{13}{20}\xrightarrow{>1/2}\frac{7}{13}\xrightarrow{>1/2}\frac{6}{7}\xrightarrow{>1/2}\frac{1}{6}\xrightarrow{\lt 1/2}\frac{1}{5}\xrightarrow{\lt 1/2}\frac{1}{4}\xrightarrow{\lt 1/2}\frac{1}{3}\xrightarrow{\lt 1/2}\frac{1}{2}$，共 $7$ 步。连分数校验：$\frac{20}{13}=[1,1,1,6]$（末项 $6\ge2$），部分商之和 $9$，层数 $9-2=7$ ✓。</p>
+      <p class="hint">要点：<strong>换一个目标分数只需重走同一条逆推链</strong>；连分数用「末项 $\ge2$」的规范式才与层数对得上。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 什么不在树上</span> <span class="stars">★★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>判断 $\frac{27}{20}$、$\frac{2}{2}$、$\frac{20}{27}$ 三者中哪些会出现在树上，并给出理由。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>只有 $\frac{20}{27}$ 出现；$\frac{27}{20}$ 与 $\frac{2}{2}$ 都不出现</strong></div>
+      <p>根为 $\frac12\in(0,1)$，且两个子节点 $\frac{a}{a+b},\frac{b}{a+b}$ 都严格在 $(0,1)$ 内并保持既约，故归纳得<strong>所有节点都是 $(0,1)$ 内的既约真分数</strong>。$\frac{27}{20}>1$ 超出范围；$\frac{2}{2}=1$ 且不既约（约分后为 $\frac11$，仍不在 $(0,1)$）。$\frac{20}{27}$ 既约且 $0\lt 20\lt 27$，按方法一逆推 $8$ 步到根，确实出现。</p>
+      <p class="hint">要点：<strong>先定值域再谈出现</strong>；选项 (E) 的干扰正来自「分母是奇数就不是树上分数」的错误直觉。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 连分数通式</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>证明对树上任一既约节点 $\frac{u}{v}$（$0\lt u\lt v$），若 $\frac{v}{u}=[q_0,q_1,\ldots,q_s]$ 取末项 $\ge2$ 的规范式，则层数 $=\sum_{i=0}^{s}q_i-2$；并用原题验证。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>层数 $=\sum q_i-2$；原题 $\frac{27}{20}=[1,2,1,6]$，和为 $10$，层数 $8$</strong></div>
+      <p>逆推一步在 $\frac{v}{u}$ 上对应一次「减去整数部分再取倒数」的欧几里得操作，每做一次带余除法就把某个部分商 $q_i$ 减 $1$；从 $\frac{v}{u}$ 归约到 $\frac{2}{1}$（对应根 $\frac12$）恰好需要 $\sum q_i-2$ 步。原题 $\frac{27}{20}=[1,2,1,6]$（末项 $6\ge2$），$1+2+1+6-2=8$ ✓。对全部既约 $0\lt a\lt b\lt 30$ 的分数逐一比对逆推层数，公式全部成立。</p>
+      <p class="hint">要点：<strong>「逆推步数」与「连分数部分商之和」是同一件事的两种语言</strong>；规范式（末项 $\ge2$）是公式成立的前提。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 第 8 层的规模</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>第 $8$ 层共有多少个节点？其中最大分母与最小分母各是多少？说明最大分母与斐波那契数的关系。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$256$ 个节点；最大分母 $89$，最小分母 $10$</strong></div>
+      <p>每层翻倍，第 $L$ 层有 $2^L$ 个节点，故第 $8$ 层 $2^8=256$ 个。穷举这 $256$ 个既约分数：最小分母落在「一直取左子」的链 $\frac12\to\frac13\to\cdots\to\frac1{10}$，即 $\frac{1}{10}$，分母 $10$；最大分母落在连续取右子再取一次左子的斐波那契型链上，节点为 $\frac{34}{89}$，分母 $89=F_{11}$（$F_1=F_2=1$）。一般地第 $L$ 层最大分母为 $F_{L+3}$，本题 $L=8$ 即 $F_{11}=89$ ✓。</p>
+      <p class="hint">要点：<strong>层数一确定，规模就由 $2^L$ 锁定</strong>；分母极值分别落在「全左」与「近全右」两条极端路径上，是这类树结构问题的通用套路。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>分数树层数 15 秒决策卡</h3>
+    <ol>
+      <li>确认目标在 $(0,1)$ 内且既约；否则直接选「不出现」。</li>
+      <li>与 $\frac12$ 比较：小于则父为 $\frac{u}{v-u}$，大于则父为 $\frac{v-u}{u}$。</li>
+      <li>反复上行直到 $\frac12$，<strong>步数即层数</strong>（根记为第 $0$ 层）。</li>
+      <li>用连分数 $\frac{v}{u}=[q_0,\ldots,q_s]$（末项 $\ge2$）核对 $\sum q_i-2$。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「左小右大定父子，逆向一路走回根；步数就是所在层，连分数和减二验」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 分数二叉树的逆向追踪 &nbsp;|&nbsp; 生成于 2026-11-14</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

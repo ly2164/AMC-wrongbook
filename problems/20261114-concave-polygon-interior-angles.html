@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 含凹角的多边形内角和</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2026AMC10A.html">← 返回 2026AMC10A</a>
+    <div class="pager">
+      <a href="20261111-rhombus-cyclic-angle.html">‹ 上一题：菱形共圆</a>
+      <a href="20261114-similar-scalene-triangles.html">下一题：相似三角形 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>一半 150° 一半 190°：凹多边形也用内角和，n=36</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261114</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2026AMC10A(4)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Interior Angle Sum</span></div>
+  </div>
+  <p class="lede">平均内角 $\frac{150+190}{2}=170^\circ$，简单多边形内角和恒为 $180^\circ(n-2)$；$170n=180n-360$ 立刻给出 $n=36$，答案 <strong>(A)</strong>。别被 $190^\circ$ 这个凹角吓退——公式对凹多边形照样成立。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Half of the internal angles of a polygon measure $150^\circ$ each, and the other half of its internal angles measure $190^\circ$ each. How many sides does the polygon have?　(A) $36$　(B) $40$　(C) $60$　(D) $72$　(E) $180$
+  </blockquote>
+  <p><strong>中文翻译</strong>：一个多边形的一半内角为 $150^\circ$，另一半内角为 $190^\circ$，求它的边数。　(A) $36$　(B) $40$　(C) $60$　(D) $72$　(E) $180$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>答案依据</strong>：讲义《2026AMC10A 答案与解析》（用户随附，含答案总表与逐题解析）<br>
+    讲义给出的正确选项为 <strong>(A) $36$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 180</code></td><td>看到 $190^\circ \gt 180^\circ$ 就认定「内角不可能大于 $180^\circ$，题目无解」，于是拿 $360/2=180$ 之类凑了个选项。<strong>凹（简单）多边形的内角本来就可以超过 $180^\circ$</strong>（反角）；只要边不自交，内角和 $180^\circ(n-2)$ 就仍然成立。</td></tr>
+    <tr><td><code>答 (C) 60 或 (D) 72</code></td><td>把「一半 $150$、一半 $190$」误读成「总共 $150$ 个角与 $190$ 个角」，或把平均内角算成 $170^\circ$ 后又错写成 $n=360/(190-170)=18$、乘 $2$ 得 $36$ 却选错选项。<strong>平均值只在两类角各占一半时才等于 $170^\circ$</strong>，且方程必须是 $170n=180(n-2)$。</td></tr>
+    <tr><td><code>答 (B) 40</code></td><td>解 $170n=180n-360$ 时把 $360$ 抄成 $400$，得 $10n=400\Rightarrow n=40$。纯算术失误；回代 $170\times40=6800$ 而 $180\times38=6840$ 不相等，本可一眼发现。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「内角和公式对简单凹多边形仍成立」当作默认事实，也没意识到「两类角各占一半」同时意味着<strong>平均内角是算术平均</strong>、且 $n$ 必须是偶数。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与用户随附讲义《2026AMC10A 答案与解析》第 4 题的书面解答同源（本卷官方站尚未收录，讲义即本次权威答案依据）——平均内角 $170^\circ$，由简单多边形内角和得 $170n=180(n-2)$，解出 $n=36$。 <br> 本站的增量是显式说明凹角为何不破坏公式、补上 $n$ 为偶数的自洽检查，以及外角法的交叉验证。
+  </blockquote>
+  <h3>方法一：平均内角 + 内角和公式（讲义思路，推荐）</h3>
+  <p><strong>第 1 步 · 求平均内角。</strong> 设边数为 $n$。一半角为 $150^\circ$、一半为 $190^\circ$，故平均内角</p>
+$$\bar\alpha=\frac{150+190}{2}=170^\circ .$$
+  <p>「一半」要求 $n$ 为偶数，记 $n=2m$，两类角各 $m$ 个。</p>
+  <p><strong>第 2 步 · 列内角和方程。</strong> 任一简单 $n$ 边形（允许凹角）内角和为 $180^\circ(n-2)$，另一方面它等于 $n\bar\alpha=170n$，于是</p>
+$$170n=180(n-2)=180n-360 \Longrightarrow 10n=360 \Longrightarrow n=36 .$$
+  <p><strong>第 3 步 · 自洽检查。</strong> $36$ 是偶数，$m=18$，即 $18$ 个 $150^\circ$ 与 $18$ 个 $190^\circ$；总和 $18\times150+18\times190=6120=180\times34$，吻合。</p>
+  <blockquote class="ok"><strong>答案：(A) $36$。</strong></blockquote>
+  <h3>方法二：外角和（把凹角看成负外角）</h3>
+  <p>第 $i$ 个顶点处的<strong>转向角</strong>为 $180^\circ-\alpha_i$；凹角 $\alpha_i \gt 180^\circ$ 时它为负。简单多边形绕行一周总转向恒为 $360^\circ$，故</p>
+$$18(180-150)+18(180-190)=18\times30+18\times(-10)=540-180=360 .$$
+  <p>这说明 $n=36$ 与「凹角取负贡献」完全相容。反过来由 $\sum(180^\circ-\alpha_i)=360^\circ$ 得 $180n-170n=360$，同样解出 $n=36$。讲义强调的「凹多边形仍满足内角和公式」在这里有了直观解释：凹角只是让对应外角为负，总和仍是整整一周。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① 回代 $170\times36=6120$ 与 $180\times34=6120$ 相等；② 外角校验：$18(180-150)+18(180-190)=540-180=360^\circ$；③ 小规模同构：一半 $100^\circ$、一半 $200^\circ$ 给出 $n=12$，与通式 $720/(360-100-200)=12$ 一致。
+  </blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：简单多边形内角和 $=180^\circ(n-2)$ <strong>与凸凹无关</strong>；「两类角各占一半」把内角和化成 $n\bar\alpha$，其中 $\bar\alpha$ 是两类角的算术平均。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>凹角（$190^\circ \gt 180^\circ$）合法。内角和是简单多边形的拓扑不变量，凸性不是前提；把外角写成 $180^\circ-\alpha_i$ 后凹角给出负外角，总和仍为 $360^\circ$。</li>
+    <li>「一半 / 一半」强制 $n$ 为偶数。解出 $n$ 后必须回代检查它是偶数，否则题目条件自相矛盾（练习 3 就是反例）。</li>
+    <li>方程的一般形。若两类角为 $a,b$ 各占一半，则 $\frac{a+b}{2}n=180(n-2)$，即 $n=\frac{720}{360-a-b}$；需 $a+b \lt 360$ 且 $n$ 为偶数。</li>
+    <li>答案唯一性。$170n=180n-360$ 是一次方程，只有一个解；随 $n$ 增大平均内角单调趋近 $180^\circ$，不可能有第二个解。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 同构换数</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>一个简单多边形一半内角为 $100^\circ$、另一半为 $200^\circ$，<strong>逐写出</strong>平均内角、内角和方程、解、以及偶数性检查这四步，求边数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$n=12$</strong></div>
+      <p>平均内角 $\bar\alpha=(100+200)/2=150^\circ$；方程 $150n=180(n-2)=180n-360$；解 $30n=360\Rightarrow n=12$；$12$ 为偶数，$m=6$，回代 $6\times100+6\times200=1800=180\times10$ ✓。</p>
+      <p class="hint">要点：<strong>四步一步都不能省</strong>；尤其最后的偶数性检查，是「一半 / 一半」类题独有的自检。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 换一组角</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把两类角改成 $150^\circ$ 与 $170^\circ$（仍各占一半），求边数；并说明为什么不再是 $36$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$n=18$</strong></div>
+      <p>平均内角 $(150+170)/2=160^\circ$，方程 $160n=180n-360$ 给 $20n=360\Rightarrow n=18$。原题 $170^\circ$ 更接近 $180^\circ$，故需要更多边；这里平均角降了 $10^\circ$，分母从 $10$ 变成 $20$，边数减半。通式 $n=360/(180-\bar\alpha)$ 直接给出 $360/20=18$。</p>
+      <p class="hint">要点：<strong>平均内角越接近 $180^\circ$，边数越大</strong>；$n=360/(180-\bar\alpha)$ 把这种反比关系写死。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 无解判定</span> <span class="stars">★★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>若一半内角为 $120^\circ$、另一半为 $160^\circ$，是否存在满足条件的简单多边形？若存在求边数，若不存在说明矛盾出在哪。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>不存在。通式给 $n=9$，但 $9$ 是奇数，无法「一半 / 一半」</strong></div>
+      <p>平均内角 $140^\circ$，方程 $140n=180n-360$ 给 $40n=360\Rightarrow n=9$。但 $9$ 个角不能平分成两组整数个，题设自相矛盾；若强行取 $m=4$ 或 $5$，总和分别对不上 $180\times7=1260$。讲义强调的「一半」隐含偶数条件在这里成了否决项。</p>
+      <p class="hint">要点：<strong>先解方程、再验可行性</strong>；算出 $n$ 不等于题目有解，隐含约束（偶数、边数 $\ge 3$、角度合法）必须逐条过滤。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般通式</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>设两类内角为 $a,b$ 各占一半，证明 $n=\dfrac{720}{360-a-b}$；并给出「存在合法简单多边形」关于 $a,b$ 的必要条件，再用它复核原题 $(a,b)=(150,190)$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$n=\dfrac{720}{360-a-b}$；需 $a+b \lt 360$、$n$ 为偶数且 $n\ge 4$；原题给 $n=36$</strong></div>
+      <p>由 $\frac{a+b}{2}n=180(n-2)$ 移项得 $\left(180-\frac{a+b}{2}\right)n=360$，即 $n=\frac{360}{180-(a+b)/2}=\frac{720}{360-a-b}$。分母须为正故 $a+b \lt 360$；$n$ 须为偶数（两类角各占一半）且 $n\ge 4$（简单多边形至少 $3$ 边，偶数即 $\ge 4$）。代入 $(150,190)$：$720/(360-340)=720/20=36$ ✓。</p>
+      <p class="hint">要点：<strong>把具体数字换成字母，一次方程的结构不变</strong>；这也是练习 1、2、3 三道题能共用一条通式的根本原因。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 极值搜索</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>固定一类内角为 $190^\circ$，另一类为整数度数 $x$（仍各占一半），求<strong>最小</strong>的合法偶数边数 $n$ 及对应的 $x$；并统计 $1\le x\le 360$ 中可行的 $x$ 共有多少个。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>最小 $n=6$，对应 $x=50^\circ$；可行的 $x$ 共 $22$ 个</strong></div>
+      <p>由通式 $n=\dfrac{720}{360-190-x}=\dfrac{720}{170-x}$。要 $n$ 为偶数且 $\ge 4$，需 $170-x$ 是 $720$ 的正因数且商为偶数。$n=4\Rightarrow 170-x=180\Rightarrow x=-10$（不合法）；$n=6\Rightarrow 170-x=120\Rightarrow x=50$ ✓。此时 $3$ 个 $190^\circ$ 与 $3$ 个 $50^\circ$ 之和为 $570+150=720=180\times4$ ✓。逐个枚举 $x$ 使 $720/(170-x)$ 为偶整数，得 $22$ 个可行值；$x=190$ 会使两类角相同、分母为零，排除。</p>
+      <p class="hint">要点：<strong>「最小 $n$」等价于「最大的合法除数」</strong>；把整除条件写成 $170-x \mid 720$ 后，枚举从大到小试商即可，不必盲搜 $360$ 个 $x$。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>内角和 15 秒决策卡</h3>
+    <ol>
+      <li>读题抓「各占一半」→ 平均内角 $\bar\alpha=\frac{a+b}{2}$，并记住 $n$ 必为偶数。</li>
+      <li>写 $\bar\alpha\, n=180(n-2)$，即 $n=\frac{360}{180-\bar\alpha}=\frac{720}{360-a-b}$。</li>
+      <li>遇到 $\alpha \gt 180^\circ$ 别判无解——凹角合法，内角和公式照用；外角取 $180^\circ-\alpha$ 可为负，总和仍 $360^\circ$。</li>
+      <li>回代总和与偶数性：$18\times150+18\times190=6120=180\times34$ ✓，$n=36$ 偶数 ✓。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「一半一半取平均，内角和里减两百；凹角不慌照公式，边数还得是偶数」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 含凹角的多边形内角和 &nbsp;|&nbsp; 生成于 2026-11-14</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 正六边形内接正方形的交集</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2026AMC10A.html">← 返回 2026AMC10A</a>
+    <div class="pager">
+      <a href="20261114-capped-score-urn.html">‹ 上一题：有上限抽球</a>
+      <a href="20261114-decreasing-integer-sequence.html">下一题：递减递推 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>六个向内正方形的公共部分：边心距 1−√3/2，面积 7√3/2−6，和为 18</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261114</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2026AMC10A(17)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Regular Hexagons</span></div>
+  </div>
+  <p class="lede">原六边形边心距 $h=\frac{\sqrt3}{2}$；向内正方形的对边距中心 $r=1-h$，六条这样的边围成一个同心正六边形，其外接圆半径 $\frac{2r}{\sqrt3}\lt \frac12$ 保证正方形另两条边不再切割。面积为 $2\sqrt3 r^2=\frac{7\sqrt3}{2}-6$，故 $(a,b,c,d)=(7,3,2,6)$，和为 $18$，答案 <strong>(C)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    For each edge of a regular hexagon with side length $1$, a square is constructed inside the hexagon with that edge as one of its sides. The region interior to all six squares is the interior of a smaller hexagon, shown shaded in the figure below. The area of the smaller hexagon can be expressed in the form $\frac{a\sqrt b}{c}-d$, where $a,b,c,d$ are positive integers, $a$ and $c$ are relatively prime, and $b$ is not divisible by the square of any prime. What is $a+b+c+d$?　(A) $16$　(B) $17$　(C) $18$　(D) $19$　(E) $20$
+<img src="../img/amc10/2026A/17-hexagon.png" alt="2026 AMC 10A Problem 17 题图：边长 1 的正六边形，各边向内作正方形，公共部分为阴影小六边形" style="max-height:16rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：边长为 $1$ 的正六边形，以每条边为一边向内作一个正方形。六个正方形的公共部分是一个较小的正六边形（图中阴影）。其面积可写成 $\frac{a\sqrt b}{c}-d$，其中 $a,b,c,d$ 为正整数，$a$ 与 $c$ 互素，$b$ 不含任何素数的平方因子。求 $a+b+c+d$。　(A) $16$　(B) $17$　(C) $18$　(D) $19$　(E) $20$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>答案依据</strong>：讲义《2026AMC10A 答案与解析》（用户随附，含答案总表与逐题解析）<br>
+    讲义给出的正确选项为 <strong>(C) $18$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (B) 17 或 (D) 19</code></td><td>把小六边形的边心距误取为 $h-1$ 的绝对值后<strong>算错代数</strong>：$\left(1-\frac{\sqrt3}{2}\right)^2=\frac74-\sqrt3$，展开时把 $2\sqrt3\cdot\frac74$ 写成 $\frac{7\sqrt3}{4}$ 或把 $2\sqrt3\cdot\sqrt3=6$ 漏成 $3$，于是得到 $\frac{7\sqrt3}{4}-3$ 之类的错误表达式，和数偏 $1$。</td></tr>
+    <tr><td><code>答 (E) 20</code></td><td>直接把「大六边形面积减去六个正方形面积」或把小六边形<strong>边长</strong>当成 $r$ 而不是把 $r$ 当成<strong>边心距</strong>。正六边形面积用 $\frac12\times$ 周长 $\times$ 边心距，边心距 $r$ 对应边长 $\frac{2r}{\sqrt3}$，混淆两者会多出 $\sqrt3$ 因子。</td></tr>
+    <tr><td><code>答 (A) 16</code></td><td>忘了验证正方形<strong>另外两条边</strong>是否还会切掉区域，或误以为公共部分是十二边形；讲义特别强调「确定交集时，要验证全部边界条件」。漏掉这一步虽然本题数值恰好不变，但会养成跳步习惯，在改参数题中立刻出错。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「六个正方形的交集」转化成<strong>六条对称直线的半平面交</strong>。一旦认出这六条直线到中心距离相同且法向均匀分布，交集就是一个同心正六边形，面积只剩一次代数化简。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与用户随附讲义《2026AMC10A 答案与解析》第 17 题的书面解答同源（本卷官方站尚未收录，讲义即本次权威答案依据）——原六边形边心距 $h=\frac{\sqrt3}{2}$，正方形与原边相对的边距中心 $r=1-h$，六条这样的边围成边心距为 $r$ 的同心正六边形；另两条边距中心均为 $\frac12$，而小六边形外接圆半径 $\frac{2r}{\sqrt3}\lt \frac12$，故不再切割；面积 $S=2\sqrt3\left(1-\frac{\sqrt3}{2}\right)^2=\frac{7\sqrt3}{2}-6$，$(a,b,c,d)=(7,3,2,6)$，和为 $18$。 <br> 本站的增量是补上「另两边不切割」的严格不等式证明、正 $n$ 边形一般化表、以及向内深度的等价参数。
+  </blockquote>
+  <h3>方法一：边心距法 + 边界验证（讲义思路，推荐）</h3>
+  <p><strong>第 1 步 · 原六边形的边心距。</strong> 边长 $1$ 的正六边形可分成 $6$ 个边长 $1$ 的正三角形，其高即边心距</p>
+$$h=\frac{\sqrt3}{2}.$$
+  <p><strong>第 2 步 · 找到六个正方形的「内侧边」。</strong> 以某条边为一边向内作边长为 $1$ 的正方形，与该边相对的那条边平行于原边、向中心平移了 $1$。它到中心的距离为</p>
+$$r=1-h=1-\frac{\sqrt3}{2}>0 .$$
+  <p>由 $6$ 重旋转对称，六条内侧边的法向均匀分布、到中心距离同为 $r$，它们的半平面交就是一个与原六边形<strong>同心、同向</strong>的正六边形，边心距为 $r$。</p>
+  <p><strong>第 3 步 · 验证另外两条边不再切割（讲义强调的边界条件）。</strong> 每个正方形的另两条边都垂直于原边并通过原边的端点，它们到中心的距离恰为原边边长的一半，即 $\frac12$。而边心距为 $r$ 的正六边形外接圆半径为</p>
+$$R=\frac{2r}{\sqrt3}=\frac{2}{\sqrt3}-1\approx0.1547 \lt \frac12 .$$
+  <p>因为 $R\lt \frac12$，小六边形全部落在这两条边所夹的带状区域内，六条内侧边已经完全决定了交集。</p>
+  <p><strong>第 4 步 · 算面积并定系数。</strong> 边心距为 $r$ 的正六边形面积为</p>
+$$S=2\sqrt3\,r^2=2\sqrt3\left(\frac74-\sqrt3\right)=\frac{7\sqrt3}{2}-6 .$$
+  <p>故 $a=7,\ b=3,\ c=2,\ d=6$（$7$ 与 $2$ 互素，$3$ 无平方因子），$a+b+c+d=18$。</p>
+  <blockquote class="ok"><strong>答案：(C) $18$。</strong></blockquote>
+  <h3>方法二：坐标法（交叉验证）</h3>
+  <p>取中心为原点，令一条边水平、其外法向沿 $+y$，则该边所在直线为 $y=h$，端点为 $\left(\pm\frac12,h\right)$。向内正方形给出三条约束：$y\le h-1=-r$（内侧边）、$-\frac12\le x\le\frac12$（另两条边）。绕原点旋转 $6$ 次取交集后，$x$ 方向的约束给出顶点横坐标上界 $\frac12$，而由第 3 步 $R=\frac{2r}{\sqrt3}\lt \frac12$ 可知<strong>起作用的仍是六条 $y\le -r$ 型直线</strong>。六条直线围成的正六边形边心距 $r$、边长 $\frac{2r}{\sqrt3}$，面积 $\frac12\cdot\frac{12r}{\sqrt3}\cdot r=2\sqrt3 r^2$，与方法一一致。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① 代数核对：$r^2=\left(1-\frac{\sqrt3}{2}\right)^2=\frac74-\sqrt3$，$2\sqrt3 r^2=\frac{7\sqrt3}{2}-6$ ✓；② 数值核对：$r\approx0.13397$，$S\approx0.06218$，与 $\frac{7\sqrt3}{2}-6\approx6.06218-6$ 一致 ✓；③ 边界核对：$\frac{2r}{\sqrt3}=\frac{2}{\sqrt3}-1\approx0.15470\lt \frac12$ ✓；④ 格式核对：$7$ 与 $2$ 互素，$3$ 无平方因子，四项和 $7+3+2+6=18$ ✓。
+  </blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：把「六个正方形的公共部分」看成<strong>六条等距、法向均匀分布的直线的半平面交</strong> → 一个同心正六边形，边心距 $r=1-\frac{\sqrt3}{2}$。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>区分<strong>边心距</strong>与<strong>边长</strong>。边心距 $r$ 对应边长 $\frac{2r}{\sqrt3}$、外接圆半径 $\frac{2r}{\sqrt3}$；面积公式 $S=2\sqrt3 r^2$ 用的是边心距。</li>
+    <li>讲义点明「确定交集时，要验证全部边界条件」——本题必须验证正方形另两条边（距中心 $\frac12$）不再切割，即 $\frac{2r}{\sqrt3}\lt \frac12$。</li>
+    <li>代数化简要稳：$\left(1-\frac{\sqrt3}{2}\right)^2=\frac74-\sqrt3$，乘 $2\sqrt3$ 得 $\frac{7\sqrt3}{2}-6$；$b=3$ 无平方因子、$7$ 与 $2$ 互素，格式条件自动满足。</li>
+    <li>$6$ 重旋转对称是「六条直线 → 正六边形」的全部依据，不需要逐条求交点。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 边长改为 2</span> <span class="stars">★</span> <span class="form">形式｜换约束参数</span>
+    <p>把正六边形边长改为 $s=2$（向内正方形边长也为 $2$），求阴影小六边形的面积，写成 $\frac{a\sqrt b}{c}-d$ 并求 $a+b+c+d$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>面积 $14\sqrt3-24$，$(a,b,c,d)=(14,3,1,24)$，和为 $42$</strong></div>
+      <p>边心距 $h=\frac{s\sqrt3}{2}=\sqrt3$，$r=s-h=2-\sqrt3$，面积 $2\sqrt3 r^2=2\sqrt3(7-4\sqrt3)=14\sqrt3-24=4\left(\frac{7\sqrt3}{2}-6\right)$，即原题面积的 $s^2=4$ 倍。此时 $c=1$（$14$ 与 $1$ 互素），$b=3$，$d=24$，和 $14+3+1+24=42$。</p>
+      <p class="hint">要点：<strong>面积随 $s^2$ 缩放</strong>；但 $a,c,d$ 会随通分方式改变，和数不是简单的 $4$ 倍——这是格式题的经典陷阱。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 另两边是否切割</span> <span class="stars">★★</span> <span class="form">形式｜边界/退化核查</span>
+    <p>严格证明 $\frac{2r}{\sqrt3}\lt \frac12$，并说明若该不等式反向，交集形状会发生什么变化。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$\frac{2r}{\sqrt3}=\frac{2}{\sqrt3}-1\approx0.1547\lt \frac12$；若反向则正方形另两条边会切掉小六边形的角，交集变成十二边形或更小</strong></div>
+      <p>$\frac{2r}{\sqrt3}=\frac{2\left(1-\frac{\sqrt3}{2}\right)}{\sqrt3}=\frac{2}{\sqrt3}-1$。比较 $\frac{2}{\sqrt3}-1\lt \frac12\Longleftrightarrow \frac{4}{\sqrt3}\lt 3\Longleftrightarrow 16\lt 27$ ✓。若反向（例如正五边形或更小的 $n$），六条内侧边围成的多边形外接圆半径超过 $\frac12$，正方形的侧边会切入，交集不再是正六边形，面积公式失效。</p>
+      <p class="hint">要点：<strong>「交集 = 内侧边围成的正六边形」是有前提的</strong>；把前提单独证一遍，比事后回头改答案省事得多。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 正 n 边形一般化</span> <span class="stars">★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>把正六边形换成边长为 $1$ 的正 $n$ 边形，向内作正方形。设边心距 $h_n=\frac{1}{2\tan(\pi/n)}$、$r_n=1-h_n$。列出 $n=3,\ldots,8$ 的 $h_n$、$r_n$ 与判别量 $\frac{r_n}{\cos(\pi/n)}$，指出哪些 $n$ 使「内侧边围成的正 $n$ 边形」就是真正交集。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>只有 $n=5,6$ 成立；$n=3,4$ 侧边会切割，$n\ge7$ 时 $r_n\le0$ 交集退化</strong></div>
+      <p>判别量是内侧正 $n$ 边形的外接圆半径 $R_n=\frac{r_n}{\cos(\pi/n)}$，需 $R_n\le\frac12$ 才不被侧边切割。数值表：$n=3$：$h\approx0.2887,r\approx0.7113,R\approx1.4226$（否）；$n=4$：$h=0.5,r=0.5,R\approx0.7071$（否）；$n=5$：$h\approx0.6882,r\approx0.3118,R\approx0.3854$（是）；$n=6$：$h\approx0.8660,r\approx0.1340,R\approx0.1547$（是）；$n=7$：$h\approx1.0383>1$，$r\lt 0$；$n=8$：$h\approx1.2071>1$，$r\lt 0$。$n\ge7$ 时向内正方形已越过中心，公共部分为空。</p>
+      <p class="hint">要点：<strong>原题的 $n=6$ 处在「刚好成立」的窗口里</strong>；一般化一眼看出哪些几何直觉可以外推、哪些不能。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 向内深度 d</span> <span class="stars">★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>把向内正方形的「深度」从 $1$ 改为 $d>0$（内侧边距中心为 $|h-d|$）。求使阴影面积为零的 $d$，以及除 $d=1$ 外另一个与原题面积<strong>相同</strong>的 $d$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>面积为零时 $d=h=\frac{\sqrt3}{2}$；另一个等价深度 $d=\sqrt3-1$</strong></div>
+      <p>内侧正六边形边心距为 $|h-d|$，面积 $2\sqrt3(h-d)^2$。为零当且仅当 $h=d=\frac{\sqrt3}{2}$（内侧边恰过中心）。原题 $d=1$ 给 $|h-1|=1-h=r$；要面积相同需 $|h-d|=r=1-h$，另一解为 $h-d=1-h$，即 $d=2h-1=\sqrt3-1\approx0.732$。此时内侧边在中心另一侧同样距离处，围出全等的小六边形。</p>
+      <p class="hint">要点：<strong>面积只依赖 $|h-d|$，故深度关于 $d=h$ 对称</strong>；这类「等价参数」是极值题的常见第二解。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 面积比是否与边长无关</span> <span class="stars">★★★★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>是否存在某个边长 $s$，使阴影面积恰为原正六边形面积的 $\frac14$？说明理由。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>不存在；面积比恒为 $\dfrac{7-4\sqrt3}{3}\approx2.39\%$，与 $s$ 无关</strong></div>
+      <p>原六边形面积 $A_0=2\sqrt3 h^2$（边心距 $h=\frac{s\sqrt3}{2}$），阴影面积 $A_1=2\sqrt3 r^2$（$r=s-h$）。比值 $\frac{A_1}{A_0}=\left(\frac{r}{h}\right)^2=\left(\frac{1}{\sqrt3/2}-1\right)^2=\left(\frac{2}{\sqrt3}-1\right)^2=\frac{(2-\sqrt3)^2}{3}=\frac{7-4\sqrt3}{3}\approx0.0239$，其中 $s$ 被约掉，故恒为定值，不可能等于 $\frac14$。</p>
+      <p class="hint">要点：<strong>先做量纲/缩放分析再解存在性</strong>；两个面积都按 $s^2$ 缩放，比值必然与 $s$ 无关，一眼就能判「不存在」。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>正方形交集 15 秒决策卡</h3>
+    <ol>
+      <li>算原多边形边心距 $h$（正六边形边长 $1$ 时 $h=\frac{\sqrt3}{2}$）。</li>
+      <li>六个正方形的内侧边距中心 $r=1-h$，由旋转对称知交集是边心距 $r$ 的同心正六边形。</li>
+      <li>验证另两条边（距中心 $\frac12$）不切割：$\frac{2r}{\sqrt3}\lt \frac12$。</li>
+      <li>$S=2\sqrt3 r^2$，展开 $r^2=\frac74-\sqrt3$ 得 $\frac{7\sqrt3}{2}-6$，核对 $a,c$ 互素、$b$ 无平方因子，求和。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「边心距先算清，内侧平移一减 h；六线同心成小六，二根三乘 r 方定」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 正六边形内接正方形的交集 &nbsp;|&nbsp; 生成于 2026-11-14</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

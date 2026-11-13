@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 含参三边的严格三角形不等式</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2026AMC10A.html">← 返回 2026AMC10A</a>
+    <div class="pager">
+      <a href="20261114-handshake-two-clubs.html">‹ 上一题：握手计数</a>
+      <a href="20261114-fraction-tree-level.html">下一题：分数二叉树 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>三边随 t 变：先保正、再解三条严格不等式，只剩 2<t<10 共 7 个整数</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261114</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2026AMC10A(14)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Triangle Inequality</span></div>
+  </div>
+  <p class="lede">三边 $a=t^2+1,\ b=5t+7,\ c=4t+4$。先由 $c>0$ 得整数 $t\ge 0$，再把三条<strong>严格</strong>不等式化为 $-1\lt t\lt 10$、$(t-2)(t+1)>0$ 与恒成立的 $t^2+t+4>0$；合并得 $2\lt t\lt 10$，整数 $t=3,\ldots,9$ 共 $7$ 个，答案 <strong>(B)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Consider a triangle with positive area whose side lengths are functions of $t$ given by $a=t^2+1$, $b=5t+7$, and $c=4t+4$. How many different integer values of $t$ are possible?　(A) $0$　(B) $7$　(C) $9$　(D) $10$　(E) infinitely many
+  </blockquote>
+  <p><strong>中文翻译</strong>：一个面积为正的三角形，其三边长为 $a=t^2+1$、$b=5t+7$、$c=4t+4$。问有多少个不同的整数 $t$ 使这样的三角形存在？　(A) $0$　(B) $7$　(C) $9$　(D) $10$　(E) 无穷多个</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>答案依据</strong>：讲义《2026AMC10A 答案与解析》（用户随附，含答案总表与逐题解析）<br>
+    讲义给出的正确选项为 <strong>(B) $7$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) infinitely many</code></td><td>只检查了 $t\to+\infty$ 时二次项 $t^2+1$ 最大、另两边为一次项，误以为「大 $t$ 总成立」。实际上 $a\lt b+c$ 要求 $t^2+1\lt 9t+11$，即 $t\lt 10$；<strong>二次项增长更快，反而先破坏三角形不等式</strong>。</td></tr>
+    <tr><td><code>答 (D) 10 或 (C) 9</code></td><td>把 $t\ge0$ 与 $-1\lt t\lt 10$ 直接取交集得 $t=0,1,\ldots,9$（$10$ 个），再随手去掉 $t=0$ 得 $9$ 个，<strong>漏掉了 $(t-2)(t+1)>0$ 这条</strong>。讲义强调：三条不等式必须<strong>同时</strong>成立，少一条就会把 $t=0,1,2$ 误计入。</td></tr>
+    <tr><td><code>答 (A) 0</code></td><td>把「面积为正」误解为「三边互不相等」或把严格不等式写成 $\le$，在端点 $t=2$、$t=10$ 处出现退化后误判全盘无解。等号确实要排除，但区间内部的 $7$ 个整数都是合法三角形。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有按「<strong>先正、再严、后取交集</strong>」的固定顺序处理。含参三角形题的三条不等式各自是一次或二次，化简后取公共部分即可；跳步或漏条都会直接改变计数。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与用户随附讲义《2026AMC10A 答案与解析》第 14 题的书面解答同源（本卷官方站尚未收录，讲义即本次权威答案依据）——由 $4t+4>0$ 得整数 $t\ge0$；三条严格不等式化为 $t^2+1\lt 9t+11\Longleftrightarrow -1\lt t\lt 10$、$5t+7\lt t^2+4t+5\Longleftrightarrow (t-2)(t+1)>0$、$4t+4\lt t^2+5t+8\Longleftrightarrow t^2+t+4>0$ 恒成立；合并得 $2\lt t\lt 10$，整数 $3$ 至 $9$ 共 $7$ 个。 <br> 本站的增量是补上端点退化核查、等腰特例与 $c=kt+k$ 的一般化计数表。
+  </blockquote>
+  <h3>方法一：三条严格不等式取交集（讲义思路，推荐）</h3>
+  <p><strong>第 1 步 · 边长必须为正。</strong> $a=t^2+1>0$ 恒成立；$b=5t+7>0$ 需 $t>-\frac75$；$c=4t+4>0$ 需 $t>-1$。三者合并为 $t>-1$，对整数即 $t\ge 0$。</p>
+  <p><strong>第 2 步 · 写出三条严格不等式（面积为正 $\iff$ 任意两边之和严格大于第三边）。</strong></p>
+$$a\lt b+c:\quad t^2+1\lt 9t+11 \Longleftrightarrow t^2-9t-10\lt 0 \Longleftrightarrow (t-10)(t+1)\lt 0 \Longleftrightarrow -1\lt t\lt 10 .$$
+$$b\lt a+c:\quad 5t+7\lt t^2+4t+5 \Longleftrightarrow t^2-t-2>0 \Longleftrightarrow (t-2)(t+1)>0 \Longleftrightarrow t>2 \text{ 或 } t\lt -1 .$$
+$$c\lt a+b:\quad 4t+4\lt t^2+5t+8 \Longleftrightarrow t^2+t+4>0 .$$
+  <p>第三式判别式 $1-16=-15\lt 0$，恒为正，不产生约束。</p>
+  <p><strong>第 3 步 · 取交集并数整数。</strong> 合并 $t\ge0$、$-1\lt t\lt 10$、$t>2$ 得</p>
+$$2\lt t\lt 10 .$$
+  <p>整数解为 $t=3,4,5,6,7,8,9$，共 $7$ 个。</p>
+  <blockquote class="ok"><strong>答案：(B) $7$。</strong></blockquote>
+  <h3>方法二：端点退化 + 二次项主导（交叉验证）</h3>
+  <p>把三条不等式看成关于 $t$ 的三个区域。上界来自 $a\lt b+c$：二次项 $t^2$ 最终超过一次的 $9t$，故 $t$ 必有上界 $10$；下界来自 $b\lt a+c$：小 $t$ 时一次边 $b=5t+7$ 压过 $a+c$，故 $t$ 必有下界 $2$。检验两个候选端点：$t=2$ 时 $a+c=5+12=17=b$，$t=10$ 时 $b+c=57+44=101=a$，都是<strong>等号退化</strong>（面积为 $0$），必须排除。于是合法实数集是开区间 $(2,10)$，其中整数恰为 $3$ 到 $9$ 共 $7$ 个，与方法一一致。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① 端点 $t=2$ 时三边 $(5,17,12)$，$5+12=17$ 退化；$t=10$ 时 $(101,57,44)$，$57+44=101$ 退化，两端都不能计入；② 区间内部任取 $t=6$：$(37,37,28)$，$37+28>37$ ✓；③ 对全部实数 $t\in(2,10)$ 逐点验算三条严格不等式均成立；④ $t=0,1,2$ 分别给出 $(1,7,4)$、$(2,12,8)$、$(5,17,12)$，均因 $b\ge a+c$ 被排除。
+  </blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：含参三角形 $= $ 「三边为正」$\cap$「三条严格不等式」；把每条化简成因式分解后的区间，最后取公共部分再数整数。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>顺序固定为<strong>先正、再严、后交集</strong>。跳过「正」会把负边长算进来，跳过「严」会把退化三角形算进来。</li>
+    <li>讲义特别点明的易错点是「等号对应退化三角形，不能计入」——这就是选项 (D) $10$ 与 (C) $9$ 的来源。</li>
+    <li>二次项在 $t$ 大时主导，因此<strong>上界来自 $a\lt b+c$</strong>，而不是直觉上的「二次项大就更安全」。</li>
+    <li>恒成立不等式（如 $t^2+t+4>0$）要显式验证判别式为负，否则容易漏条件或误加条件。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 改一条边</span> <span class="stars">★</span> <span class="form">形式｜换约束参数</span>
+    <p>保持 $a=t^2+1,\ b=5t+7$，把 $c$ 改为 $3t+3$，求所有合法整数 $t$ 及个数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$t=4,5,6,7,8$，共 $5$ 个</strong></div>
+      <p>正性 $3t+3>0$ 给 $t\ge0$。$a\lt b+c$：$t^2+1\lt 8t+10\Longleftrightarrow t^2-8t-9\lt 0\Longleftrightarrow -1\lt t\lt 9$。$b\lt a+c$：$5t+7\lt t^2+3t+4\Longleftrightarrow t^2-2t-3>0\Longleftrightarrow (t-3)(t+1)>0$，即 $t>3$。$c\lt a+b$：$t^2+2t+5>0$ 恒成立。合并得 $3\lt t\lt 9$，整数 $4$ 至 $8$ 共 $5$ 个。</p>
+      <p class="hint">要点：<strong>换一条边只会改写两个区间端点</strong>，流程完全不变；上界由 $-1\lt t \lt k+6$ 型条件给出（此处 $k=3$）。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 等腰特例</span> <span class="stars">★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>原题的所有合法整数 $t$ 中，是否存在使三角形为等腰三角形的 $t$？若存在，求出 $t$ 与三边。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>存在，$t=6$，三边 $(37,37,28)$</strong></div>
+      <p>逐一解三条「两边相等」：$a=b$ 即 $t^2+1=5t+7\Longrightarrow t^2-5t-6=0\Longrightarrow t=6$ 或 $-1$（后者不在区间内）；$a=c$ 即 $t^2+1=4t+4\Longrightarrow t^2-4t-3=0$ 无整数根；$b=c$ 即 $5t+7=4t+4\Longrightarrow t=-3$ 不在区间内。故唯一 $t=6$，三边 $(37,37,28)$，满足 $37+28>37$ ✓。</p>
+      <p class="hint">要点：<strong>等腰是「额外加一个等式」</strong>，先解等式再回代原区间，比逐值试快得多。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 退化端点</span> <span class="stars">★★★</span> <span class="form">形式｜边界/退化核查</span>
+    <p>分别写出 $t=2$ 与 $t=10$ 时的三边，说明为什么这两个端点不能计入；并判断 $t=0,1$ 为何也被排除。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$t=2$ 时 $(5,17,12)$ 有 $5+12=17$；$t=10$ 时 $(101,57,44)$ 有 $57+44=101$；$t=0,1$ 时 $b\ge a+c$</strong></div>
+      <p>$t=2$：$a=5,b=17,c=12$，$a+c=17=b$，面积为 $0$；$t=10$：$a=101,b=57,c=44$，$b+c=101=a$，同样退化。$t=0$ 时 $(1,7,4)$：$a+c=5\lt 7=b$；$t=1$ 时 $(2,12,8)$：$a+c=10\lt 12=b$，违反 $b\lt a+c$。故合法整数从 $3$ 起、到 $9$ 止。</p>
+      <p class="hint">要点：<strong>「面积为 0」与「构不成三角形」是两种不同的失败</strong>，但都对应严格不等式取等号或被违反；端点核查是计数的最后一道保险。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · $c=kt+k$ 的一般化</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>固定 $a=t^2+1,\ b=5t+7$，令 $c=kt+k$（$k$ 为正整数）。证明 $k=1,\ldots,6$ 时合法整数个数为 $N(k)=2k-1$，并列出 $k=1,\ldots,8$ 的完整计数表。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$N(k)=2k-1\ (k\le6)$；表为 $1,3,5,7,9,11,12,10$</strong></div>
+      <p>$a\lt b+c$ 化为 $t^2-(5+k)t-(6+k)\lt 0$，两根为 $-1$ 与 $k+6$，即 $-1\lt t\lt k+6$；$b\lt a+c$ 化为 $(t+1)(t+k-6)>0$，配合 $t\ge0$ 得 $t>6-k$；$c\lt a+b$ 化为 $t^2+(5-k)t+(8-k)>0$（$k\le6$ 时恒成立）。于是 $6-k\lt t\lt k+6$，整数 $t=7-k,\ldots,k+5$，个数 $(k+5)-(7-k)+1=2k-1$。实测表：$k=1\to1\ [6]$，$k=2\to3\ [5,6,7]$，$k=3\to5$，$k=4\to7\ [3..9]$（原题），$k=5\to9$，$k=6\to11$，$k=7\to12$（$t=1$ 因 $(t-1)^2>0$ 不成立被剔除），$k=8\to10$（$t\le3$ 被 $t^2-3t>0$ 剔除）。</p>
+      <p class="hint">要点：<strong>一般化把「数 7 个」升级成一条关于 $k$ 的公式</strong>；$k\ge7$ 时第三条不等式开始生效，公式出现拐点，正好说明为什么必须逐条检查而不能想当然。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 实数区间 → 整数计数</span> <span class="stars">★★★★★</span> <span class="form">形式｜实数离散化/计数证明</span>
+    <p>证明原题全部合法<strong>实数</strong> $t$ 恰为开区间 $(2,10)$，并由此说明整数个数为何是 $7$ 而不是 $8$ 或 $9$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>合法实数集为 $(2,10)$；其中整数 $3,\ldots,9$ 共 $7$ 个</strong></div>
+      <p>三条不等式分别给出 $(-1,10)$、$(-\infty,-1)\cup(2,\infty)$、全体实数，与正性 $t>-1$ 取交集即 $(2,10)$。开区间长度为 $8$，但端点 $2$ 与 $10$ 都是整数且被排除，故整数个数为 $9-3+1=7$。若误把端点算入会得 $9$，若只去掉一个端点会得 $8$——这正是选项 (C) 与 (D) 的陷阱。</p>
+      <p class="hint">要点：<strong>「区间长度」不等于「整数个数」</strong>；严格不等式的开闭直接决定端点是否计入，计数前务必先定点。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>含参三角形 15 秒决策卡</h3>
+    <ol>
+      <li>三边为正，先定 $t$ 的粗范围（本题 $t\ge0$）。</li>
+      <li>三条严格不等式各自因式分解，写成区间（本题 $-1\lt t\lt 10$、$t>2$、恒成立）。</li>
+      <li>取交集得开区间 $(2,10)$，检查两个端点是否退化（$t=2$、$t=10$ 都是等号，排除）。</li>
+      <li>数端点之间的整数，$3$ 到 $9$ 共 $7$ 个；回代一个内点（如 $t=6$）双校验。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「先正后严再交并，二次上界一次下；等号退化两端剔，开区间里数整点」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 含参三边的严格三角形不等式 &nbsp;|&nbsp; 生成于 2026-11-14</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

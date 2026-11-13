@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 空间包络的最小化</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2026AMC10A.html">← 返回 2026AMC10A</a>
+    <div class="pager">
+      <a href="20261114-decreasing-integer-sequence.html">‹ 上一题：递减递推</a>
+      <a href="20261114-volume-510510-boxes.html">下一题：体积箱子 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>半球罩三个立方体：两组最远顶点等距于 t=3/8，R=√681/8</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261114</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2026AMC10A(19)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Optimization</span></div>
+  </div>
+  <p class="lede">桌面 $z=0$，俯视后方两块合成 $[-2,2]\times[0,2]$、前方第三块 $[-1,1]\times[-2,0]$，顶面高度 $2$。由左右对称设球心 $(0,t,0)$，最远顶面顶点给出 $f(t)=8+(2-t)^2$ 与 $g(t)=5+(2+t)^2$；令二者相等得 $t=\frac38$，$R^2=8+\left(\frac{13}{8}\right)^2=\frac{681}{64}$，故 $R=\frac{\sqrt{681}}{8}$，答案 <strong>(C)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    Three $2\times2\times2$ cubes sit on a table so that two of the cubes share a face, and a face of the third cube is centered along a shared edge of the other two cubes, as shown. A hemispherical cover is placed over the cubes so that its circumference rests on the table and the cubes are under the cover. What is the least possible value of the radius of the cover?　(A) $3$　(B) $\frac{\sqrt{357}}{6}$　(C) $\frac{\sqrt{681}}{8}$　(D) $\frac{\sqrt{178}}{4}$　(E) $2\sqrt3$
+<img src="../img/amc10/2026A/19-cubes.png" alt="2026 AMC 10A Problem 19 题图：三个 2×2×2 立方体与半球形罩" style="max-height:14rem; margin-top:10px;">
+  </blockquote>
+  <p><strong>中文翻译</strong>：三个棱长为 $2$ 的立方体放在桌面上，其中两个共用一个面，第三个立方体的一个面居中贴在前两个的公共棱上（如图）。用一个半球形罩子罩住它们，罩子的圆周落在桌面上。求罩子半径的最小可能值。　(A) $3$　(B) $\frac{\sqrt{357}}{6}$　(C) $\frac{\sqrt{681}}{8}$　(D) $\frac{\sqrt{178}}{4}$　(E) $2\sqrt3$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>答案依据</strong>：讲义《2026AMC10A 答案与解析》（用户随附，含答案总表与逐题解析）<br>
+    讲义给出的正确选项为 <strong>(C) $\dfrac{\sqrt{681}}{8}$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (A) 3 或 (E) 2√3</code></td><td>凭直觉把球心放在立方体群的中心或放在桌面中心高度，直接用「最远顶点到原点的距离」当半径，得 $3$ 或 $2\sqrt3$。讲义强调：<strong>半球的球心必须在桌面上</strong>（圆周落在桌面），不能任意抬高到立方体中心高度；且球心在桌面内仍可沿前后方向平移优化。</td></tr>
+    <tr><td><code>答 (B) √357/6 或 (D) √178/4</code></td><td>只考虑了一组最远顶点（比如只算 $(\pm2,2,2)$ 或只算 $(\pm1,-2,2)$），令 $t=0$ 或某个随意位置就收工，没做「两组距离相等」的极小化。数值上 $\frac{\sqrt{357}}{6}\approx3.15$、$\frac{\sqrt{178}}{4}\approx3.34$，都小于真正的 $\frac{\sqrt{681}}{8}\approx3.26$ 附近的最优值——它们其实小于所需半径，根本罩不住。</td></tr>
+    <tr><td><code>答 (C) 但过程只验证了一个顶点</code></td><td>虽然凑出了正确答案，却只检查了 $(\pm2,2,2)$ 与 $(\pm1,-2,2)$ 两组，没说明其余顶面顶点为何不超过。讲义要求「其余顶点的距离也均不超过此值」，这一步靠<strong>球的凸性</strong>与逐点验算补全。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「罩住立体」转成<strong>顶面顶点到球心的最大距离的最小化</strong>。罩子是凸集，罩住全部顶点就罩住整个立方体；于是三维包络问题降维成二维平面上的极小化。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与用户随附讲义《2026AMC10A 答案与解析》第 19 题的书面解答同源（本卷官方站尚未收录，讲义即本次权威答案依据）——桌面设为 $z=0$，俯视后方两块合成 $[-2,2]\times[0,2]$、前方第三块 $[-1,1]\times[-2,0]$，所有顶部高度为 $2$；由左右对称可令球心 $(0,t,0)$，最远顶面顶点给出 $f(t)=8+(2-t)^2$ 与 $g(t)=5+(2+t)^2$，令二者相等得 $t=\frac38$，$R^2=\frac{681}{64}$，$R=\frac{\sqrt{681}}{8}$。 <br> 本站的增量是补上全部 $10$ 个顶面顶点的距离清单、球心横向偏移的反证、以及棱长 $s$ 的一般化通式。
+  </blockquote>
+  <h3>方法一：顶点距离极小化（讲义思路，推荐）</h3>
+  <p><strong>第 1 步 · 建系并列出顶面顶点。</strong> 桌面为 $z=0$，三个棱长 $2$ 的立方体顶面都在 $z=2$。俯视时后方两块并成矩形 $[-2,2]\times[0,2]$，前方第三块为 $[-1,1]\times[-2,0]$。全部顶面顶点共 $10$ 个：</p>
+$$(\pm2,0,2),\ (\pm2,2,2),\ (0,0,2),\ (0,2,2),\ (\pm1,-2,2),\ (\pm1,0,2).$$
+  <p><strong>第 2 步 · 球心只能在桌面上，且左右对称。</strong> 半球圆周落在桌面 $\Rightarrow$ 球心在 $z=0$ 平面上。整体构型关于 $x=0$ 对称：若球心横向偏移到 $(c,t,0)$，$c\ne0$，则左右成对的顶点中必有一侧更远，最大距离不会变小。故最优球心可设为 $(0,t,0)$。</p>
+  <p><strong>第 3 步 · 只需盯住两组最远顶点。</strong> 到 $(0,t,0)$ 的距离平方为 $x^2+(y-t)^2+4$。最远候选为后方外角 $(\pm2,2,2)$ 与前方外角 $(\pm1,-2,2)$：</p>
+$$f(t)=4+(2-t)^2+4=8+(2-t)^2,\qquad g(t)=1+(-2-t)^2+4=5+(2+t)^2 .$$
+  <p><strong>第 4 步 · 极小化最大值。</strong> 在 $t\in[0,2]$ 上 $f(t)$ 递减、$g(t)$ 递增，故 $\max\{f,g\}$ 的最小值必在 $f(t)=g(t)$ 处取得：</p>
+$$8+(2-t)^2=5+(2+t)^2\ \Longrightarrow\ 12-4t+t^2=9+4t+t^2\ \Longrightarrow\ 3=8t\ \Longrightarrow\ t=\frac38 .$$
+  <p>（讲义同样给出：$t\le\frac38$ 时 $f(t)\ge f\left(\frac38\right)$；$t\ge\frac38$ 时 $g(t)\ge g\left(\frac38\right)$。）</p>
+  <p><strong>第 5 步 · 求半径并说明凸性。</strong></p>
+$$R^2=f\left(\frac38\right)=8+\left(2-\frac38\right)^2=8+\frac{169}{64}=\frac{681}{64},\qquad R=\frac{\sqrt{681}}{8}.$$
+  <p>球是凸集，罩住全部顶面顶点即罩住三个立方体；所有点都在桌面上方，半球条件也满足。</p>
+  <blockquote class="ok"><strong>答案：(C) $\dfrac{\sqrt{681}}{8}$。</strong></blockquote>
+  <h3>方法二：全部顶点距离清单（交叉验证）</h3>
+  <p>在 $t=\frac38$ 处逐一算 $x^2+(y-t)^2+4$（写成以 $64$ 为分母）：</p>
+  <p>| 顶点 | 距离平方 | | --- | --- | | $(0,0,2)$ | $\frac{265}{64}$ | | $(\pm1,0,2)$ | $\frac{329}{64}$ | | $(0,2,2)$ | $\frac{425}{64}$ | | $(\pm2,0,2)$ | $\frac{521}{64}$ | | $(\pm2,2,2)$、$(\pm1,-2,2)$ | $\frac{681}{64}$ |</p>
+  <p>最大值恰为 $\frac{681}{64}$，且由两组顶点同时达到——这正是「两组等距」的最优结构。任何 $t\ne\frac38$ 都会让其中一组超过 $\frac{681}{64}$。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① $f\left(\frac38\right)=8+\left(\frac{13}{8}\right)^2=\frac{512+169}{64}=\frac{681}{64}$，$g\left(\frac38\right)=5+\left(\frac{19}{8}\right)^2=\frac{320+361}{64}=\frac{681}{64}$，两组相等 ✓；② 数值 $R=\frac{\sqrt{681}}{8}\approx3.262$，大于干扰项 $\frac{\sqrt{357}}{6}\approx3.150$ 与 $\frac{\sqrt{178}}{4}\approx3.336$ 中的前者、小于后者，符合「必须同时罩住两组」的约束；③ 讲义指出球为凸集，罩住全部顶点即罩住立方体；④ 顶面顶点共 $10$ 个，逐一验算距离平方均不超过 $\frac{681}{64}$ ✓。
+  </blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：把「半球罩住立体」转成<strong>顶面顶点到球心的最大距离的最小化</strong>（球是凸集，顶点足够）；球心受「圆周落在桌面」约束，只能取 $(0,t,0)$。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>讲义点明的易错点是「球心必须在桌面上，不能任意放在立方体中心高度」；否则会得到偏小的错误半径。</li>
+    <li>极小化 $\max\{f,g\}$ 的最优解在 $f=g$ 处，因为 $f$ 递减、$g$ 递增——这是 minimax 题的标准结构，不需要求导。</li>
+    <li>左右对称把球心的横坐标直接定为 $0$，把二维搜索压成一维。</li>
+    <li>一般化 $t=\frac{3s}{16},\ R=\frac{s\sqrt{681}}{16}$（$s$ 为立方体棱长）；原题 $s=2$ 代入即得 $\frac{\sqrt{681}}{8}$。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 顶点距离全列举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p><strong>列出</strong>全部 $10$ 个顶面顶点，并在 $t=\frac38$ 时逐一算出到球心 $(0,\frac38,0)$ 的距离平方，指出最大值及达到它的顶点。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>距离平方集合 $\left\{\frac{265}{64},\frac{329}{64},\frac{425}{64},\frac{521}{64},\frac{681}{64}\right\}$，最大 $\frac{681}{64}$，由 $(\pm2,2,2)$ 与 $(\pm1,-2,2)$ 同时达到</strong></div>
+      <p>见方法二表格。例如 $(0,0,2)$ 给 $0+\frac{9}{64}+4=\frac{265}{64}$；$(\pm1,0,2)$ 给 $1+\frac{9}{64}+4=\frac{329}{64}$；$(0,2,2)$ 给 $\frac{169}{64}+4=\frac{425}{64}$；$(\pm2,0,2)$ 给 $4+\frac{9}{64}+4=\frac{521}{64}$；后方外角 $4+\frac{169}{64}+4=\frac{681}{64}$，前方外角 $1+\frac{361}{64}+4=\frac{681}{64}$。</p>
+      <p class="hint">要点：<strong>完整列举是 minimax 结果最硬的验收</strong>；两组顶点同时取到最大值，说明 $t=\frac38$ 确实无法再改进。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 棱长改为 1</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把立方体棱长改为 $s=1$（后方两块并成 $[-1,1]\times[0,1]$，前方为 $[-\frac12,\frac12]\times[-1,0]$，顶面高度 $1$），求最优球心位置与最小半径。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$t=\frac{3}{16}$，$R=\dfrac{\sqrt{681}}{16}$</strong></div>
+      <p>两组最远顶点给 $f(t)=2+(1-t)^2$、$g(t)=\frac54+(1+t)^2$。令相等得 $2+1-2t+t^2=\frac54+1+2t+t^2\Longrightarrow \frac34=4t\Longrightarrow t=\frac{3}{16}$。$R^2=2+\left(\frac{13}{16}\right)^2=\frac{512+169}{256}=\frac{681}{256}$，$R=\frac{\sqrt{681}}{16}$。</p>
+      <p class="hint">要点：<strong>整个问题关于 $s$ 线性缩放</strong>；$t$ 与 $R$ 都按 $s$ 成比例，数值验证 $s=2$ 时 $t=\frac38$、$R=\frac{\sqrt{681}}{8}$ ✓。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 球心能否横向偏移</span> <span class="stars">★★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>把球心改为 $(c,\frac38,0)$ 且 $c=\frac12$，计算最远顶点的距离平方，说明它是否比 $c=0$ 更优。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>距离平方 $\dfrac{825}{64}>\dfrac{681}{64}$，更差；故 $c=0$ 最优</strong></div>
+      <p>取 $c=\frac12$，顶点 $(-2,2,2)$ 给 $\left(-2-\frac12\right)^2+\left(\frac{13}{8}\right)^2+4=\frac{25}{4}+\frac{169}{64}+4=\frac{400+169+256}{64}=\frac{825}{64}\approx12.89$，大于 $c=0$ 时的 $\frac{681}{64}\approx10.64$。一般地横向偏移 $c\ne0$ 会使左右成对顶点中一侧的 $(x-c)^2$ 增大，且无法让另一侧同步减小，故最大值必不减。</p>
+      <p class="hint">要点：<strong>对称性是「可设 $c=0$」的依据，不是想当然</strong>；用一次具体偏移反证即可坐实。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般棱长通式</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>对任意棱长 $s>0$，证明最优球心 $t=\dfrac{3s}{16}$、最小半径 $R=\dfrac{s\sqrt{681}}{16}$，并验证 $s=2$ 回到原题。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$t=\dfrac{3s}{16}$，$R=\dfrac{s\sqrt{681}}{16}$</strong></div>
+      <p>顶面 $z=s$，后方外角 $(\pm s,s,s)$ 给 $f(t)=2s^2+(s-t)^2$，前方外角 $(\pm\frac{s}{2},-s,s)$ 给 $g(t)=\frac{5s^2}{4}+(s+t)^2$。令相等：$3s^2-2st=\frac{9s^2}{4}+2st\Longrightarrow \frac{3s^2}{4}=4st\Longrightarrow t=\frac{3s}{16}$。于是 $R^2=2s^2+\left(\frac{13s}{16}\right)^2=\frac{681s^2}{256}$，$R=\frac{s\sqrt{681}}{16}$。代入 $s=2$ 得 $\frac{2\sqrt{681}}{16}=\frac{\sqrt{681}}{8}$ ✓。</p>
+      <p class="hint">要点：<strong>先做量纲分析</strong>：所有长度按 $s$ 缩放，故 $t\propto s$、$R\propto s$ 是必然的；剩下只需定出两个无量纲系数。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 为什么两组等距即最优</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明在 $t\in[0,2]$ 上 $f(t)$ 严格递减、$g(t)$ 严格递增，并由此说明 $\min_t\max\{f(t),g(t)\}$ 必在 $f(t)=g(t)$ 处取得；再说明为何「罩住顶点」就够了。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$f$ 递减、$g$ 递增，故最优点在交点 $t=\frac38$；球为凸集，罩住全部顶点即罩住整个立方体</strong></div>
+      <p>$f'(t)=-2(2-t)\lt 0$（$t\lt 2$），$g'(t)=2(2+t)>0$（$t>-2$），故在 $[0,2]$ 上 $f$ 降、$g$ 升。若 $t\lt \frac38$，则 $\max\{f,g\}\ge f(t)>f\left(\frac38\right)=\frac{681}{64}$；若 $t>\frac38$，则 $\max\{f,g\}\ge g(t)>g\left(\frac38\right)=\frac{681}{64}$。故最小值只能在 $\frac38$ 取到。又因球体（及半球）是凸集，而立方体是其顶点的凸包，罩住全部顶点即罩住整个立方体；所有顶点 $z=2>0$ 且在球内，满足半球条件。</p>
+      <p class="hint">要点：<strong>minimax 的「交点即最优」需要单调性作证</strong>，不能只凭直觉；凸性则把无限多个点压缩成有限个顶点。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>半球罩 15 秒决策卡</h3>
+    <ol>
+      <li>球心在桌面（圆周落地），由左右对称设 $(0,t,0)$；列出全部顶面顶点。</li>
+      <li>只留两组最远顶点，写 $f(t)$ 与 $g(t)$（一降一升）。</li>
+      <li>令 $f(t)=g(t)$ 解出 $t$；本题 $t=\frac38$，一般棱长 $s$ 时 $t=\frac{3s}{16}$。</li>
+      <li>代回求 $R^2$，凸性保证罩住顶点即罩住立体；用全部顶点距离清单验收。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「球心贴桌面，左右取对称；一降一升令相等，顶点清单收半径」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 空间包络的最小化 &nbsp;|&nbsp; 生成于 2026-11-14</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

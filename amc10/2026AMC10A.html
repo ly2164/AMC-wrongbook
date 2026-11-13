@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>2026AMC10A · AMC 10 ❤️精讲</title>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --ok:#047857;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.7; margin:0; background:#f5f7fb;
+  }
+  .page{max-width:880px; margin:0 auto; padding:56px 40px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:32px; margin:10px 0 6px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15.5px; margin:0 0 8px;}
+  .backtop{margin:0 0 24px; padding-bottom:14px; border-bottom:1px solid var(--line);}
+  .backtop .link{font-size:14.5px; margin-right:18px;}
+  .count{display:inline-block; margin-top:6px; font-size:13px; font-weight:600;
+    color:var(--accent); background:var(--accent-soft); border-radius:20px; padding:4px 14px;}
+  hr{border:none; border-top:1px solid var(--line); margin:32px 0;}
+  .grid{display:grid; gap:16px; margin-top:8px;}
+  .item{
+    display:block; text-decoration:none; color:inherit;
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; transition:all .16s ease; position:relative; overflow:hidden;
+  }
+  .item::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--accent);
+  }
+  .item:hover{border-color:var(--accent); box-shadow:0 6px 20px rgba(37,99,235,.10); transform:translateY(-1px);}
+  .item .row1{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+  .item .title{font-size:17.5px; font-weight:700;}
+  .item .date{font-size:13px; color:var(--sub);}
+  .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .badge{font-size:12px; font-weight:600; border-radius:20px; padding:3px 12px; background:var(--accent-soft); color:var(--accent);}
+  .badge.k{background:#f0fdf4; color:var(--ok);}
+  .badge.p{background:#fff7ed; color:var(--warn);}
+  .desc{color:var(--sub); font-size:14.5px; margin-top:6px;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center;
+    border-top:1px solid var(--line); padding-top:18px;}
+  a.link{color:var(--accent); text-decoration:none; font-weight:600;}
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="backtop">
+    <a class="link" href="../index.html">← 返回题库首页</a>
+  </div>
+
+  <div class="kicker">AMC 10</div>
+  <h1>2026AMC10A</h1>
+  <p class="lede">本场考试已收录的❤️精讲，点击任意一张卡片进入详细解析（含知识点提炼 + 由易到难的 5 道配套练习）。</p>
+  <span class="count">共 12 道错题</span>
+
+  <hr>
+
+  <div class="grid">
+
+    <a class="item" href="../problems/20261114-concave-polygon-interior-angles.html">
+      <div class="row1">
+        <span class="title">一半 150° 一半 190°：凹多边形也用内角和，n=36</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">平均内角 170° 乘 n 等于 180(n−2)，一次解出 n=36；凹角 190° 不破坏内角和公式，附一般角对通式与最小偶数反例。</div>
+      <div class="badges">
+        <span class="badge k">Interior Angle Sum</span>
+        <span class="badge ">2026AMC10A(4)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261114-similar-scalene-triangles.html">
+      <div class="row1">
+        <span class="title">相似却不全等：把 9 与 12 排好序，最长边 16</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">排序后小三角形 (9/r, 9, 12)、大三角形 (9, 12, 12r)，中间边对齐得 r=4/3，最长边 16；附黄金比可行性界与最大整数 b=14。</div>
+      <div class="badges">
+        <span class="badge k">Similar Triangles</span>
+        <span class="badge ">2026AMC10A(9)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261114-squares-mean-median.html">
+      <div class="row1">
+        <span class="title">平方数列的平均数比中位数多 32%：解出 n=49</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">均值 (n+1)(2n+1)/6、中位数 ((n+1)/2)²，约去 n+1 得 n=49；附 R(n)=2(2n+1)/(3(n+1)) 的单调性、极限 4/3 与 p=33 的 n=199。</div>
+      <div class="badges">
+        <span class="badge k">Mean and Median</span>
+        <span class="badge ">2026AMC10A(10)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261114-socks-stopping-probability.html">
+      <div class="row1">
+        <span class="title">取完一种颜色就停：末端三只袜子定概率 50/199</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">把取出顺序预排成随机排列，恰剩 2 只 ⇔ 末两只同色且倒数第三只异色；对称连乘得 50/199，附一般闭式、归一性与小规模穷举对账。</div>
+      <div class="badges">
+        <span class="badge k">Combinatorial Probability</span>
+        <span class="badge ">2026AMC10A(12)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261114-handshake-two-clubs.html">
+      <div class="row1">
+        <span class="title">同俱乐部 119 次、跨俱乐部 112 次：总数组合、乘积定差，两队相差 6 人</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">总握手 231=C(22,2) 定 a+b=22，跨俱乐部 ab=112 定 |a−b|=6，两队 14 与 8；附无解判别、一般闭式与固定总人数的极值。</div>
+      <div class="badges">
+        <span class="badge k">Combinations</span>
+        <span class="badge ">2026AMC10A(13)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261114-triangle-inequality-parameter.html">
+      <div class="row1">
+        <span class="title">三边随 t 变：先保正、再解三条严格不等式，只剩 2 &lt; t &lt; 10 共 7 个整数</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">三条严格不等式化为 −1&lt;t&lt;10、(t−2)(t+1)&gt;0 与恒成立式；合并得 2&lt;t&lt;10，整数 3..9 共 7 个，附退化端点与 c=kt+k 的一般化计数表。</div>
+      <div class="badges">
+        <span class="badge k">Triangle Inequality</span>
+        <span class="badge ">2026AMC10A(14)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261114-fraction-tree-level.html">
+      <div class="row1">
+        <span class="title">从 20/27 逆推 8 步回到根 1/2：分数二叉树的层数就是上行步数</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">左子小于 1/2、右子大于 1/2 使父节点唯一；逆推链 8 步到根，故在第 8 层；附连分数闭式、第 8 层 256 个节点与最大分母 89=F₁₁。</div>
+      <div class="badges">
+        <span class="badge k">Fractions</span>
+        <span class="badge ">2026AMC10A(15)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261114-capped-score-urn.html">
+      <div class="row1">
+        <span class="title">红 3 黑 2 白 2 的计分上限：最低 4 分只有 4 类抽法，概率 2/429</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">得分 = 7 − 溢出量，最大溢出 3 故最低分 4；四类三元组各 4 种抽法，16/C(14,7)=2/429；附改上限、最高分及概率 30/143 的对账。</div>
+      <div class="badges">
+        <span class="badge k">Casework</span>
+        <span class="badge ">2026AMC10A(16)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261114-hexagon-squares-overlap.html">
+      <div class="row1">
+        <span class="title">六个向内正方形的公共部分：边心距 1−√3/2，面积 7√3/2−6，和为 18</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">六条内侧边围成同心小六边形，边心距 r=1−√3/2；验证另两边不切割后面积 2√3r²=7√3/2−6，得 (7,3,2,6) 和为 18；附正 n 边形与向内深度一般化。</div>
+      <div class="badges">
+        <span class="badge k">Regular Hexagons</span>
+        <span class="badge ">2026AMC10A(17)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261114-decreasing-integer-sequence.html">
+      <div class="row1">
+        <span class="title">不动点 4 与 2¹⁰：11 项严格递减整数列的最小首项 N=1028，数字和 11</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">减不动点得 a_k=4+(a₀−4)/2^k；11 项对应 10 次递推，1024 | (a₀−4) 且 a₀&gt;4，故 N=1028，数字和 11；附完整序列、一般通式与 ≤10000 全枚举。</div>
+      <div class="badges">
+        <span class="badge k">Linear Recurrence</span>
+        <span class="badge ">2026AMC10A(18)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261114-hemisphere-cover-radius.html">
+      <div class="row1">
+        <span class="title">半球罩三个立方体：两组最远顶点等距于 t=3/8，R=√681/8</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">球心贴桌面 (0,t,0)，两组最远顶面顶点给 f=8+(2−t)²、g=5+(2+t)²；令相等得 t=3/8，R²=681/64；附全部 10 个顶点距离清单与棱长 s 通式。</div>
+      <div class="badges">
+        <span class="badge k">Optimization</span>
+        <span class="badge ">2026AMC10A(19)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+    <a class="item" href="../problems/20261114-volume-510510-boxes.html">
+      <div class="row1">
+        <span class="title">510510 的 7 个素因数分 3 组：容斥 1806 除以 6 得 301 个箱子</span>
+        <span class="date">20261114</span>
+      </div>
+      <div class="desc">箱子 ⇔ 把 7 个互异素数分成 3 个非空组；容斥 3⁷−3·2⁷+3=1806，平方自由保证三边不等故除以 6 得 301；附 S(n,3) 通式与 V=60 的非平方自由反例。</div>
+      <div class="badges">
+        <span class="badge k">Inclusion-Exclusion</span>
+        <span class="badge ">2026AMC10A(20)</span>
+        <span class="badge p">成员：YY</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    AMC 10 ❤️精讲 · 2026AMC10A &nbsp;|&nbsp; 由 WorkBuddy 维护 · 最近更新 2026-11-14
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 末端排列与组合概率</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2026AMC10A.html">← 返回 2026AMC10A</a>
+    <div class="pager">
+      <a href="20261114-squares-mean-median.html">‹ 上一题：平方数列均值</a>
+      <a href="20261114-handshake-two-clubs.html">下一题：握手计数 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>取完一种颜色就停：末端三只袜子定概率 50/199</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261114</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2026AMC10A(12)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Combinatorial Probability</span></div>
+  </div>
+  <p class="lede">把 200 只袜子预排成一条随机取出序列。「恰剩 $2$ 只」等价于<strong>末两只同色、倒数第三只为另一种颜色</strong>（形如 $YXX$）。由红蓝对称性 $P=2\cdot\frac{100}{200}\cdot\frac{99}{199}\cdot\frac{100}{198}=\frac{50}{199}$，答案 <strong>(D)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    A drawer has $100$ red socks and $100$ blue socks. Pippi randomly removes one sock at a time, without replacement, until all the socks of one color have been removed. What is the probability that there are exactly $2$ socks left in the drawer once that happens?　(A) $\frac{27}{196}$　(B) $\frac{49}{198}$　(C) $\frac{247}{990}$　(D) $\frac{50}{199}$　(E) $\frac{25}{99}$
+  </blockquote>
+  <p><strong>中文翻译</strong>：抽屉里有 $100$ 只红袜、$100$ 只蓝袜，随机逐只不放回取出，直到某一种颜色被取完为止。求此时抽屉里恰好剩 $2$ 只袜子的概率。　(A) $\frac{27}{196}$　(B) $\frac{49}{198}$　(C) $\frac{247}{990}$　(D) $\frac{50}{199}$　(E) $\frac{25}{99}$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>答案依据</strong>：讲义《2026AMC10A 答案与解析》（用户随附，含答案总表与逐题解析）<br>
+    讲义给出的正确选项为 <strong>(D) $\dfrac{50}{199}$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 25/99</code></td><td>只算了「末两只同色」$2\cdot\frac{100}{200}\cdot\frac{99}{199}=\frac{99}{199}$，再把 $198$ 与 $200$ 混着约分凑出 $\frac{25}{99}$，<strong>漏掉「倒数第三只必须是另一种颜色」这一限制</strong>。若末三只都同色，则那种颜色更早就被取完，停止时剩的会更多。</td></tr>
+    <tr><td><code>答 (A) 27/196</code></td><td>试图「从前往后模拟前 $198$ 次」并写出 $\frac{\binom{198}{98}}{\binom{200}{100}}$ 之类的组合比，没化简也没乘对称因子 $2$。讲义强调：<strong>用随机排列的末端描述停止事件</strong>，避免枚举前 $198$ 次过程。</td></tr>
+    <tr><td><code>答 (C) 247/990</code></td><td>把「恰剩 $2$ 只」与「至少剩 $2$ 只」混淆，或把 $\frac{100}{198}$ 抄成 $\frac{98}{198}$。$2$ 只必须是<strong>同一种颜色</strong>，且不能再多，也不能更少。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有把「停止时刻」翻译成<strong>排列末端的局部模式</strong>。这是一个典型的「过程 → 静态排列」转化题：只要盯住最后 $3$ 个位置，前 $197$ 个位置的内部结构完全不参与计算。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与用户随附讲义《2026AMC10A 答案与解析》第 12 题的书面解答同源（本卷官方站尚未收录，讲义即本次权威答案依据）——将取出顺序预排成随机排列，恰剩 $2$ 只等价于末两只同色且倒数第三只异色，由红蓝对称性得 $P=2\cdot\frac{100}{200}\cdot\frac{99}{199}\cdot\frac{100}{198}=\frac{50}{199}$。 <br> 本站的增量是给出一般「恰剩 $k$ 只」的组合闭式 $P_k=\frac{2\binom{2m-k-1}{m-k}}{\binom{2m}{m}}$、证明 $\sum_k P_k=1$，以及小规模穷举对账。
+  </blockquote>
+  <h3>方法一：随机排列末端模式 + 对称性（讲义思路，推荐）</h3>
+  <p><strong>第 1 步 · 把过程改成静态排列。</strong> $200$ 只袜子的取出顺序等可能地对应一个红蓝各 $100$ 的随机排列，样本空间大小 $\binom{200}{100}$。</p>
+  <p><strong>第 2 步 · 定位停止时刻。</strong> 设红袜最后一只在位置 $L_R$、蓝袜最后一只在 $L_B$。先被取完的颜色是 $\min(L_R,L_B)$ 那一只；停止瞬间抽屉里剩的就是它之后的所有位置，共 $200-\min(L_R,L_B)$ 只。</p>
+  <p><strong>第 3 步 · 翻译「恰剩 $2$ 只」。</strong> 即 $\min(L_R,L_B)=198$：最后两只（位置 $199,200$）必须是同一种颜色 $X$，而位置 $198$ 必须是另一种颜色 $Y$。若末三只都同色，则 $Y$ 的最后一只更早出现，停止时剩的超过 $2$ 只，需排除。</p>
+  <p><strong>第 4 步 · 从队尾向前算概率。</strong> 由红蓝对称，先固定「剩下的是 $X$」再乘 $2$：</p>
+$$P=2\cdot\underbrace{\frac{100}{200}}_{\text{末位 }X}\cdot\underbrace{\frac{99}{199}}_{\text{倒二 }X}\cdot\underbrace{\frac{100}{198}}_{\text{倒三 }Y}=2\cdot\frac12\cdot\frac{99}{199}\cdot\frac{100}{198}=\frac{50}{199} .$$
+  <blockquote class="ok"><strong>答案：(D) $\dfrac{50}{199}$。</strong></blockquote>
+  <h3>方法二：组合计数闭式（交叉验证）</h3>
+  <p>固定 $m=100$（每色 $m$ 只）。恰剩 $k$ 只时，末 $k$ 位全为某色 $X$、第 $2m-k$ 位为异色 $Y$；在前 $2m-k-1$ 位中需放好剩下的 $m-k$ 个 $X$ 与 $m-1$ 个 $Y$，方案数 $\binom{2m-k-1}{m-k}$。乘上「哪种颜色先被取完」的 $2$ 种选择：</p>
+$$P_k=\frac{2\binom{2m-k-1}{m-k}}{\binom{2m}{m}} .$$
+  <p>代入 $m=100,k=2$ 得 $\frac{2\binom{197}{98}}{\binom{200}{100}}=\frac{50}{199}$，与方法一一致。这个闭式还给出归一性（练习 4）与单调性（练习 5）。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① 通式代入 $m=100,k=2$：$\frac{2\binom{197}{98}}{\binom{200}{100}}=\frac{50}{199}$ ✓；② 小规模全穷举：$m=3$（$3$ 红 $3$ 蓝）共 $\binom63=20$ 种排列，恰剩 $2$ 只的有 $6$ 种，$P=\frac{3}{10}$，与闭式 $\frac{2\binom31}{20}$ 一致；③ 归一性：$\sum_{k=1}^{100}P_k=1$；④ $P_1=\frac{100}{199}$，恰为 $P_2$ 的两倍。
+  </blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：把「逐次抽取直到某色取完」的<strong>过程</strong>翻译成随机排列的<strong>末端模式</strong>；停止时剩余数 $=2m-\min(L_R,L_B)$，只由两种颜色各自行末位置决定。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>恰剩 $k$ 只 $\iff$ 末 $k$ 位同色且第 $2m-k$ 位异色。缺少「异色」这一条会把「末三只同色」误计入。</li>
+    <li>从队尾向前连乘最省力：$\frac{100}{200}\cdot\frac{99}{199}\cdot\frac{100}{198}$，不要去枚举前 $197$ 次。</li>
+    <li>对称因子 $2$ 来自「先被取完的是红还是蓝」，两种情形互斥且等可能。</li>
+    <li>一般闭式 $P_k=\frac{2\binom{2m-k-1}{m-k}}{\binom{2m}{m}}$；它把「末端概率」与「组合计数」两种口径焊死在一起，是校验答案的独立第二通道。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 小规模穷举</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>把题设改成 $3$ 红 $3$ 蓝（$m=3$），<strong>列出</strong>全部 $\binom63=20$ 种排列中「恰好剩 $2$ 只」的那些，数出个数并求概率。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$6$ 种，$P=\frac{6}{20}=\frac{3}{10}$</strong></div>
+      <p>恰剩 $2$ 只要求末两位同色、第 $4$ 位异色。末两位为红时第 $4$ 位为蓝，前 $3$ 位需含 $1$ 红 $2$ 蓝，共 $\binom31=3$ 种；末两位为蓝时对称地也是 $3$ 种，合计 $6$ 种。故 $P=\frac{6}{20}=\frac{3}{10}$。用闭式核对：$\frac{2\binom{6-2-1}{3-2}}{\binom63}=\frac{2\binom31}{20}=\frac{6}{20}$ ✓。</p>
+      <p class="hint">要点：<strong>小规模穷举是通式最好的试金石</strong>；$20$ 种全列出来，任何漏算的对称因子都会立刻暴露。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 换剩余数</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把「恰剩 $2$ 只」改成「恰剩 $1$ 只」（$m=100$ 不变），求概率；并与原题的 $\frac{50}{199}$ 比较。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$P_1=\frac{100}{199}$，恰为 $P_2=\frac{50}{199}$ 的 $2$ 倍</strong></div>
+      <p>末 $1$ 位某色 $X$、第 $199$ 位异色 $Y$：$P_1=2\cdot\frac{100}{200}\cdot\frac{100}{199}=\frac{100}{199}$。闭式核对 $\frac{2\binom{198}{99}}{\binom{200}{100}}=\frac{100}{199}$ ✓。比值 $\frac{P_1}{P_2}=2$。</p>
+      <p class="hint">要点：<strong>$k$ 每增加 $1$，概率大致减半</strong>；这个「减半」不是巧合，练习 5 会给出精确证明。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 边界事件</span> <span class="stars">★★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>「恰剩 $0$ 只」是否可能发生？说明理由；并求「至少剩 $1$ 只」的概率。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>不可能；$P(\text{至少剩 }1)=1$</strong></div>
+      <p>末位必有某种颜色，故 $L_R$ 与 $L_B$ 中较大者为 $200$，较小者至多 $199$，于是剩余数 $200-\min(L_R,L_B)\ge1$。所以「剩 $0$ 只」概率为 $0$，「至少剩 $1$ 只」为必然事件，概率 $1$。闭式在 $k=0$ 时也给出 $P_0=\frac{2\binom{199}{100}}{\binom{200}{100}}=0$ 的越界项（事实上 $\min$ 不可能等于 $200$）。</p>
+      <p class="hint">要点：<strong>先查边界再算概率</strong>；「剩余数恒 $\ge1$」是排列末端结构的直接推论，也是 $\sum_{k\ge1}P_k=1$ 的前提。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 归一性</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>证明对一般 $m$，$P_k=\dfrac{2\binom{2m-k-1}{m-k}}{\binom{2m}{m}}$（$k=1,\ldots,m$），并用曲棍球棒恒等式证明 $\sum_{k=1}^{m}P_k=1$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$P_k=\dfrac{2\binom{2m-k-1}{m-k}}{\binom{2m}{m}}$；$\sum_{k=1}^{m}P_k=1$</strong></div>
+      <p>末 $k$ 位同色 $X$、第 $2m-k$ 位异色 $Y$，前 $2m-k-1$ 位放 $m-k$ 个 $X$ 与 $m-1$ 个 $Y$，方案数 $\binom{2m-k-1}{m-k}$，乘 $2$ 种颜色选择并除以 $\binom{2m}{m}$。令 $j=m-k$（$j=0,\ldots,m-1$），则 $\binom{2m-k-1}{m-k}=\binom{m+j-1}{j}$；由曲棍球棒恒等式 $\sum_{j=0}^{m-1}\binom{m-1+j}{j}=\binom{2m-1}{m-1}$，而 $\binom{2m}{m}=2\binom{2m-1}{m-1}$，故 $\sum_{k=1}^m P_k=\frac{2\binom{2m-1}{m-1}}{\binom{2m}{m}}=1$ ✓。</p>
+      <p class="hint">要点：<strong>归一性是最强的一致性检验</strong>；曲棍球棒恒等式把「所有可能的剩余数」一次收拢成总数。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 单调与比值</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>证明 $P_k$ 关于 $k$ 严格递减，且 $\dfrac{P_2}{P_1}=\dfrac12$ 对一切 $m\ge2$ 成立；据此指出最可能的剩余数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>严格递减；$\dfrac{P_2}{P_1}=\dfrac12$（与 $m$ 无关）；最可能剩余 $1$ 只</strong></div>
+      <p>$\frac{P_{k+1}}{P_k}=\frac{\binom{2m-k-2}{m-k-1}}{\binom{2m-k-1}{m-k}}=\frac{m-k}{2m-k-1} \lt 1$（因 $m-k \lt 2m-k-1$ 当 $m\ge2$），故严格递减。特别地 $\frac{P_2}{P_1}=\frac{m-1}{2m-2}=\frac12$，与 $m$ 无关；$m=100$ 时 $P_1=\frac{100}{199},P_2=\frac{50}{199},P_3=\frac{4900}{39203},P_4=\frac{2425}{39203}$，确实递减。故 $k=1$ 概率最大。</p>
+      <p class="hint">要点：<strong>相邻项之比化简成一次分式</strong>，既证单调又给出精确倍率；「剩得越少越可能」是这类停止问题的普遍直觉。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>停止时刻 15 秒决策卡</h3>
+    <ol>
+      <li>把逐次抽取预排成一条随机排列，样本空间 $\binom{2m}{m}$。</li>
+      <li>剩余数 $=2m-\min(L_R,L_B)$，只由两色各自最后出现的位置决定。</li>
+      <li>恰剩 $k$ 只 $\iff$ 末 $k$ 位同色、第 $2m-k$ 位<strong>异色</strong>（少了这条就错）。</li>
+      <li>从队尾连乘并乘对称因子 $2$；或用闭式 $P_k=\frac{2\binom{2m-k-1}{m-k}}{\binom{2m}{m}}$ 对账。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「过程化排列，只看队尾三；同色收尾异色断，对称乘二莫漏算」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 末端排列与组合概率 &nbsp;|&nbsp; 生成于 2026-11-14</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

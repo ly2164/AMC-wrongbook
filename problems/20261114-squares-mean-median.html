@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 平方数列的平均数与中位数</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2026AMC10A.html">← 返回 2026AMC10A</a>
+    <div class="pager">
+      <a href="20261114-similar-scalene-triangles.html">‹ 上一题：相似三角形</a>
+      <a href="20261114-socks-stopping-probability.html">下一题：取袜停止概率 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>平方数列的平均数比中位数多 32%：解出 n=49</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261114</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2026AMC10A(10)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Mean and Median</span></div>
+  </div>
+  <p class="lede">平均 $=\frac{(n+1)(2n+1)}{6}$，中位数 $=\left(\frac{n+1}{2}\right)^2$；令平均 $=\frac{33}{25}\times$ 中位数，约去正数 $n+1$ 得 $50(2n+1)=99(n+1)$，解出 $n=49$，答案 <strong>(C)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    For what odd positive integer $n$ is the mean of $1, 4, 9, 16, \ldots, n^2$ exactly $32\%$ greater than its median?　(A) $19$　(B) $39$　(C) $49$　(D) $89$　(E) $169$
+  </blockquote>
+  <p><strong>中文翻译</strong>：对哪个正奇数 $n$，数列 $1,4,9,16,\ldots,n^2$ 的平均数恰好比中位数大 $32\%$？　(A) $19$　(B) $39$　(C) $49$　(D) $89$　(E) $169$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>答案依据</strong>：讲义《2026AMC10A 答案与解析》（用户随附，含答案总表与逐题解析）<br>
+    讲义给出的正确选项为 <strong>(C) $49$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (E) 169</code></td><td>把「比中位数大 $32\%$」当成「是中位数的 $32\%$」，或把中位数误写成 $\frac{n+1}{2}$（忘了平方）。讲义特别提示：<strong>中位数是中间那一项的平方</strong>，即 $\left(\frac{n+1}{2}\right)^2$，不是 $\frac{n+1}{2}$ 本身。</td></tr>
+    <tr><td><code>答 (A) 19 或 (B) 39</code></td><td>平方和公式记成 $\frac{n(n+1)(n+2)}{6}$ 或除以项数时把 $n$ 约错，得到偏小的解。正确平方和是 $\frac{n(n+1)(2n+1)}{6}$，除以 $n$ 项得平均 $\frac{(n+1)(2n+1)}{6}$。</td></tr>
+    <tr><td><code>答 (D) 89</code></td><td>把 $32\%$ 写成 $\frac{8}{25}$ 或把 $1+32\%=\frac{33}{25}$ 抄成 $\frac{33}{20}$，系数一错，解就跑偏。也可能约去 $n+1$ 时漏掉分母里的 $6$ 与 $4$。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：三个细节必须同时到位——<strong>平方和公式、中位数是第 $\frac{n+1}{2}$ 项的平方、$32\%$ 是乘 $\frac{33}{25}$ 而非 $\frac{32}{100}$</strong>。任错一个都会落到某个干扰选项上，这正是五个选项排布的方式。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与用户随附讲义《2026AMC10A 答案与解析》第 10 题的书面解答同源（本卷官方站尚未收录，讲义即本次权威答案依据）——平均为 $\frac{(n+1)(2n+1)}{6}$、中位数为 $\left(\frac{n+1}{2}\right)^2$，令其等于 $\frac{33}{25}$ 倍中位数并约去 $n+1$，得 $50(2n+1)=99(n+1)$，故 $n=49$。 <br> 本站的增量是给出比值函数 $R(n)=\frac{2(2n+1)}{3(n+1)}$ 的单调性与极限 $\frac43$、一般百分比 $p$ 的闭式 $n=\frac{100+3p}{100-3p}$，以及小规模回代校验。
+  </blockquote>
+  <h3>方法一：平方和公式 + 中位数定位（讲义思路，推荐）</h3>
+  <p><strong>第 1 步 · 数清项数与中位数。</strong> 数列 $1^2,2^2,\ldots,n^2$ 共 $n$ 项，$n$ 为奇数，故中位数是第 $\frac{n+1}{2}$ 项，即</p>
+$$M=\left(\frac{n+1}{2}\right)^2 .$$
+  <p><strong>第 2 步 · 求平均。</strong> 由平方和公式 $\sum_{k=1}^{n}k^2=\frac{n(n+1)(2n+1)}{6}$，除以项数 $n$ 得</p>
+$$A=\frac{(n+1)(2n+1)}{6} .$$
+  <p><strong>第 3 步 · 列比例方程。</strong> 「恰好多 $32\%$」即 $A=\frac{33}{25}M$：</p>
+$$\frac{(n+1)(2n+1)}{6}=\frac{33}{25}\cdot\frac{(n+1)^2}{4} .$$
+  <p><strong>第 4 步 · 约去 $n+1 \gt 0$ 并求解。</strong></p>
+$$\frac{2n+1}{6}=\frac{33(n+1)}{100}\ \Longrightarrow\ 50(2n+1)=99(n+1)\ \Longrightarrow\ 100n+50=99n+99\ \Longrightarrow\ n=49 .$$
+  <p>$49$ 是正奇数 ✓。</p>
+  <blockquote class="ok"><strong>答案：(C) $49$。</strong></blockquote>
+  <h3>方法二：比值函数的单调性与闭式（交叉验证）</h3>
+  <p>定义 $R(n)=\dfrac{A}{M}=\dfrac{2(2n+1)}{3(n+1)}=\dfrac43-\dfrac{2}{3(n+1)}$。它随 $n$ 严格递增、恒小于极限 $\frac43$，故方程 $R(n)=1+\frac p{100}$ 至多一解，解出</p>
+$$n=\frac{100+3p}{100-3p}\qquad(0\le p \lt \tfrac{100}{3}).$$
+  <p>代入 $p=32$ 得 $n=\frac{196}{4}=49$ ✓。这个闭式也说明：任何「多 $p\%$」只要 $100-3p \gt 0$ 且结果为奇数，就有唯一解；$p\ge\frac{100}{3}$ 时无解（练习 3）。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① 回代 $n=49$：平均 $\frac{50\times99}{6}=825$，中位数 $25^2=625$，$\frac{825}{625}=\frac{33}{25}=1.32$ ✓；② 小规模：$n=3,5,7,9$ 的比值分别为 $\frac76,\frac{11}{9},\frac54,\frac{19}{15}$，随 $n$ 递增且都 $\lt\frac43$；③ 用 <code>Fraction</code> 对五个选项逐一验算，只有 $49$ 恰为 $\frac{33}{25}$。
+  </blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：平均 $=\frac{(n+1)(2n+1)}{6}$，中位数 $=\left(\frac{n+1}{2}\right)^2$，比值 $R(n)=\frac{2(2n+1)}{3(n+1)}=\frac43-\frac{2}{3(n+1)}$ 随 $n$ 严格递增、上确界 $\frac43$。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>中位数是<strong>中间项的平方</strong>，别丢平方；$n$ 为奇数保证中间项唯一。</li>
+    <li>「多 $32\%$」是乘 $\frac{33}{25}$，不是 $\frac{32}{100}$ 也不是 $\frac{8}{25}$。</li>
+    <li>约去公因子 $n+1$ 是化简关键，把二次比较降成一次方程。</li>
+    <li>$R(n) \lt \frac43$ 是硬上界——它决定了「多百分之几」的可达范围，也是检验选项是否可能的第一道筛子。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 小规模验算</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p><strong>逐个算出</strong> $n=3,5,7,9$ 时数列 $1,4,\ldots,n^2$ 的平均数、中位数与比值 $R(n)$，列出四行结果。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$R(3)=\frac76$，$R(5)=\frac{11}{9}$，$R(7)=\frac54$，$R(9)=\frac{19}{15}$</strong></div>
+      <p>$n=3$：平均 $\frac{4\times7}{6}=\frac{14}{3}$，中位数 $2^2=4$，比值 $\frac{7}{6}$；$n=5$：平均 $\frac{6\times11}{6}=11$，中位数 $9$，比值 $\frac{11}{9}$；$n=7$：平均 $\frac{8\times15}{6}=20$，中位数 $16$，比值 $\frac54$；$n=9$：平均 $\frac{10\times19}{6}=\frac{95}{3}$，中位数 $25$，比值 $\frac{19}{15}$。四个值递增且都 $\lt\frac43$。</p>
+      <p class="hint">要点：<strong>先算四项再信公式</strong>；比值随 $n$ 增大而趋近 $\frac43$ 的趋势肉眼可见。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 换百分比</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把「恰好多 $32\%$」改成「恰好多 $25\%$」，求正奇数 $n$；并写出此时的平均与中位数。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$n=7$，平均 $20$，中位数 $16$</strong></div>
+      <p>由闭式 $n=\frac{100+3p}{100-3p}=\frac{175}{25}=7$。回代：平均 $\frac{8\times15}{6}=20$，中位数 $4^2=16$，$\frac{20}{16}=\frac54=1.25$ ✓。也可直接解 $\frac{2(2n+1)}{3(n+1)}=\frac54$，得 $8(2n+1)=15(n+1)\Rightarrow n=7$。</p>
+      <p class="hint">要点：<strong>换百分比只需改右端常数</strong>，方程结构不变；闭式让这类换参题变成一次代入。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 无解判定</span> <span class="stars">★★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>是否存在正奇数 $n$ 使平均比中位数恰好多 $40\%$？用 $R(n)$ 的上界说明原因，并指出闭式给出的「解」是什么。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>不存在。$R(n) \lt \frac43\approx1.333 \lt 1.4$；闭式给 $n=-11$（负数，无效）</strong></div>
+      <p>$p=40$ 时 $n=\frac{100+120}{100-120}=\frac{220}{-20}=-11 \lt 0$，不是正奇数。根本原因是 $R(n)=\frac43-\frac{2}{3(n+1)}$ 严格递增但永远小于极限 $\frac43$，而 $1.4 \gt \frac43$，超出可达范围。</p>
+      <p class="hint">要点：<strong>先查上界再解方程</strong>，能一眼排掉无解情形；渐进极限 $\frac43$ 是这类「百分比反求项数」题的天然天花板。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般通式</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>证明 $R(n)=\frac43-\frac{2}{3(n+1)}$ 对一切正奇数 $n$ 成立，且严格递增；由此导出「恰好多 $p\%$」时 $n=\frac{100+3p}{100-3p}$，并说明 $p$ 的可行范围。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$R(n)=\frac43-\frac{2}{3(n+1)}$ 严格递增；$n=\frac{100+3p}{100-3p}$；可行需 $0\le p \lt \frac{100}{3}$ 且 $n$ 为正奇数</strong></div>
+      <p>$R(n)=\frac{2(2n+1)}{3(n+1)}=\frac{4n+2}{3n+3}=\frac{4(n+1)-2}{3(n+1)}=\frac43-\frac{2}{3(n+1)}$，显然随 $n$ 严格递增且 $\lt\frac43$。令其等于 $1+\frac{p}{100}=\frac{100+p}{100}$，解 $\frac43-\frac{2}{3(n+1)}=\frac{100+p}{100}$，化简得 $n+1=\frac{200}{100-3p}$，即 $n=\frac{100+3p}{100-3p}$。分母需正，故 $p \lt \frac{100}{3}$；还要求 $n$ 为奇数正整数。</p>
+      <p class="hint">要点：<strong>把比值拆成「常数 − 反比项」是判断单调性与极限最快的手法</strong>；$\frac{2}{3(n+1)}$ 就是全部的信息量。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 整数极值</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>求最大的整数百分比 $p$，使闭式给出的 $n$ 仍是正奇数；给出该 $p$、对应 $n$ 与 $R(n)$。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$p=33$，$n=199$，$R(199)=\frac{133}{100}$</strong></div>
+      <p>$n=\frac{100+3p}{100-3p}$，需 $100-3p \gt 0$ 整除 $100+3p$ 且商为奇数。$p=33$ 时分母 $1$、分子 $199$，得奇数 $199$；$p=34$ 时分母 $-2$ 已为负。故最大 $p=33$，$n=199$，此时 $R(199)=\frac{2\times399}{3\times200}=\frac{798}{600}=\frac{133}{100}=1.33$ ✓。</p>
+      <p class="hint">要点：<strong>分母 $100-3p$ 越小，$n$ 越大</strong>；$p=33$ 让分母取到最小正值 $1$，是整数极值的自然终点。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>平均数 / 中位数 15 秒决策卡</h3>
+    <ol>
+      <li>奇数项 ⇒ 中位数 $=\left(\frac{n+1}{2}\right)^2$；平均 $=\frac{(n+1)(2n+1)}{6}$。</li>
+      <li>「多 $p\%$」写成乘 $\frac{100+p}{100}$（本题 $\frac{33}{25}$），列 $\frac{(n+1)(2n+1)}{6}=\frac{100+p}{100}\cdot\frac{(n+1)^2}{4}$。</li>
+      <li>约去 $n+1$，解一次方程；或直接用闭式 $n=\frac{100+3p}{100-3p}$。</li>
+      <li>回代验算 $n$ 为奇数，并确认 $1+\frac p{100} \lt \frac43$（否则无解）。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「平方和除以 n，中位是中项平方；多 p 写百分，约去 n 加一就得解」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 平方数列的平均数与中位数 &nbsp;|&nbsp; 生成于 2026-11-14</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>

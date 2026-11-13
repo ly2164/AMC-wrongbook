@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AMC 10 错题精讲 · 平移递推与整除性</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --ink:#1a2332; --sub:#5a6b80; --line:#e3e8ef; --accent:#2563eb;
+    --accent-soft:#eff4ff; --warn:#b45309; --warn-soft:#fffbeb;
+    --ok:#047857; --ok-soft:#ecfdf5; --code-bg:#f6f8fb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    color:var(--ink); line-height:1.75; margin:0; padding:0;
+    background:#fff;
+  }
+  .page{max-width:820px; margin:0 auto; padding:56px 48px 80px;}
+  .kicker{font-size:13px; letter-spacing:.14em; color:var(--accent); font-weight:700; text-transform:uppercase;}
+  h1{font-size:30px; margin:8px 0 4px; letter-spacing:-.01em;}
+  .lede{color:var(--sub); font-size:15px; margin:0 0 28px;}
+  hr{border:none; border-top:1px solid var(--line); margin:36px 0;}
+  h2{font-size:21px; margin:38px 0 14px; padding-left:12px; border-left:4px solid var(--accent);}
+  h3{font-size:17px; margin:26px 0 10px; color:#243b53;}
+  p{margin:10px 0;}
+  blockquote{
+    margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+    border-left:4px solid var(--accent); border-radius:0 8px 8px 0; font-size:15px;
+  }
+  .warn{background:var(--warn-soft); border-left-color:var(--warn);}
+  .warn strong{color:var(--warn);}
+  .ok{background:var(--ok-soft); border-left-color:var(--ok);}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f7f9fc; font-weight:600;}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em;}
+  .prob{border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:20px 0; background:#fff;}
+  .prob .tag{display:inline-block; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    border-radius:20px; padding:3px 12px; margin-bottom:10px;}
+  .prob .tag.t2{background:#7c3aed;} .prob .tag.t3{background:#0891b2;}
+  .prob .tag.t4{background:#db2777;} .prob .tag.t5{background:#dc2626;}
+  .stars{color:#f59e0b; letter-spacing:2px;}
+  .prob .form{
+    display:inline-block; font-size:12px; font-weight:600; color:var(--sub);
+    background:#f1f5f9; border:1px solid var(--line); border-radius:6px;
+    padding:2px 9px; margin-left:4px;
+  }
+  /* ---- 官方答案引用条（v2.6 起必填）---- */
+  .official{
+    margin:14px 0 0; padding:12px 16px; font-size:14px;
+    background:#f7f9fc; border:1px solid var(--line); border-left:4px solid #64748b;
+    border-radius:0 8px 8px 0; word-break:break-all;
+  }
+  .official a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .official a:hover{text-decoration:underline;}
+  details{margin-top:14px; border-top:1px dashed var(--line); padding-top:12px;}
+  summary{cursor:pointer; font-weight:600; color:var(--accent); font-size:14.5px;}
+  details[open] summary{margin-bottom:8px;}
+  .ans{background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 14px; margin:10px 0;}
+  .card{
+    border:2px solid var(--accent); border-radius:14px; padding:20px 24px; margin:24px 0;
+    background:linear-gradient(180deg,#f7faff,#fff);
+  }
+  .card h3{margin-top:0; color:var(--accent);}
+  ol li,ul li{margin:6px 0;}
+  .footer{margin-top:44px; color:var(--sub); font-size:13px; text-align:center; border-top:1px solid var(--line); padding-top:16px;}
+  .hint{font-size:13.5px; color:var(--sub); font-style:italic;}
+  .meta{
+    margin:16px 0 6px; padding:12px 16px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:10px;
+    display:flex; flex-wrap:wrap; gap:8px 26px; font-size:14px;
+  }
+  .meta .item{display:flex; gap:6px; align-items:baseline;}
+  .meta .k{color:var(--sub);}
+  .meta .v{color:var(--ink); font-weight:600;}
+  /* ---- 顶部返回导航 ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; margin:-56px -48px 24px;
+    padding:12px 48px; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:8px; text-decoration:none;
+    background:var(--accent); color:#fff; font-size:13.5px; font-weight:600;
+    transition:opacity .15s;
+  }
+  .back-home:hover{opacity:.85;}
+  .pager{display:flex; gap:8px;}
+  .pager a{
+    padding:7px 14px; border-radius:8px; text-decoration:none; font-size:13.5px; font-weight:600;
+    border:1px solid var(--line); color:var(--sub); background:#fff;
+  }
+  .pager a.disabled{opacity:.35; pointer-events:none;}
+  .pager a:hover{border-color:var(--accent); color:var(--accent);}
+  /* ---- v2.9 done 勾选（练习完成状态） ---- */
+  .prob .done{float:right; cursor:pointer; font-size:16px; font-weight:800; letter-spacing:.08em;
+    color:#64748b; user-select:none; display:flex; align-items:center; gap:8px; margin-left:10px;}
+  .prob .done input{width:19px; height:19px; accent-color:#16a34a; cursor:pointer;}
+  .prob .done:hover{color:#16a34a;}
+  .prob.is-done{border-color:#16a34a; background:#f0fdf4;}
+  .prob.is-done .tag{box-shadow:0 0 0 2px #16a34a inset;}
+  .done-progress{margin:14px 0 4px; padding:8px 14px; border:1px dashed #16a34a; border-radius:10px;
+    font-size:13px; font-weight:700; color:#15803d; background:#f0fdf4; display:inline-block;}
+  .done-progress.all-done{border-style:solid; background:#dcfce7;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="topbar">
+    <a class="back-home" href="../amc10/2026AMC10A.html">← 返回 2026AMC10A</a>
+    <div class="pager">
+      <a href="20261114-hexagon-squares-overlap.html">‹ 上一题：六正方形交集</a>
+      <a href="20261114-hemisphere-cover-radius.html">下一题：半球罩 ›</a>
+    </div>
+  </nav>
+
+  <div class="kicker">AMC 10 · 错题精讲</div>
+  <h1>不动点 4 与 2¹⁰：11 项严格递减整数列的最小首项 N=1028，数字和 11</h1>
+  <div class="meta">
+    <div class="item"><span class="k">日期：</span><span class="v">20261114</span></div>
+    <div class="item"><span class="k">成员：</span><span class="v">YY</span></div>
+    <div class="item"><span class="k">题目：</span><span class="v">2026AMC10A(18)</span></div>
+    <div class="item"><span class="k">知识点：</span><span class="v">Linear Recurrence</span></div>
+  </div>
+  <p class="lede">递推 $a_k=\frac12a_{k-1}+2$ 的不动点是 $4$，故 $a_k=4+\frac{a_0-4}{2^k}$。$11$ 项对应 $10$ 次递推，分母最大 $2^{10}=1024$，所以 $1024\mid(a_0-4)$；严格递减要求 $a_0>4$。最小取 $a_0=4+1024=1028$，数字和 $1+0+2+8=11$，答案 <strong>(D)</strong>。</p>
+
+  <hr>
+
+  <h2>一、错题原题</h2>
+  <blockquote>
+    The strictly decreasing sequence of $11$ positive integers $(a_0,a_1,a_2,\ldots,a_{10})$ is defined by the recursive rule $a_k=\frac12a_{k-1}+2$ for $k\ge1$. Let $N$ be the minimum possible value of $a_0$. What is the sum of the digits of $N$?　(A) $7$　(B) $9$　(C) $10$　(D) $11$　(E) $14$
+  </blockquote>
+  <p><strong>中文翻译</strong>：由 $11$ 个正整数构成的严格递减序列 $(a_0,a_1,\ldots,a_{10})$ 满足 $a_k=\frac12a_{k-1}+2\ (k\ge1)$。设 $N$ 是 $a_0$ 的最小可能值，求 $N$ 的各位数字之和。　(A) $7$　(B) $9$　(C) $10$　(D) $11$　(E) $14$</p>
+  <!-- v2.6 起必填：官方答案条。URL 规则见 SKILL.md 第 3.1 节；撰写前必须先核对官方答案 -->
+  <p class="official">
+    📌 <strong>答案依据</strong>：讲义《2026AMC10A 答案与解析》（用户随附，含答案总表与逐题解析）<br>
+    讲义给出的正确选项为 <strong>(D) $11$</strong>，本站解析与之一致。
+  </p>
+
+  <hr>
+
+  <h2>二、错误原因诊断</h2>
+  <table>
+    <tr><th>常见错误</th><th>错在哪</th></tr>
+    <tr><td><code>答 (C) 10 或 (B) 9</code></td><td>把 $11$ 项误当成 $11$ 次递推，写成 $2^{11}=2048\mid(a_0-4)$，得 $N=2052$（数字和 $9$）；或取 $a_0-4=512$ 得 $N=516$（数字和 $12$）。讲义特别提醒：<strong>$11$ 个项对应 $10$ 次递推，指数不能误写成 $11$</strong>。</td></tr>
+    <tr><td><code>答 (A) 7</code></td><td>只检查了 $a_{10}$ 为整数（要求 $2^{10}\mid(a_0-4)$）却漏了「严格递减」，误取 $a_0=4$（常数序列）或更小的数，再拿某个别的数凑数字和 $7$。实际上 $a_0>4$ 是严格递减的充要条件。</td></tr>
+    <tr><td><code>答 (E) 14</code></td><td>从末项 $a_{10}$ 反推时把递推写成 $a_{k-1}=2(a_k-2)$，一路乘 $2$ 却没扣掉常数 $2$ 的累积，得到 $a_0=2^{11}\cdot\text{某数}+ \cdots$，凑出数字和 $14$。正确做法是<strong>先平移减不动点</strong>，把非齐次递推变成纯等比。</td></tr>
+    <!-- 按需增删行 -->
+  </table>
+  <blockquote class="warn">
+    <strong>根本问题</strong>：没有先找不动点把递推齐次化。$a_k-4=\frac12(a_{k-1}-4)$ 一步就把「整数性」翻译成整除条件，否则逐项反推极易在常数项上出错。
+  </blockquote>
+
+  <hr>
+
+  <h2>三、正确解法</h2>
+  <blockquote class="ok" style="margin:0 0 1.1rem 0">
+    <strong>与官方解法同源</strong>：本站方案一与用户随附讲义《2026AMC10A 答案与解析》第 18 题的书面解答同源（本卷官方站尚未收录，讲义即本次权威答案依据）——不动点 $x=\frac{x}{2}+2$ 给出 $x=4$，于是 $a_k=4+\frac{a_0-4}{2^k}$；$11$ 项对应 $10$ 次递推，要求 $2^{10}=1024$ 整除 $a_0-4$，严格递减要求 $a_0>4$，故最小 $N=4+1024=1028$，数字和 $1+0+2+8=11$。 <br> 本站的增量是补上完整序列核验、一般参数通式 $N=2c+2^{m-1}$，以及 $\le10000$ 的全部可行首项枚举。
+  </blockquote>
+  <h3>方法一：平移到不动点 + 整除性（讲义思路，推荐）</h3>
+  <p><strong>第 1 步 · 找不动点并齐次化。</strong> 解 $x=\frac{x}{2}+2$ 得 $x=4$。两边同减 $4$：</p>
+$$a_k-4=\frac12\left(a_{k-1}-4\right)\quad\Longrightarrow\quad a_k=4+\frac{a_0-4}{2^k}.$$
+  <p><strong>第 2 步 · 整数性条件。</strong> 序列共 $11$ 项（$k=0,1,\ldots,10$），递推做了 $10$ 次，故分母最大为 $2^{10}=1024$。要求全部 $a_k$ 为整数，等价于</p>
+$$2^{10}=1024 \mid (a_0-4).$$
+  <p>（讲义强调：<strong>指数是 $10$ 不是 $11$</strong>。）</p>
+  <p><strong>第 3 步 · 严格递减与正性。</strong> 由通项</p>
+$$a_k-a_{k+1}=\frac{a_0-4}{2^{k+1}}>0 \Longleftrightarrow a_0>4 .$$
+  <p>又因 $a_0>4$ 时每项 $a_k=4+\frac{a_0-4}{2^k}>4>0$，正性自动满足。</p>
+  <p><strong>第 4 步 · 取最小值并求数字和。</strong> $a_0-4$ 必须是 $1024$ 的正倍数，最小取 $1024$：</p>
+$$N=a_0=4+1024=1028,\qquad \text{数字和}=1+0+2+8=11 .$$
+  <p>讲义给出的完整序列为</p>
+$$1028,\ 516,\ 260,\ 132,\ 68,\ 36,\ 20,\ 12,\ 8,\ 6,\ 5.$$
+  <p><img src="../img/amc10/2026A/18-sequence.png" alt="2026 AMC 10A Problem 18 讲义序列表：k=0..10 对应 a_k=1028,516,260,132,68,36,20,12,8,6,5" style="max-height:5rem"></p>
+  <blockquote class="ok"><strong>答案：(D) $11$。</strong></blockquote>
+  <h3>方法二：从末项反推（交叉验证）</h3>
+  <p>由 $a_k=\frac12a_{k-1}+2$ 得 $a_{k-1}=2a_k-4=2(a_k-2)$。设 $a_{10}=t$（正整数），反复回代：</p>
+$$a_{10-j}=2^j t-4\left(2^j-1\right)=4+2^j(t-4).$$
+  <p>要 $a_0=4+2^{10}(t-4)$ 最小且整列严格递减，需 $t>4$ 且为正整数，最小 $t=5$，于是 $a_0=4+1024=1028$ ✓。这条路径不依赖「不动点」的语言，但结论完全一致，也顺带说明末项必为 $5$。</p>
+  <blockquote class="ok">
+    <strong>验证技巧</strong>：① 完整序列 $1028,516,260,132,68,36,20,12,8,6,5$ 全部为整数且严格递减 ✓；② 讲义附带的序列表与本站逐项一致（见下图）；③ 若取 $a_0=1027$，则 $a_1=\frac{1027}{2}+2$ 非整数，立刻出局 ✓；④ 若取 $a_0=4$，序列恒为 $4$，不严格递减，同样出局 ✓；⑤ 数字和核对 $1+0+2+8=11$ ✓。
+  </blockquote>
+  <hr>
+
+  <h2>四、知识内核提炼</h2>
+  <blockquote>
+    <strong>核心知识点</strong>：非齐次线性递推先<strong>减去不动点</strong>变齐次等比；整数性于是变成一个干净的整除条件 $2^{m-1}\mid(a_0-2c)$。
+  </blockquote>
+  <p>必须掌握的要点：</p>
+  <ol>
+    <li>讲义点明的易错点是「$11$ 个项对应 $10$ 次递推，不能把指数误写成 $11$」；$2^{10}=1024$ 而非 $2^{11}=2048$。</li>
+    <li>三类约束要分开列：整数性（整除）、严格递减（$a_0>2c$）、正性（自动满足）。少一类就会放进来错误的最小值。</li>
+    <li>一般通式 $N=2c+2^{m-1}$（$c$ 为常数项，$m$ 为项数）；本题 $c=2,m=11$ 得 $1028$。</li>
+    <li>讲义提供的序列表是免费的「第二通道」——把 $11$ 项逐项算一遍，任何整除或递减的疏漏都会立刻暴露。</li>
+  </ol>
+  <hr>
+
+  <h2>五、举一反三：5 道进阶练习（由易到难 · 形式各异）</h2>
+  <div class="prob">
+    <span class="tag">第 1 题 · 整列回代核验</span> <span class="stars">★</span> <span class="form">形式｜完整列举</span>
+    <p>取 $N=1028$，<strong>完整写出</strong> $a_0$ 到 $a_{10}$ 的 $11$ 项，逐项验证「全为整数」「严格递减」「全为正」，并求出相邻两项之差的变化规律。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$1028,516,260,132,68,36,20,12,8,6,5$；相邻差依次为 $512,256,128,64,32,16,8,4,2,1$</strong></div>
+      <p>由 $a_k=4+\frac{1024}{2^k}$ 得各项。相邻差 $a_k-a_{k+1}=\frac{1024}{2^{k+1}}=2^{9-k}$，即从 $512$ 每次减半到 $1$，全部为正整数，故严格递减且全为正。末项 $a_{10}=4+1=5$。</p>
+      <p class="hint">要点：<strong>完整列举是整除条件最直观的验收</strong>；差值恰好是 $2$ 的幂次递减，说明「$1024$ 整除」这个条件恰到好处。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t2">第 2 题 · 项数改为 6</span> <span class="stars">★★</span> <span class="form">形式｜换约束参数</span>
+    <p>把「$11$ 个正整数」改成「$6$ 个正整数」（递推常数仍为 $2$），求最小首项 $N$ 及其数字和，并写出整列。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$N=36$，数字和 $9$；序列 $36,20,12,8,6,5$</strong></div>
+      <p>$6$ 项对应 $5$ 次递推，需 $2^5=32\mid(a_0-4)$，最小 $a_0-4=32$，故 $N=36$，数字和 $3+6=9$。逐项：$36\to20\to12\to8\to6\to5$，全部整数且严格递减 ✓。</p>
+      <p class="hint">要点：<strong>指数随项数减一而变化</strong>；把 $m$ 从 $11$ 换成 $6$，$N$ 从 $1028$ 骤降到 $36$，正好用来检验「指数 $=m-1$」是否记牢。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t3">第 3 题 · 两个反例</span> <span class="stars">★★★</span> <span class="form">形式｜反向/存在性</span>
+    <p>说明 $a_0=1027$、$a_0=4$、$a_0=2052$ 三者中哪些是合法首项；对不合法的给出<strong>第一条</strong>被破坏的约束。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>只有 $a_0=2052$ 合法；$1027$ 破坏整数性，$4$ 破坏严格递减</strong></div>
+      <p>$a_0=1027$：$a_0-4=1023$ 不是 $1024$ 的倍数，$a_1=\frac{1027}{2}+2$ 非整数，第一条被破坏的是整数性。$a_0=4$：$a_k\equiv4$，序列常数，第一条被破坏的是严格递减。$a_0=2052=4+2\cdot1024$：通项 $a_k=4+\frac{2048}{2^k}$ 全部为整数且严格递减，合法，但不是最小值。</p>
+      <p class="hint">要点：<strong>「合法」与「最小」是两件事</strong>；$2052$ 合法却不是答案，选项 (B) 的 $9$ 正是它的数字和，属于典型干扰项。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t4">第 4 题 · 一般参数通式</span> <span class="stars">★★★★</span> <span class="form">形式｜一般化通项 + 证明</span>
+    <p>把递推改为 $a_k=\frac12a_{k-1}+c$（$c$ 为正整数）、项数改为 $m$。证明最小首项为 $N=2c+2^{m-1}$，并用 $(c,m)=(3,4)$ 验证。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$N=2c+2^{m-1}$；$(c,m)=(3,4)$ 时 $N=14$，序列 $14,10,8,7$</strong></div>
+      <p>不动点为 $x=2c$，故 $a_k=2c+\frac{a_0-2c}{2^k}$。整数性要求 $2^{m-1}\mid(a_0-2c)$，严格递减要求 $a_0>2c$，最小取 $a_0-2c=2^{m-1}$，即 $N=2c+2^{m-1}$。代入 $c=3,m=4$：$N=6+8=14$；序列 $14,10,8,7$，全部整数且严格递减 ✓。本题 $c=2,m=11$ 给 $4+1024=1028$ ✓。</p>
+      <p class="hint">要点：<strong>平移量是 $2c$ 而不是 $c$</strong>，这是一般化时最容易抄错的一步；用一次小参数验证即可确认。</p>
+    </details>
+  </div>
+
+  <div class="prob">
+    <span class="tag t5">第 5 题 · 可行首项枚举</span> <span class="stars">★★★★★</span> <span class="form">形式｜极值/结构证明</span>
+    <p>列出 $\le10000$ 的全部合法首项 $a_0$ 及其数字和，指出其中数字和最大者；并说明数字和是否随 $a_0$ 单调。</p>
+    <details>
+      <summary>👉 点击查看解析</summary>
+      <div class="ans">答：<strong>$9$ 个：$1028(11),2052(9),3076(16),4100(5),5124(12),6148(19),7172(17),8196(24),9220(13)$；最大为 $24$（$a_0=8196$）；不单调</strong></div>
+      <p>合法首项形如 $a_0=4+1024j\ (j=1,2,\ldots)$，$j=1..9$ 时 $a_0\le10000$，共 $9$ 个，数字和依次为 $11,9,16,5,12,19,17,24,13$。最大值 $24$ 出现在 $8196$；序列先降后升再降，<strong>不单调</strong>，故不能靠「取最小首项再猜数字和最小」来答题。注意数字和恰为 $11$ 的只有 $j=1$ 即 $N=1028$，与题目答案一致。</p>
+      <p class="hint">要点：<strong>整除条件给出的是等差数列 $4+1024j$，但数字和是十进制性质，与 $j$ 无关</strong>；讲义强调先按整除性定 $N$，再单独算数字和，顺序不能反。</p>
+    </details>
+  </div>
+  <hr>
+
+  <h2>六、方法总结卡片（贴在错题本上）</h2>
+  <div class="card">
+    <h3>递减递推 15 秒决策卡</h3>
+    <ol>
+      <li>解不动点 $x=\frac{x}{2}+c$ 得 $x=2c$，写出 $a_k=2c+\frac{a_0-2c}{2^k}$。</li>
+      <li>$m$ 项 $\Rightarrow m-1$ 次递推 $\Rightarrow$ 要求 $2^{m-1}\mid(a_0-2c)$（<strong>指数别多写 1</strong>）。</li>
+      <li>严格递减 $\Rightarrow a_0>2c$；正性此时自动满足。</li>
+      <li>取最小正倍数得 $N=2c+2^{m-1}$，最后单独算数字和；用完整序列回代核验。</li>
+    </ol>
+    <p style="text-align:center; font-weight:700; color:var(--accent); margin-bottom:0;">
+      口诀：「先减不动点，等比现原形；项数减一是指数，整除取倍最小行；数字和另算莫要猜」。
+    </p>
+  </div>
+  <div class="footer">
+    <a class="back-home" href="../index.html" style="margin-bottom:14px;">← 返回题库首页</a>
+    <div>AMC 10 错题精讲 · 平移递推与整除性 &nbsp;|&nbsp; 生成于 2026-11-14</div>
+  </div>
+</div>
+<script id="done-progress-js">
+/* v2.9 练习题 done 勾选：localStorage 按 pathname+题序持久化，无后端依赖 */
+(function(){
+  var probs = Array.prototype.slice.call(document.querySelectorAll('.prob'));
+  if(!probs.length) return;
+  var KEY = 'amc-done:' + location.pathname;
+  var state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var bar = document.createElement('div');
+  bar.className = 'done-progress';
+  function refresh(){
+    var n = probs.filter(function(p){ return p.classList.contains('is-done'); }).length;
+    bar.textContent = '✅ 完成进度：' + n + ' / ' + probs.length;
+    bar.classList.toggle('all-done', n === probs.length);
+  }
+  probs.forEach(function(p, i){
+    var lab = document.createElement('label');
+    lab.className = 'done';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!state[i];
+    lab.appendChild(cb);
+    lab.appendChild(document.createTextNode(' DONE'));
+    p.insertBefore(lab, p.firstChild);
+    cb.addEventListener('change', function(){
+      p.classList.toggle('is-done', cb.checked);
+      if(cb.checked){ state[i] = 1; } else { delete state[i]; }
+      save(); refresh();
+    });
+    p.classList.toggle('is-done', cb.checked);
+  });
+  var h2s = document.querySelectorAll('h2'), sec = null;
+  for(var k = 0; k < h2s.length; k++){
+    if(h2s[k].textContent.indexOf('举一反三') > -1){ sec = h2s[k]; break; }
+  }
+  if(sec && sec.parentNode) sec.parentNode.insertBefore(bar, sec.nextSibling);
+  else document.querySelector('.page').appendChild(bar);
+  refresh();
+})();
+</script>
+</body>
+</html>
